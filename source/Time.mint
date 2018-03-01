@@ -2,10 +2,6 @@ record Ui.Time.State {
   now : Time
 }
 
-record TickProvider.Data {
-  ticks : Function(Void)
-}
-
 component Ui.Time {
   property date : Time = Time.now()
 
