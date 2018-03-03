@@ -45,7 +45,6 @@ component Ui.Breadcrumbs {
     background: {theme.colors.inputSecondary.background};
     color: {theme.colors.inputSecondary.text};
     font-family: {theme.fontFamily};
-    box-sizing: border-box;
     padding: 14px 24px;
   }
 

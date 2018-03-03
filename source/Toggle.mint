@@ -13,7 +13,6 @@ component Ui.Toggle {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
     -webkit-appearance: none;
-    box-sizing: border-box;
     appearance: none;
 
     background-color: {theme.colors.input.background};

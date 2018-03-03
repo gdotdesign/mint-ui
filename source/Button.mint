@@ -18,7 +18,6 @@ component Ui.Button {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
     -webkit-appearance: none;
-    box-sizing: border-box;
     appearance: none;
 
     border-radius: {theme.border.radius};
