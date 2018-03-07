@@ -71,7 +71,7 @@ module Ui {
             },
           primary =
             {
-              background = "#11bb3c",
+              background = "#3aad57",
               focus = "#0fa334",
               text = "#FFF"
             },
