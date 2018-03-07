@@ -44,8 +44,18 @@ component Ui.Link {
     }
   }
 
+  fun sameOrigin : Bool {
+    windowUrl.origin != url.origin
+  } where {
+    windowUrl =
+      Window.url()
+
+    url =
+      Url.parse(href)
+  }
+
   fun onClick (event : Html.Event) : Void {
-    if (event.ctrlKey || event.button == 1) {
+    if (event.ctrlKey || event.button == 1 || sameOrigin()) {
       void
     } else {
       if (String.isEmpty(href)) {
@@ -60,9 +70,14 @@ component Ui.Link {
   }
 
   fun render : Html {
-    <a::base onClick={onClick} target={target} href={href}>
+    <a::base
+      onClick={onClick}
+      target={target}
+      href={href}>
+
       <{ label }>
       <{ children }>
+
     </a>
   }
 }
