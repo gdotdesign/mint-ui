@@ -156,7 +156,7 @@ component Ui.Button {
     <button::styles
       onMouseDown={onMouseDown}
       disabled={disabled}
-      readOnly={readonly}
+      readonly={readonly}
       onClick={onClick}>
 
       <div::label>

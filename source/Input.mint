@@ -131,7 +131,7 @@ component Ui.Input {
         onFocus={\event : Html.Event => onFocus()}
         placeholder={placeholder}
         disabled={disabled}
-        readOnly={readonly}
+        readonly={readonly}
         value={value}
         type={type}/>
 
