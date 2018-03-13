@@ -1,47 +1,46 @@
 record Ui.Dropdown.State {
   left : Number,
   top : Number,
-  uid : String,
-  open : Bool
+  uid : String
 }
+
 component Ui.Dropdown {
   property element : Html = Html.empty()
+  property children : Array(Html) = []
   property open : Bool = true
 
   style panel {
     position: fixed;
-    left: {state.left};
-    top: {state.top};
+    left: {state.left}px;
+    top: {state.top}px;
   }
 
   state : Ui.Dropdown.State {
-    top = 0,
+    uid = Uid.generate(),
     left = 0,
-    open = true,
-    uid = Uid.generate()
+    top = 0
   }
 
   use MouseProvider {
     moves = \data : MouseProvider.Position => void,
     ups = \data : Html.Event => void,
-    clicks = \event : Html.Event => void,
+    clicks = \event : Html.Event => void
   } when {
     open
   }
 
-  fun componentDidMount : Void {
-    updateDimensions()
-  }
-
-  fun componentDidUpdate : Void {
-    updateDimensions()
+  use AnimationFrameProvider {
+    frames = updateDimensions
+  } when {
+    open
   }
 
   fun updateDimensions : Void {
-    do {
-      DOM.setStyle("top", top, dom)
-      DOM.setStyle("left", left, dom)
-    }
+    next
+      { state |
+        top = top,
+        left = left
+      }
   } where {
     dom =
       DOM.getElementById(state.uid)
@@ -60,15 +59,15 @@ component Ui.Dropdown {
       |> DOM.getDimensions()
 
     top =
-      Number.toString(dimensions.top + dimensions.height)
+      dimensions.top + dimensions.height
 
     left =
-      Number.toString(dimensions.left)
+      dimensions.left
   }
 
   get panel : Html {
     <div::panel id={state.uid}>
-      <{ "Panel" }>
+      <{ children }>
     </div>
   }
 
