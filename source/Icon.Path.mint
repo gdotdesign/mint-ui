@@ -1,12 +1,12 @@
 component Ui.Icon.Path {
+  connect Ui exposing { theme }
+
   property onClick : Function(Html.Event, Void) = \event : Html.Event => void
   property clickable : Bool = true
   property viewbox : String = ""
   property height : String = ""
   property width : String = ""
   property path : String = ""
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style svg {
     pointer-events: {pointerEvents};

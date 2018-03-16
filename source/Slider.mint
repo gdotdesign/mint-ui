@@ -1,6 +1,7 @@
 component Ui.Slider {
+  connect Ui exposing { theme }
+
   property onChange : Function(Number, Void) = \value : Number => void
-  property theme : Ui.Theme = Ui.defaultTheme()
   property disabled : Bool = false
   property max : Number = 100
   property value : Number = 0
@@ -51,6 +52,7 @@ component Ui.Slider {
     &:focus::-ms-track {
       box-shadow: 0 0 2px {theme.outline.fadedColor} inset,
                   0 0 2px {theme.outline.fadedColor};
+
       border-color: {theme.outline.color};
     }
 

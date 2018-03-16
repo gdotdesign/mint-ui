@@ -1,12 +1,11 @@
 component Ui.Link {
+  connect Ui exposing { theme }
+
+  property children : Array(Html) = []
   property type : String = "primary"
   property target : String = ""
   property label : String = ""
   property href : String = ""
-
-  property theme : Ui.Theme = Ui.defaultTheme()
-
-  property children : Array(Html) = []
 
   style base {
     color: {colors.background};

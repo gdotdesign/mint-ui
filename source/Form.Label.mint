@@ -1,5 +1,6 @@
 component Ui.Form.Label {
-  property theme : Ui.Theme = Ui.defaultTheme()
+  connect Ui exposing { theme }
+
   property fontSize : Number = 16
   property text : String = ""
 

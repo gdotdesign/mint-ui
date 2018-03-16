@@ -1,12 +1,11 @@
 component Ui.Breadcrumb {
+  connect Ui exposing { theme }
+
+  property children : Array(Html) = []
   property target : String = ""
   property label : String = ""
   property type : String = ""
   property href : String = ""
-
-  property theme : Ui.Theme = Ui.defaultTheme()
-
-  property children : Array(Html) = []
 
   style base {
     display: inline-block;
@@ -30,10 +29,10 @@ component Ui.Breadcrumb {
 }
 
 component Ui.Breadcrumbs {
-  property separator : String = "|"
+  connect Ui exposing { theme }
 
   property children : Array(Html) = []
-  property theme : Ui.Theme = Ui.defaultTheme()
+  property separator : String = "|"
 
   style separator {
     display: inline-block;

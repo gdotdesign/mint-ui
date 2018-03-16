@@ -1,41 +1,8 @@
-record Ui.Calendar.State {
-  month : Time,
-  date : Time
-}
-
-component Ui.Calendar.Driving {
-  property onMonthChange : Function(Time, Void) = \date : Time => void
-  property onChange : Function(Time, Void) = \day : Time => void
-  property changeMonthOnSelect : Bool = false
-  property theme : Ui.Theme = Ui.defaultTheme()
-
-  state : Ui.Calendar.State {
-    month = Time.today(),
-    date = Time.today()
-  }
-
-  fun handleChange (date : Time) : Void {
-    do {
-      next { state | date = date }
-      onChange(date)
-    }
-  }
-
-  fun render : Html {
-    <Ui.Calendar
-      onMonthChange={\month : Time => next { state | month = month }}
-      changeMonthOnSelect={changeMonthOnSelect}
-      onChange={handleChange}
-      month={state.month}
-      date={state.date}
-      theme={theme}/>
-  }
-}
-
 component Ui.Calendar {
+  connect Ui exposing { theme }
+
   property onMonthChange : Function(Time, Void) = \date : Time => void
   property onChange : Function(Time, Void) = \day : Time => void
-  property theme : Ui.Theme = Ui.defaultTheme()
   property changeMonthOnSelect : Bool = false
   property month : Time = Time.today()
   property date : Time = Time.today()
@@ -157,10 +124,12 @@ component Ui.Calendar {
       viewbox="0 0 9 16"
       height="16px"
       width="9px"
-      path="M6 8L.1 1.78c-.14-.16-.14-.4.02-.57L1.17.13c.15-.16.4-.1" \
-           "6.54 0l7.2 7.6c.07.07.1.18.1.28 0 .1-.03.2-.1.3l-7.2 7.6" \
-           "c-.14.14-.38.14-.53-.02l-1.05-1.1c-.16-.15-.16-.4 0-.56L" \
-           "5.98 8z"/>
+      path={
+        "M6 8L.1 1.78c-.14-.16-.14-.4.02-.57L1.17.13c.15-.16.4-.1" \
+        "6.54 0l7.2 7.6c.07.07.1.18.1.28 0 .1-.03.2-.1.3l-7.2 7.6" \
+        "c-.14.14-.38.14-.53-.02l-1.05-1.1c-.16-.15-.16-.4 0-.56L" \
+        "5.98 8z"
+      }/>
   }
 
   get previousMonthIcon : Html {
@@ -169,10 +138,12 @@ component Ui.Calendar {
       viewbox="0 0 9 16"
       height="16px"
       width="9px"
-      path="M3 8l5.9-6.22c.14-.16.14-.4-.02-.57L7.83.13c-.15-.16-.4-" \
-           ".16-.54 0L.1 7.7c-.07.07-.1.17-.1.28 0 .1.03.2.1.3l7.2 7" \
-           ".6c.14.14.38.14.53-.02l1.05-1.1c.16-.15.16-.4 0-.56L3.02" \
-           " 8z"/>
+      path={
+        "M3 8l5.9-6.22c.14-.16.14-.4-.02-.57L7.83.13c-.15-.16-.4-" \
+        ".16-.54 0L.1 7.7c-.07.07-.1.17-.1.28 0 .1.03.2.1.3l7.2 7" \
+        ".6c.14.14.38.14.53-.02l1.05-1.1c.16-.15.16-.4 0-.56L3.02" \
+        " 8z"
+      }/>
   }
 
   fun render : Html {

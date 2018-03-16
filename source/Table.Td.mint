@@ -1,11 +1,10 @@
 component Ui.Table.Td {
+  connect Ui exposing { theme }
+
+  property children : Array(Html) = []
   property align : String = "left"
   property width : String = "auto"
   property header : Bool = false
-
-  property children : Array(Html) = []
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style td {
     border: 1px solid {theme.border.color};

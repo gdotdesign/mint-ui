@@ -55,7 +55,10 @@ component Ui.Form.Field {
   fun render : Html {
     <div::base>
       <{ children }>
-      <Ui.Form.Label text={label} fontSize={labelSize}/>
+
+      <Ui.Form.Label
+        text={label}
+        fontSize={labelSize}/>
     </div>
   }
 }

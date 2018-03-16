@@ -1,4 +1,6 @@
 component Ui.Toggle {
+  connect Ui exposing { theme }
+
   property onChange : Function(Bool, Void) = \value : Bool => void
   property offLabel : String = "OFF"
   property onLabel : String = "ON"
@@ -6,8 +8,6 @@ component Ui.Toggle {
   property readonly : Bool = false
   property checked : Bool = false
   property width : Number = 100
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);

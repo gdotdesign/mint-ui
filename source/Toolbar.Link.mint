@@ -20,7 +20,10 @@ component Ui.Toolbar.Link {
 
   fun render : Html {
     <div::base>
-      <Ui.Link target={target} label={label} href={href}/>
+      <Ui.Link
+        target={target}
+        label={label}
+        href={href}/>
     </div>
   }
 }

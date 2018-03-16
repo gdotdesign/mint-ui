@@ -1,5 +1,6 @@
 component Ui.Toolbar {
-  property theme : Ui.Theme = Ui.defaultTheme()
+  connect Ui exposing { theme }
+
   property children : Array(Html) = []
   property background : String = ""
   property color : String = ""

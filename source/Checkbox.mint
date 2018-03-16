@@ -1,10 +1,10 @@
 component Ui.Checkbox {
+  connect Ui exposing { theme }
+
   property onChange : Function(Bool, Void) = \value : Bool => void
   property disabled : Bool = false
   property readonly : Bool = false
   property checked : Bool = false
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);

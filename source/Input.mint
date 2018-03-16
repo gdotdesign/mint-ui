@@ -1,4 +1,6 @@
 component Ui.Input {
+  connect Ui exposing { theme }
+
   property placeholder : String = ""
   property type : String = "text"
   property value : String = ""
@@ -11,8 +13,6 @@ component Ui.Input {
   property onInput : Function(String, Void) = \value : String => void
   property onFocus : Function(Void) = \ => void
   property onClear : Function(Void) = \ => void
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);

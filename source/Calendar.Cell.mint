@@ -1,10 +1,10 @@
 component Ui.Calendar.Cell {
+  connect Ui exposing { theme }
+
   property onClick : Function(Time, Void) = \day : Time => void
   property day : Time = Time.now()
   property selected : Bool = false
   property active : Bool = false
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style style {
     border-radius: {theme.border.radius};

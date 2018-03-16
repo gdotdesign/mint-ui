@@ -1,4 +1,6 @@
 component Ui.Button {
+  connect Ui exposing { theme }
+
   property icon : Html = Html.empty()
   property type : String = "primary"
   property side : String = "left"
@@ -11,8 +13,6 @@ component Ui.Button {
 
   property onMouseDown : Function(Html.Event, Void) = \event : Html.Event => void
   property onClick : Function(Html.Event, Void) = \event : Html.Event => void
-
-  property theme : Ui.Theme = Ui.defaultTheme()
 
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);

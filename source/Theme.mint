@@ -37,74 +37,104 @@ record Ui.Theme {
   fontFamily : String
 }
 
-module Ui {
-  fun defaultTheme : Ui.Theme {
-    {
-      fontFamily =
-        "-apple-system, system-ui, BlinkMacSystemFont, Segoe UI, " \
-        "Roboto, Helvetica Neue, Arial, sans-serif",
-      colors =
-        {
-          warning =
-            {
-              background = "#FF9730",
-              focus = "#ffb163",
-              text = "#FFF"
-            },
-          danger =
-            {
-              background = "#E04141",
-              focus = "#e76d6d",
-              text = "#FFF"
-            },
-          success =
-            {
-              background = "#3fb543",
-              focus = "#60c863",
-              text = "#FFF"
-            },
-          secondary =
-            {
-              background = "#222",
-              focus = "#333",
-              text = "#FFF"
-            },
-          primary =
-            {
-              background = "#3aad57",
-              focus = "#0fa334",
-              text = "#FFF"
-            },
-          disabled =
-            {
-              background = "#D7D7D7",
-              text = "#9A9A9A",
-              focus = ""
-            },
-          inputSecondary =
-            {
-              background = "#F3F3F3",
-              text = "#616161",
-              focus = ""
-            },
-          input =
-            {
-              background = "#FDFDFD",
-              text = "#606060",
-              focus = "#FFF"
-            }
-        },
-      hover = { color = "#26e200" },
-      outline =
-        {
-          fadedColor = "hsla(110, 100%, 44%, 0.5)",
-          color = "hsla(110, 100%, 44%, 1)"
-        },
-      border =
-        {
-          color = "#DDD",
-          radius = "2px"
-        }
-    }
+store Ui {
+  property theme : Ui.Theme = {
+    fontFamily =
+      "-apple-system, system-ui, BlinkMacSystemFont, Segoe UI, " \
+      "Roboto, Helvetica Neue, Arial, sans-serif",
+    colors =
+      {
+        warning =
+          {
+            background = "#FF9730",
+            focus = "#ffb163",
+            text = "#FFF"
+          },
+        danger =
+          {
+            background = "#E04141",
+            focus = "#e76d6d",
+            text = "#FFF"
+          },
+        success =
+          {
+            background = "#3fb543",
+            focus = "#60c863",
+            text = "#FFF"
+          },
+        secondary =
+          {
+            background = "#222",
+            focus = "#333",
+            text = "#FFF"
+          },
+        primary =
+          {
+            background = "#3aad57",
+            focus = "#0fa334",
+            text = "#FFF"
+          },
+        disabled =
+          {
+            background = "#D7D7D7",
+            text = "#9A9A9A",
+            focus = ""
+          },
+        inputSecondary =
+          {
+            background = "#F3F3F3",
+            text = "#616161",
+            focus = ""
+          },
+        input =
+          {
+            background = "#FDFDFD",
+            text = "#606060",
+            focus = "#FFF"
+          }
+      },
+    hover = { color = "#26e200" },
+    outline =
+      {
+        fadedColor = "hsla(110, 100%, 44%, 0.5)",
+        color = "hsla(110, 100%, 44%, 1)"
+      },
+    border =
+      {
+        color = "#DDD",
+        radius = "2px"
+      }
+  }
+
+  fun setFontFamily (fontFamily : String) : Void {
+    next { state | theme = updatedTheme }
+  } where {
+    theme =
+      state.theme
+
+    updatedTheme =
+      { theme | fontFamily = fontFamily }
+  }
+
+  fun setPrimaryBackground (color : String) : Void {
+    next { state | theme = updatedTheme }
+  } where {
+    theme =
+      state.theme
+
+    colors =
+      theme.colors
+
+    primary =
+      colors.primary
+
+    updatedPrimary =
+      { primary | background = color }
+
+    updatedColors =
+      { colors | primary = updatedPrimary }
+
+    updatedTheme =
+      { theme | colors = updatedColors }
   }
 }
