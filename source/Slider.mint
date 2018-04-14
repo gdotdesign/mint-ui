@@ -66,9 +66,10 @@ component Ui.Slider {
   }
 
   fun changed (event : Html.Event) : Void {
-    event.target.value
+    event.target
+    |> Dom.getValue()
     |> Number.fromString()
-    |> Result.withDefault(0)
+    |> Maybe.withDefault(0)
     |> onChange()
   }
 

@@ -83,7 +83,7 @@ component Ui.Pager {
   fun componentDidUpdate : Void {
     if (state.center != active && hasPage) {
       if (isPage) {
-        switch()
+        switchPages()
       } else {
         next { state | center = active }
       }
@@ -102,7 +102,7 @@ component Ui.Pager {
     Array.any(\item : Ui.Pager.Item => item.name == active, pages)
   }
 
-  fun switch : Void {
+  fun switchPages : Void {
     do {
       next
         { state |
@@ -111,7 +111,7 @@ component Ui.Pager {
           transitioning = true
         }
 
-      Timer.timeout(duration)
+      Timer.timeout(duration, "a")
 
       next
         { state |

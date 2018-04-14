@@ -62,7 +62,7 @@ component Ui.Link {
       } else {
         do {
           Html.Event.preventDefault(event)
-          Navigation.navigate(href)
+          Window.navigate(href)
         }
       }
     }

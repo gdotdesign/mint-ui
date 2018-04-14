@@ -21,15 +21,15 @@ component Ui.Dropdown {
     top = 0
   }
 
-  use MouseProvider {
-    moves = \data : MouseProvider.Position => void,
-    ups = \data : Html.Event => void,
-    clicks = \event : Html.Event => void
+  use Provider.Mouse {
+    clicks = \event : Html.Event => void,
+    moves = \data : Html.Event => void,
+    ups = \data : Html.Event => void
   } when {
     open
   }
 
-  use AnimationFrameProvider {
+  use Provider.AnimationFrame {
     frames = updateDimensions
   } when {
     open
@@ -43,7 +43,8 @@ component Ui.Dropdown {
       }
   } where {
     dom =
-      DOM.getElementById(state.uid)
+      Dom.getElementById(state.uid)
+      |> Maybe.withDefault(Dom.createElement("div"))
 
     width =
       Window.width()
@@ -52,11 +53,11 @@ component Ui.Dropdown {
       Window.height()
 
     panelDimensions =
-      DOM.getDimensions(dom)
+      Dom.getDimensions(dom)
 
     dimensions =
       `ReactDOM.findDOMNode(this)`
-      |> DOM.getDimensions()
+      |> Dom.getDimensions()
 
     top =
       dimensions.top + dimensions.height
@@ -73,16 +74,18 @@ component Ui.Dropdown {
 
   get panelPortal : Html {
     if (open) {
-      <Html.Portals.Body element={panel}/>
+      <Html.Portals.Body>
+        <{ panel }>
+      </Html.Portals.Body>
     } else {
       Html.empty()
     }
   }
 
-  fun render : Html {
-    <Html.Fragment>
-      <{ element }>
-      <{ panelPortal }>
-    </Html.Fragment>
+  fun render : Array(Html) {
+    [
+      element,
+      panelPortal
+    ]
   }
 }

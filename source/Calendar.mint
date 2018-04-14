@@ -88,8 +88,8 @@ component Ui.Calendar {
     |> Array.map(
       \day : Time =>
         <Ui.Calendar.Cell
-          active={Array.any(\item : Time => Time.equals(day, item), range)}
-          selected={Time.equals(date, day)}
+          active={Array.any(\item : Time => day == item, range)}
+          selected={date == day}
           onClick={onCellClick}
           day={day}/>)
   } where {

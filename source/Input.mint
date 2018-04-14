@@ -126,8 +126,8 @@ component Ui.Input {
   fun render : Html {
     <div::base>
       <input::input
-        onChange={\event : Html.Event => onChange(event.target.value)}
-        onInput={\event : Html.Event => onInput(event.target.value)}
+        onChange={\event : Html.Event => onChange(Dom.getValue(event.target))}
+        onInput={\event : Html.Event => onInput(Dom.getValue(event.target))}
         onFocus={\event : Html.Event => onFocus()}
         placeholder={placeholder}
         disabled={disabled}
