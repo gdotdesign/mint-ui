@@ -3,6 +3,9 @@
   "source-directories": [
     "source"
   ],
+  "test-directories": [
+    "test"
+  ],
   "dependencies": {
     "mint-core": {
       "repository": "https://github.com/mint-lang/core",
