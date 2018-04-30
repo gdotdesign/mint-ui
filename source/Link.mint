@@ -2,6 +2,7 @@ component Ui.Link {
   connect Ui exposing { theme }
 
   property children : Array(Html) = []
+  property scrollToTop : Bool = true
   property type : String = "primary"
   property target : String = ""
   property label : String = ""
@@ -63,6 +64,12 @@ component Ui.Link {
         do {
           Html.Event.preventDefault(event)
           Window.navigate(href)
+
+          if (scrollToTop) {
+            Window.setScrollTop(0)
+          } else {
+            void
+          }
         }
       }
     }
