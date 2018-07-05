@@ -84,7 +84,7 @@ component Ui.Input {
   }
 
   get showCloseIcon : Bool {
-    showClearIcon && value != "" && Bool.not(disabled) && Bool.not(readonly)
+    showClearIcon && value != "" && !disabled && !readonly
   }
 
   get paddingRight : String {

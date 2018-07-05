@@ -74,7 +74,7 @@ component Ui.Toggle {
   }
 
   fun toggle : Void {
-    onChange(Bool.not(checked))
+    onChange(!checked)
   }
 
   fun render : Html {

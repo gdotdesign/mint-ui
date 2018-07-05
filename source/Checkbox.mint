@@ -69,7 +69,7 @@ component Ui.Checkbox {
   }
 
   fun toggle : Void {
-    onChange(Bool.not(checked))
+    onChange(!checked)
   }
 
   fun render : Html {
