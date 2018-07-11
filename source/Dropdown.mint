@@ -1,91 +1,100 @@
-record Ui.Dropdown.State {
-  left : Number,
-  top : Number,
-  uid : String
-}
-
-component Ui.Dropdown {
-  property element : Html = Html.empty()
+component Ui.Dropdown.Panel {
   property children : Array(Html) = []
-  property open : Bool = true
 
-  style panel {
-    position: fixed;
-    left: {state.left}px;
-    top: {state.top}px;
+  style base {
+    box-shadow: 0 5px 20px 0 rgba(0,0,0,0.1);
+    border: 1px solid #DDD;
+    background: #FDFDFD;
+    color: #707070;
   }
 
-  state : Ui.Dropdown.State {
-    uid = Uid.generate(),
-    left = 0,
-    top = 0
-  }
-
-  use Provider.Mouse {
-    clicks = \event : Html.Event => void,
-    moves = \data : Html.Event => void,
-    ups = \data : Html.Event => void
-  } when {
-    open
-  }
-
-  use Provider.AnimationFrame {
-    frames = updateDimensions
-  } when {
-    open
-  }
-
-  fun updateDimensions : Void {
-    next
-      { state |
-        top = top,
-        left = left
-      }
-  } where {
-    dom =
-      Dom.getElementById(state.uid)
-      |> Maybe.withDefault(Dom.createElement("div"))
-
-    width =
-      Window.width()
-
-    height =
-      Window.height()
-
-    panelDimensions =
-      Dom.getDimensions(dom)
-
-    dimensions =
-      `ReactDOM.findDOMNode(this)`
-      |> Dom.getDimensions()
-
-    top =
-      dimensions.top + dimensions.height
-
-    left =
-      dimensions.left
-  }
-
-  get panel : Html {
-    <div::panel id={state.uid}>
+  fun render : Html {
+    <div::base>
       <{ children }>
     </div>
   }
+}
 
-  get panelPortal : Html {
+component Ui.Dropdown {
+  property onClose : Function(Void) = \ => void
+  property position : String = "bottom-left"
+  property element : Html = Html.empty()
+  property content : Html = Html.empty()
+  property uid : String = Uid.generate()
+  property offset : Number = 0
+  property open : Bool = true
+
+  use Provider.Mouse {
+    clicks = \event : Html.Event => void,
+    moves = \event : Html.Event => void,
+    ups = close
+  } when {
+    open
+  }
+
+  style panel {
+    pointer-events: {pointerEvents};
+    transition: {transition};
+    visibility: {visibility};
+    opacity: {opacity};
+  }
+
+  get transition : String {
     if (open) {
-      <Html.Portals.Body>
-        <{ panel }>
-      </Html.Portals.Body>
+      "opacity 150ms 0ms ease, transform 150ms 0ms ease, visibi" \
+      "lity 1ms 0ms ease"
     } else {
-      Html.empty()
+      "opacity 150ms 0ms ease, transform 150ms 0ms ease, visibi" \
+      "lity 1ms 150ms ease"
     }
   }
 
-  fun render : Array(Html) {
-    [
-      element,
-      panelPortal
-    ]
+  get pointerEvents : String {
+    if (open) {
+      ""
+    } else {
+      "none"
+    }
+  }
+
+  get visibility : String {
+    if (open) {
+      ""
+    } else {
+      "hidden"
+    }
+  }
+
+  get opacity : Number {
+    if (open) {
+      1
+    } else {
+      0
+    }
+  }
+
+  fun close (event : Html.Event) : Void {
+    if (Dom.matches(selector, event.target)) {
+      void
+    } else {
+      onClose()
+    }
+  } where {
+    selector =
+      "[id='" + uid + "'], [id='" + uid + "'] *"
+  }
+
+  fun render : Html {
+    <Ui.StickyPanel
+      shouldCalculate={open}
+      position={position}
+      offset={offset}
+      element={element}
+      uid={uid}
+      content={
+        <div::panel>
+          <{ content }>
+        </div>
+      }/>
   }
 }

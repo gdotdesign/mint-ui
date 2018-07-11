@@ -70,8 +70,8 @@ store Ui {
           },
         primary =
           {
-            background = "#3aad57",
-            focus = "#0fa334",
+            background = "#158DD8",
+            focus = "#3caaef",
             text = "#FFF"
           },
         disabled =
@@ -93,11 +93,11 @@ store Ui {
             focus = "#FFF"
           }
       },
-    hover = { color = "#26e200" },
+    hover = { color = "#6cc4ef" },
     outline =
       {
-        fadedColor = "hsla(110, 100%, 44%, 0.5)",
-        color = "hsla(110, 100%, 44%, 1)"
+        fadedColor = "hsla(191, 100%, 50%, 0.5)",
+        color = "hsla(191, 100%, 50%, 1)"
       },
     border =
       {
