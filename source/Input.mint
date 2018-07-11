@@ -13,6 +13,7 @@ component Ui.Input {
   property onInput : Function(String, Void) = \value : String => void
   property onFocus : Function(Void) = \ => void
   property onClear : Function(Void) = \ => void
+  property onBlur : Function(Void) = \ => void
 
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -129,6 +130,7 @@ component Ui.Input {
         onChange={\event : Html.Event => onChange(Dom.getValue(event.target))}
         onInput={\event : Html.Event => onInput(Dom.getValue(event.target))}
         onFocus={\event : Html.Event => onFocus()}
+        onBlur={\event : Html.Event => onBlur()}
         placeholder={placeholder}
         disabled={disabled}
         readonly={readonly}
