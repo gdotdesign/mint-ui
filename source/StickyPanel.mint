@@ -18,6 +18,7 @@ component Ui.StickyPanel {
   /* The offset of the panel. */
   property offset : Number = 0
 
+  /* The state is a dimensions object. */
   state : Dom.Dimensions {
     bottom = 0,
     height = 0,
@@ -41,6 +42,7 @@ component Ui.StickyPanel {
     shouldCalculate
   }
 
+  /* Renders the element and the panel. */
   fun render : Array(Html) {
     [
       element,
@@ -52,6 +54,7 @@ component Ui.StickyPanel {
     ]
   }
 
+  /* Returns the inverse position of the current position. */
   get inversePosition : String {
     case (position) {
       "bottom-center" => "top-center"
@@ -133,20 +136,14 @@ component Ui.StickyPanel {
   fun updateDimensions : Void {
     next
       { state |
-        top = finalPosition.top,
-        left = finalPosition.left
+        left = finalPosition.left,
+        top = finalPosition.top
       }
   } where {
     panelDimensions =
       Dom.getElementById(uid)
       |> Maybe.withDefault(Dom.createElement("div"))
       |> Dom.getDimensions()
-
-    windowWidth =
-      Window.width()
-
-    windowHeight =
-      Window.height()
 
     dimensions =
       `ReactDOM.findDOMNode(this)`
