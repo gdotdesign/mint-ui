@@ -1,19 +1,51 @@
-record Ui.Chooser.Item {
-  content : Html,
-  value : String,
-  id : String
-}
-
 record Ui.Chooser.State {
-  selected : Maybe(Ui.Chooser.Item),
+  selected : Maybe(String),
   search : String,
   open : Bool
 }
 
+component Ui.Chooser.Item {
+  property children : Array(Html) = []
+  property intended : Bool = false
+  property seleted : Bool = false
+
+  style base {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 2px;
+    padding: 8px 10px;
+    padding-right: 30px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  fun render : Html {
+    <div::base>
+      <{ children }>
+    </div>
+  }
+}
+
 component Ui.Chooser {
-  property items : Array(Ui.Chooser.Item) = []
+  property renderItem : Function(String, Maybe(String), Html) = defaultRenderItem
+  property filterItem : Function(String, String, Bool) = defaultFilter
+
+  property items : Array(String) = []
   property position : String = "bottom-left"
-  property offset : Number = 0
+  property offset : Number = 5
+
+  fun defaultFilter (item : String, search : String) : Bool {
+    String.match(
+      String.toLowerCase(search),
+      String.toLowerCase(item))
+  }
+
+  fun defaultRenderItem (item : String, selected : Maybe(String)) : Html {
+    <Ui.Chooser.Item>
+      <{ item }>
+    </Ui.Chooser.Item>
+  }
 
   state : Ui.Chooser.State {
     selected = Maybe.nothing(),
@@ -23,26 +55,23 @@ component Ui.Chooser {
 
   get itemContents : Array(Html) {
     items
-    |> Array.select(
-      \item : Ui.Chooser.Item =>
-        String.match(
-          String.toLowerCase(state.search),
-          String.toLowerCase(item.value)))
+    |> Array.select(\item : String => filterItem(item, state.search))
     |> Array.map(
-      \item : Ui.Chooser.Item =>
+      \item : String =>
         <div onMouseDown={\event : Html.Event => select(event, item)}>
-          <{ item.content }>
+          <{ renderItem(item, state.selected) }>
         </div>)
   }
 
   get panel : Html {
-    <div>
+    <Ui.Dropdown.Panel>
       <{ itemContents }>
-    </div>
+    </Ui.Dropdown.Panel>
   }
 
   get input : Html {
     <Ui.Input
+      showClearIcon={state.open}
       onChange={onInputChange}
       onFocus={onInputFocus}
       onClear={onInputClear}
@@ -55,12 +84,12 @@ component Ui.Chooser {
       state.search
     } else {
       state.selected
-      |> Maybe.map(\item : Ui.Chooser.Item => item.value)
+      |> Maybe.map(\item : String => item)
       |> Maybe.withDefault("")
     }
   }
 
-  fun select (event : Html.Event, item : Ui.Chooser.Item) : Void {
+  fun select (event : Html.Event, item : String) : Void {
     do {
       next { state | selected = Maybe.just(item) }
     }
@@ -79,11 +108,7 @@ component Ui.Chooser {
   }
 
   fun onInputClear : Void {
-    if (state.open) {
-      next { state | search = "" }
-    } else {
-      next { state | selected = Maybe.nothing() }
-    }
+    next { state | search = "" }
   }
 
   fun onInputChange (value : String) : Void {

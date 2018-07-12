@@ -5,7 +5,9 @@ component Ui.Dropdown.Panel {
     box-shadow: 0 5px 20px 0 rgba(0,0,0,0.1);
     border: 1px solid #DDD;
     background: #FDFDFD;
+    border-radius: 2px;
     color: #707070;
+    padding: 5px;
   }
 
   fun render : Html {
