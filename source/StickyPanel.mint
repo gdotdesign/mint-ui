@@ -18,6 +18,9 @@ component Ui.StickyPanel {
   /* The offset of the panel. */
   property offset : Number = 0
 
+  /* If true pointer events pass through the panel. */
+  property passThrough : Bool = false
+
   /* The state is a dimensions object. */
   state : Dom.Dimensions {
     bottom = 0,
@@ -31,6 +34,7 @@ component Ui.StickyPanel {
   }
 
   style panel {
+    pointer-events: {pointerEvents};
     left: {state.left}px;
     top: {state.top}px;
     position: fixed;
@@ -40,6 +44,14 @@ component Ui.StickyPanel {
     frames = updateDimensions
   } when {
     shouldCalculate
+  }
+
+  get pointerEvents : String {
+    if (passThrough) {
+      "none"
+    } else {
+      ""
+    }
   }
 
   /* Renders the element and the panel. */

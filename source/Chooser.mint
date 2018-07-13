@@ -1,23 +1,54 @@
 record Ui.Chooser.State {
-  selected : Maybe(String),
   search : String,
+  width : String,
   open : Bool
 }
 
 component Ui.Chooser.Item {
+  connect Ui exposing { theme }
+
   property children : Array(Html) = []
   property intended : Bool = false
-  property seleted : Bool = false
+  property selected : Bool = false
 
   style base {
+    background: {background};
+    color: {color};
+
+    font-family: {theme.fontFamily};
     text-overflow: ellipsis;
+    margin-bottom: 2px;
+    margin-top: 2px;
+
     white-space: nowrap;
-    overflow: hidden;
     border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
     padding: 8px 10px;
     padding-right: 30px;
-    position: relative;
-    cursor: pointer;
+
+    &:hover {
+      background: {theme.colors.primary.background};
+      color: {theme.colors.primary.text};
+    }
+  }
+
+  get background : String {
+    if (selected) {
+      theme.colors.primary.background
+    } else {
+      ""
+    }
+  }
+
+  get color : String {
+    if (selected) {
+      theme.colors.primary.text
+    } else {
+      ""
+    }
   }
 
   fun render : Html {
@@ -31,9 +62,26 @@ component Ui.Chooser {
   property renderItem : Function(String, Maybe(String), Html) = defaultRenderItem
   property filterItem : Function(String, String, Bool) = defaultFilter
 
-  property items : Array(String) = []
+  property onChange : Function(Maybe(String), Void) = \selected : Maybe(String) => void
+  property selected : Maybe(String) = Maybe.nothing()
+  property open : Maybe(Bool) = Maybe.nothing()
   property position : String = "bottom-left"
+  property items : Array(String) = []
   property offset : Number = 5
+
+  use Provider.AnimationFrame {
+    frames = updateWidth
+  } when {
+    actualOpen
+  }
+
+  fun updateWidth : Void {
+    next { state | width = Number.toString(dimesions.width) + "px" }
+  } where {
+    dimesions =
+      `ReactDOM.findDOMNode(this).querySelector('input')`
+      |> Dom.getDimensions()
+  }
 
   fun defaultFilter (item : String, search : String) : Bool {
     String.match(
@@ -42,13 +90,13 @@ component Ui.Chooser {
   }
 
   fun defaultRenderItem (item : String, selected : Maybe(String)) : Html {
-    <Ui.Chooser.Item>
+    <Ui.Chooser.Item selected={Maybe.just(item) == selected}>
       <{ item }>
     </Ui.Chooser.Item>
   }
 
   state : Ui.Chooser.State {
-    selected = Maybe.nothing(),
+    width = "auto",
     open = false,
     search = ""
   }
@@ -59,12 +107,12 @@ component Ui.Chooser {
     |> Array.map(
       \item : String =>
         <div onMouseDown={\event : Html.Event => select(event, item)}>
-          <{ renderItem(item, state.selected) }>
+          <{ renderItem(item, selected) }>
         </div>)
   }
 
   get panel : Html {
-    <Ui.Dropdown.Panel>
+    <Ui.Dropdown.Panel width={state.width}>
       <{ itemContents }>
     </Ui.Dropdown.Panel>
   }
@@ -83,16 +131,18 @@ component Ui.Chooser {
     if (state.open) {
       state.search
     } else {
-      state.selected
+      selected
       |> Maybe.map(\item : String => item)
       |> Maybe.withDefault("")
     }
   }
 
+  get actualOpen : Bool {
+    Maybe.withDefault(state.open, open)
+  }
+
   fun select (event : Html.Event, item : String) : Void {
-    do {
-      next { state | selected = Maybe.just(item) }
-    }
+    onChange(Maybe.just(item))
   }
 
   fun onInputFocus : Void {
@@ -122,6 +172,6 @@ component Ui.Chooser {
       offset={5}
       content={panel}
       offset={offset}
-      open={state.open}/>
+      open={actualOpen}/>
   }
 }

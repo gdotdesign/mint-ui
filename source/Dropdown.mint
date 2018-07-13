@@ -1,11 +1,13 @@
 component Ui.Dropdown.Panel {
   property children : Array(Html) = []
+  property width : String = "auto"
 
   style base {
     box-shadow: 0 5px 20px 0 rgba(0,0,0,0.1);
     border: 1px solid #DDD;
     background: #FDFDFD;
     border-radius: 2px;
+    width: {width};
     color: #707070;
     padding: 5px;
   }
@@ -19,6 +21,7 @@ component Ui.Dropdown.Panel {
 
 component Ui.Dropdown {
   property onClose : Function(Void) = \ => void
+  property shouldAutomaticallyClose : Bool = true
   property position : String = "bottom-left"
   property element : Html = Html.empty()
   property content : Html = Html.empty()
@@ -35,7 +38,6 @@ component Ui.Dropdown {
   }
 
   style panel {
-    pointer-events: {pointerEvents};
     transition: {transition};
     visibility: {visibility};
     opacity: {opacity};
@@ -48,14 +50,6 @@ component Ui.Dropdown {
     } else {
       "opacity 150ms 0ms ease, transform 150ms 0ms ease, visibi" \
       "lity 1ms 150ms ease"
-    }
-  }
-
-  get pointerEvents : String {
-    if (open) {
-      ""
-    } else {
-      "none"
     }
   }
 
@@ -76,10 +70,14 @@ component Ui.Dropdown {
   }
 
   fun close (event : Html.Event) : Void {
-    if (Dom.matches(selector, event.target)) {
-      void
+    if (shouldAutomaticallyClose) {
+      if (Dom.matches(selector, event.target)) {
+        void
+      } else {
+        onClose()
+      }
     } else {
-      onClose()
+      void
     }
   } where {
     selector =
@@ -89,6 +87,7 @@ component Ui.Dropdown {
   fun render : Html {
     <Ui.StickyPanel
       shouldCalculate={open}
+      passThrough={!open}
       position={position}
       offset={offset}
       element={element}
