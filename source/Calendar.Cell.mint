@@ -1,7 +1,7 @@
 component Ui.Calendar.Cell {
   connect Ui exposing { theme }
 
-  property onClick : Function(Time, Void) = \day : Time => void
+  property onClick : Function(Time, Void) = (day : Time) : Void => { void }
   property day : Time = Time.now()
   property selected : Bool = false
   property active : Bool = false
@@ -44,7 +44,7 @@ component Ui.Calendar.Cell {
   fun render : Html {
     <div::style
       title={Time.format("YYYY-MM-DD HH:mm:ss", day)}
-      onClick={\event : Html.Event => onClick(day)}>
+      onClick={(event : Html.Event) : Void => { onClick(day) }}>
 
       <{ Number.toString(Time.day(day)) }>
 

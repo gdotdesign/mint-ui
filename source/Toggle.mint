@@ -1,7 +1,7 @@
 component Ui.Toggle {
   connect Ui exposing { theme }
 
-  property onChange : Function(Bool, Void) = \value : Bool => void
+  property onChange : Function(Bool, Void) = (value : Bool) : Void => { void }
   property offLabel : String = "OFF"
   property onLabel : String = "ON"
   property disabled : Bool = false
@@ -78,7 +78,7 @@ component Ui.Toggle {
   }
 
   fun render : Html {
-    <button::base onClick={\event : Html.Event => toggle()}>
+    <button::base onClick={(event : Html.Event) : Void => { toggle() }}>
       <div::label>
         <{ onLabel }>
       </div>

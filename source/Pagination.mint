@@ -1,5 +1,5 @@
 component Ui.Pagination {
-  property onChange : Function(Number, Void) = \page : Number => void
+  property onChange : Function(Number, Void) = (page : Number) : Void => { void }
   property sidePages : Number = 2
   property perPage : Number = 10
   property total : Number = 0
@@ -35,19 +35,20 @@ component Ui.Pagination {
 
   get buttons : Array(Html) {
     Array.map(
-      \index : Number =>
+      (index : Number) : Html => {
         <Ui.Button
-          onClick={\event : Html.Event => onChange(index)}
+          onClick={(event : Html.Event) : Void => { onChange(index) }}
           label={Number.toString(index + 1)}
           key={Number.toString(index)}
-          outline={index != page}/>,
+          outline={index != page}/>
+      },
       buttonRange)
   }
 
   get previousButton : Html {
     if (page != 0 && pages > 0) {
       <Ui.Button
-        onClick={\event : Html.Event => onChange(page - 1)}
+        onClick={(event : Html.Event) : Void => { onChange(page- 1) }}
         outline={true}
         label="Prev"/>
     } else {
@@ -58,7 +59,7 @@ component Ui.Pagination {
   get nextButton : Html {
     if (page != pages && pages > 0) {
       <Ui.Button
-        onClick={\event : Html.Event => onChange(page + 1)}
+        onClick={(event : Html.Event) : Void => { onChange(page+ 1) }}
         outline={true}
         label="Next"/>
     } else {
@@ -85,7 +86,7 @@ component Ui.Pagination {
   get rightButton : Html {
     if (pages > 1) {
       <Ui.Button
-        onClick={\event : Html.Event => onChange(pages)}
+        onClick={(event : Html.Event) : Void => { onChange(pages) }}
         label={Number.toString(pages + 1)}
         outline={page != pages}/>
     } else {
@@ -96,7 +97,7 @@ component Ui.Pagination {
   get leftButton : Html {
     if (pages >= 1) {
       <Ui.Button
-        onClick={\event : Html.Event => onChange(0)}
+        onClick={(event : Html.Event) : Void => { onChange(0) }}
         outline={page != 0}
         label="1"/>
     } else {

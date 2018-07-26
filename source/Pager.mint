@@ -1,6 +1,6 @@
 component Ui.Pager.Page {
-  property transition : String = "slide"
   property transitioning : Bool = false
+  property transition : String = "slide"
   property children : Array(Html) = []
   property duration : Number = 1000
   property position : Number = 0
@@ -94,12 +94,12 @@ component Ui.Pager {
 
   get isPage : Bool {
     Array.any(
-      \item : Ui.Pager.Item => item.name == state.center,
+      (item : Ui.Pager.Item) : Void => { item.name == state.center },
       pages)
   }
 
   get hasPage : Bool {
-    Array.any(\item : Ui.Pager.Item => item.name == active, pages)
+    Array.any((item : Ui.Pager.Item) : Void => { item.name == active }, pages)
   }
 
   fun switchPages : Void {

@@ -20,7 +20,7 @@ component Ui.Dropdown.Panel {
 }
 
 component Ui.Dropdown {
-  property onClose : Function(Void) = \ => void
+  property onClose : Function(Void) = () : Void => { void }
   property shouldAutomaticallyClose : Bool = true
   property position : String = "bottom-left"
   property element : Html = Html.empty()
@@ -30,8 +30,8 @@ component Ui.Dropdown {
   property open : Bool = true
 
   use Provider.Mouse {
-    clicks = \event : Html.Event => void,
-    moves = \event : Html.Event => void,
+    clicks = (event : Html.Event) : Void => { void },
+    moves = (event : Html.Event) : Void => { void },
     ups = close
   } when {
     open

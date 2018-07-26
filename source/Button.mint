@@ -11,8 +11,8 @@ component Ui.Button {
   property readonly : Bool = false
   property outline : Bool = false
 
-  property onMouseDown : Function(Html.Event, Void) = \event : Html.Event => void
-  property onClick : Function(Html.Event, Void) = \event : Html.Event => void
+  property onMouseDown : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
+  property onClick : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
 
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);

@@ -1,7 +1,7 @@
 component Ui.Icon.Path {
   connect Ui exposing { theme }
 
-  property onClick : Function(Html.Event, Void) = \event : Html.Event => void
+  property onClick : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
   property clickable : Bool = true
   property viewbox : String = ""
   property height : String = ""
@@ -38,7 +38,7 @@ component Ui.Icon.Path {
     if (clickable) {
       onClick
     } else {
-      \event : Html.Event => void
+      (event : Html.Event) : Void => { void }
     }
   }
 

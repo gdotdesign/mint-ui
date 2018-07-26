@@ -62,7 +62,7 @@ component Ui.Chooser {
   property renderItem : Function(String, Maybe(String), Html) = defaultRenderItem
   property filterItem : Function(String, String, Bool) = defaultFilter
 
-  property onChange : Function(Maybe(String), Void) = \selected : Maybe(String) => void
+  property onChange : Function(Maybe(String), Void) = (selected : Maybe(String)) : Void => { void }
   property selected : Maybe(String) = Maybe.nothing()
   property open : Maybe(Bool) = Maybe.nothing()
   property position : String = "bottom-left"
@@ -103,12 +103,13 @@ component Ui.Chooser {
 
   get itemContents : Array(Html) {
     items
-    |> Array.select(\item : String => filterItem(item, state.search))
+    |> Array.select((item : String) : Bool => { filterItem(item, state.search) })
     |> Array.map(
-      \item : String =>
-        <div onMouseDown={\event : Html.Event => select(event, item)}>
+      (item : String) : Void => {
+        <div onMouseDown={(event : Html.Event) : Void => { select(event, item) }}>
           <{ renderItem(item, selected) }>
-        </div>)
+        </div>
+      })
   }
 
   get panel : Html {
@@ -132,7 +133,6 @@ component Ui.Chooser {
       state.search
     } else {
       selected
-      |> Maybe.map(\item : String => item)
       |> Maybe.withDefault("")
     }
   }

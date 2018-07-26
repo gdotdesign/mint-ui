@@ -1,7 +1,7 @@
 component Ui.Checkbox {
   connect Ui exposing { theme }
 
-  property onChange : Function(Bool, Void) = \value : Bool => void
+  property onChange : Function(Bool, Void) = (value : Bool) : Void => { void }
   property disabled : Bool = false
   property readonly : Bool = false
   property checked : Bool = false
@@ -75,7 +75,7 @@ component Ui.Checkbox {
   fun render : Html {
     <button::base
       disabled={disabled}
-      onClick={\event : Html.Event => toggle()}>
+      onClick={(event : Html.Event) : Void => { toggle() }}>
 
       <svg::icon viewBox="0 0 36 36">
         <path

@@ -9,11 +9,11 @@ component Ui.Input {
   property disabled : Bool = false
   property readonly : Bool = false
 
-  property onChange : Function(String, Void) = \value : String => void
-  property onInput : Function(String, Void) = \value : String => void
-  property onFocus : Function(Void) = \ => void
-  property onClear : Function(Void) = \ => void
-  property onBlur : Function(Void) = \ => void
+  property onChange : Function(String, Void) = (value : String) : Void => { void }
+  property onInput : Function(String, Void) = (value : String) : Void => { void }
+  property onFocus : Function(Void) = () : Void => { void }
+  property onClear : Function(Void) = () : Void => { void }
+  property onBlur : Function(Void) = () : Void => { void }
 
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -99,7 +99,7 @@ component Ui.Input {
   get closeIcon : Html {
     if (showCloseIcon) {
       <svg::icon
-        onClick={\event : Html.Event => onClear()}
+        onClick={(event : Html.Event) : Void => { onClear() }}
         viewBox="0 0 36 36"
         height="36"
         width="36">
@@ -127,10 +127,10 @@ component Ui.Input {
   fun render : Html {
     <div::base>
       <input::input
-        onChange={\event : Html.Event => onChange(Dom.getValue(event.target))}
-        onInput={\event : Html.Event => onInput(Dom.getValue(event.target))}
-        onFocus={\event : Html.Event => onFocus()}
-        onBlur={\event : Html.Event => onBlur()}
+        onChange={(event : Html.Event) : Void => { onChange(Dom.getValue(event.target)) }}
+        onInput={(event : Html.Event) : Void => { onInput(Dom.getValue(event.target)) }}
+        onFocus={(event : Html.Event) : Void => { onFocus() }}
+        onBlur={(event : Html.Event) : Void => { onBlur() }}
         placeholder={placeholder}
         disabled={disabled}
         readonly={readonly}

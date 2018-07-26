@@ -1,7 +1,7 @@
 component Ui.Slider {
   connect Ui exposing { theme }
 
-  property onChange : Function(Number, Void) = \value : Number => void
+  property onChange : Function(Number, Void) = (value : Number) : Void => { void }
   property disabled : Bool = false
   property max : Number = 100
   property value : Number = 0
