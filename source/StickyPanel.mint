@@ -21,22 +21,13 @@ component Ui.StickyPanel {
   /* If true pointer events pass through the panel. */
   property passThrough : Bool = false
 
-  /* The state is a dimensions object. */
-  state : Dom.Dimensions {
-    bottom = 0,
-    height = 0,
-    width = 0,
-    right = 0,
-    left = 0,
-    top = 0,
-    x = 0,
-    y = 0
-  }
+  state left : Number = 0
+  state top : Number = 0
 
   style panel {
     pointer-events: {pointerEvents};
-    left: {state.left}px;
-    top: {state.top}px;
+    left: {left}px;
+    top: {top}px;
     position: fixed;
   }
 
@@ -147,7 +138,7 @@ component Ui.StickyPanel {
 
   fun updateDimensions : Void {
     next
-      { state |
+      {
         left = finalPosition.left,
         top = finalPosition.top
       }

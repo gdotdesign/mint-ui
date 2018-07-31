@@ -1,9 +1,3 @@
-record Ui.Chooser.State {
-  search : String,
-  width : String,
-  open : Bool
-}
-
 component Ui.Chooser.Item {
   connect Ui exposing { theme }
 
@@ -76,7 +70,7 @@ component Ui.Chooser {
   }
 
   fun updateWidth : Void {
-    next { state | width = Number.toString(dimesions.width) + "px" }
+    next { width = Number.toString(dimesions.width) + "px" }
   } where {
     dimesions =
       `ReactDOM.findDOMNode(this).querySelector('input')`
@@ -95,17 +89,16 @@ component Ui.Chooser {
     </Ui.Chooser.Item>
   }
 
-  state : Ui.Chooser.State {
-    width = "auto",
-    open = false,
-    search = ""
-  }
+  state width : String = "auto"
+  state shown : Bool = false
+  state search : String = ""
 
   get itemContents : Array(Html) {
     items
-    |> Array.select((item : String) : Bool => { filterItem(item, state.search) })
+    |> Array.select(
+      (item : String) : Bool => { filterItem(item, search) })
     |> Array.map(
-      (item : String) : Void => {
+      (item : String) : Html => {
         <div onMouseDown={(event : Html.Event) : Void => { select(event, item) }}>
           <{ renderItem(item, selected) }>
         </div>
@@ -113,14 +106,14 @@ component Ui.Chooser {
   }
 
   get panel : Html {
-    <Ui.Dropdown.Panel width={state.width}>
+    <Ui.Dropdown.Panel width={width}>
       <{ itemContents }>
     </Ui.Dropdown.Panel>
   }
 
   get input : Html {
     <Ui.Input
-      showClearIcon={state.open}
+      showClearIcon={shown}
       onChange={onInputChange}
       onFocus={onInputFocus}
       onClear={onInputClear}
@@ -129,8 +122,8 @@ component Ui.Chooser {
   }
 
   get value : String {
-    if (state.open) {
-      state.search
+    if (shown) {
+      search
     } else {
       selected
       |> Maybe.withDefault("")
@@ -138,7 +131,7 @@ component Ui.Chooser {
   }
 
   get actualOpen : Bool {
-    Maybe.withDefault(state.open, open)
+    Maybe.withDefault(shown, open)
   }
 
   fun select (event : Html.Event, item : String) : Void {
@@ -146,23 +139,23 @@ component Ui.Chooser {
   }
 
   fun onInputFocus : Void {
-    next { state | open = true }
+    next { shown = true }
   }
 
   fun onInputBlur : Void {
     next
-      { state |
-        open = false,
+      {
+        shown = false,
         search = ""
       }
   }
 
   fun onInputClear : Void {
-    next { state | search = "" }
+    next { search = "" }
   }
 
   fun onInputChange (value : String) : Void {
-    next { state | search = value }
+    next { search = value }
   }
 
   fun render : Html {

@@ -86,7 +86,7 @@ component Ui.Calendar {
   fun cells : Array(Html) {
     days()
     |> Array.map(
-      (day : Time) : Void => {
+      (day : Time) : Html => {
         <Ui.Calendar.Cell
           active={Array.any((item : Time) : Bool => { day == item }, range)}
           selected={date == day}

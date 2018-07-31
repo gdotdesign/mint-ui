@@ -38,7 +38,7 @@ record Ui.Theme {
 }
 
 store Ui {
-  property theme : Ui.Theme = {
+  state theme : Ui.Theme = {
     fontFamily =
       "-apple-system, system-ui, BlinkMacSystemFont, Segoe UI, " \
       "Roboto, Helvetica Neue, Arial, sans-serif",
@@ -107,21 +107,15 @@ store Ui {
   }
 
   fun setFontFamily (fontFamily : String) : Void {
-    next { state | theme = updatedTheme }
+    next { theme = updatedTheme }
   } where {
-    theme =
-      state.theme
-
     updatedTheme =
       { theme | fontFamily = fontFamily }
   }
 
   fun setPrimaryBackground (color : String) : Void {
-    next { state | theme = updatedTheme }
+    next { theme = updatedTheme }
   } where {
-    theme =
-      state.theme
-
     colors =
       theme.colors
 

@@ -1,11 +1,7 @@
-record Ui.Time.State {
-  now : Time
-}
-
 component Ui.Time {
   property date : Time = Time.now()
 
-  state : Ui.Time.State { now = Time.now() }
+  state now : Time = Time.now()
 
   use Provider.Tick { ticks = () : Void => { next { now = Time.now() } } }
 
@@ -15,7 +11,7 @@ component Ui.Time {
 
   fun render : Html {
     <div::base title={Time.toIso(date)}>
-      <{ Time.relative(date, state.now) }>
+      <{ Time.relative(date, now) }>
     </div>
   }
 }

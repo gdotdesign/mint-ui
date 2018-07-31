@@ -48,7 +48,7 @@ component Ui.Pagination {
   get previousButton : Html {
     if (page != 0 && pages > 0) {
       <Ui.Button
-        onClick={(event : Html.Event) : Void => { onChange(page- 1) }}
+        onClick={(event : Html.Event) : Void => { onChange(page - 1) }}
         outline={true}
         label="Prev"/>
     } else {
@@ -59,7 +59,7 @@ component Ui.Pagination {
   get nextButton : Html {
     if (page != pages && pages > 0) {
       <Ui.Button
-        onClick={(event : Html.Event) : Void => { onChange(page+ 1) }}
+        onClick={(event : Html.Event) : Void => { onChange(page + 1) }}
         outline={true}
         label="Next"/>
     } else {
