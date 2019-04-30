@@ -1,5 +1,5 @@
 component Ui.Pagination {
-  property onChange : Function(Number, Void) = (page : Number) : Void => { void }
+  property onChange : Function(Number, a) = (page : Number) : Void { void }
   property sidePages : Number = 2
   property perPage : Number = 10
   property total : Number = 0
@@ -34,23 +34,27 @@ component Ui.Pagination {
   }
 
   get buttons : Array(Html) {
-    Array.map(
-      (index : Number) : Html => {
-        <Ui.Button
-          onClick={(event : Html.Event) : Void => { onChange(index) }}
-          label={Number.toString(index + 1)}
-          key={Number.toString(index)}
-          outline={index != page}/>
-      },
-      buttonRange)
+    for (index of buttonRange) {
+      <Ui.Button
+        onClick={(event : Html.Event) : a { onChange(index) }}
+        key={Number.toString(index)}
+        outline={index != page}>
+
+        <{ Number.toString(index + 1) }>
+
+      </Ui.Button>
+    }
   }
 
   get previousButton : Html {
     if (page != 0 && pages > 0) {
       <Ui.Button
-        onClick={(event : Html.Event) : Void => { onChange(page - 1) }}
-        outline={true}
-        label="Prev"/>
+        onClick={(event : Html.Event) : a { onChange(page - 1) }}
+        outline={true}>
+
+        "Prev"
+
+      </Ui.Button>
     } else {
       Html.empty()
     }
@@ -59,9 +63,12 @@ component Ui.Pagination {
   get nextButton : Html {
     if (page != pages && pages > 0) {
       <Ui.Button
-        onClick={(event : Html.Event) : Void => { onChange(page + 1) }}
-        outline={true}
-        label="Next"/>
+        onClick={(event : Html.Event) : a { onChange(page + 1) }}
+        outline={true}>
+
+        "Next"
+
+      </Ui.Button>
     } else {
       Html.empty()
     }
@@ -86,9 +93,12 @@ component Ui.Pagination {
   get rightButton : Html {
     if (pages > 1) {
       <Ui.Button
-        onClick={(event : Html.Event) : Void => { onChange(pages) }}
-        label={Number.toString(pages + 1)}
-        outline={page != pages}/>
+        onClick={(event : Html.Event) : a { onChange(pages) }}
+        outline={page != pages}>
+
+        "1"
+
+      </Ui.Button>
     } else {
       Html.empty()
     }
@@ -97,9 +107,12 @@ component Ui.Pagination {
   get leftButton : Html {
     if (pages >= 1) {
       <Ui.Button
-        onClick={(event : Html.Event) : Void => { onChange(0) }}
-        outline={page != 0}
-        label="1"/>
+        onClick={(event : Html.Event) : a { onChange(0) }}
+        outline={page != 0}>
+
+        <{ Number.toString(pages + 1) }>
+
+      </Ui.Button>
     } else {
       Html.empty()
     }

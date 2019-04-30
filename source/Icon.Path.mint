@@ -1,7 +1,7 @@
 component Ui.Icon.Path {
   connect Ui exposing { theme }
 
-  property onClick : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
+  property onClick : Function(Html.Event, Promise(Never, Void)) = (event : Html.Event) : Promise(Never, Void) { Promise.never() }
   property clickable : Bool = true
   property viewbox : String = ""
   property height : String = ""
@@ -34,17 +34,17 @@ component Ui.Icon.Path {
     }
   }
 
-  get handler : Function(Html.Event, Void) {
+  fun handleClick (event : Html.Event) : Promise(Never, Void) {
     if (clickable) {
-      onClick
+      onClick(event)
     } else {
-      (event : Html.Event) : Void => { void }
+      next {  }
     }
   }
 
   fun render : Html {
     <svg::svg
-      onClick={handler}
+      onClick={handleClick}
       viewBox={viewbox}
       height={height}
       width={width}>

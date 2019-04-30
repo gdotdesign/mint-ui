@@ -7,11 +7,11 @@ component Ui.Showcase.Header {
     border-bottom: 1px solid rgba(0,0,0,0.1);
     font-family: {theme.fontFamily};
     text-transform: uppercase;
+    padding-bottom: 10px;
     background: #FDFDFD;
-    padding: 5px 15px;
     font-weight: bold;
     font-size: 14px;
-    color: #707070;
+    color: #666;
   }
 
   fun render : Html {

@@ -1,12 +1,12 @@
 component Ui.Calendar.Cell {
   connect Ui exposing { theme }
 
-  property onClick : Function(Time, Void) = (day : Time) : Void => { void }
+  property onClick : Function(Time, Promise(Never, Void)) = (day : Time) : Promise(Never, Void) { Promise.never() }
   property day : Time = Time.now()
   property selected : Bool = false
   property active : Bool = false
 
-  style style {
+  style base {
     border-radius: {theme.border.radius};
     justify-content: center;
     line-height: 34px;
@@ -42,9 +42,9 @@ component Ui.Calendar.Cell {
   }
 
   fun render : Html {
-    <div::style
+    <div::base
       title={Time.format("YYYY-MM-DD HH:mm:ss", day)}
-      onClick={(event : Html.Event) : Void => { onClick(day) }}>
+      onClick={(event : Html.Event) : Promise(Never, Void) { onClick(day) }}>
 
       <{ Number.toString(Time.day(day)) }>
 

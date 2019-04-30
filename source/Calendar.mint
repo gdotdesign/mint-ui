@@ -1,8 +1,8 @@
 component Ui.Calendar {
   connect Ui exposing { theme }
 
-  property onMonthChange : Function(Time, Void) = (date : Time) : Void => { void }
-  property onChange : Function(Time, Void) = (day : Time) : Void => { void }
+  property onMonthChange : Function(Time, Promise(Never, Void)) = (date : Time) : Promise(Never, Void) { Promise.never() }
+  property onChange : Function(Time, Promise(Never, Void)) = (day : Time) : Promise(Never, Void) { Promise.never() }
   property changeMonthOnSelect : Bool = false
   property month : Time = Time.today()
   property date : Time = Time.today()
@@ -72,9 +72,9 @@ component Ui.Calendar {
       |> Time.endOf("week")
   }
 
-  fun onCellClick (day : Time) : Void {
+  fun onCellClick (day : Time) : Promise(Never, Void) {
     if (Time.month(day) != Time.month(month) && changeMonthOnSelect) {
-      do {
+      sequence {
         onMonthChange(day)
         onChange(day)
       }
@@ -84,15 +84,13 @@ component Ui.Calendar {
   }
 
   fun cells : Array(Html) {
-    days()
-    |> Array.map(
-      (day : Time) : Html => {
-        <Ui.Calendar.Cell
-          active={Array.any((item : Time) : Bool => { day == item }, range)}
-          selected={date == day}
-          onClick={onCellClick}
-          day={day}/>
-      })
+    for (day of days()) {
+      <Ui.Calendar.Cell
+        active={Array.any((item : Time) : Bool { day == item }, range)}
+        selected={date == day}
+        onClick={onCellClick}
+        day={day}/>
+    }
   } where {
     range =
       Time.endOf("month", month)
@@ -111,17 +109,17 @@ component Ui.Calendar {
     |> Array.map(dayName)
   }
 
-  fun previousMonth : Void {
+  fun previousMonth (event : Html.Event) : Promise(Never, Void) {
     onMonthChange(Time.previousMonth(month))
   }
 
-  fun nextMonth : Void {
+  fun nextMonth (event : Html.Event) : Promise(Never, Void) {
     onMonthChange(Time.nextMonth(month))
   }
 
   get nextMonthIcon : Html {
     <Ui.Icon.Path
-      onClick={(event : Html.Event) : Void => { nextMonth() }}
+      onClick={nextMonth}
       viewbox="0 0 9 16"
       height="16px"
       width="9px"
@@ -135,7 +133,7 @@ component Ui.Calendar {
 
   get previousMonthIcon : Html {
     <Ui.Icon.Path
-      onClick={(event : Html.Event) : Void => { previousMonth() }}
+      onClick={previousMonth}
       viewbox="0 0 9 16"
       height="16px"
       width="9px"

@@ -64,7 +64,7 @@ store Ui {
           },
         secondary =
           {
-            background = "#222",
+            background = "#698ba0",
             focus = "#333",
             text = "#FFF"
           },
@@ -106,14 +106,14 @@ store Ui {
       }
   }
 
-  fun setFontFamily (fontFamily : String) : Void {
+  fun setFontFamily (fontFamily : String) : Promise(Never, Void) {
     next { theme = updatedTheme }
   } where {
     updatedTheme =
       { theme | fontFamily = fontFamily }
   }
 
-  fun setPrimaryBackground (color : String) : Void {
+  fun setPrimaryBackground (color : String) : Promise(Never, Void) {
     next { theme = updatedTheme }
   } where {
     colors =

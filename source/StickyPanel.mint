@@ -12,20 +12,20 @@ component Ui.StickyPanel {
   /* The content to position. */
   property content : Html = Html.empty()
 
-  /* A unique identifier used to identify the panel. */
-  property uid : String = Uid.generate()
-
   /* The offset of the panel. */
   property offset : Number = 0
 
   /* If true pointer events pass through the panel. */
   property passThrough : Bool = false
 
+  property zIndex : Number = 0
+
   state left : Number = 0
   state top : Number = 0
 
   style panel {
     pointer-events: {pointerEvents};
+    z-index: {zIndex};
     left: {left}px;
     top: {top}px;
     position: fixed;
@@ -50,7 +50,7 @@ component Ui.StickyPanel {
     [
       element,
       <Html.Portals.Body>
-        <div::panel id={uid}>
+        <div::panel as panel>
           <{ content }>
         </div>
       </Html.Portals.Body>
@@ -83,7 +83,11 @@ component Ui.StickyPanel {
     dimensions.top >= 0 && dimensions.left >= 0 && dimensions.right <= Window.width() && dimensions.bottom <= Window.height()
   }
 
-  fun calculatePosition (position : String, dimensions : Dom.Dimensions, panel : Dom.Dimensions) : Dom.Dimensions {
+  fun calculatePosition (
+    position : String,
+    dimensions : Dom.Dimensions,
+    panel : Dom.Dimensions
+  ) : Dom.Dimensions {
     { panel |
       bottom = top + panel.height,
       right = left + panel.width,
@@ -136,7 +140,7 @@ component Ui.StickyPanel {
       }
   }
 
-  fun updateDimensions : Void {
+  fun updateDimensions : Promise(Never, Void) {
     next
       {
         left = finalPosition.left,
@@ -144,9 +148,7 @@ component Ui.StickyPanel {
       }
   } where {
     panelDimensions =
-      Dom.getElementById(uid)
-      |> Maybe.withDefault(Dom.createElement("div"))
-      |> Dom.getDimensions()
+      Dom.getDimensions(panel)
 
     dimensions =
       `ReactDOM.findDOMNode(this)`

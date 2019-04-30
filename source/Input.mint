@@ -1,3 +1,55 @@
+record Provider.TabFocus.Subscription {
+  onTabIn : Function(Dom.Element, a),
+  onTabOut : Function(Dom.Element, a)
+}
+
+provider Providers.TabFocus : Provider.TabFocus.Subscription {
+  fun handleKeyUp (event : Html.Event) : Promise(Never, Void) {
+    `
+    (() => {
+      if (#{event.keyCode} == 9) {
+        for (let subscription of this.subscriptions) {
+          subscription[1].onTabIn(document.activeElement)
+        }
+      }
+    })()
+    `
+  }
+
+  fun handleKeyDown (event : Html.Event) : Promise(Never, Void) {
+    `
+    (() => {
+      if (#{event.keyCode} == 9) {
+        for (let subscription of this.subscriptions) {
+          subscription[1].onTabOut(#{event.target})
+        }
+      }
+    })()
+    `
+  }
+
+  fun attach : Void {
+    `
+    (() => {
+      this.keyUp || (this.keyUp = ((event) => #{handleKeyUp}(_normalizeEvent(event))))
+      this.keyDown || (this.keyDown = ((event) => #{handleKeyDown}(_normalizeEvent(event))))
+
+      window.addEventListener("keyup", this.keyUp, true)
+      window.addEventListener("keydown", this.keyDown, true)
+    })()
+    `
+  }
+
+  fun detach : Void {
+    `
+    (() => {
+      window.removeEventListener("keyup", this.keyUp, true)
+      window.removeEventListener("keydown", this.keyDown, true)
+    })()
+    `
+  }
+}
+
 component Ui.Input {
   connect Ui exposing { theme }
 
@@ -9,30 +61,53 @@ component Ui.Input {
   property disabled : Bool = false
   property readonly : Bool = false
 
-  property onChange : Function(String, Void) = (value : String) : Void => { void }
-  property onInput : Function(String, Void) = (value : String) : Void => { void }
-  property onFocus : Function(Void) = () : Void => { void }
-  property onClear : Function(Void) = () : Void => { void }
-  property onBlur : Function(Void) = () : Void => { void }
+  property onMouseUp : Function(Html.Event, a) = (event : Html.Event) : a { void }
+  property onKeyDown : Function(Html.Event, a) = (event : Html.Event) : a { void }
+  property onChange : Function(String, a) = (value : String) : a { void }
+  property onInput : Function(String, a) = (value : String) : a { void }
+  property onFocus : Function(a) = () : Void { void }
+  property onClear : Function(a) = () : Void { void }
+  property onBlur : Function(a) = () : Void { void }
+  property onTabIn : Function(a) = () : Void { void }
+  property onTabOut : Function(a) = () : Void { void }
+
+  use Providers.TabFocus {
+    onTabIn =
+      (element : Dom.Element) : Promise(Never, Void) {
+        if (`#{element} === #{input}`) {
+          onTabIn()
+        } else {
+          next {  }
+        }
+      },
+    onTabOut =
+      (element : Dom.Element) : Promise(Never, Void) {
+        if (`#{element} === #{input}`) {
+          onTabOut()
+        } else {
+          next {  }
+        }
+      }
+  }
 
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 
     background-color: {theme.colors.input.background};
-    border: 1px solid {theme.border.color};
+    border: 2px solid {theme.border.color};
     border-radius: {theme.border.radius};
     color: {theme.colors.input.text};
     font-family: {theme.fontFamily};
 
-    line-height: 14px;
-    font-size: 14px;
+    line-height: 16px;
+    font-size: 16px;
 
     outline: none;
-    height: 34px;
+    height: 38px;
     width: 100%;
 
-    padding: 6px 9px;
+    padding: 7px 10px;
     padding-right: {paddingRight};
 
     &:disabled {
@@ -52,14 +127,12 @@ component Ui.Input {
     &:-ms-input-placeholder,
     &::-moz-placeholder,
     &:-moz-placeholder {
+      user-select: none;
       opacity: 0.5;
     }
 
     &:focus {
-      box-shadow: 0 0 2px {theme.outline.fadedColor} inset,
-                  0 0 2px {theme.outline.fadedColor};
-
-      border-color: {theme.outline.color};
+      border-color: {theme.colors.primary.background};
     }
   }
 
@@ -68,6 +141,7 @@ component Ui.Input {
     -webkit-touch-callout: none;
     display: inline-block;
     position: relative;
+    width: 100%;
   }
 
   style icon {
@@ -76,8 +150,8 @@ component Ui.Input {
     cursor: pointer;
     height: 12px;
     width: 12px;
-    right: 12px;
-    top: 11px;
+    right: 13px;
+    top: 13px;
 
     &:hover {
       fill: {theme.hover.color};
@@ -90,7 +164,7 @@ component Ui.Input {
 
   get paddingRight : String {
     if (showCloseIcon) {
-      "30px"
+      "34px"
     } else {
       "9px"
     }
@@ -99,7 +173,7 @@ component Ui.Input {
   get closeIcon : Html {
     if (showCloseIcon) {
       <svg::icon
-        onClick={(event : Html.Event) : Void => { onClear() }}
+        onClick={(event : Html.Event) : a { onClear() }}
         viewBox="0 0 36 36"
         height="36"
         width="36">
@@ -124,13 +198,19 @@ component Ui.Input {
     }
   }
 
+  fun focus : Promise(Never, Void) {
+    Dom.focusWhenVisible(input)
+  }
+
   fun render : Html {
     <div::base>
-      <input::input
-        onChange={(event : Html.Event) : Void => { onChange(Dom.getValue(event.target)) }}
-        onInput={(event : Html.Event) : Void => { onInput(Dom.getValue(event.target)) }}
-        onFocus={(event : Html.Event) : Void => { onFocus() }}
-        onBlur={(event : Html.Event) : Void => { onBlur() }}
+      <input::input as input
+        onChange={(event : Html.Event) : a { onChange(Dom.getValue(event.target)) }}
+        onInput={(event : Html.Event) : a { onInput(Dom.getValue(event.target)) }}
+        onFocus={(event : Html.Event) : a { onFocus() }}
+        onBlur={(event : Html.Event) : a { onBlur() }}
+        onMouseUp={onMouseUp}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
         readonly={readonly}

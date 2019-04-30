@@ -1,7 +1,7 @@
 component Ui.Checkbox {
   connect Ui exposing { theme }
 
-  property onChange : Function(Bool, Void) = (value : Bool) : Void => { void }
+  property onChange : Function(Bool, a) = (value : Bool) : Void { void }
   property disabled : Bool = false
   property readonly : Bool = false
   property checked : Bool = false
@@ -11,7 +11,7 @@ component Ui.Checkbox {
     -webkit-touch-callout: none;
 
     background-color: {theme.colors.input.background};
-    border: 1px solid {theme.border.color};
+    border: 2px solid {theme.border.color};
     border-radius: {theme.border.radius};
     color: {theme.colors.input.text};
 
@@ -29,16 +29,12 @@ component Ui.Checkbox {
     }
 
     &:focus {
-      box-shadow: 0 0 2px {theme.outline.fadedColor} inset,
-                  0 0 2px {theme.outline.fadedColor};
-
-      border-color: {theme.outline.color};
-      color: {theme.outline.color};
+      border-color: {theme.colors.primary.background};
+      color: {theme.colors.primary.background};
     }
 
     &:disabled {
-      background: {theme.colors.disabled.background};
-      color: {theme.colors.disabled.text};
+      filter: saturate(0);
       cursor: not-allowed;
     }
   }
@@ -62,20 +58,20 @@ component Ui.Checkbox {
 
   get transform : String {
     if (checked) {
-      "scale(1)"
+      "translate3d(0,0,0) scale(1)"
     } else {
-      "scale(0.4) rotate(45deg)"
+      "translate3d(0,0,0) scale(0.4) rotate(45deg)"
     }
   }
 
-  fun toggle : Void {
+  fun toggle : a {
     onChange(!checked)
   }
 
   fun render : Html {
     <button::base
       disabled={disabled}
-      onClick={(event : Html.Event) : Void => { toggle() }}>
+      onClick={toggle}>
 
       <svg::icon viewBox="0 0 36 36">
         <path

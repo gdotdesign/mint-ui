@@ -3,7 +3,7 @@ component Ui.Time {
 
   state now : Time = Time.now()
 
-  use Provider.Tick { ticks = () : Void => { next { now = Time.now() } } }
+  use Provider.Tick { ticks = () : Promise(Never, Void) { next { now = Time.now() } } }
 
   style base {
     display: inline-block;

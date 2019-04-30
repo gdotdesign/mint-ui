@@ -72,7 +72,7 @@ component Ui.Pager {
   state center : String = ""
   state left : String = ""
 
-  fun componentDidUpdate : Void {
+  fun componentDidUpdate : Promise(Never, Void) {
     if (center != active && hasPage) {
       if (isPage) {
         switchPages()
@@ -80,24 +80,24 @@ component Ui.Pager {
         next { center = active }
       }
     } else {
-      void
+      next {  }
     }
   }
 
   get isPage : Bool {
     Array.any(
-      (item : Ui.Pager.Item) : Bool => { item.name == center },
+      (item : Ui.Pager.Item) : Bool { item.name == center },
       pages)
   }
 
   get hasPage : Bool {
     Array.any(
-      (item : Ui.Pager.Item) : Bool => { item.name == active },
+      (item : Ui.Pager.Item) : Bool { item.name == active },
       pages)
   }
 
-  fun switchPages : Void {
-    do {
+  fun switchPages : Promise(Never, Void) {
+    sequence {
       next
         {
           left = center,
@@ -138,12 +138,10 @@ component Ui.Pager {
     position =
       if (left == item.name) {
         -100
+      } else if (center == item.name) {
+        0
       } else {
-        if (center == item.name) {
-          0
-        } else {
-          100
-        }
+        100
       }
   }
 

@@ -1,7 +1,7 @@
 component Ui.Slider {
   connect Ui exposing { theme }
 
-  property onChange : Function(Number, Void) = (value : Number) : Void => { void }
+  property onChange : Function(Number, a) = (value : Number) : Void { void }
   property disabled : Bool = false
   property max : Number = 100
   property value : Number = 0
@@ -18,17 +18,17 @@ component Ui.Slider {
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      margin-top: -10px;
+      margin-top: -6px;
     }
 
     &::-webkit-slider-thumb,
     &::-moz-range-thumb,
     &::-ms-thumb {
       background-color: {theme.colors.primary.background};
-      border-radius: {theme.border.radius};
+      border-radius: 50%;
       cursor: pointer;
-      height: 28px;
-      width: 12px;
+      height: 20px;
+      width: 20px;
       border: 0;
     }
 

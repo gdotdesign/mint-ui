@@ -1,18 +1,28 @@
+enum Ui.Button.Kind {
+  Primary
+  Secondary
+  Warning
+  Success
+  Danger
+}
+
 component Ui.Button {
   connect Ui exposing { theme }
 
-  property icon : Html = Html.empty()
-  property type : String = "primary"
-  property side : String = "left"
-  property label : String = ""
-  property size : Number = 14
+  property onMouseDown : Function(Html.Event, Promise(Never, Void)) =
+    (event : Html.Event) : Promise(Never, Void) { Promise.never() }
 
+  property onMouseUp : Function(Html.Event, Promise(Never, Void)) =
+    (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+
+  property onClick : Function(Html.Event, Promise(Never, Void)) =
+    (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+
+  property type : Ui.Button.Kind = Ui.Button.Kind::Primary
+  property children : Array(Html) = []
   property disabled : Bool = false
-  property readonly : Bool = false
   property outline : Bool = false
-
-  property onMouseDown : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
-  property onClick : Function(Html.Event, Void) = (event : Html.Event) : Void => { void }
+  property size : Number = 16
 
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -20,151 +30,94 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
-    border-radius: {theme.border.radius};
     font-family: {theme.fontFamily};
-    display: inline-flex;
-    white-space: nowrap;
+    font-size: {size}px;
     font-weight: bold;
     user-select: none;
+
+    white-space: nowrap;
     cursor: pointer;
     outline: none;
 
     height: {size * 2.42857142857}px;
-    flexDirection: {flexDirection};
     padding: 0 {size * 1.5}px;
 
-    background: {colors.background};
-    color: {colors.text};
-    font-size: {size}px;
-    border: {border};
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+
+    background: {background};
+    color: {color};
+
+    border-radius: {theme.border.radius};
+    border-width: {size * 0.125}px;
+    border-color: {borderColor};
+    border-style: solid;
 
     &::-moz-focus-inner {
       border: 0;
     }
 
     &:focus {
-      box-shadow: 0 0 2px {shadowColor} inset,
-                  0 0 2px {shadowColor};
-
-      background: {colors.focus};
-      border: {focusBorder};
-      color: {focusColor};
+      outline: 2px solid {colors.background};
+      outline-offset: 2px;
     }
 
     &:disabled {
-      background: {theme.colors.disabled.background};
-      color: {theme.colors.disabled.text};
+      filter: saturate(0) brightness(0.8);
       cursor: not-allowed;
     }
-  }
-
-  style label {
-    text-overflow: ellipsis;
-    grid-area: label;
-    overflow: hidden;
-  }
-
-  style icon {
-    height: {size}px;
-    width: {size}px;
   }
 
   style gutter {
     width: {size * 1.42857142857}px;
   }
 
-  get flexDirection : String {
-    case (side) {
-      "right" => "row-reverse"
-      "left" => "row"
-      => ""
-    }
-  }
-
-  get focusBorder : String {
+  get background : String {
     if (outline) {
-      "1px solid " + theme.outline.color
+      "transparent"
     } else {
-      "1px solid transparent"
+      colors.background
     }
   }
 
-  get focusColor : String {
+  get color : String {
     if (outline) {
-      theme.outline.color
+      colors.background
     } else {
       colors.text
     }
   }
 
-  get shadowColor : String {
+  get borderColor : String {
     if (outline) {
-      theme.outline.fadedColor
+      colors.background
     } else {
       "transparent"
     }
   }
 
-  get border : String {
-    if (outline) {
-      "1px solid " + theme.border.color
-    } else {
-      "1px solid transparent"
-    }
-  }
-
   get colors : Ui.Theme.Color {
-    if (outline) {
-      theme.colors.input
-    } else {
-      case (type) {
-        "secondary" => theme.colors.secondary
-        "warning" => theme.colors.warning
-        "success" => theme.colors.success
-        "primary" => theme.colors.primary
-        "danger" => theme.colors.danger
-
-        =>
-          {
-            background = "",
-            focus = "",
-            text = ""
-          }
-      }
-    }
-  }
-
-  get actualIcon : Html {
-    if (icon == Html.empty()) {
-      Html.empty()
-    } else {
-      <div::icon>
-        <{ icon }>
-      </div>
-    }
-  }
-
-  get actualGutter : Html {
-    if (icon == Html.empty()) {
-      Html.empty()
-    } else {
-      <div::gutter/>
+    case (type) {
+      Ui.Button.Kind::Secondary => theme.colors.secondary
+      Ui.Button.Kind::Warning => theme.colors.warning
+      Ui.Button.Kind::Success => theme.colors.success
+      Ui.Button.Kind::Primary => theme.colors.primary
+      Ui.Button.Kind::Danger => theme.colors.danger
     }
   }
 
   fun render : Html {
     <button::styles
       onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
       disabled={disabled}
-      readonly={readonly}
       onClick={onClick}>
 
-      <div::label>
-        <{ label }>
-      </div>
-
-      <{ actualGutter }>
-      <{ actualIcon }>
+      <{
+        children
+        |> Array.intersperse(<div::gutter/>)
+      }>
 
     </button>
   }

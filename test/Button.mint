@@ -3,25 +3,20 @@ record Tests.Ui.Button {
 }
 
 component Tests.Ui.Button {
-  state : Tests.Ui.Button { text = "Hello" }
+  state text : String = "Hello"
 
   fun render : Html {
     <Ui.Button
-      onMouseDown={\event : Html.Event => next { state | text = "MouseDown" }}
-      onClick={\event : Html.Event => next { state | text = "Click" }}
-      label={state.text}/>
+      onMouseDown={(event : Html.Event) : Promise(Never, Void) { next { text = "MouseDown" } }}
+      onClick={(event : Html.Event) : Promise(Never, Void) { next { text = "Click" } }}>
+
+      <{ text }>
+
+    </Ui.Button>
   }
 }
 
 suite "Ui.Button" {
-  test "set the background color for primary" {
-    with Test.Html {
-      <Ui.Button/>
-      |> start()
-      |> assertCSSOf("button", "background-color", "rgb(58, 173, 87)")
-    }
-  }
-
   test "set the background color for secondary" {
     with Test.Html {
       <Ui.Button type="secondary"/>
@@ -30,17 +25,11 @@ suite "Ui.Button" {
     }
   }
 
-  test "renders the icon" {
-    with Test.Html {
-      <Ui.Button icon={<i/>}/>
-      |> start()
-      |> assertElementExists("i")
-    }
-  }
-
   test "renders the label" {
     with Test.Html {
-      <Ui.Button label="Hello"/>
+      <Ui.Button>
+        "Hello"
+      </Ui.Button>
       |> start()
       |> assertTextOf("button", "Hello")
     }

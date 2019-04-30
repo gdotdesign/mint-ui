@@ -3,8 +3,7 @@ component Ui.Showcase.Page {
   property title : String = ""
 
   style base {
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    background: #F5F5F5;
+    padding: 20px;
   }
 
   style example {
@@ -12,20 +11,15 @@ component Ui.Showcase.Page {
   }
 
   style form {
-    border-left: 1px solid rgba(0,0,0,.1);
-    min-width: 300px;
-
-    & > * {
-      padding: 10px 15px;
-    }
+    width: 300px;
+    padding: 0 20px;
 
     & > * + * {
-      border-top: 1px solid rgba(0,0,0,.1);
+      margin-top: 20px;
     }
   }
 
   style title {
-    border-bottom: 1px solid rgba(0,0,0,.1);
     padding: 12px 20px;
     font-size: 22px;
   }
@@ -33,11 +27,6 @@ component Ui.Showcase.Page {
   get example : Html {
     Array.first(children)
     |> Maybe.withDefault(Html.empty())
-  }
-
-  get fields : Array(Html) {
-    children
-    |> Array.slice(1, Array.size(children))
   }
 
   fun render : Html {
@@ -53,10 +42,10 @@ component Ui.Showcase.Page {
 
         <div::form>
           <Ui.Showcase.Header>
-            <{ "Properties" }>
+            "Properties"
           </Ui.Showcase.Header>
 
-          <{ fields }>
+          <{ Array.drop(1, children) }>
         </div>
       </div>
     </div>

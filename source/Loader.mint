@@ -46,7 +46,7 @@ component Ui.Loader {
       <{ children }>
 
       <div::loader>
-        <{ "Loading..." }>
+        "Loading..."
       </div>
     </div>
   }

@@ -4,12 +4,11 @@ component Ui.Dropdown.Panel {
 
   style base {
     box-shadow: 0 5px 20px 0 rgba(0,0,0,0.1);
-    border: 1px solid #DDD;
     background: #FDFDFD;
     border-radius: 2px;
     width: {width};
     color: #707070;
-    padding: 5px;
+    padding: 10px;
   }
 
   fun render : Html {
@@ -19,19 +18,25 @@ component Ui.Dropdown.Panel {
   }
 }
 
+module Dom.Extra {
+  fun contains (element : Dom.Element, base : Dom.Element) : Bool {
+    `#{base}.contains(#{element})`
+  }
+}
+
 component Ui.Dropdown {
-  property onClose : Function(Void) = () : Void => { void }
+  property onClose : Function(Promise(Never, Void)) = Promise.never
   property shouldAutomaticallyClose : Bool = true
   property position : String = "bottom-left"
   property element : Html = Html.empty()
   property content : Html = Html.empty()
-  property uid : String = Uid.generate()
   property offset : Number = 0
   property open : Bool = true
+  property zIndex : Number = 1
 
   use Provider.Mouse {
-    clicks = (event : Html.Event) : Void => { void },
-    moves = (event : Html.Event) : Void => { void },
+    clicks = (event : Html.Event) : Void { void },
+    moves = (event : Html.Event) : Void { void },
     ups = close
   } when {
     open
@@ -40,7 +45,16 @@ component Ui.Dropdown {
   style panel {
     transition: {transition};
     visibility: {visibility};
+    transform: {transform};
     opacity: {opacity};
+  }
+
+  get transform : String {
+    if (open) {
+      "translateY(0)"
+    } else {
+      "translateY(20px)"
+    }
   }
 
   get transition : String {
@@ -69,19 +83,12 @@ component Ui.Dropdown {
     }
   }
 
-  fun close (event : Html.Event) : Void {
-    if (shouldAutomaticallyClose) {
-      if (Dom.matches(selector, event.target)) {
-        void
-      } else {
-        onClose()
-      }
+  fun close (event : Html.Event) : Promise(Never, Void) {
+    if (shouldAutomaticallyClose && Dom.Extra.contains(event.target, panel)) {
+      next {  }
     } else {
-      void
+      onClose()
     }
-  } where {
-    selector =
-      "[id='" + uid + "'], [id='" + uid + "'] *"
   }
 
   fun render : Html {
@@ -91,9 +98,9 @@ component Ui.Dropdown {
       position={position}
       offset={offset}
       element={element}
-      uid={uid}
+      zIndex={zIndex}
       content={
-        <div::panel>
+        <div::panel as panel>
           <{ content }>
         </div>
       }/>

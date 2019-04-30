@@ -26,10 +26,10 @@ component Ui.StickyPanel.Test {
   }
 
   fun render : Html {
-    <div::base>
+    <div::base id="base">
       <Ui.StickyPanel
-        content={<div::content/>}
-        element={<div::element/>}
+        content={<div::content id="content"/>}
+        element={<div::element id="element"/>}
         position={position}
         offset={10}/>
     </div>
@@ -41,7 +41,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test/>
       |> start()
-      |> find("[class*=base]")
+      |> find("#base")
       |> assertTop(0)
       |> assertLeft(0)
       |> assertWidth(500)
@@ -53,7 +53,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test/>
       |> start()
-      |> find("[class*=element]")
+      |> find("#element")
       |> assertTop(200)
       |> assertLeft(200)
       |> assertWidth(100)
@@ -65,7 +65,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(140)
       |> assertLeft(200)
     }
@@ -75,7 +75,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="top-right"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(140)
       |> assertLeft(250)
     }
@@ -85,7 +85,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="top-center"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(140)
       |> assertLeft(225)
     }
@@ -95,7 +95,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="bottom-left"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(310)
       |> assertLeft(200)
     }
@@ -105,7 +105,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="bottom-right"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(310)
       |> assertLeft(250)
     }
@@ -115,7 +115,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="bottom-center"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(310)
       |> assertLeft(225)
     }
@@ -125,7 +125,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="left-top"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(200)
       |> assertLeft(140)
     }
@@ -135,7 +135,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="left-center"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(225)
       |> assertLeft(140)
     }
@@ -145,7 +145,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="left-bottom"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(250)
       |> assertLeft(140)
     }
@@ -155,7 +155,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="right-top"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(200)
       |> assertLeft(310)
     }
@@ -165,7 +165,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="right-center"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(225)
       |> assertLeft(310)
     }
@@ -175,7 +175,7 @@ suite "Ui.StickyPanel" {
     with Test.Html {
       <Ui.StickyPanel.Test position="right-bottom"/>
       |> start()
-      |> findGlobally("[class*=content]")
+      |> findGlobally("#content")
       |> assertTop(250)
       |> assertLeft(310)
     }
