@@ -53,6 +53,10 @@ component Ui.AutoComplete {
     }
   }
 
+  fun componentDidMount : Promise(Never, Void) {
+    next { status = Ui.AutoComplete.Status::Closed("", 0, items) }
+  }
+
   /* Handles the events from the input and filters the items. */
   fun handleInput (search : String) : Promise(Never, Void) {
     try {
