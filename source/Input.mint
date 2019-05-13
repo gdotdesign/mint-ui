@@ -1,59 +1,7 @@
-record Provider.TabFocus.Subscription {
-  onTabIn : Function(Dom.Element, a),
-  onTabOut : Function(Dom.Element, a)
-}
-
-provider Providers.TabFocus : Provider.TabFocus.Subscription {
-  fun handleKeyUp (event : Html.Event) : Promise(Never, Void) {
-    `
-    (() => {
-      if (#{event.keyCode} == 9) {
-        for (let subscription of this.subscriptions) {
-          subscription[1].onTabIn(document.activeElement)
-        }
-      }
-    })()
-    `
-  }
-
-  fun handleKeyDown (event : Html.Event) : Promise(Never, Void) {
-    `
-    (() => {
-      if (#{event.keyCode} == 9) {
-        for (let subscription of this.subscriptions) {
-          subscription[1].onTabOut(#{event.target})
-        }
-      }
-    })()
-    `
-  }
-
-  fun attach : Void {
-    `
-    (() => {
-      this.keyUp || (this.keyUp = ((event) => #{handleKeyUp}(_normalizeEvent(event))))
-      this.keyDown || (this.keyDown = ((event) => #{handleKeyDown}(_normalizeEvent(event))))
-
-      window.addEventListener("keyup", this.keyUp, true)
-      window.addEventListener("keydown", this.keyDown, true)
-    })()
-    `
-  }
-
-  fun detach : Void {
-    `
-    (() => {
-      window.removeEventListener("keyup", this.keyUp, true)
-      window.removeEventListener("keydown", this.keyDown, true)
-    })()
-    `
-  }
-}
-
 component Ui.Input {
   connect Ui exposing { theme }
 
-  property placeholder : String = ""
+  property placeholder : String = "Placeholder..."
   property type : String = "text"
   property value : String = ""
 
@@ -61,15 +9,19 @@ component Ui.Input {
   property disabled : Bool = false
   property readonly : Bool = false
 
-  property onMouseUp : Function(Html.Event, a) = (event : Html.Event) : a { void }
-  property onKeyDown : Function(Html.Event, a) = (event : Html.Event) : a { void }
-  property onChange : Function(String, a) = (value : String) : a { void }
-  property onInput : Function(String, a) = (value : String) : a { void }
-  property onFocus : Function(a) = () : Void { void }
-  property onClear : Function(a) = () : Void { void }
-  property onBlur : Function(a) = () : Void { void }
-  property onTabIn : Function(a) = () : Void { void }
-  property onTabOut : Function(a) = () : Void { void }
+  property onMouseDown : Function(Html.Event, Promise(Never, Void)) = (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+  property onMouseUp : Function(Html.Event, Promise(Never, Void)) = (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+  property onKeyDown : Function(Html.Event, Promise(Never, Void)) = (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+  property onKeyUp : Function(Html.Event, Promise(Never, Void)) = (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+
+  property onChange : Function(String, Promise(Never, Void)) = (value : String) : Promise(Never, Void) { Promise.never() }
+  property onInput : Function(String, Promise(Never, Void)) = (value : String) : Promise(Never, Void) { Promise.never() }
+
+  property onTabOut : Function(Promise(Never, Void)) = Promise.never
+  property onFocus : Function(Promise(Never, Void)) = Promise.never
+  property onTabIn : Function(Promise(Never, Void)) = Promise.never
+  property onClear : Function(Promise(Never, Void)) = Promise.never
+  property onBlur : Function(Promise(Never, Void)) = Promise.never
 
   use Providers.TabFocus {
     onTabIn =
@@ -111,9 +63,7 @@ component Ui.Input {
     padding-right: {paddingRight};
 
     &:disabled {
-      background-color: {theme.colors.disabled.background};
-      color: {theme.colors.disabled.text};
-      border-color: transparent;
+      filter: saturate(0) brightness(0.8);
       cursor: not-allowed;
       user-select: none;
     }
@@ -202,18 +152,28 @@ component Ui.Input {
     Dom.focusWhenVisible(input)
   }
 
+  fun handleChange (event : Html.Event) : Promise(Never, Void) {
+    onChange(Dom.getValue(event.target))
+  }
+
+  fun handleInput (event : Html.Event) : Promise(Never, Void) {
+    onInput(Dom.getValue(event.target))
+  }
+
   fun render : Html {
     <div::base>
       <input::input as input
-        onChange={(event : Html.Event) : a { onChange(Dom.getValue(event.target)) }}
-        onInput={(event : Html.Event) : a { onInput(Dom.getValue(event.target)) }}
-        onFocus={(event : Html.Event) : a { onFocus() }}
-        onBlur={(event : Html.Event) : a { onBlur() }}
+        onChange={handleChange}
+        onInput={handleInput}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         placeholder={placeholder}
         disabled={disabled}
-        readonly={readonly}
+        readOnly={readonly}
         value={value}
         type={type}/>
 

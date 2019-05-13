@@ -1,5 +1,6 @@
 component Ui.ScrollPanel {
   property children : Array(Html) = []
+  property animateScroll : Bool = false
   property shadowSize : Number = 20
   property maxHeight : Number = 300
   property minWidth : Number = 350
@@ -11,7 +12,7 @@ component Ui.ScrollPanel {
 
   style base {
     scrollbar-color: rgba(0,0,0,0.15) transparent;
-    scroll-behavior: smooth;
+    scroll-behavior: {scrollBehavior};
 
     padding-right: {paddingRight}px;
     overflow-y: auto;
@@ -64,6 +65,14 @@ component Ui.ScrollPanel {
     margin-top: -{shadowSize}px;
     opacity: {bottomOpacity};
     height: {shadowSize}px;
+  }
+
+  get scrollBehavior : String {
+    if (animateScroll) {
+      "smooth"
+    } else {
+      "auto"
+    }
   }
 
   get paddingRight : Number {

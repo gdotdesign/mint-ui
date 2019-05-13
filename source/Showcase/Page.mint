@@ -1,6 +1,10 @@
 component Ui.Showcase.Page {
   property children : Array(Html) = []
   property title : String = ""
+  property properties : Function(Html) = () : Html { <></> }
+
+  state logs : Array(String) = []
+  state tab : String = "properties"
 
   style base {
     padding: 20px;
@@ -12,7 +16,6 @@ component Ui.Showcase.Page {
 
   style form {
     width: 300px;
-    padding: 0 20px;
 
     & > * + * {
       margin-top: 20px;
@@ -29,6 +32,10 @@ component Ui.Showcase.Page {
     |> Maybe.withDefault(Html.empty())
   }
 
+  fun log (message : String) : Promise(Never, Void) {
+    next { logs = Array.push(message, logs) }
+  }
+
   fun render : Html {
     <div::base>
       <div::title>
@@ -39,15 +46,49 @@ component Ui.Showcase.Page {
         <Ui.Showcase.Example>
           <{ example }>
         </Ui.Showcase.Example>
-
-        <div::form>
-          <Ui.Showcase.Header>
-            "Properties"
-          </Ui.Showcase.Header>
-
-          <{ Array.drop(1, children) }>
-        </div>
       </div>
+
+      <Ui.Tabs
+        onChange={(key : String) : Promise(Never, Void) { next { tab = key } }}
+        selected={tab}
+        items=[
+          {
+            content =
+              () : Html {
+                <Ui.ScrollPanel>
+                  <div::form>
+                    <{ properties() }>
+                  </div>
+                </Ui.ScrollPanel>
+              },
+            label = "Properties",
+            key = "properties"
+          },
+          {
+            content =
+              () : Html {
+                <>
+                  for (log of logs) {
+                    <div>
+                      <{ log }>
+                    </div>
+                  }
+                </>
+              },
+            label = "Logs",
+            key = "logs"
+          },
+          {
+            content =
+              () : Html {
+                <>
+                  "CODE"
+                </>
+              },
+            label = "Code",
+            key = "code"
+          }
+        ]/>
     </div>
   }
 }

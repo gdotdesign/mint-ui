@@ -1,5 +1,8 @@
 {
   "name": "mint-ui",
+  "external-javascripts": [
+    "javascripts/scroll_into_view.js"
+  ],
   "source-directories": [
     "source"
   ],

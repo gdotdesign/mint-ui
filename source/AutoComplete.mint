@@ -3,6 +3,12 @@ enum Ui.AutoComplete.Status {
   Closed(String, Number, Array(Ui.AutoComplete.Item))
 }
 
+record Ui.AutoComplete.Item {
+  matchString : String,
+  content : Html,
+  key : String
+}
+
 component Ui.AutoComplete {
   connect Ui exposing { theme }
 
@@ -15,6 +21,8 @@ component Ui.AutoComplete {
   property items : Array(Ui.AutoComplete.Item) = []
   property position : String = "bottom-right"
 
+  property showClearSelection : Bool = false
+  property animateScroll : Bool = true
   property closeOnSelect : Bool = true
   property closeOnTabOut : Bool = true
 
@@ -44,6 +52,16 @@ component Ui.AutoComplete {
     font-style: italic;
     padding: 10px;
     opacity: 0.75;
+  }
+
+  style clear {
+    color: {theme.colors.primary.background};
+    font-family: {theme.fontFamily};
+    text-transform: uppercase;
+    display: block;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 10px;
   }
 
   get open : Bool {
@@ -149,6 +167,8 @@ component Ui.AutoComplete {
 
           40 =>
             try {
+              Html.Event.preventDefault(event)
+
               nextIndex =
                 if (index == Array.size(items) - 1) {
                   0
@@ -162,6 +182,8 @@ component Ui.AutoComplete {
 
           38 =>
             try {
+              Html.Event.preventDefault(event)
+
               nextIndex =
                 if (index == 0) {
                   Array.size(items) - 1
@@ -195,7 +217,7 @@ component Ui.AutoComplete {
       `
       (() => {
         const element = this._base.querySelector('[data-selected=true]')
-        element && element.scrollIntoViewIfNeeded(true)
+        element && scrollIntoViewIfNeeded(element, true)
       })()
       `
     }
@@ -216,10 +238,15 @@ component Ui.AutoComplete {
       items
       |> Array.mapWithIndex(
         (item : Ui.AutoComplete.Item, index : Number) : Html {
-          <Ui.AutoComplete.Item
-            item={item}
-            onSelect={select(index)}
-            selected={selected == index}/>
+          <Ui.List.Item
+            onClick={(event : Html.Event) : Promise(Never, Void) { select(index, item.key) }}
+            selected={selected == index}
+            key={item.key}
+            selectable={true}>
+
+            <{ item.content }>
+
+          </Ui.List.Item>
         })
     }
   }
@@ -262,15 +289,22 @@ component Ui.AutoComplete {
 
             <Ui.Spacer height={10}/>
 
-            <Ui.ScrollPanel>
-              <div>
+            <Ui.ScrollPanel animateScroll={animateScroll}>
+              <Ui.List>
                 case (status) {
                   Ui.AutoComplete.Status::Searching value selected items => renderItems(value, selected, items)
-
                   Ui.AutoComplete.Status::Closed value selected items => renderItems(value, selected, items)
                 }
-              </div>
+              </Ui.List>
             </Ui.ScrollPanel>
+
+            if (showClearSelection) {
+              <a::clear onClick={() : Promise(Never, Void) { select(-1, "") }}>
+                "x Clear selection."
+              </a>
+            } else {
+              <></>
+            }
           </div>
         </Ui.Dropdown.Panel>
       }/>

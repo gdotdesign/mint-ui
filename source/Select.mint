@@ -150,6 +150,7 @@ component Ui.Select {
       closeOnSelect={closeOnSelect}
       onClose={handleClose}
       position={position}
+      showClearSelection={true}
       onTabOut={handleTabOut}
       onSelect={onChange}
       selected={value}
