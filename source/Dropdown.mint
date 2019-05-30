@@ -83,12 +83,16 @@ component Ui.Dropdown {
     }
   }
 
-  fun close (event : Html.Event) : Promise(Never, Void) {
-    if (shouldAutomaticallyClose && Dom.Extra.contains(event.target, panel)) {
-      next {  }
-    } else {
-      onClose()
-    }
+  fun close (event : Html.Event) : Maybe(Promise(Never, Void)) {
+    panel
+    |> Maybe.map(
+      (element : Dom.Element) : Promise(Never, Void) {
+        if (shouldAutomaticallyClose && Dom.Extra.contains(event.target, element)) {
+          next {  }
+        } else {
+          onClose()
+        }
+      })
   }
 
   fun render : Html {

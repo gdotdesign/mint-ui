@@ -6,6 +6,7 @@ component Ui.Select {
   property position : String = "bottom-right"
   property closeOnSelect : Bool = true
   property searchPlaceholder : String = ""
+  property showClearSelection : Bool = true
   property placeholder : String = ""
   property value : String = ""
   property minWidth : String = "300px"
@@ -115,18 +116,24 @@ component Ui.Select {
   }
 
   fun handleTabOut : Promise(Never, Void) {
-    Dom.focusWhenVisible(element)
+    sequence {
+      Maybe.map(Dom.focusWhenVisible, element)
+      next {  }
+    }
   }
 
   fun handleFocus : Promise(Never, Void) {
     if (disabled) {
       next {  }
     } else if (open) {
-      autoComplete.hide()
+      sequence {
+        autoComplete&.hide&()
+        next {  }
+      }
     } else {
       sequence {
         Timer.nextFrame("")
-        autoComplete.show()
+        autoComplete&.show&()
         next { open = true }
       }
     }
@@ -150,7 +157,7 @@ component Ui.Select {
       closeOnSelect={closeOnSelect}
       onClose={handleClose}
       position={position}
-      showClearSelection={true}
+      showClearSelection={showClearSelection}
       onTabOut={handleTabOut}
       onSelect={onChange}
       selected={value}

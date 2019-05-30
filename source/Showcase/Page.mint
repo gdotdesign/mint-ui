@@ -1,12 +1,22 @@
-component Ui.Showcase.Page {
-  property children : Array(Html) = []
-  property title : String = ""
-  property properties : Function(Html) = () : Html { <></> }
+record Storybook.Log {
+  message : String,
+  time : Time
+}
 
-  state logs : Array(String) = []
-  state tab : String = "properties"
+component Ui.Showcase.Page {
+  property properties : Function(Html) = () : Html { <></> }
+  property children : Array(Html) = []
+  property code : String = ""
+  property title : String = ""
+
+  state logs : Array(Storybook.Log) = []
+  state tab : String = "code"
 
   style base {
+    grid-template-rows: min-content min-content 1fr;
+    grid-template-columns: 1fr 300px;
+    grid-gap: 0 20px;
+    display: grid;
     padding: 20px;
   }
 
@@ -23,7 +33,8 @@ component Ui.Showcase.Page {
   }
 
   style title {
-    padding: 12px 20px;
+    grid-column: span 2;
+    margin-bottom: 20px;
     font-size: 22px;
   }
 
@@ -33,7 +44,14 @@ component Ui.Showcase.Page {
   }
 
   fun log (message : String) : Promise(Never, Void) {
-    next { logs = Array.push(message, logs) }
+    next
+      {
+        logs =
+          Array.push({
+            message = message,
+            time = Time.now()
+          }, logs)
+      }
   }
 
   fun render : Html {
@@ -48,6 +66,10 @@ component Ui.Showcase.Page {
         </Ui.Showcase.Example>
       </div>
 
+      <div::form>
+        <{ properties() }>
+      </div>
+
       <Ui.Tabs
         onChange={(key : String) : Promise(Never, Void) { next { tab = key } }}
         selected={tab}
@@ -55,14 +77,12 @@ component Ui.Showcase.Page {
           {
             content =
               () : Html {
-                <Ui.ScrollPanel>
-                  <div::form>
-                    <{ properties() }>
-                  </div>
-                </Ui.ScrollPanel>
+                <pre>
+                  <{ code }>
+                </pre>
               },
-            label = "Properties",
-            key = "properties"
+            label = "Code",
+            key = "code"
           },
           {
             content =
@@ -70,23 +90,14 @@ component Ui.Showcase.Page {
                 <>
                   for (log of logs) {
                     <div>
-                      <{ log }>
+                      <{ Time.format("", log.time) }>
+                      <{ log.message }>
                     </div>
                   }
                 </>
               },
             label = "Logs",
             key = "logs"
-          },
-          {
-            content =
-              () : Html {
-                <>
-                  "CODE"
-                </>
-              },
-            label = "Code",
-            key = "code"
           }
         ]/>
     </div>

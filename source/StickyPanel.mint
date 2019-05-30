@@ -148,7 +148,9 @@ component Ui.StickyPanel {
       }
   } where {
     panelDimensions =
-      Dom.getDimensions(panel)
+      panel
+      |> Maybe.withDefault(Dom.createElement("div"))
+      |> Dom.getDimensions()
 
     dimensions =
       `ReactDOM.findDOMNode(this)`

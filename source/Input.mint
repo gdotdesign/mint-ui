@@ -149,7 +149,10 @@ component Ui.Input {
   }
 
   fun focus : Promise(Never, Void) {
-    Dom.focusWhenVisible(input)
+    sequence {
+      Maybe.map(Dom.focusWhenVisible, input)
+      next {  }
+    }
   }
 
   fun handleChange (event : Html.Event) : Promise(Never, Void) {

@@ -102,10 +102,10 @@ component Ui.ScrollPanel {
   fun frames : Promise(Never, Void) {
     try {
       nextShowTop =
-        `this._base.scrollTop > 0`
+        `this._base.value.scrollTop > 0`
 
       nextShowBottom =
-        `this._base.clientHeight + this._base.scrollTop <= this._base.scrollHeight - #{shadowSize}`
+        `this._base.value.clientHeight + this._base.value.scrollTop <= this._base.value.scrollHeight - #{shadowSize}`
 
       if (showTop != nextShowTop || showBottom != nextShowBottom) {
         next

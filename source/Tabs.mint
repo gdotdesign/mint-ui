@@ -12,9 +12,9 @@ component Ui.Tabs.Tab {
   property label : String = ""
 
   style base {
-    border-bottom: 2px solid {color};
-    margin-bottom: -2px;
-    padding: 20px 10px;
+    border-bottom: 3px solid {color};
+    margin-bottom: -3px;
+    padding: 16px 20px;
     cursor: pointer;
   }
 
@@ -43,13 +43,9 @@ component Ui.Tabs {
   property disabled : Bool = false
   property selected : String = ""
 
-  style base {
-
-  }
-
   style tabs {
-    border-bottom: 2px solid #EEE;
     font-family: {theme.fontFamily};
+    border-bottom: 3px solid #EEE;
     display: flex;
   }
 
@@ -67,7 +63,7 @@ component Ui.Tabs {
   }
 
   fun render : Html {
-    <div::base>
+    <div>
       <div::tabs>
         for (tab of items) {
           <Ui.Tabs.Tab

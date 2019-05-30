@@ -206,7 +206,8 @@ component Ui.AutoComplete {
     sequence {
       next { status = Ui.AutoComplete.Status::Searching("", selectedIndex(items), items) }
       scrollIntoView()
-      input.focus()
+      input&.focus&()
+      next {  }
     }
   }
 
@@ -216,7 +217,7 @@ component Ui.AutoComplete {
 
       `
       (() => {
-        const element = this._base.querySelector('[data-selected=true]')
+        const element = this._base.value.querySelector('[data-selected=true]')
         element && scrollIntoViewIfNeeded(element, true)
       })()
       `
