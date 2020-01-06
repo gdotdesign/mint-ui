@@ -5,8 +5,8 @@ component Ui.Form.Label {
   property text : String = ""
 
   style base {
-    font-size: {Number.toString(fontSize)}px;
-    font-family: {theme.fontFamily};
+    font-size: #{Number.toString(fontSize)}px;
+    font-family: #{theme.fontFamily};
     font-weight: bold;
     opacity: 0.8;
     color: #333;

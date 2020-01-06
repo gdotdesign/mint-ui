@@ -1,7 +1,9 @@
 component Ui.Slider {
   connect Ui exposing { theme }
 
-  property onChange : Function(Number, a) = (value : Number) : Void { void }
+  property onChange : Function(Number, Promise(Never, Void)) =
+    (value : Number) : Promise(Never, Void) { next {  } }
+
   property disabled : Bool = false
   property max : Number = 100
   property value : Number = 0
@@ -10,6 +12,8 @@ component Ui.Slider {
 
   style base {
     -webkit-appearance: none;
+    box-sizing: border-box;
+
     background: transparent;
     height: 34px;
     width: 100%;
@@ -24,7 +28,7 @@ component Ui.Slider {
     &::-webkit-slider-thumb,
     &::-moz-range-thumb,
     &::-ms-thumb {
-      background-color: {theme.colors.primary.background};
+      background-color: #{theme.colors.primary.background};
       border-radius: 50%;
       cursor: pointer;
       height: 20px;
@@ -35,25 +39,25 @@ component Ui.Slider {
     &:focus::-webkit-slider-thumb,
     &:focus::-moz-range-thumb,
     &:focus::-ms-thumb {
-      background-color: {theme.hover.color};
+      background-color: #{theme.hover.color};
     }
 
     &::-webkit-slider-runnable-track,
     &::-moz-range-track,
     &::-ms-track {
-      background-color: {theme.colors.input.background};
-      border: 1px solid {theme.border.color};
-      border-radius: {theme.border.radius};
+      background-color: #{theme.colors.input.background};
+      border: 1px solid #{theme.border.color};
+      border-radius: #{theme.border.radius};
       height: 8px;
     }
 
     &:focus::-webkit-slider-runnable-track,
     &:focus::-moz-range-track,
     &:focus::-ms-track {
-      box-shadow: 0 0 2px {theme.outline.fadedColor} inset,
-                  0 0 2px {theme.outline.fadedColor};
+      box-shadow: 0 0 2px #{theme.outline.fadedColor} inset,
+                  0 0 2px #{theme.outline.fadedColor};
 
-      border-color: {theme.outline.color};
+      border-color: #{theme.outline.color};
     }
 
     &:focus {
@@ -65,7 +69,7 @@ component Ui.Slider {
     }
   }
 
-  fun changed (event : Html.Event) : Void {
+  fun changed (event : Html.Event) : Promise(Never, Void) {
     event.target
     |> Dom.getValue()
     |> Number.fromString()

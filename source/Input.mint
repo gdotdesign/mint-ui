@@ -26,7 +26,7 @@ component Ui.Input {
   use Providers.TabFocus {
     onTabIn =
       (element : Dom.Element) : Promise(Never, Void) {
-        if (`#{element} === #{input}`) {
+        if (element == Maybe.withDefault(Dom.createElement("div"), input)) {
           onTabIn()
         } else {
           next {  }
@@ -34,7 +34,7 @@ component Ui.Input {
       },
     onTabOut =
       (element : Dom.Element) : Promise(Never, Void) {
-        if (`#{element} === #{input}`) {
+        if (element == Maybe.withDefault(Dom.createElement("div"), input)) {
           onTabOut()
         } else {
           next {  }
@@ -45,12 +45,13 @@ component Ui.Input {
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
+    box-sizing: border-box;
 
-    background-color: {theme.colors.input.background};
-    border: 2px solid {theme.border.color};
-    border-radius: {theme.border.radius};
-    color: {theme.colors.input.text};
-    font-family: {theme.fontFamily};
+    background-color: #{theme.colors.input.background};
+    border: 2px solid #{theme.border.color};
+    border-radius: #{theme.border.radius};
+    color: #{theme.colors.input.text};
+    font-family: #{theme.fontFamily};
 
     line-height: 16px;
     font-size: 16px;
@@ -60,7 +61,12 @@ component Ui.Input {
     width: 100%;
 
     padding: 7px 10px;
-    padding-right: {paddingRight};
+
+    if (showCloseIcon) {
+      padding-right: 34px;
+    } else {
+      padding-right: 9px;
+    }
 
     &:disabled {
       filter: saturate(0) brightness(0.8);
@@ -82,7 +88,7 @@ component Ui.Input {
     }
 
     &:focus {
-      border-color: {theme.colors.primary.background};
+      border-color: #{theme.colors.primary.background};
     }
   }
 
@@ -95,7 +101,7 @@ component Ui.Input {
   }
 
   style icon {
-    fill: {theme.colors.input.text};
+    fill: #{theme.colors.input.text};
     position: absolute;
     cursor: pointer;
     height: 12px;
@@ -104,20 +110,12 @@ component Ui.Input {
     top: 13px;
 
     &:hover {
-      fill: {theme.hover.color};
+      fill: #{theme.hover.color};
     }
   }
 
   get showCloseIcon : Bool {
     showClearIcon && value != "" && !disabled && !readonly
-  }
-
-  get paddingRight : String {
-    if (showCloseIcon) {
-      "34px"
-    } else {
-      "9px"
-    }
   }
 
   get closeIcon : Html {

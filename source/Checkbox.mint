@@ -1,7 +1,9 @@
 component Ui.Checkbox {
   connect Ui exposing { theme }
 
-  property onChange : Function(Bool, a) = (value : Bool) : Void { void }
+  property onChange : Function(Bool, Promise(Never, Void)) =
+    (value : Bool) : Promise(Never, Void) { next {  } }
+
   property disabled : Bool = false
   property readonly : Bool = false
   property checked : Bool = false
@@ -10,10 +12,10 @@ component Ui.Checkbox {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 
-    background-color: {theme.colors.input.background};
-    border: 2px solid {theme.border.color};
-    border-radius: {theme.border.radius};
-    color: {theme.colors.input.text};
+    background-color: #{theme.colors.input.background};
+    border: 2px solid #{theme.border.color};
+    border-radius: #{theme.border.radius};
+    color: #{theme.colors.input.text};
 
     justify-content: center;
     display: inline-flex;
@@ -29,8 +31,8 @@ component Ui.Checkbox {
     }
 
     &:focus {
-      border-color: {theme.colors.primary.background};
-      color: {theme.colors.primary.background};
+      border-color: #{theme.colors.primary.background};
+      color: #{theme.colors.primary.background};
     }
 
     &:disabled {
@@ -40,8 +42,8 @@ component Ui.Checkbox {
   }
 
   style icon {
-    transform: {transform};
-    opacity: {opacity};
+    transform: #{transform};
+    opacity: #{opacity};
     fill: currentColor;
     transition: 200ms;
     height: 16px;

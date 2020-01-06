@@ -12,11 +12,11 @@ component Ui.Calendar {
     -moz-user-select: none;
     user-select: none;
 
-    background: {theme.colors.input.background};
-    border: 1px solid {theme.border.color};
-    border-radius: {theme.border.radius};
-    color: {theme.colors.input.text};
-    font-family: {theme.fontFamily};
+    background: #{theme.colors.input.background};
+    border: 1px solid #{theme.border.color};
+    border-radius: #{theme.border.radius};
+    color: #{theme.colors.input.text};
+    font-family: #{theme.fontFamily};
 
     padding: 10px;
     width: 300px;
@@ -50,8 +50,8 @@ component Ui.Calendar {
   }
 
   style dayNames {
-    border-bottom: 1px dashed {theme.border.color};
-    border-top: 1px dashed {theme.border.color};
+    border-bottom: 1px dashed #{theme.border.color};
+    border-top: 1px dashed #{theme.border.color};
     justify-content: space-between;
     padding: 6px 0;
     margin: 10px 0;

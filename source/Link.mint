@@ -8,14 +8,14 @@ component Ui.Link {
   property href : String = ""
 
   style base {
-    color: {colors.background};
+    color: #{colors.background};
     text-decoration: none;
     outline: none;
 
     &:hover,
     &:focus {
       text-decoration: underline;
-      color: {colors.focus};
+      color: #{colors.focus};
     }
   }
 

@@ -1,5 +1,7 @@
 component Ui.Pagination {
-  property onChange : Function(Number, a) = (page : Number) : Void { void }
+  property onChange : Function(Number, Promise(Never, Void)) =
+    (page : Number) : Promise(Never, Void) { next {  } }
+
   property sidePages : Number = 2
   property perPage : Number = 10
   property total : Number = 0
@@ -9,7 +11,7 @@ component Ui.Pagination {
     align-items: center;
     display: flex;
 
-    & * + * {
+    * + * {
       margin-left: 5px;
     }
   }

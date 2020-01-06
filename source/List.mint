@@ -2,7 +2,7 @@ component Ui.List {
   property children : Array(Html) = []
 
   style base {
-    & > * + * {
+    > * + * {
       margin-top: 2px;
     }
   }
@@ -27,26 +27,26 @@ component Ui.List.Item {
   property href : String = ""
 
   style base {
-    font-family: {theme.fontFamily};
+    font-family: #{theme.fontFamily};
     text-decoration: none;
-    cursor: {cursor};
+    cursor: #{cursor};
 
     border-radius: 2px;
     user-select: none;
     padding: 10px;
     display: flex;
 
-    background: {background};
-    color: {color};
+    background: #{background};
+    color: #{color};
 
     &:nth-child(odd) {
-      background: {oddBackground};
-      color: {oddColor};
+      background: #{oddBackground};
+      color: #{oddColor};
     }
 
     &:hover {
-      background: {hoverBackground};
-      color: {hoverColor};
+      background: #{hoverBackground};
+      color: #{hoverColor};
     }
   }
 

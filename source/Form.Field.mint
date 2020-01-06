@@ -4,16 +4,16 @@ component Ui.Form.Field {
   property label : String = ""
 
   style base {
-    flex-direction: {flexDirection};
-    align-items: {alignItems};
+    flex-direction: #{flexDirection};
+    align-items: #{alignItems};
     display: flex;
 
-    & > *:first-child {
-      margin-right: {marginRight};
+    > *:first-child {
+      margin-right: #{marginRight};
     }
 
-    & > *:last-child {
-      margin-bottom: {marginBottom};
+    > *:last-child {
+      margin-bottom: #{marginBottom};
     }
   }
 

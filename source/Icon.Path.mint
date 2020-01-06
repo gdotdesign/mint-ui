@@ -9,12 +9,12 @@ component Ui.Icon.Path {
   property path : String = ""
 
   style svg {
-    pointer-events: {pointerEvents};
+    pointer-events: #{pointerEvents};
     fill: currentColor;
 
     &:hover {
-      fill: {theme.hover.color};
-      cursor: {cursor};
+      fill: #{theme.hover.color};
+      cursor: #{cursor};
     }
   }
 

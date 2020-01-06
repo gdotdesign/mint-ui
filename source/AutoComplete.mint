@@ -48,15 +48,15 @@ component Ui.AutoComplete {
   }
 
   style empty {
-    font-family: {theme.fontFamily};
+    font-family: #{theme.fontFamily};
     font-style: italic;
     padding: 10px;
     opacity: 0.75;
   }
 
   style clear {
-    color: {theme.colors.primary.background};
-    font-family: {theme.fontFamily};
+    color: #{theme.colors.primary.background};
+    font-family: #{theme.fontFamily};
     text-transform: uppercase;
     display: block;
     cursor: pointer;
@@ -217,7 +217,7 @@ component Ui.AutoComplete {
 
       `
       (() => {
-        const element = this._base.value.querySelector('[data-selected=true]')
+        const element = #{base}._0.querySelector('[data-selected=true]')
         element && scrollIntoViewIfNeeded(element, true)
       })()
       `

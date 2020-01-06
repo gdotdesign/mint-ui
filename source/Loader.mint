@@ -17,28 +17,16 @@ component Ui.Loader {
     transition-delay: 320ms;
     transition: 320ms;
 
-    pointer-events: {pointerEvents};
-    opacity: {opacity};
+    if (shown) {
+      opacity: 1;
+    } else {
+      pointer-events: none;
+      opacity: 0;
+    }
 
     justify-content: center;
     align-items: center;
     display: flex;
-  }
-
-  get pointerEvents : String {
-    if (shown) {
-      ""
-    } else {
-      "none"
-    }
-  }
-
-  get opacity : Number {
-    if (shown) {
-      1
-    } else {
-      0
-    }
   }
 
   fun render : Html {

@@ -15,6 +15,7 @@ component Ui.Showcase.Page {
   style base {
     grid-template-rows: min-content min-content 1fr;
     grid-template-columns: 1fr 300px;
+    box-sizing: border-box;
     grid-gap: 0 20px;
     display: grid;
     padding: 20px;
@@ -27,7 +28,7 @@ component Ui.Showcase.Page {
   style form {
     width: 300px;
 
-    & > * + * {
+    > * + * {
       margin-top: 20px;
     }
   }

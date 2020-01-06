@@ -7,9 +7,9 @@ component Ui.Toolbar.Title {
     font-weight: bold;
     font-size: 22px;
 
-    & > a,
+    > a,
     &:hover > a,
-    & > a:focus {
+    > a:focus {
       color: inherit;
     }
 

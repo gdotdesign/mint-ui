@@ -6,7 +6,7 @@ component Ui.Dropdown.Panel {
     box-shadow: 0 5px 20px 0 rgba(0,0,0,0.1);
     background: #FDFDFD;
     border-radius: 2px;
-    width: {width};
+    width: #{width};
     color: #707070;
     padding: 10px;
   }
@@ -35,18 +35,18 @@ component Ui.Dropdown {
   property zIndex : Number = 1
 
   use Provider.Mouse {
-    clicks = (event : Html.Event) : Void { void },
-    moves = (event : Html.Event) : Void { void },
+    clicks = (event : Html.Event) : Promise(Never, Void) { next {  } },
+    moves = (event : Html.Event) : Promise(Never, Void) { next {  } },
     ups = close
   } when {
     open
   }
 
   style panel {
-    transition: {transition};
-    visibility: {visibility};
-    transform: {transform};
-    opacity: {opacity};
+    transition: #{transition};
+    visibility: #{visibility};
+    transform: #{transform};
+    opacity: #{opacity};
   }
 
   get transform : String {
@@ -83,7 +83,7 @@ component Ui.Dropdown {
     }
   }
 
-  fun close (event : Html.Event) : Maybe(Promise(Never, Void)) {
+  fun close (event : Html.Event) : Promise(Never, Void) {
     panel
     |> Maybe.map(
       (element : Dom.Element) : Promise(Never, Void) {
@@ -93,6 +93,7 @@ component Ui.Dropdown {
           onClose()
         }
       })
+    |> Maybe.withDefault(next {  })
   }
 
   fun render : Html {

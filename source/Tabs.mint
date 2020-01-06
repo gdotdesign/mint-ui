@@ -12,7 +12,7 @@ component Ui.Tabs.Tab {
   property label : String = ""
 
   style base {
-    border-bottom: 3px solid {color};
+    border-bottom: 3px solid #{color};
     margin-bottom: -3px;
     padding: 16px 20px;
     cursor: pointer;
@@ -44,7 +44,7 @@ component Ui.Tabs {
   property selected : String = ""
 
   style tabs {
-    font-family: {theme.fontFamily};
+    font-family: #{theme.fontFamily};
     border-bottom: 3px solid #EEE;
     display: flex;
   }

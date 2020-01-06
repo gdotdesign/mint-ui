@@ -6,15 +6,15 @@ component Ui.Toolbar.Link {
   style base {
     font-size: 18px;
 
-    & a {
+    a {
       cursor: pointer;
       display: block;
       color: inherit;
-    }
 
-    & a:focus,
-    & a:hover {
-      color: inherit;
+      &:focus,
+      &:hover {
+        color: inherit;
+      }
     }
   }
 

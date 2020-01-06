@@ -30,8 +30,8 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
-    font-family: {theme.fontFamily};
-    font-size: {size}px;
+    font-family: #{theme.fontFamily};
+    font-size: #{size}px;
     font-weight: bold;
     user-select: none;
 
@@ -39,19 +39,19 @@ component Ui.Button {
     cursor: pointer;
     outline: none;
 
-    height: {size * 2.42857142857}px;
-    padding: 0 {size * 1.5}px;
+    height: #{size * 2.42857142857}px;
+    padding: 0 #{size * 1.5}px;
 
     justify-content: center;
     align-items: center;
     display: inline-flex;
 
-    background: {background};
-    color: {color};
+    background: #{background};
+    color: #{color};
 
-    border-radius: {theme.border.radius};
-    border-width: {size * 0.125}px;
-    border-color: {borderColor};
+    border-radius: #{theme.border.radius};
+    border-width: #{size * 0.125}px;
+    border-color: #{borderColor};
     border-style: solid;
 
     &::-moz-focus-inner {
@@ -59,7 +59,7 @@ component Ui.Button {
     }
 
     &:focus {
-      outline: 2px solid {colors.background};
+      outline: 2px solid #{colors.background};
       outline-offset: 2px;
     }
 
@@ -70,7 +70,7 @@ component Ui.Button {
   }
 
   style gutter {
-    width: {size * 1.42857142857}px;
+    width: #{size * 1.42857142857}px;
   }
 
   get background : String {

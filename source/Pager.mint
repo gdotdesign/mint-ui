@@ -6,11 +6,12 @@ component Ui.Pager.Page {
   property position : Number = 0
 
   style base {
-    transition: {transitionDuration}ms;
-    pointer-events: {pointerEvents};
-    transform: {transform};
+    transition: #{transitionDuration}ms;
+    pointer-events: #{pointerEvents};
+    transform: #{transform};
+    opacity: #{opacity};
+
     position: absolute;
-    opacity: {opacity};
     display: grid;
     bottom: 0;
     right: 0;

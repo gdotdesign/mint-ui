@@ -7,9 +7,9 @@ component Ui.Toolbar {
 
   style base {
     border-bottom: 2px solid rgba(0,0,0,0.1);
-    background: {backgroundColor};
+    background: #{backgroundColor};
     align-items: center;
-    color: {textColor};
+    color: #{textColor};
     padding: 0 24px;
     display: flex;
     height: 56px;

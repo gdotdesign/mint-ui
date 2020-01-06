@@ -7,7 +7,7 @@ component Ui.Calendar.Cell {
   property active : Bool = false
 
   style base {
-    border-radius: {theme.border.radius};
+    border-radius: #{theme.border.radius};
     justify-content: center;
     line-height: 34px;
     cursor: pointer;
@@ -15,13 +15,13 @@ component Ui.Calendar.Cell {
     height: 34px;
     width: 34px;
 
-    background: {colors.background};
-    color: {colors.text};
-    opacity: {opacity};
+    background: #{colors.background};
+    color: #{colors.text};
+    opacity: #{opacity};
 
     &:hover {
-      background: {theme.colors.primary.background};
-      color: {theme.colors.primary.text};
+      background: #{theme.colors.primary.background};
+      color: #{theme.colors.primary.text};
     }
   }
 

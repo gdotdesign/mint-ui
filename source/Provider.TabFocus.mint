@@ -1,6 +1,6 @@
 record Provider.TabFocus.Subscription {
-  onTabIn : Function(Dom.Element, a),
-  onTabOut : Function(Dom.Element, a)
+  onTabIn : Function(Dom.Element, Promise(Never, Void)),
+  onTabOut : Function(Dom.Element, Promise(Never, Void))
 }
 
 provider Providers.TabFocus : Provider.TabFocus.Subscription {

@@ -5,7 +5,7 @@ component Ui.Showcase.Header {
 
   style base {
     border-bottom: 1px solid rgba(0,0,0,0.1);
-    font-family: {theme.fontFamily};
+    font-family: #{theme.fontFamily};
     text-transform: uppercase;
     padding-bottom: 10px;
     background: #FDFDFD;

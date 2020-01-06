@@ -1,7 +1,9 @@
 component Ui.Select {
   connect Ui exposing { theme }
 
-  property onChange : Function(String, Promise(Never, Void)) = (selected : String) : Promise(Never, Void) { Promise.never() }
+  property onChange : Function(String, Promise(Never, Void)) =
+    (selected : String) : Promise(Never, Void) { Promise.never() }
+
   property items : Array(Ui.AutoComplete.Item) = []
   property position : String = "bottom-right"
   property closeOnSelect : Bool = true
@@ -17,7 +19,7 @@ component Ui.Select {
   use Providers.TabFocus {
     onTabIn =
       (item : Dom.Element) : Promise(Never, Void) {
-        if (`#{item} === #{element}`) {
+        if (item == Maybe.withDefault(Dom.createElement("div"), element)) {
           handleFocus()
         } else {
           next {  }
@@ -30,29 +32,30 @@ component Ui.Select {
   }
 
   style element {
-    background-color: {theme.colors.input.background};
-    border: 2px solid {borderColor};
-    border-radius: {theme.border.radius};
-    color: {theme.colors.input.text};
-    font-family: {theme.fontFamily};
+    background-color: #{theme.colors.input.background};
+    border: 2px solid #{borderColor};
+    border-radius: #{theme.border.radius};
+    color: #{theme.colors.input.text};
+    font-family: #{theme.fontFamily};
     user-select: none;
+    box-sizing: border-box;
 
     line-height: 20px;
     font-size: 16px;
 
     height: 38px;
-    min-width: {minWidth};
+    min-width: #{minWidth};
 
     padding: 7px 10px;
     padding-right: 35px;
 
     position: relative;
-    cursor: {cursor};
+    cursor: #{cursor};
     outline: none;
-    filter: {filter};
+    filter: #{filter};
 
     &:focus {
-      border-color: {focusBorderColor};
+      border-color: #{focusBorderColor};
     }
   }
 

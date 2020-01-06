@@ -1,7 +1,9 @@
 component Ui.Toggle {
   connect Ui exposing { theme }
 
-  property onChange : Function(Bool, a) = (value : Bool) : Void { void }
+  property onChange : Function(Bool, Promise(Never, Void)) =
+    (value : Bool) : Promise(Never, Void) { next {  } }
+
   property offLabel : String = "OFF"
   property onLabel : String = "ON"
   property disabled : Bool = false
@@ -15,15 +17,15 @@ component Ui.Toggle {
     -webkit-appearance: none;
     appearance: none;
 
-    background-color: {theme.colors.input.background};
-    border: 1px solid {theme.border.color};
-    border-radius: {theme.border.radius};
-    color: {theme.colors.input.text};
-    font-family: {theme.fontFamily};
+    background-color: #{theme.colors.input.background};
+    border: 1px solid #{theme.border.color};
+    border-radius: #{theme.border.radius};
+    color: #{theme.colors.input.text};
+    font-family: #{theme.fontFamily};
     display: inline-flex;
     position: relative;
     font-weight: bold;
-    width: {width}px;
+    width: #{width}px;
     cursor: pointer;
     font-size: 14px;
     outline: none;
@@ -35,16 +37,16 @@ component Ui.Toggle {
     }
 
     &:focus {
-      box-shadow: 0 0 2px {theme.outline.fadedColor} inset,
-                  0 0 2px {theme.outline.fadedColor};
+      box-shadow: 0 0 2px #{theme.outline.fadedColor} inset,
+                  0 0 2px #{theme.outline.fadedColor};
 
-      border-color: {theme.outline.color};
-      color: {theme.outline.color};
+      border-color: #{theme.outline.color};
+      color: #{theme.outline.color};
     }
 
     &:disabled {
-      background: {theme.colors.disabled.background};
-      color: {theme.colors.disabled.text};
+      background: #{theme.colors.disabled.background};
+      color: #{theme.colors.disabled.text};
       cursor: not-allowed;
     }
   }
@@ -55,12 +57,12 @@ component Ui.Toggle {
   }
 
   style overlay {
-    background: {theme.colors.primary.background};
-    border-radius: {theme.border.radius};
+    background: #{theme.colors.primary.background};
+    border-radius: #{theme.border.radius};
     width: calc(50% - 2px);
     position: absolute;
     transition: 320ms;
-    left: {left};
+    left: #{left};
     bottom: 2px;
     top: 2px;
   }
@@ -73,7 +75,7 @@ component Ui.Toggle {
     }
   }
 
-  fun toggle : Void {
+  fun toggle : Promise(Never, Void) {
     onChange(!checked)
   }
 

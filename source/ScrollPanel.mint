@@ -12,13 +12,13 @@ component Ui.ScrollPanel {
 
   style base {
     scrollbar-color: rgba(0,0,0,0.15) transparent;
-    scroll-behavior: {scrollBehavior};
+    scroll-behavior: #{scrollBehavior};
 
-    padding-right: {paddingRight}px;
+    padding-right: #{paddingRight}px;
     overflow-y: auto;
 
-    max-height: {maxHeight}px;
-    min-width: {minWidth}px;
+    max-height: #{maxHeight}px;
+    min-width: #{minWidth}px;
 
     &::-webkit-scrollbar {
       width: 10px;
@@ -47,9 +47,9 @@ component Ui.ScrollPanel {
     border-image: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.2), rgba(0,0,0,0)) 1;
     border-top: 1px solid;
 
-    margin-top: -{shadowSize}px;
-    opacity: {topOpacity};
-    height: {shadowSize}px;
+    margin-top: -#{shadowSize}px;
+    opacity: #{topOpacity};
+    height: #{shadowSize}px;
   }
 
   style bottom {
@@ -62,9 +62,9 @@ component Ui.ScrollPanel {
     border-image: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.2), rgba(0,0,0,0)) 1;
     border-bottom: 1px solid;
 
-    margin-top: -{shadowSize}px;
-    opacity: {bottomOpacity};
-    height: {shadowSize}px;
+    margin-top: -#{shadowSize}px;
+    opacity: #{bottomOpacity};
+    height: #{shadowSize}px;
   }
 
   get scrollBehavior : String {
@@ -102,10 +102,10 @@ component Ui.ScrollPanel {
   fun frames : Promise(Never, Void) {
     try {
       nextShowTop =
-        `this._base.value.scrollTop > 0`
+        `#{base}._0.scrollTop > 0`
 
       nextShowBottom =
-        `this._base.value.clientHeight + this._base.value.scrollTop <= this._base.value.scrollHeight - #{shadowSize}`
+        `#{base}._0.clientHeight + #{base}._0.scrollTop <= #{base}._0.scrollHeight - #{shadowSize}`
 
       if (showTop != nextShowTop || showBottom != nextShowBottom) {
         next

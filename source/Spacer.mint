@@ -3,8 +3,8 @@ component Ui.Spacer {
   property width : Number = 0
 
   style base {
-    height: {height}px;
-    width: {width}px;
+    height: #{height}px;
+    width: #{width}px;
     flex: 0 0 auto;
   }
 

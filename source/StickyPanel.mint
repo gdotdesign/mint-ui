@@ -24,10 +24,10 @@ component Ui.StickyPanel {
   state top : Number = 0
 
   style panel {
-    pointer-events: {pointerEvents};
-    z-index: {zIndex};
-    left: {left}px;
-    top: {top}px;
+    pointer-events: #{pointerEvents};
+    z-index: #{zIndex};
+    left: #{left}px;
+    top: #{top}px;
     position: fixed;
   }
 

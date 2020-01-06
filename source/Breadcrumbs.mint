@@ -11,8 +11,8 @@ component Ui.Breadcrumb {
     display: inline-block;
 
     &:hover,
-    & a:focus {
-      color: {theme.hover.color};
+    a:focus {
+      color: #{theme.hover.color};
     }
   }
 
@@ -41,9 +41,9 @@ component Ui.Breadcrumbs {
   }
 
   style base {
-    background: {theme.colors.inputSecondary.background};
-    color: {theme.colors.inputSecondary.text};
-    font-family: {theme.fontFamily};
+    background: #{theme.colors.inputSecondary.background};
+    color: #{theme.colors.inputSecondary.text};
+    font-family: #{theme.fontFamily};
     padding: 14px 24px;
   }
 
