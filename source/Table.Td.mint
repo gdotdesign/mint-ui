@@ -1,13 +1,11 @@
 component Ui.Table.Td {
-  connect Ui exposing { theme }
-
   property children : Array(Html) = []
   property align : String = "left"
   property width : String = "auto"
   property header : Bool = false
 
   style td {
-    border: 1px solid #{theme.border.color};
+    border: 1px solid red;
     border-bottom: #{borderBottom};
     font-weight: #{fontWeight};
     text-align: #{align};
@@ -17,7 +15,7 @@ component Ui.Table.Td {
 
   get borderBottom : String {
     if (header) {
-      "2px solid " + theme.border.color
+      "2px solid red"
     } else {
       ""
     }

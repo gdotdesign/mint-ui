@@ -1,6 +1,4 @@
 component Ui.Icon.Path {
-  connect Ui exposing { theme }
-
   property onClick : Function(Html.Event, Promise(Never, Void)) = (event : Html.Event) : Promise(Never, Void) { Promise.never() }
   property clickable : Bool = true
   property viewbox : String = ""
@@ -13,7 +11,7 @@ component Ui.Icon.Path {
     fill: currentColor;
 
     &:hover {
-      fill: #{theme.hover.color};
+      fill: red;
       cursor: #{cursor};
     }
   }

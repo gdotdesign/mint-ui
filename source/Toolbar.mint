@@ -1,6 +1,4 @@
 component Ui.Toolbar {
-  connect Ui exposing { theme }
-
   property children : Array(Html) = []
   property background : String = ""
   property color : String = ""
@@ -17,7 +15,7 @@ component Ui.Toolbar {
 
   get backgroundColor : String {
     if (String.isEmpty(background)) {
-      theme.colors.primary.background
+      "red"
     } else {
       background
     }
@@ -25,7 +23,7 @@ component Ui.Toolbar {
 
   get textColor : String {
     if (String.isEmpty(color)) {
-      theme.colors.primary.text
+      "white"
     } else {
       color
     }

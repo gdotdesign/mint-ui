@@ -29,11 +29,11 @@ component Ui.ScrollPanel {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,0.15);
+      background: #DDD;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: rgba(0,0,0,0.2);
+      background: #EEE;
     }
   }
 

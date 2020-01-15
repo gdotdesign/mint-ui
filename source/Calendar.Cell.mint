@@ -1,13 +1,11 @@
 component Ui.Calendar.Cell {
-  connect Ui exposing { theme }
-
   property onClick : Function(Time, Promise(Never, Void)) = (day : Time) : Promise(Never, Void) { Promise.never() }
   property day : Time = Time.now()
   property selected : Bool = false
   property active : Bool = false
 
   style base {
-    border-radius: #{theme.border.radius};
+    border-radius: 6px;
     justify-content: center;
     line-height: 34px;
     cursor: pointer;
@@ -15,21 +13,13 @@ component Ui.Calendar.Cell {
     height: 34px;
     width: 34px;
 
-    background: #{colors.background};
-    color: #{colors.text};
+    background: red;
+    color: yellow;
     opacity: #{opacity};
 
     &:hover {
-      background: #{theme.colors.primary.background};
-      color: #{theme.colors.primary.text};
-    }
-  }
-
-  get colors : Ui.Theme.Color {
-    if (selected) {
-      theme.colors.primary
-    } else {
-      theme.colors.inputSecondary
+      background: cyan;
+      color: white;
     }
   }
 

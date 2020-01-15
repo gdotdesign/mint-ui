@@ -1,5 +1,5 @@
 component Ui.Toggle {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
   property onChange : Function(Bool, Promise(Never, Void)) =
     (value : Bool) : Promise(Never, Void) { next {  } }
@@ -7,9 +7,8 @@ component Ui.Toggle {
   property offLabel : String = "OFF"
   property onLabel : String = "ON"
   property disabled : Bool = false
-  property readonly : Bool = false
   property checked : Bool = false
-  property width : Number = 100
+  property size : Number = 34
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -17,19 +16,30 @@ component Ui.Toggle {
     -webkit-appearance: none;
     appearance: none;
 
-    background-color: #{theme.colors.input.background};
-    border: 1px solid #{theme.border.color};
-    border-radius: #{theme.border.radius};
-    color: #{theme.colors.input.text};
-    font-family: #{theme.fontFamily};
-    display: inline-flex;
-    position: relative;
+    if (checked) {
+      background-color: #0659fd;
+      color: #FFF;
+    } else {
+      background-color: #E9E9E9;
+      color: #666;
+    }
+
+    border-radius: #{size * 0.5}px;
+    border: 0;
+
+    font-size: #{size * 0.875}px;
+    font-family: #{fontFamily};
     font-weight: bold;
-    width: #{width}px;
+
+    display: inline-flex;
+    align-items: center;
+
+    height: #{size * 2.375}px;
+    width: #{width}ch;
+
+    position: relative;
     cursor: pointer;
-    font-size: 14px;
     outline: none;
-    height: 34px;
     padding: 0;
 
     &::-moz-focus-inner {
@@ -37,16 +47,11 @@ component Ui.Toggle {
     }
 
     &:focus {
-      box-shadow: 0 0 2px #{theme.outline.fadedColor} inset,
-                  0 0 2px #{theme.outline.fadedColor};
-
-      border-color: #{theme.outline.color};
-      color: #{theme.outline.color};
+      box-shadow: 0 0 0 #{size * 0.1875}px hsla(216,98%,51%,0.5);
     }
 
     &:disabled {
-      background: #{theme.colors.disabled.background};
-      color: #{theme.colors.disabled.text};
+      filter: saturate(0) brightness(0.8);
       cursor: not-allowed;
     }
   }
@@ -57,22 +62,23 @@ component Ui.Toggle {
   }
 
   style overlay {
-    background: #{theme.colors.primary.background};
-    border-radius: #{theme.border.radius};
-    width: calc(50% - 2px);
     position: absolute;
-    transition: 320ms;
-    left: #{left};
-    bottom: 2px;
-    top: 2px;
+    bottom: #{size * 0.1875}px;
+    top: #{size * 0.1875}px;
+
+    width: calc(50% - #{size * 0.375}px);
+    border-radius: #{size * 0.375}px;
+    background: #FFF;
+
+    if (checked) {
+      left: calc(100% / 2 + #{size * 0.1875}px);
+    } else {
+      left: #{size * 0.1875}px;
+    }
   }
 
-  get left : String {
-    if (checked) {
-      "2px"
-    } else {
-      "50%"
-    }
+  get width : Number {
+    (Math.max(String.size(offLabel), String.size(onLabel)) + 3) * 2
   }
 
   fun toggle : Promise(Never, Void) {
@@ -80,16 +86,22 @@ component Ui.Toggle {
   }
 
   fun render : Html {
-    <button::base onClick={toggle}>
-      <div::label>
+    <button::base
+      aria-checked={Bool.toString(checked)}
+      disabled={disabled}
+      onClick={toggle}
+      role="checkbox">
+
+      <div::label aria-hidden="true">
         <{ onLabel }>
       </div>
 
-      <div::label>
+      <div::label aria-hidden="true">
         <{ offLabel }>
       </div>
 
-      <div::overlay/>
+      <div::overlay aria-hidden="true"/>
+
     </button>
   }
 }

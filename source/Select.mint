@@ -1,6 +1,4 @@
 component Ui.Select {
-  connect Ui exposing { theme }
-
   property onChange : Function(String, Promise(Never, Void)) =
     (selected : String) : Promise(Never, Void) { Promise.never() }
 
@@ -32,13 +30,15 @@ component Ui.Select {
   }
 
   style element {
-    background-color: #{theme.colors.input.background};
-    border: 2px solid #{borderColor};
-    border-radius: #{theme.border.radius};
-    color: #{theme.colors.input.text};
-    font-family: #{theme.fontFamily};
-    user-select: none;
+    border-radius: 4px;
+    border: 2px solid;
+
+    background: #FFF;
+    color: #666;
+
+    font-family: sans-serif;
     box-sizing: border-box;
+    user-select: none;
 
     line-height: 20px;
     font-size: 16px;
@@ -50,12 +50,23 @@ component Ui.Select {
     padding-right: 35px;
 
     position: relative;
-    cursor: #{cursor};
     outline: none;
-    filter: #{filter};
+
+    if (disabled) {
+      filter: "saturate(0) brightness(0.8)";
+      cursor: not-allowed;
+    } else {
+      cursor: pointer;
+    }
+
+    if (open) {
+      border-color: #3B7DFF;
+    } else {
+      border-color: #E9E9E9;
+    }
 
     &:focus {
-      border-color: #{focusBorderColor};
+      border-color: #3B7DFF;
     }
   }
 
@@ -69,39 +80,7 @@ component Ui.Select {
     right: 12px;
     top: 12px;
 
-    fill: currentColor;
-  }
-
-  get filter : String {
-    if (disabled) {
-      "saturate(0) brightness(0.8)"
-    } else {
-      ""
-    }
-  }
-
-  get focusBorderColor : String {
-    if (disabled) {
-      theme.border.color
-    } else {
-      theme.colors.primary.background
-    }
-  }
-
-  get cursor : String {
-    if (disabled) {
-      "not-allowed"
-    } else {
-      "pointer"
-    }
-  }
-
-  get borderColor : String {
-    if (open) {
-      theme.colors.primary.background
-    } else {
-      theme.border.color
-    }
+    fill: #666;
   }
 
   get placeholderElement : Html {

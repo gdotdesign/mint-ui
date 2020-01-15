@@ -1,28 +1,26 @@
+/* Describes the types of button that can exists. */
 enum Ui.Button.Kind {
   Primary
-  Secondary
   Warning
   Success
   Danger
 }
 
+/* A generic button component with a label and icon fields. */
 component Ui.Button {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
-  property onMouseDown : Function(Html.Event, Promise(Never, Void)) =
-    (event : Html.Event) : Promise(Never, Void) { Promise.never() }
-
-  property onMouseUp : Function(Html.Event, Promise(Never, Void)) =
-    (event : Html.Event) : Promise(Never, Void) { Promise.never() }
-
-  property onClick : Function(Html.Event, Promise(Never, Void)) =
-    (event : Html.Event) : Promise(Never, Void) { Promise.never() }
+  property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
   property type : Ui.Button.Kind = Ui.Button.Kind::Primary
-  property children : Array(Html) = []
   property disabled : Bool = false
-  property outline : Bool = false
   property size : Number = 16
+
+  property rightIcon : String = ""
+  property leftIcon : String = ""
+  property label : String = ""
 
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -30,94 +28,90 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
-    font-family: #{theme.fontFamily};
+    font-family: #{fontFamily};
     font-size: #{size}px;
     font-weight: bold;
     user-select: none;
 
     white-space: nowrap;
+    position: relative;
     cursor: pointer;
     outline: none;
 
-    height: #{size * 2.42857142857}px;
-    padding: 0 #{size * 1.5}px;
+    padding: 0 #{size * 1.2}px;
+    height: #{size * 2.375}px;
 
     justify-content: center;
-    align-items: center;
     display: inline-flex;
+    align-items: center;
 
-    background: #{background};
-    color: #{color};
+    color: #FFF;
 
-    border-radius: #{theme.border.radius};
-    border-width: #{size * 0.125}px;
-    border-color: #{borderColor};
-    border-style: solid;
+    case (type) {
+      Ui.Button.Kind::Warning => background: #f96a00;
+      Ui.Button.Kind::Success => background: #26ae3d;
+      Ui.Button.Kind::Primary => background: #0659fd;
+      Ui.Button.Kind::Danger => background: #f73333;
+    }
+
+    border-radius: #{size * 0.5}px;
+    border: 0;
 
     &::-moz-focus-inner {
       border: 0;
     }
 
     &:focus {
-      outline: 2px solid #{colors.background};
-      outline-offset: 2px;
+      case (type) {
+        Ui.Button.Kind::Success => box-shadow: 0 0 0 #{size * 0.1875}px hsl(130.1,64.2%,41.6%, 0.5);
+        Ui.Button.Kind::Warning => box-shadow: 0 0 0 #{size * 0.1875}px hsl(25.5,100%,48.8%,0.5);
+        Ui.Button.Kind::Danger => box-shadow: 0 0 0 #{size * 0.1875}px hsl(0,92.5%,58.4%, 0.5);
+        Ui.Button.Kind::Primary => box-shadow: 0 0 0 #{size * 0.1875}px hsla(216,98%,51%,0.5);
+      }
+    }
+
+    &:hover {
+      filter: brightness(0.8) contrast(1.5);
     }
 
     &:disabled {
       filter: saturate(0) brightness(0.8);
       cursor: not-allowed;
     }
+
+    > * + * {
+      margin-left: #{size * 0.5}px;
+    }
   }
 
   style gutter {
-    width: #{size * 1.42857142857}px;
-  }
-
-  get background : String {
-    if (outline) {
-      "transparent"
-    } else {
-      colors.background
-    }
-  }
-
-  get color : String {
-    if (outline) {
-      colors.background
-    } else {
-      colors.text
-    }
-  }
-
-  get borderColor : String {
-    if (outline) {
-      colors.background
-    } else {
-      "transparent"
-    }
-  }
-
-  get colors : Ui.Theme.Color {
-    case (type) {
-      Ui.Button.Kind::Secondary => theme.colors.secondary
-      Ui.Button.Kind::Warning => theme.colors.warning
-      Ui.Button.Kind::Success => theme.colors.success
-      Ui.Button.Kind::Primary => theme.colors.primary
-      Ui.Button.Kind::Danger => theme.colors.danger
-    }
+    width: #{size * 0.5}px;
   }
 
   fun render : Html {
-    <button::styles
+    <button::styles as button
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       disabled={disabled}
       onClick={onClick}>
 
-      <{
-        children
-        |> Array.intersperse(<div::gutter/>)
-      }>
+      if (String.Extra.isNotEmpty(leftIcon)) {
+        <Octicon
+          icon={leftIcon}
+          size={size}/>
+      }
+
+      if (String.Extra.isNotEmpty(label)) {
+        <span>
+          <{ label }>
+        </span>
+      }
+
+      if (String.Extra.isNotEmpty(rightIcon)) {
+        <Octicon
+          icon={rightIcon}
+          size={size}/>
+      }
 
     </button>
   }

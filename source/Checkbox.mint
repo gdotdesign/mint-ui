@@ -1,38 +1,42 @@
 component Ui.Checkbox {
-  connect Ui exposing { theme }
-
-  property onChange : Function(Bool, Promise(Never, Void)) =
-    (value : Bool) : Promise(Never, Void) { next {  } }
+  property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
 
   property disabled : Bool = false
   property readonly : Bool = false
   property checked : Bool = false
+  property size : Number = 16
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 
-    background-color: #{theme.colors.input.background};
-    border: 2px solid #{theme.border.color};
-    border-radius: #{theme.border.radius};
-    color: #{theme.colors.input.text};
-
     justify-content: center;
     display: inline-flex;
     align-items: center;
+    position: relative;
     cursor: pointer;
     outline: none;
-    height: 34px;
-    width: 34px;
     padding: 0;
+    border: 0;
+
+    border-radius: #{size * 0.5}px;
+    height: #{size * 2.125}px;
+    width: #{size * 2.125}px;
 
     &::-moz-focus-inner {
       border: 0;
     }
 
     &:focus {
-      border-color: #{theme.colors.primary.background};
-      color: #{theme.colors.primary.background};
+      box-shadow: 0 0 0 #{size * 0.1875}px hsla(216,98%,51%,0.5);
+    }
+
+    if (checked) {
+      background: #0659fd;
+      color: #FFF;
+    } else {
+      background: #E9E9E9;
+      color: #AAA;
     }
 
     &:disabled {
@@ -42,28 +46,9 @@ component Ui.Checkbox {
   }
 
   style icon {
-    transform: #{transform};
-    opacity: #{opacity};
+    height: #{size * 0.75}px;
+    width: #{size * 0.75}px;
     fill: currentColor;
-    transition: 200ms;
-    height: 16px;
-    width: 16px;
-  }
-
-  get opacity : String {
-    if (checked) {
-      "1"
-    } else {
-      "0"
-    }
-  }
-
-  get transform : String {
-    if (checked) {
-      "translate3d(0,0,0) scale(1)"
-    } else {
-      "translate3d(0,0,0) scale(0.4) rotate(45deg)"
-    }
   }
 
   fun toggle : a {
@@ -71,9 +56,11 @@ component Ui.Checkbox {
   }
 
   fun render : Html {
-    <button::base
+    <button::base as button
+      aria-checked={Bool.toString(checked)}
       disabled={disabled}
-      onClick={toggle}>
+      onClick={toggle}
+      role="checkbox">
 
       <svg::icon viewBox="0 0 36 36">
         <path

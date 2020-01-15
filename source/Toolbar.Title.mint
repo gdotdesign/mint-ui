@@ -20,9 +20,9 @@ component Ui.Toolbar.Title {
 
   fun render : Html {
     <div::base>
-      <Ui.Link href={href}>
+      <a href={href}>
         <{ children }>
-      </Ui.Link>
+      </a>
     </div>
   }
 }

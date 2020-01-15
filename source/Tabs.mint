@@ -5,8 +5,6 @@ record Ui.Tabs.Item {
 }
 
 component Ui.Tabs.Tab {
-  connect Ui exposing { theme }
-
   property onClick : Function(Promise(Never, Void)) = Promise.never
   property selected : Bool = false
   property label : String = ""
@@ -20,7 +18,7 @@ component Ui.Tabs.Tab {
 
   get color : String {
     if (selected) {
-      theme.colors.primary.background
+      "red"
     } else {
       "transparent"
     }
@@ -34,7 +32,7 @@ component Ui.Tabs.Tab {
 }
 
 component Ui.Tabs {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
   property onChange : Function(String, Promise(Never, Void)) =
     (key : String) : Promise(Never, Void) { next {  } }
@@ -44,7 +42,7 @@ component Ui.Tabs {
   property selected : String = ""
 
   style tabs {
-    font-family: #{theme.fontFamily};
+    font-family: #{fontFamily};
     border-bottom: 3px solid #EEE;
     display: flex;
   }

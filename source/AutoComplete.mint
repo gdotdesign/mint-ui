@@ -10,7 +10,7 @@ record Ui.AutoComplete.Item {
 }
 
 component Ui.AutoComplete {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
   property onClose : Function(Promise(Never, Void)) = Promise.never
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
@@ -48,15 +48,15 @@ component Ui.AutoComplete {
   }
 
   style empty {
-    font-family: #{theme.fontFamily};
+    font-family: #{fontFamily};
     font-style: italic;
     padding: 10px;
     opacity: 0.75;
   }
 
   style clear {
-    color: #{theme.colors.primary.background};
-    font-family: #{theme.fontFamily};
+    color: red;
+    font-family: #{fontFamily};
     text-transform: uppercase;
     display: block;
     cursor: pointer;

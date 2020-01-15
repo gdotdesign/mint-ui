@@ -1,11 +1,11 @@
 component Ui.Showcase.Header {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
   property children : Array(Html) = []
 
   style base {
     border-bottom: 1px solid rgba(0,0,0,0.1);
-    font-family: #{theme.fontFamily};
+    font-family: #{fontFamily};
     text-transform: uppercase;
     padding-bottom: 10px;
     background: #FDFDFD;

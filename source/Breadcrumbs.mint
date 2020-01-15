@@ -1,6 +1,4 @@
 component Ui.Breadcrumb {
-  connect Ui exposing { theme }
-
   property children : Array(Html) = []
   property target : String = ""
   property label : String = ""
@@ -12,24 +10,25 @@ component Ui.Breadcrumb {
 
     &:hover,
     a:focus {
-      color: #{theme.hover.color};
+      color: red;
     }
   }
 
   fun render : Html {
     <div::base>
-      <Ui.Link
-        children={children}
+      <a
         target={target}
-        type="inherit"
-        label={label}
-        href={href}/>
+        href={href}>
+
+        <{ children }>
+
+      </a>
     </div>
   }
 }
 
 component Ui.Breadcrumbs {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
   property children : Array(Html) = []
   property separator : String = "|"
@@ -41,9 +40,9 @@ component Ui.Breadcrumbs {
   }
 
   style base {
-    background: #{theme.colors.inputSecondary.background};
-    color: #{theme.colors.inputSecondary.text};
-    font-family: #{theme.fontFamily};
+    background: red;
+    color: yellow;
+    font-family: #{fontFamily};
     padding: 14px 24px;
   }
 

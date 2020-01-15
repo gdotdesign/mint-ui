@@ -15,7 +15,7 @@ component Ui.List {
 }
 
 component Ui.List.Item {
-  connect Ui exposing { theme }
+  connect Ui exposing { fontFamily }
 
   property children : Array(Html) = []
 
@@ -27,11 +27,11 @@ component Ui.List.Item {
   property href : String = ""
 
   style base {
-    font-family: #{theme.fontFamily};
+    font-family: #{fontFamily};
     text-decoration: none;
     cursor: #{cursor};
 
-    border-radius: 2px;
+    border-radius: 4px;
     user-select: none;
     padding: 10px;
     display: flex;
@@ -56,7 +56,7 @@ component Ui.List.Item {
 
   get hoverBackground : String {
     if (selected || actuallySelectable) {
-      "#2aa0ea"
+      "#0659fd"
     } else {
       ""
     }
@@ -72,7 +72,7 @@ component Ui.List.Item {
 
   get oddBackground : String {
     if (selected) {
-      theme.colors.primary.background
+      "#0659fd"
     } else {
       "#F6F6F6"
     }
@@ -80,7 +80,7 @@ component Ui.List.Item {
 
   get oddColor : String {
     if (selected) {
-      theme.colors.primary.text
+      "#FFF"
     } else {
       "hsl(210, 20%, 30%)"
     }
@@ -88,7 +88,7 @@ component Ui.List.Item {
 
   get background : String {
     if (selected) {
-      theme.colors.primary.background
+      "#0659fd"
     } else {
       ""
     }
@@ -96,7 +96,7 @@ component Ui.List.Item {
 
   get color : String {
     if (selected) {
-      theme.colors.primary.text
+      "#FFF"
     } else {
       "hsl(210, 20%, 30%)"
     }

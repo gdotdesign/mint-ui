@@ -1,8 +1,5 @@
 component Ui.Slider {
-  connect Ui exposing { theme }
-
-  property onChange : Function(Number, Promise(Never, Void)) =
-    (value : Number) : Promise(Never, Void) { next {  } }
+  property onChange : Function(Number, Promise(Never, Void)) = Promise.Extra.never1
 
   property disabled : Bool = false
   property max : Number = 100
@@ -28,8 +25,8 @@ component Ui.Slider {
     &::-webkit-slider-thumb,
     &::-moz-range-thumb,
     &::-ms-thumb {
-      background-color: #{theme.colors.primary.background};
-      border-radius: 50%;
+      background-color: #0659fd;
+      border-radius: 6px;
       cursor: pointer;
       height: 20px;
       width: 20px;
@@ -39,25 +36,21 @@ component Ui.Slider {
     &:focus::-webkit-slider-thumb,
     &:focus::-moz-range-thumb,
     &:focus::-ms-thumb {
-      background-color: #{theme.hover.color};
+      background-color: #0659fd;
     }
 
     &::-webkit-slider-runnable-track,
     &::-moz-range-track,
     &::-ms-track {
-      background-color: #{theme.colors.input.background};
-      border: 1px solid #{theme.border.color};
-      border-radius: #{theme.border.radius};
+      background-color: #ECECEC;
+      border-radius: 6px;
       height: 8px;
     }
 
     &:focus::-webkit-slider-runnable-track,
     &:focus::-moz-range-track,
     &:focus::-ms-track {
-      box-shadow: 0 0 2px #{theme.outline.fadedColor} inset,
-                  0 0 2px #{theme.outline.fadedColor};
-
-      border-color: #{theme.outline.color};
+      background-color: hsl(216,80%,81%);
     }
 
     &:focus {
