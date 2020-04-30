@@ -1,5 +1,5 @@
 component Ui.Form.Label {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing { fontFamily, contentText }
 
   property fontSize : Number = 16
   property text : String = ""
@@ -7,9 +7,10 @@ component Ui.Form.Label {
   style base {
     font-family: #{fontFamily};
     font-size: #{fontSize}px;
+    white-space: nowrap;
+    color: #{contentText};
     font-weight: bold;
     opacity: 0.8;
-    color: #333;
     flex: 1;
   }
 

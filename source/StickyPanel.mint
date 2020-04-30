@@ -153,7 +153,7 @@ component Ui.StickyPanel {
       |> Dom.getDimensions()
 
     dimensions =
-      `ReactDOM.findDOMNode(this)`
+      `this.base`
       |> Dom.getDimensions()
 
     favoredPosition =

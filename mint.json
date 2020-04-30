@@ -1,7 +1,7 @@
 {
   "name": "mint-ui",
   "external": {
-    "javascripts": ["scroll_into_view.js"]
+    "javascripts": ["assets/scroll_into_view.js"]
   },
   "source-directories": [
     "source"

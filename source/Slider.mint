@@ -1,7 +1,16 @@
 component Ui.Slider {
+  connect Ui exposing {
+    borderRadiusCoefficient,
+    primaryBackground,
+    surfaceBackground,
+    contentBackground,
+    primaryShadow
+  }
+
   property onChange : Function(Number, Promise(Never, Void)) = Promise.Extra.never1
 
   property disabled : Bool = false
+  property size : Number = 16
   property max : Number = 100
   property value : Number = 0
   property step : Number = 1
@@ -11,46 +20,48 @@ component Ui.Slider {
     -webkit-appearance: none;
     box-sizing: border-box;
 
+    height: #{size * 2.375}px;
     background: transparent;
-    height: 34px;
     width: 100%;
     padding: 0;
     margin: 0;
 
     &::-webkit-slider-thumb {
+      margin-top: -#{size * 0.5}px;
       -webkit-appearance: none;
-      margin-top: -6px;
     }
 
     &::-webkit-slider-thumb,
     &::-moz-range-thumb,
     &::-ms-thumb {
-      background-color: #0659fd;
-      border-radius: 6px;
+      border-radius: #{size * borderRadiusCoefficient * 0.625}px;
+      background-color: #{primaryBackground};
+      height: #{size * 1.5}px;
+      width: #{size}px;
       cursor: pointer;
-      height: 20px;
-      width: 20px;
       border: 0;
     }
 
     &:focus::-webkit-slider-thumb,
     &:focus::-moz-range-thumb,
     &:focus::-ms-thumb {
-      background-color: #0659fd;
+      background-color: #{primaryBackground};
     }
 
     &::-webkit-slider-runnable-track,
     &::-moz-range-track,
     &::-ms-track {
-      background-color: #ECECEC;
-      border-radius: 6px;
-      height: 8px;
+      border-radius: 5px;
+      border: #{size * 0.125}px solid #{surfaceBackground};
+      background-color: #{contentBackground};
+      height: #{size * 0.5}px;
     }
 
     &:focus::-webkit-slider-runnable-track,
     &:focus::-moz-range-track,
     &:focus::-ms-track {
-      background-color: hsl(216,80%,81%);
+      box-shadow: 0 0 0 #{size * 0.15}px #{primaryShadow};
+      border-color: #{primaryBackground};
     }
 
     &:focus {
@@ -77,7 +88,7 @@ component Ui.Slider {
       max={Number.toString(max)}
       min={Number.toString(min)}
       disabled={disabled}
-      onChange={changed}
+      onInput={changed}
       type="range"/>
   }
 }

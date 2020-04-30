@@ -1,8 +1,16 @@
 component Ui.Calendar {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing {
+    fontFamily,
+    contentBackground,
+    contentText,
+    borderRadiusCoefficient,
+    surfaceBackground,
+    surfaceText
+  }
 
-  property onMonthChange : Function(Time, Promise(Never, Void)) = (date : Time) : Promise(Never, Void) { Promise.never() }
-  property onChange : Function(Time, Promise(Never, Void)) = (day : Time) : Promise(Never, Void) { Promise.never() }
+  property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
+
   property changeMonthOnSelect : Bool = false
   property month : Time = Time.today()
   property date : Time = Time.today()
@@ -12,19 +20,20 @@ component Ui.Calendar {
     -moz-user-select: none;
     user-select: none;
 
-    background: red;
-    border: 1px solid yellow;
-    border-radius: 6px;
-    color: #333;
+    background: #{contentBackground};
+    color: #{contentText};
+
+    border: 2px solid #{surfaceBackground};
+    border-radius: #{24 * borderRadiusCoefficient}px;
     font-family: #{fontFamily};
 
-    padding: 10px;
+    padding: 20px;
     width: 300px;
   }
 
   style table {
     grid-template-columns: repeat(7, 1fr);
-    grid-gap: 10px;
+    grid-gap: 5px;
     display: grid;
     width: 100%;
   }
@@ -37,6 +46,7 @@ component Ui.Calendar {
 
   style text {
     text-align: center;
+    font-weight: bold;
     flex: 1;
   }
 
@@ -50,11 +60,11 @@ component Ui.Calendar {
   }
 
   style dayNames {
-    border-bottom: 1px dashed red;
-    border-top: 1px dashed red;
+    border-bottom: 1px solid #{surfaceBackground};
+    border-top: 1px solid #{surfaceBackground};
     justify-content: space-between;
-    padding: 6px 0;
-    margin: 10px 0;
+    padding: 10px 0;
+    margin: 15px 0;
     display: flex;
   }
 
@@ -99,7 +109,7 @@ component Ui.Calendar {
 
   fun dayName (day : Time) : Html {
     <div::dayName>
-      <{ Time.format("ddd", day) }>
+      <{ Time.format("eee", day) }>
     </div>
   }
 
@@ -151,7 +161,7 @@ component Ui.Calendar {
         <{ previousMonthIcon }>
 
         <div::text>
-          <{ Time.format("MMMM - YYYY", month) }>
+          <{ Time.format("MMMM - yyyy", month) }>
         </div>
 
         <{ nextMonthIcon }>

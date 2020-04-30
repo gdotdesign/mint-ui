@@ -1,26 +1,39 @@
-/* Describes the types of button that can exists. */
-enum Ui.Button.Kind {
-  Primary
-  Warning
-  Success
-  Danger
-}
-
-/* A generic button component with a label and icon fields. */
+/* Button component with a label and icons. */
 component Ui.Button {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing {
+    borderRadiusCoefficient,
+    fontFamily,
+    primaryBackground,
+    primaryShadow,
+    primaryText,
+    warningBackground,
+    warningShadow,
+    warningText,
+    successBackground,
+    successShadow,
+    successText,
+    surfaceBackground,
+    surfaceShadow,
+    surfaceText,
+    dangerBackground,
+    dangerShadow,
+    dangerText
+  }
 
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
-  property type : Ui.Button.Kind = Ui.Button.Kind::Primary
+  property breakWords : Bool = false
+  property type : String = "primary"
+  property label : String = ""
+  property href : String = ""
+
   property disabled : Bool = false
   property size : Number = 16
 
-  property rightIcon : String = ""
-  property leftIcon : String = ""
-  property label : String = ""
+  property iconBefore : String = ""
+  property iconAfter : String = ""
 
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -29,32 +42,49 @@ component Ui.Button {
     appearance: none;
 
     font-family: #{fontFamily};
+    text-decoration: none;
     font-size: #{size}px;
+    line-height: 130%;
     font-weight: bold;
+
+    box-sizing: border-box;
     user-select: none;
 
-    white-space: nowrap;
     position: relative;
     cursor: pointer;
     outline: none;
+    padding: 0;
+    margin: 0;
 
-    padding: 0 #{size * 1.2}px;
-    height: #{size * 2.375}px;
-
-    justify-content: center;
-    display: inline-flex;
-    align-items: center;
-
-    color: #FFF;
-
-    case (type) {
-      Ui.Button.Kind::Warning => background: #f96a00;
-      Ui.Button.Kind::Success => background: #26ae3d;
-      Ui.Button.Kind::Primary => background: #0659fd;
-      Ui.Button.Kind::Danger => background: #f73333;
+    if (breakWords) {
+      word-break: break-word;
     }
 
-    border-radius: #{size * 0.5}px;
+    case (type) {
+      "surface" =>
+        background-color: #{surfaceBackground};
+        color: #{surfaceText};
+
+      "warning" =>
+        background-color: #{warningBackground};
+        color: #{warningText};
+
+      "success" =>
+        background-color: #{successBackground};
+        color: #{successText};
+
+      "primary" =>
+        background-color: #{primaryBackground};
+        color: #{primaryText};
+
+      "danger" =>
+        background-color: #{dangerBackground};
+        color: #{dangerText};
+
+      =>
+    }
+
+    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
     border: 0;
 
     &::-moz-focus-inner {
@@ -63,10 +93,12 @@ component Ui.Button {
 
     &:focus {
       case (type) {
-        Ui.Button.Kind::Success => box-shadow: 0 0 0 #{size * 0.1875}px hsl(130.1,64.2%,41.6%, 0.5);
-        Ui.Button.Kind::Warning => box-shadow: 0 0 0 #{size * 0.1875}px hsl(25.5,100%,48.8%,0.5);
-        Ui.Button.Kind::Danger => box-shadow: 0 0 0 #{size * 0.1875}px hsl(0,92.5%,58.4%, 0.5);
-        Ui.Button.Kind::Primary => box-shadow: 0 0 0 #{size * 0.1875}px hsla(216,98%,51%,0.5);
+        "surface" => box-shadow: 0 0 0 #{size * 0.1875}px #{surfaceShadow};
+        "success" => box-shadow: 0 0 0 #{size * 0.1875}px #{successShadow};
+        "warning" => box-shadow: 0 0 0 #{size * 0.1875}px #{warningShadow};
+        "primary" => box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
+        "danger" => box-shadow: 0 0 0 #{size * 0.1875}px #{dangerShadow};
+        =>
       }
     }
 
@@ -75,44 +107,94 @@ component Ui.Button {
     }
 
     &:disabled {
-      filter: saturate(0) brightness(0.8);
+      filter: saturate(0) brightness(0.8) contrast(0.5);
       cursor: not-allowed;
-    }
-
-    > * + * {
-      margin-left: #{size * 0.5}px;
     }
   }
 
-  style gutter {
-    width: #{size * 0.5}px;
+  style container {
+    grid-gap: #{size * 0.5}px;
+    grid-auto-flow: column;
+    display: inline-grid;
+    align-items: center;
+
+    padding: #{size * 0.5}px #{size * 1.2}px;
+    min-height: #{size * 2.375}px;
+    box-sizing: border-box;
+  }
+
+  fun focus : Promise(Never, Void) {
+    [button, anchor]
+    |> Maybe.oneOf()
+    |> Dom.focus()
   }
 
   fun render : Html {
-    <button::styles as button
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      disabled={disabled}
-      onClick={onClick}>
+    try {
+      content =
+        <div::container>
+          if (String.Extra.isNotEmpty(iconBefore)) {
+            <Ui.Icon
+              name={iconBefore}
+              size={size}/>
+          }
 
-      if (String.Extra.isNotEmpty(leftIcon)) {
-        <Octicon
-          icon={leftIcon}
-          size={size}/>
+          if (String.Extra.isNotEmpty(label)) {
+            <span>
+              <{ label }>
+            </span>
+          }
+
+          if (String.Extra.isNotEmpty(iconAfter)) {
+            <Ui.Icon
+              name={iconAfter}
+              size={size}/>
+          }
+        </div>
+
+      mouseDownHandler =
+        if (disabled) {
+          Promise.Extra.never1
+        } else {
+          onMouseDown
+        }
+
+      mouseUpHandler =
+        if (disabled) {
+          Promise.Extra.never1
+        } else {
+          onMouseUp
+        }
+
+      clickHandler =
+        if (disabled) {
+          Promise.Extra.never1
+        } else {
+          onClick
+        }
+
+      if (String.Extra.isNotEmpty(href) && !disabled) {
+        <a::styles as anchor
+          onMouseDown={mouseDownHandler}
+          onMouseUp={mouseUpHandler}
+          onClick={clickHandler}
+          disabled={disabled}
+          href={href}>
+
+          <{ content }>
+
+        </a>
+      } else {
+        <button::styles as button
+          onMouseDown={mouseDownHandler}
+          onMouseUp={mouseUpHandler}
+          onClick={clickHandler}
+          disabled={disabled}>
+
+          <{ content }>
+
+        </button>
       }
-
-      if (String.Extra.isNotEmpty(label)) {
-        <span>
-          <{ label }>
-        </span>
-      }
-
-      if (String.Extra.isNotEmpty(rightIcon)) {
-        <Octicon
-          icon={rightIcon}
-          size={size}/>
-      }
-
-    </button>
+    }
   }
 }

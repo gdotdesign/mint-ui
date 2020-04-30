@@ -1,4 +1,13 @@
 component Ui.Checkbox {
+  connect Ui exposing {
+    borderRadiusCoefficient,
+    surfaceBackground,
+    surfaceText,
+    primaryBackground,
+    primaryShadow,
+    primaryText
+  }
+
   property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
 
   property disabled : Bool = false
@@ -19,28 +28,28 @@ component Ui.Checkbox {
     padding: 0;
     border: 0;
 
-    border-radius: #{size * 0.5}px;
+    border-radius: #{size * borderRadiusCoefficient * 1.0625}px;
     height: #{size * 2.125}px;
     width: #{size * 2.125}px;
+
+    if (checked) {
+      background: #{primaryBackground};
+      color: #{primaryText};
+    } else {
+      background: #{surfaceBackground};
+      color: #{surfaceText};
+    }
 
     &::-moz-focus-inner {
       border: 0;
     }
 
     &:focus {
-      box-shadow: 0 0 0 #{size * 0.1875}px hsla(216,98%,51%,0.5);
-    }
-
-    if (checked) {
-      background: #0659fd;
-      color: #FFF;
-    } else {
-      background: #E9E9E9;
-      color: #AAA;
+      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
     }
 
     &:disabled {
-      filter: saturate(0);
+      filter: saturate(0) brightness(0.8) contrast(0.5);
       cursor: not-allowed;
     }
   }
@@ -49,14 +58,22 @@ component Ui.Checkbox {
     height: #{size * 0.75}px;
     width: #{size * 0.75}px;
     fill: currentColor;
+
+    if (!checked) {
+      opacity: 0.25;
+    }
   }
 
-  fun toggle : a {
+  fun toggle : Promise(Never, Void) {
     onChange(!checked)
   }
 
+  fun focus : Promise(Never, Void) {
+    Dom.focus(checkbox)
+  }
+
   fun render : Html {
-    <button::base as button
+    <button::base as checkbox
       aria-checked={Bool.toString(checked)}
       disabled={disabled}
       onClick={toggle}

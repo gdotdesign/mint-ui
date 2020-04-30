@@ -1,14 +1,20 @@
 component Ui.Toggle {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing {
+    fontFamily,
+    surfaceBackground,
+    surfaceText,
+    contentBackground,
+    primaryBackground,
+    primaryShadow,
+    primaryText
+  }
 
-  property onChange : Function(Bool, Promise(Never, Void)) =
-    (value : Bool) : Promise(Never, Void) { next {  } }
-
+  property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
   property offLabel : String = "OFF"
   property onLabel : String = "ON"
   property disabled : Bool = false
   property checked : Bool = false
-  property size : Number = 34
+  property size : Number = 16
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -17,14 +23,14 @@ component Ui.Toggle {
     appearance: none;
 
     if (checked) {
-      background-color: #0659fd;
-      color: #FFF;
+      background-color: #{primaryBackground};
+      color: #{primaryText};
     } else {
-      background-color: #E9E9E9;
-      color: #666;
+      background-color: #{surfaceBackground};
+      color: #{surfaceText};
     }
 
-    border-radius: #{size * 0.5}px;
+    border-radius: #{size * 0.3}px;
     border: 0;
 
     font-size: #{size * 0.875}px;
@@ -35,7 +41,7 @@ component Ui.Toggle {
     align-items: center;
 
     height: #{size * 2.375}px;
-    width: #{width}ch;
+    width: #{width}px;
 
     position: relative;
     cursor: pointer;
@@ -47,7 +53,7 @@ component Ui.Toggle {
     }
 
     &:focus {
-      box-shadow: 0 0 0 #{size * 0.1875}px hsla(216,98%,51%,0.5);
+      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
     }
 
     &:disabled {
@@ -62,13 +68,15 @@ component Ui.Toggle {
   }
 
   style overlay {
-    position: absolute;
     bottom: #{size * 0.1875}px;
     top: #{size * 0.1875}px;
+    position: absolute;
 
     width: calc(50% - #{size * 0.375}px);
-    border-radius: #{size * 0.375}px;
+    border-radius: #{size * 0.2}px;
     background: #FFF;
+
+    transition: left 120ms;
 
     if (checked) {
       left: calc(100% / 2 + #{size * 0.1875}px);
@@ -78,7 +86,22 @@ component Ui.Toggle {
   }
 
   get width : Number {
-    (Math.max(String.size(offLabel), String.size(onLabel)) + 3) * 2
+    try {
+      font =
+        "#{size * 0.875}px #{fontFamily}"
+
+      onWidth =
+        onLabel
+        |> Dom.Extra.measureText(font)
+        |> Math.ceil()
+
+      offWidth =
+        offLabel
+        |> Dom.Extra.measureText(font)
+        |> Math.ceil()
+
+      Math.max(offWidth, onWidth) * 2 + size * 3
+    }
   }
 
   fun toggle : Promise(Never, Void) {

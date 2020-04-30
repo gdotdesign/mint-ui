@@ -1,83 +1,190 @@
-component Ui.Card {
-  property children : Array(Html) = []
+component Ui.Card.Container {
+  connect Ui exposing { fontFamily, contentText }
+
+  property thumbnail : String = ""
+  property subtitle : Html = <></>
+  property title : Html = <></>
+  property content : Html = <></>
 
   style base {
-    border: 1px solid #e4e4e4;
-    flex-direction: column;
-    border-radius: 4px;
-    display: flex;
+    font-family: #{fontFamily};
+    color: #{contentText};
+
+    if (`#{thumbnail}`) {
+      grid-template-columns: 46px 1fr;
+    } else {
+      grid-template-columns: 1fr;
+    }
+
+    grid-template-rows: #{rows};
+    grid-gap: 7px 10px;
+    display: grid;
+    padding: 20px;
+    flex: 1;
+  }
+
+  style thumbnail {
+    grid-row: span 2;
+  }
+
+  style title {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  style subtitle {
+    color: #{contentText};
+    font-size: 14px;
+    opacity: 0.66;
+  }
+
+  style content {
+    if (`#{thumbnail}`) {
+      grid-column: span 2;
+    }
+
+    font-family: #{fontFamily};
+    color: #{contentText};
+    line-height: 140%;
+    font-size: 14px;
+  }
+
+  get rows {
+    try {
+      size =
+        [!!`#{title}`, !!`#{subtitle}`, !!`#{content}`]
+        |> Array.select((item : Bool) { item })
+        |> Array.size()
+
+      "repeat(#{size}, min-content)"
+    }
   }
 
   fun render : Html {
     <div::base>
-      <{ children }>
+      if (!String.isEmpty(thumbnail)) {
+        <div::thumbnail>
+          <Ui.Image
+            src={thumbnail}
+            width={46}
+            height={46}/>
+        </div>
+      }
+
+      if (`#{title}`) {
+        <div::title>
+          <{ title }>
+        </div>
+      }
+
+      if (`#{subtitle}`) {
+        <div::subtitle>
+          <{ subtitle }>
+        </div>
+      }
+
+      if (`#{content}`) {
+        <div::content>
+          <{ content }>
+        </div>
+      }
     </div>
   }
 }
 
 component Ui.Card.Image {
+  connect Ui exposing { surfaceBackground, borderRadiusCoefficient }
+
+  property draggable : Bool = true
+  property height : Number = 26
   property src : String = ""
 
+  state errored : Bool = false
+  state loaded : Bool = false
+
+  style image {
+    object-position: center;
+    object-fit: cover;
+
+    transition: opacity 120ms;
+    border-radius: inherit;
+    height: inherit;
+    width: inherit;
+
+    if (loaded) {
+      opacity: 1;
+    } else {
+      opacity: 0;
+    }
+  }
+
   style base {
-    display: block;
+    background: #{surfaceBackground};
+    height: #{height}px;
     width: 100%;
-    border: 0;
+
+    &:last-child {
+      border-bottom-right-radius: #{24 * borderRadiusCoefficient}px;
+      border-bottom-left-radius: #{24 * borderRadiusCoefficient}px;
+    }
 
     &:first-child {
-      border-top-right-radius: 4px;
-      border-top-left-radius: 4px;
-      width: calc(100% + 2px);
-      margin-left: -1px;
-      margin-top: -1px;
+      border-top-right-radius: #{24 * borderRadiusCoefficient}px;
+      border-top-left-radius: #{24 * borderRadiusCoefficient}px;
+    }
+  }
+
+  fun setLoaded : Promise(Never, Void) {
+    next { loaded = true }
+  }
+
+  fun handleDragStart (event : Html.Event) : Void {
+    if (draggable) {
+      void
+    } else {
+      Html.Event.preventDefault(event)
     }
   }
 
   fun render : Html {
-    <img::base src={src}/>
-  }
-}
-
-component Ui.Card.Block {
-  property children : Array(Html) = []
-
-  style base {
-    padding: 1.25em;
-    flex: 1;
-  }
-
-  fun render : Html {
     <div::base>
-      <{ children }>
+      <img::image
+        onDragStart={handleDragStart}
+        onLoad={setLoaded}
+        src={src}/>
     </div>
   }
 }
 
-component Ui.Card.Title {
+component Ui.Card {
+  connect Ui exposing { fontFamily, contentBackground, contentText, surfaceBackground, borderRadiusCoefficient }
+
   property children : Array(Html) = []
+  property minWidth : Number = 0
+  property href : String = ""
 
   style base {
-    margin-bottom: 0.75em;
-    font-size: 1.25em;
-    font-weight: bold;
+    border-radius: #{24 * borderRadiusCoefficient}px;
+    min-width: #{minWidth}px;
+
+    flex-direction: column;
+    display: flex;
+
+    text-decoration: none;
+
+    background: #{contentBackground};
+    color: #{contentText};
   }
 
   fun render : Html {
-    <div::base>
-      <{ children }>
-    </div>
-  }
-}
-
-component Ui.Card.Text {
-  property children : Array(Html) = []
-
-  style base {
-    line-height: 1.5;
-  }
-
-  fun render : Html {
-    <div::base>
-      <{ children }>
-    </div>
+    if (String.isEmpty(href)) {
+      <div::base>
+        <{ children }>
+      </div>
+    } else {
+      <a::base href={href}>
+        <{ children }>
+      </a>
+    }
   }
 }

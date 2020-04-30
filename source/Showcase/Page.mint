@@ -1,16 +1,10 @@
-record Storybook.Log {
-  message : String,
-  time : Time
-}
-
 component Ui.Showcase.Page {
+  property documentation : Function(Html) = () : Html { <></> }
   property properties : Function(Html) = () : Html { <></> }
-  property children : Array(Html) = []
-  property code : String = ""
+  property example : Function(Html) = () : Html { <></> }
   property title : String = ""
 
-  state logs : Array(Storybook.Log) = []
-  state tab : String = "code"
+  state tab : String = "documentation"
 
   style base {
     grid-template-rows: min-content min-content 1fr;
@@ -18,11 +12,10 @@ component Ui.Showcase.Page {
     box-sizing: border-box;
     grid-gap: 0 20px;
     display: grid;
-    padding: 20px;
   }
 
   style example {
-    display: flex;
+    display: grid;
   }
 
   style form {
@@ -39,68 +32,45 @@ component Ui.Showcase.Page {
     font-size: 22px;
   }
 
-  get example : Html {
-    Array.first(children)
-    |> Maybe.withDefault(Html.empty())
-  }
-
-  fun log (message : String) : Promise(Never, Void) {
-    next
-      {
-        logs =
-          Array.push({
-            message = message,
-            time = Time.now()
-          }, logs)
-      }
-  }
-
   fun render : Html {
-    <div::base>
+    <div>
       <div::title>
         <{ title }>
       </div>
 
-      <div::example>
-        <Ui.Showcase.Example>
-          <{ example }>
-        </Ui.Showcase.Example>
-      </div>
-
-      <div::form>
-        <{ properties() }>
-      </div>
-
-      <Ui.Tabs
-        onChange={(key : String) : Promise(Never, Void) { next { tab = key } }}
-        selected={tab}
-        items=[
-          {
-            content =
-              () : Html {
-                <pre>
-                  <{ code }>
-                </pre>
-              },
-            label = "Code",
-            key = "code"
-          },
-          {
-            content =
-              () : Html {
-                <>
-                  for (log of logs) {
-                    <div>
-                      <{ Time.format("", log.time) }>
-                      <{ log.message }>
+      try {
+        items =
+          [
+            {
+              content =
+                () : Html {
+                  <div::base>
+                    <div::example>
+                      <Ui.Showcase.Example>
+                        <{ example() }>
+                      </Ui.Showcase.Example>
                     </div>
-                  }
-                </>
-              },
-            label = "Logs",
-            key = "logs"
-          }
-        ]/>
+
+                    <div::form>
+                      <{ properties() }>
+                    </div>
+                  </div>
+                },
+              label = "Playground",
+              key = "details"
+            },
+            {
+              content = documentation,
+              label = "Documentation",
+              key = "documentation"
+            }
+          ]
+
+        <Ui.Tabs
+          onChange={(key : String) : Promise(Never, Void) { next { tab = key } }}
+          selected={tab}
+          items={items}/>
+      }
     </div>
   }
 }

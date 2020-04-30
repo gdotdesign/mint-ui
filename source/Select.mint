@@ -1,4 +1,13 @@
 component Ui.Select {
+  connect Ui exposing {
+    surfaceBackground,
+    borderRadiusCoefficient,
+    contentBackground,
+    contentText,
+    primaryBackground,
+    primaryShadow
+  }
+
   property onChange : Function(String, Promise(Never, Void)) =
     (selected : String) : Promise(Never, Void) { Promise.never() }
 
@@ -11,6 +20,7 @@ component Ui.Select {
   property value : String = ""
   property minWidth : String = "300px"
   property disabled : Bool = false
+  property size : Number = 16
 
   state open : Bool = false
 
@@ -30,11 +40,13 @@ component Ui.Select {
   }
 
   style element {
-    border-radius: 4px;
+    border-radius: 4.8px;
     border: 2px solid;
 
-    background: #FFF;
-    color: #666;
+    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
+    border: #{size * 0.125}px solid #{surfaceBackground};
+    background-color: #{contentBackground};
+    color: #{contentText};
 
     font-family: sans-serif;
     box-sizing: border-box;
@@ -53,20 +65,27 @@ component Ui.Select {
     outline: none;
 
     if (disabled) {
-      filter: "saturate(0) brightness(0.8)";
+      filter: saturate(0) brightness(0.8) contrast(0.5);
       cursor: not-allowed;
+      user-select: none;
     } else {
       cursor: pointer;
     }
 
     if (open) {
-      border-color: #3B7DFF;
+      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
+      border-color: #{primaryBackground};
     } else {
-      border-color: #E9E9E9;
+      border-color: #{surfaceBackground};
     }
 
     &:focus {
-      border-color: #3B7DFF;
+      if (!disabled) {
+        box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
+        border-color: #{primaryBackground};
+      } else {
+        border-color: #{surfaceBackground};
+      }
     }
   }
 
@@ -98,10 +117,7 @@ component Ui.Select {
   }
 
   fun handleTabOut : Promise(Never, Void) {
-    sequence {
-      Maybe.map(Dom.focusWhenVisible, element)
-      next {  }
-    }
+    Dom.focus(element)
   }
 
   fun handleFocus : Promise(Never, Void) {
@@ -125,6 +141,24 @@ component Ui.Select {
     next { open = false }
   }
 
+  fun handleOpen : Promise(Never, Void) {
+    next { open = true }
+  }
+
+  fun handleKeyDown (event : Html.Event) : Promise(Never, Void) {
+    sequence {
+      autoComplete&.handleKeyDown&(event)
+      next {  }
+    }
+  }
+
+  fun handleSelect (value : String) : Promise(Never, Void) {
+    sequence {
+      onChange(value)
+      Dom.focus(element)
+    }
+  }
+
   get tabindex : String {
     if (disabled) {
       "-1"
@@ -141,12 +175,15 @@ component Ui.Select {
       position={position}
       showClearSelection={showClearSelection}
       onTabOut={handleTabOut}
-      onSelect={onChange}
+      onSelect={handleSelect}
       selected={value}
+      open={open}
+      onOpen={handleOpen}
       items={items}
       element={
         <div::element as element
           tabindex={tabindex}
+          onKeyDown={handleKeyDown}
           onMouseUp={handleFocus}>
 
           <{ label }>

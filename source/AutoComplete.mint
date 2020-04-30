@@ -10,9 +10,10 @@ record Ui.AutoComplete.Item {
 }
 
 component Ui.AutoComplete {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing { fontFamily, contentBackground, contentText }
 
   property onClose : Function(Promise(Never, Void)) = Promise.never
+  property onOpen : Function(Promise(Never, Void)) = Promise.never
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
 
   property onSelect : Function(String, Promise(Never, Void)) =
@@ -32,20 +33,9 @@ component Ui.AutoComplete {
 
   property emptyMessage : Html = <></>
   property element : Html = <></>
+  property open : Bool = false
 
   state status : Ui.AutoComplete.Status = Ui.AutoComplete.Status::Closed("", 0, [])
-
-  style select {
-    border: 1px solid #e5e5e5;
-    height: 40px;
-    vertical-align: middle;
-    display: inline-block;
-    line-height: 38px;
-    padding: 0 10px;
-
-    background: #fff;
-    color: #666;
-  }
 
   style empty {
     font-family: #{fontFamily};
@@ -62,13 +52,6 @@ component Ui.AutoComplete {
     cursor: pointer;
     font-size: 12px;
     margin-top: 10px;
-  }
-
-  get open : Bool {
-    case (status) {
-      Ui.AutoComplete.Status::Searching => true
-      Ui.AutoComplete.Status::Closed => false
-    }
   }
 
   fun componentDidMount : Promise(Never, Void) {
@@ -155,6 +138,51 @@ component Ui.AutoComplete {
 
   fun handleKeyDown (event : Html.Event) : Promise(Never, Void) {
     case (status) {
+      Ui.AutoComplete.Status::Closed search index asd =>
+        case (event.keyCode) {
+          40 =>
+            try {
+              Html.Event.preventDefault(event)
+
+              nextIndex =
+                if (index == Array.size(asd) - 1) {
+                  0
+                } else {
+                  index + 1
+                }
+
+              asd[nextIndex]
+              |> Maybe.map(.key)
+              |> Maybe.withDefault("")
+              |> select(index)
+
+              next { status = Ui.AutoComplete.Status::Closed(search, nextIndex, asd) }
+            }
+
+          38 =>
+            try {
+              Html.Event.preventDefault(event)
+
+              nextIndex =
+                if (index == 0) {
+                  Array.size(asd) - 1
+                } else {
+                  index - 1
+                }
+
+              asd[nextIndex]
+              |> Maybe.map(.key)
+              |> Maybe.withDefault("")
+              |> select(index)
+
+              next { status = Ui.AutoComplete.Status::Closed(search, nextIndex, asd) }
+            }
+
+          13 => show()
+
+          => next {  }
+        }
+
       Ui.AutoComplete.Status::Searching search index items =>
         case (event.keyCode) {
           27 => hide()
@@ -197,8 +225,6 @@ component Ui.AutoComplete {
 
           => next {  }
         }
-
-      => next {  }
     }
   }
 
@@ -207,6 +233,7 @@ component Ui.AutoComplete {
       next { status = Ui.AutoComplete.Status::Searching("", selectedIndex(items), items) }
       scrollIntoView()
       input&.focus&()
+      onOpen()
       next {  }
     }
   }
@@ -243,7 +270,8 @@ component Ui.AutoComplete {
             onClick={(event : Html.Event) : Promise(Never, Void) { select(index, item.key) }}
             selected={selected == index}
             key={item.key}
-            selectable={true}>
+            selectable={true}
+            title={item.content}>
 
             <{ item.content }>
 
@@ -266,6 +294,7 @@ component Ui.AutoComplete {
 
   fun render : Html {
     <Ui.Dropdown
+      closeOnOutsideClick={true}
       position={position}
       element={element}
       onClose={hide}
@@ -280,7 +309,6 @@ component Ui.AutoComplete {
               placeholder={placeholder}
               onKeyDown={handleKeyDown}
               onChange={handleInput}
-              showClearIcon={false}
               value={
                 case (status) {
                   Ui.AutoComplete.Status::Searching search => search

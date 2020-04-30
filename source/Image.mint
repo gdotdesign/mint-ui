@@ -1,4 +1,8 @@
 component Ui.Image {
+  connect Ui exposing { surfaceBackground, borderRadiusCoefficient }
+
+  property borderRadius : String = ""
+  property fullWidth : Bool = false
   property draggable : Bool = true
   property height : Number = 26
   property width : Number = 26
@@ -11,11 +15,10 @@ component Ui.Image {
     object-position: center;
     object-fit: cover;
 
-    border-radius: #{width / 7}px;
-    height: #{height}px;
-    width: #{width}px;
-
     transition: opacity 120ms;
+    border-radius: inherit;
+    height: inherit;
+    width: inherit;
 
     if (loaded) {
       opacity: 1;
@@ -25,11 +28,16 @@ component Ui.Image {
   }
 
   style base {
+    background: #{surfaceBackground};
+    border-radius: #{width / 7}px;
     height: #{height}px;
     width: #{width}px;
 
-    border-radius: #{width / 7}px;
-    background: #DDD;
+    if (String.isEmpty(borderRadius)) {
+      border-radius: #{width / 7}px;
+    } else {
+      border-radius: #{borderRadius};
+    }
   }
 
   fun setLoaded : Promise(Never, Void) {

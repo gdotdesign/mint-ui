@@ -1,37 +1,16 @@
-component Ui.Breadcrumb {
-  property children : Array(Html) = []
-  property target : String = ""
-  property label : String = ""
-  property type : String = ""
-  property href : String = ""
-
-  style base {
-    display: inline-block;
-
-    &:hover,
-    a:focus {
-      color: red;
-    }
-  }
-
-  fun render : Html {
-    <div::base>
-      <a
-        target={target}
-        href={href}>
-
-        <{ children }>
-
-      </a>
-    </div>
-  }
-}
-
 component Ui.Breadcrumbs {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing {
+    surfaceBackground,
+    surfaceText,
+    fontFamily
+  }
 
   property children : Array(Html) = []
-  property separator : String = "|"
+
+  property separator : Html =
+    <>
+      "/"
+    </>
 
   style separator {
     display: inline-block;
@@ -40,10 +19,10 @@ component Ui.Breadcrumbs {
   }
 
   style base {
-    background: red;
-    color: yellow;
+    background: #FCFCFC;
     font-family: #{fontFamily};
-    padding: 14px 24px;
+    color: #444;
+    padding: 14px 32px;
   }
 
   get span : Html {

@@ -1,4 +1,6 @@
 component Ui.ScrollPanel {
+  connect Ui exposing { darkMode }
+
   property children : Array(Html) = []
   property animateScroll : Bool = false
   property shadowSize : Number = 20
@@ -13,6 +15,7 @@ component Ui.ScrollPanel {
   style base {
     scrollbar-color: rgba(0,0,0,0.15) transparent;
     scroll-behavior: #{scrollBehavior};
+    scrollbar-width: thin;
 
     padding-right: #{paddingRight}px;
     overflow-y: auto;

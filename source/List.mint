@@ -3,7 +3,7 @@ component Ui.List {
 
   style base {
     > * + * {
-      margin-top: 2px;
+      margin-top: 5px;
     }
   }
 
@@ -15,9 +15,20 @@ component Ui.List {
 }
 
 component Ui.List.Item {
-  connect Ui exposing { fontFamily }
+  connect Ui exposing {
+    borderRadiusCoefficient,
+    fontFamily,
+    contentBackground,
+    contentText,
+    surfaceBackground,
+    surfaceText,
+    primaryBackground,
+    primaryText
+  }
 
-  property children : Array(Html) = []
+  property details : Html = <></>
+  property title : Html = <></>
+  property image : Html = <></>
 
   property onClick : Function(Html.Event, Promise(Never, Void)) =
     (event : Html.Event) : Promise(Never, Void) { Promise.never() }
@@ -31,10 +42,19 @@ component Ui.List.Item {
     text-decoration: none;
     cursor: #{cursor};
 
-    border-radius: 4px;
+    border-radius: #{15 * borderRadiusCoefficient}px;
     user-select: none;
     padding: 10px;
-    display: flex;
+
+    if (`#{image}`) {
+      grid-template-columns: min-content 1fr;
+    } else {
+      grid-template-columns: 1fr;
+    }
+
+    align-items: center;
+    grid-gap: 5px 10px;
+    display: grid;
 
     background: #{background};
     color: #{color};
@@ -48,6 +68,20 @@ component Ui.List.Item {
       background: #{hoverBackground};
       color: #{hoverColor};
     }
+  }
+
+  style image {
+    if (`#{details}`) {
+      grid-row: span 2;
+    }
+  }
+
+  style title {
+
+  }
+
+  style details {
+
   }
 
   get actuallySelectable : Bool {
@@ -72,33 +106,33 @@ component Ui.List.Item {
 
   get oddBackground : String {
     if (selected) {
-      "#0659fd"
+      primaryBackground
     } else {
-      "#F6F6F6"
+      surfaceBackground
     }
   }
 
   get oddColor : String {
     if (selected) {
-      "#FFF"
+      primaryText
     } else {
-      "hsl(210, 20%, 30%)"
+      surfaceText
     }
   }
 
   get background : String {
     if (selected) {
-      "#0659fd"
+      primaryBackground
     } else {
-      ""
+      contentBackground
     }
   }
 
   get color : String {
     if (selected) {
-      "#FFF"
+      primaryText
     } else {
-      "hsl(210, 20%, 30%)"
+      contentText
     }
   }
 
@@ -119,14 +153,43 @@ component Ui.List.Item {
           ""
         }
 
-      <a::base
-        data-selected={selectedValue}
-        onClick={onClick}
-        href={href}>
+      content =
+        <>
+          if (`#{image}`) {
+            <div::image>
+              <{ image }>
+            </div>
+          }
 
-        <{ children }>
+          <div::title>
+            <{ title }>
+          </div>
 
-      </a>
+          if (`#{details}`) {
+            <div::details>
+              <{ details }>
+            </div>
+          }
+        </>
+
+      if (String.isEmpty(href)) {
+        <span::base
+          data-selected={selectedValue}
+          onClick={onClick}>
+
+          <{ content }>
+
+        </span>
+      } else {
+        <a::base
+          data-selected={selectedValue}
+          onClick={onClick}
+          href={href}>
+
+          <{ content }>
+
+        </a>
+      }
     }
   }
 }
