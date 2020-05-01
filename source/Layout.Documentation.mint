@@ -1,5 +1,5 @@
 component Ui.Layout.Documentation {
-  connect Ui exposing { surfaceBackground, fontFamily, contentText }
+  connect Ui exposing { surfaceBackground, fontFamily, contentBackground, contentText }
 
   property items : Array(Ui.Item) = []
   property children : Array(Html) = []
@@ -7,8 +7,11 @@ component Ui.Layout.Documentation {
   state tocItems : Array(Tuple(String, String)) = []
 
   style base {
+    background: #{contentBackground};
+    color: #{contentText};
+
     grid-template-columns: 300px 1fr 300px;
-    grid-gap: 30px;
+    grid-gap: 20px;
     display: grid;
   }
 
@@ -20,7 +23,7 @@ component Ui.Layout.Documentation {
   style h2 {
     font-family: #{fontFamily};
     text-decoration: none;
-    color: #333;
+    color: inherit;
   }
 
   style toc {
@@ -39,28 +42,43 @@ component Ui.Layout.Documentation {
     font-family: #{fontFamily};
   }
 
+  style item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
   style items {
     border-right: 1px solid #{surfaceBackground};
+    font-family: #{fontFamily};
+    padding: 20px;
   }
 
   fun componentDidMount {
     sequence {
-      case (content) {
-        Maybe::Just element =>
-          try {
-            items =
-              Dom.Extra.getElementsBySelector("a[name]", element)
-              |> Array.map(
-                (item : Dom.Element) { {Dom.Extra.getAttribute("name", item), Dom.Extra.getTextContent(item)} })
-              |> Debug.log()
-
-            next { tocItems = items }
-          }
-
-        => next {  }
-      }
-
+      update()
       Window.Extra.refreshHash()
+    }
+  }
+
+  fun componentDidUpdate {
+    update()
+  }
+
+  fun update {
+    case (content) {
+      Maybe::Just element =>
+        try {
+          items =
+            Dom.Extra.getElementsBySelector("a[name]", element)
+            |> Array.map(
+              (item : Dom.Element) { {Dom.Extra.getAttribute("name", item), Dom.Extra.getTextContent(item)} })
+            |> Debug.log()
+
+          next { tocItems = items }
+        }
+
+      => next {  }
     }
   }
 
@@ -75,7 +93,11 @@ component Ui.Layout.Documentation {
   fun render : Html {
     <div::base>
       <div::items>
-        "ITEMS"
+        for (item of items) {
+          <a::item href={item.href}>
+            <{ item.name }>
+          </a>
+        }
       </div>
 
       <div::content as content>

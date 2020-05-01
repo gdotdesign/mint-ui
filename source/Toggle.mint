@@ -2,11 +2,14 @@ component Ui.Toggle {
   connect Ui exposing {
     fontFamily,
     surfaceBackground,
+    borderRadiusCoefficient,
     surfaceText,
     contentBackground,
+    contentText,
     primaryBackground,
     primaryShadow,
-    primaryText
+    primaryText,
+    borderColor
   }
 
   property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
@@ -24,14 +27,16 @@ component Ui.Toggle {
 
     if (checked) {
       background-color: #{primaryBackground};
+      border-color: #{primaryBackground};
       color: #{primaryText};
     } else {
-      background-color: #{surfaceBackground};
-      color: #{surfaceText};
+      background-color: #{contentBackground};
+      border-color: #{borderColor};
+      color: #{contentText};
     }
 
-    border-radius: #{size * 0.3}px;
-    border: 0;
+    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
+    border: #{size * 0.125}px solid #{borderColor};
 
     font-size: #{size * 0.875}px;
     font-family: #{fontFamily};
@@ -54,6 +59,7 @@ component Ui.Toggle {
 
     &:focus {
       box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
+      border-color: #{primaryBackground};
     }
 
     &:disabled {
@@ -74,7 +80,7 @@ component Ui.Toggle {
 
     width: calc(50% - #{size * 0.375}px);
     border-radius: #{size * 0.2}px;
-    background: #FFF;
+    background: #{surfaceBackground};
 
     transition: left 120ms;
 

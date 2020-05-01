@@ -1,4 +1,4 @@
-/* Button component with a label and icons. */
+/* A basic button component with a label and optional icons before and after it. */
 component Ui.Button {
   connect Ui exposing {
     borderRadiusCoefficient,
@@ -41,6 +41,9 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
+    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
+    border: 0;
+
     font-family: #{fontFamily};
     text-decoration: none;
     font-size: #{size}px;
@@ -55,10 +58,6 @@ component Ui.Button {
     outline: none;
     padding: 0;
     margin: 0;
-
-    if (breakWords) {
-      word-break: break-word;
-    }
 
     case (type) {
       "surface" =>
@@ -83,9 +82,6 @@ component Ui.Button {
 
       =>
     }
-
-    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    border: 0;
 
     &::-moz-focus-inner {
       border: 0;
@@ -123,6 +119,17 @@ component Ui.Button {
     box-sizing: border-box;
   }
 
+  style label {
+    if (breakWords) {
+      word-break: break-word;
+    } else {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  /* Focuses the button. */
   fun focus : Promise(Never, Void) {
     [button, anchor]
     |> Maybe.oneOf()
@@ -140,9 +147,9 @@ component Ui.Button {
           }
 
           if (String.Extra.isNotEmpty(label)) {
-            <span>
+            <div::label>
               <{ label }>
-            </span>
+            </div>
           }
 
           if (String.Extra.isNotEmpty(iconAfter)) {
@@ -153,32 +160,19 @@ component Ui.Button {
         </div>
 
       mouseDownHandler =
-        if (disabled) {
-          Promise.Extra.never1
-        } else {
-          onMouseDown
-        }
+        Ui.Utils.disabledHandler(disabled, onMouseDown)
 
       mouseUpHandler =
-        if (disabled) {
-          Promise.Extra.never1
-        } else {
-          onMouseUp
-        }
+        Ui.Utils.disabledHandler(disabled, onMouseUp)
 
       clickHandler =
-        if (disabled) {
-          Promise.Extra.never1
-        } else {
-          onClick
-        }
+        Ui.Utils.disabledHandler(disabled, onClick)
 
       if (String.Extra.isNotEmpty(href) && !disabled) {
         <a::styles as anchor
           onMouseDown={mouseDownHandler}
           onMouseUp={mouseUpHandler}
           onClick={clickHandler}
-          disabled={disabled}
           href={href}>
 
           <{ content }>

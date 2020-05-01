@@ -29,11 +29,27 @@ store Ui {
     next { borderRadiusCoefficient = value }
   }
 
+  get borderColor : String {
+    if (darkMode) {
+      "#303030"
+    } else {
+      "#E6E6E6"
+    }
+  }
+
   get contentBackground : String {
     if (darkMode) {
       "#333"
     } else {
       "#FFF"
+    }
+  }
+
+  get contentBackgroundFaded : String {
+    if (darkMode) {
+      "#3A3A3A"
+    } else {
+      "#F6F6F6"
     }
   }
 
@@ -47,7 +63,7 @@ store Ui {
 
   get contentText : String {
     if (darkMode) {
-      "#DDD"
+      "#CCC"
     } else {
       "#666"
     }

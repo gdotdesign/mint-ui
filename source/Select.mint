@@ -4,6 +4,7 @@ component Ui.Select {
     borderRadiusCoefficient,
     contentBackground,
     contentText,
+    borderColor,
     primaryBackground,
     primaryShadow
   }
@@ -44,7 +45,7 @@ component Ui.Select {
     border: 2px solid;
 
     border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    border: #{size * 0.125}px solid #{surfaceBackground};
+    border: #{size * 0.125}px solid #{borderColor};
     background-color: #{contentBackground};
     color: #{contentText};
 
@@ -76,7 +77,7 @@ component Ui.Select {
       box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
       border-color: #{primaryBackground};
     } else {
-      border-color: #{surfaceBackground};
+      border-color: #{borderColor};
     }
 
     &:focus {
@@ -84,7 +85,7 @@ component Ui.Select {
         box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
         border-color: #{primaryBackground};
       } else {
-        border-color: #{surfaceBackground};
+        border-color: #{borderColor};
       }
     }
   }

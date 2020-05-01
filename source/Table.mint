@@ -20,12 +20,14 @@ record Ui.CellAction {
 }
 
 component Ui.Table {
+  connect Ui exposing { borderColor, contentBackground, contentBackgroundFaded, contentText }
   property headers : Array(Ui.Table.Header) = []
   property rows : Array(Array(Ui.Cell)) = []
 
   style base {
+    background: #{contentBackground};
     border-collapse: collapse;
-    background: #FFF;
+    color: #{contentText};
     width: 100%;
 
     td,
@@ -36,16 +38,16 @@ component Ui.Table {
 
     td + td,
     th + th {
-      border-left: 1px solid #EAEAEA;
+      border-left: 1px solid #{borderColor};
     }
 
     tr + tr td {
-      border-top: 1px solid #EAEAEA;
+      border-top: 1px solid #{borderColor};
     }
 
     th {
-      border-bottom: 2px solid #EAEAEA;
-      background: #FFF;
+      border-bottom: 2px solid #{borderColor};
+      background: #{contentBackgroundFaded};
     }
   }
 

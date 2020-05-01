@@ -1,6 +1,13 @@
 store Ui.Icons {
   state icons : Map(String, Tuple(Number, Number, Html)) = Map.empty()
   |> Map.set(
+    "checkmark",
+    {
+      12, 16, <path
+        fill-rule="evenodd"
+        d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/>
+    })
+  |> Map.set(
     "home",
     {
       16, 16, <path
@@ -117,10 +124,12 @@ store Ui.Icons {
 component Ui.Icon {
   connect Ui.Icons exposing { icons }
 
+  property opacity : Number = 1
   property name : String = ""
   property size : Number = 16
 
   style base {
+    opacity: #{opacity};
     fill: currentColor;
   }
 

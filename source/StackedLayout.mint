@@ -1,14 +1,11 @@
 component Ui.Page {
+  connect Ui exposing { contentBackgroundFaded, contentText }
+
   property children : Array(Html) = []
-  property background : String = ""
 
   style base {
-    if (String.isEmpty(background)) {
-      background: #F0F0F0;
-    } else {
-      background: #{background};
-    }
-
+    background: #{contentBackgroundFaded};
+    color: #{contentText};
     padding: 32px;
   }
 

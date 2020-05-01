@@ -1,11 +1,10 @@
 component Ui.Content {
-  connect Ui exposing { fontFamily, surfaceBackground, surfaceText }
+  connect Ui exposing { fontFamily, surfaceBackground, surfaceText, primaryBackground }
 
   property children : Array(Html) = []
 
   style base {
     font-family: #{fontFamily};
-    color: #333;
 
     > *:first-child {
       margin-top: 0;
@@ -23,12 +22,17 @@ component Ui.Content {
       margin-top: 0.5em;
     }
 
+    a:not([name]):not([class]) {
+      color: #{primaryBackground};
+    }
+
     code {
       background: #{surfaceBackground};
       color: #{surfaceText};
+      border-radius: 2px;
       display: inline-block;
-      padding: 5px 10px;
-      font-size: inherit;
+      padding: 5px 8px;
+      font-size: 16px;
     }
   }
 

@@ -4,8 +4,7 @@ component Ui.Calendar {
     contentBackground,
     contentText,
     borderRadiusCoefficient,
-    surfaceBackground,
-    surfaceText
+    borderColor
   }
 
   property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
@@ -23,7 +22,7 @@ component Ui.Calendar {
     background: #{contentBackground};
     color: #{contentText};
 
-    border: 2px solid #{surfaceBackground};
+    border: 2px solid #{borderColor};
     border-radius: #{24 * borderRadiusCoefficient}px;
     font-family: #{fontFamily};
 
@@ -60,8 +59,8 @@ component Ui.Calendar {
   }
 
   style dayNames {
-    border-bottom: 1px solid #{surfaceBackground};
-    border-top: 1px solid #{surfaceBackground};
+    border-bottom: 1px solid #{borderColor};
+    border-top: 1px solid #{borderColor};
     justify-content: space-between;
     padding: 10px 0;
     margin: 15px 0;

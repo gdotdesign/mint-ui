@@ -1,5 +1,5 @@
 component Example {
-  connect Ui exposing { surfaceBackground, surfaceText, contentBackground }
+  connect Ui exposing { surfaceBackground, surfaceText, contentBackground, contentBackgroundFaded, borderColor, contentText }
 
   property horizontalSpacing : Number = 0
   property data : Tuple(Html, String)
@@ -8,15 +8,14 @@ component Example {
   state codeShown : Bool = false
 
   style content {
-    background: linear-gradient(45deg,#F6F6F6 25%, transparent 25%, transparent 75%, #F6F6F6 75%, #F6F6F6),
-                linear-gradient(45deg,#F6F6F6 25%,transparent 25%,transparent 75%,#F6F6F6 75%,#F6F6F6);
+    background: linear-gradient(45deg,#{contentBackgroundFaded} 25%, transparent 25%, transparent 75%, #{contentBackgroundFaded} 75%, #{contentBackgroundFaded}),
+                linear-gradient(45deg,#{contentBackgroundFaded} 25%,transparent 25%,transparent 75%,#{contentBackgroundFaded} 75%,#{contentBackgroundFaded});
 
     background-position: 0 0,10px 10px;
     background-size: 20px 20px;
     justify-content: center;
 
-    background-color: #FEFEFE;
-    border-radius: 3px;
+    background-color: #{contentBackground};
     justify-content: center;
     align-items: center;
     display: flex;
@@ -31,9 +30,9 @@ component Example {
   }
 
   style pre {
-    border-top: 2px solid #F0F0F0;
-    background: #F6F6F6;
-    color: #333;
+    border-top: 1px solid #{borderColor};
+    background: #{contentBackgroundFaded};
+    color: #{contentText};
     padding: 20px;
     margin: 0;
 
@@ -48,9 +47,8 @@ component Example {
   }
 
   style base {
-    border: 2px solid #F0F0F0;
+    border: 1px solid #{borderColor};
     border-radius: 3px;
-    background: #EEE;
     position: relative;
   }
 
@@ -64,10 +62,10 @@ component Example {
   }
 
   style controls {
-    border-left: 2px solid #F0F0F0;
-    background: #F6F6F6;
+    border-left: 1px solid #{borderColor};
+    background: #{contentBackgroundFaded};
     padding: 20px;
-
+    min-width: 300px;
     grid-gap: 20px;
     display: grid;
   }
@@ -76,14 +74,6 @@ component Example {
     grid-template-columns: 1fr min-content;
     border-radius: 3px 3px 0 0;
     display: grid;
-  }
-
-  style code-button {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    height: 40px;
-    color: #333;
   }
 
   fun render : Html {

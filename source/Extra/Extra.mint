@@ -16,7 +16,7 @@ module Window.Extra {
   fun refreshHash : Promise(Never, Void) {
     `requestAnimationFrame(() => {
       if (window.location.hash) {
-        window.location.hash = window.location.hash
+        window.location.href = window.location.hash
       }
     })
     `

@@ -6,10 +6,11 @@ component Ui.Input {
     contentBackground,
     contentText,
     surfaceBackground,
+    borderColor,
     fontFamily
   }
 
-  property placeholder : String = "Placeholder..."
+  property placeholder : String = ""
   property type : String = "text"
   property value : String = ""
   property iconInteractive : Bool = false
@@ -27,7 +28,6 @@ component Ui.Input {
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
   property onFocus : Function(Promise(Never, Void)) = Promise.never
   property onTabIn : Function(Promise(Never, Void)) = Promise.never
-  property onClear : Function(Promise(Never, Void)) = Promise.never
   property onBlur : Function(Promise(Never, Void)) = Promise.never
 
   state currentValue : Maybe(String) = Maybe::Nothing
@@ -58,7 +58,7 @@ component Ui.Input {
     box-sizing: border-box;
 
     border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    border: #{size * 0.125}px solid #{surfaceBackground};
+    border: #{size * 0.125}px solid #{borderColor};
     background-color: #{contentBackground};
     color: #{contentText};
 
