@@ -1,39 +1,84 @@
 component Ui.Breadcrumbs {
   connect Ui exposing {
-    surfaceBackground,
-    surfaceText,
+    contentBackgroundFaded,
+    contentTextFaded,
+    contentText,
+    primaryBackground,
     fontFamily
   }
 
-  property children : Array(Html) = []
+  property items : Array(Tuple(String, Html)) = []
+  property separator : Html = <>"/"</>
+  property size : Number = 16
 
-  property separator : Html =
-    <>
-      "/"
-    </>
+  style base {
+    padding: #{size * 0.875}px #{size * 2}px;
+    background: #{contentBackgroundFaded};
+    font-family: #{fontFamily};
+
+    color: #{contentText};
+    font-size: #{size}px;
+    white-space: nowrap;
+  }
 
   style separator {
+    margin: 0 #{size * 0.75}px;
     display: inline-block;
-    margin: 0 12px;
     opacity: 0.4;
   }
 
-  style base {
-    background: #FCFCFC;
-    font-family: #{fontFamily};
-    color: #444;
-    padding: 14px 32px;
+  style breadcrumb {
+    text-decoration: none;
+    color: #{contentText};
+    outline: none;
+
+    &:not(:last-child) {
+      opacity: 0.75;
+    }
+
+    &::-moz-focus-inner {
+      border: 0;
+    }
+
+    &:hover,
+    &:focus {
+      color: #{primaryBackground};
+    }
   }
 
-  get span : Html {
-    <span::separator>
-      <{ separator }>
-    </span>
+  get content : Array(Html) {
+    for (item of items) {
+      try {
+        {href, content} =
+          item
+
+        if (String.isEmpty(href)) {
+          <span aria-label="breadcrumb">
+            <{ content }>
+          </span>
+        } else {
+          <a::breadcrumb
+            aria-label="breadcrumb"
+            href={href}>
+
+            <{ content }>
+
+          </a>
+        }
+      }
+    }
   }
 
   fun render : Html {
-    <div::base>
-      <{ Array.intersperse(span, children) }>
-    </div>
+    try {
+      span =
+        <span::separator aria-hidden="true">
+          <{ separator }>
+        </span>
+
+      <nav::base>
+        <{ Array.intersperse(span, content) }>
+      </nav>
+    }
   }
 }

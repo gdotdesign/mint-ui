@@ -1,6 +1,64 @@
 store Ui.Icons {
   state icons : Map(String, Tuple(Number, Number, Html)) = Map.empty()
   |> Map.set(
+    "info",
+    {
+      14, 16, <path
+        fill-rule="evenodd"
+        d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"/>
+    })
+  |> Map.set(
+    "double-chevron-right",
+    {
+      16, 16, <path
+        fill-rule="evenodd"
+        d="M3.5 3L2 4.5 5.75 8 2 11.5 3.5 13l5-5-5-5zM9 3L7.5 4.5 11.25 8 7.5 11.5 9 13l5-5-5-5z"/>
+    })
+  |> Map.set(
+    "double-chevron-left",
+    {
+      16, 16, <path
+        fill-rule="evenodd"
+        d="M12.5 13l1.5-1.5L10.25 8 14 4.5 12.5 3l-5 5zM7 13l1.5-1.5L4.75 8 8.5 4.5 7 3 2 8z"/>
+    })
+  |> Map.set(
+    "chevron-left",
+    {
+      8, 16, <path
+        fill-rule="evenodd"
+        d="M5.75 13l1.5-1.5L3.5 8l3.75-3.5L5.75 3l-5 5z"/>
+    })
+  |> Map.set(
+    "chevron-right",
+    {
+      8, 16, <path
+        fill-rule="evenodd"
+        d="M2.25 3L.75 4.5 4.5 8 .75 11.5l1.5 1.5 5-5z"/>
+    })
+  |> Map.set(
+    "eye",
+    {
+      16, 16, <path
+        fill-rule="evenodd"
+        d={
+          "M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94" \
+          "-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 " \
+          "4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89" \
+          "-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"
+        }/>
+    })
+  |> Map.set(
+    "close",
+    {
+      12, 16, <path
+        fill-rule="evenodd"
+        d={
+          "M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L" \
+          "4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.4" \
+          "8 8z"
+        }/>
+    })
+  |> Map.set(
     "checkmark",
     {
       12, 16, <path
@@ -127,10 +185,19 @@ component Ui.Icon {
   property opacity : Number = 1
   property name : String = ""
   property size : Number = 16
+  property autoSize : Bool = false
 
   style base {
     opacity: #{opacity};
     fill: currentColor;
+
+    if (autoSize) {
+      height: 1em;
+      width: 1em;
+    } else {
+      height: #{size}px;
+      width: #{size}px;
+    }
   }
 
   fun render : Html {
@@ -140,8 +207,6 @@ component Ui.Icon {
 
       <svg::base
         viewBox="0 0 #{width} #{height}"
-        height={Number.toString(size)}
-        width={Number.toString(size)}
         aria-hidden="true"
         version="1.1">
 

@@ -2,6 +2,10 @@ component Example {
   connect Ui exposing { surfaceBackground, surfaceText, contentBackground, contentBackgroundFaded, borderColor, contentText }
 
   property horizontalSpacing : Number = 0
+  property verticalSpacing : Number = 0
+
+  property maxWidth : Number = 0
+
   property data : Tuple(Html, String)
   property controls : Function(Html) = () { <></> }
 
@@ -21,12 +25,20 @@ component Example {
     display: flex;
     overflow: hidden;
     padding: 30px;
+  }
 
+  style content-wrapper {
     if (horizontalSpacing > 0) {
       grid-gap: #{horizontalSpacing}px;
       grid-auto-flow: column;
-      display: grid;
+      align-items: center;
     }
+
+    if (verticalSpacing > 0) {
+      grid-gap: #{verticalSpacing}px;
+    }
+
+    display: grid;
   }
 
   style pre {
@@ -87,7 +99,9 @@ component Example {
       <div::base>
         <div::wrapper>
           <div::content>
-            <{ content }>
+            <div::content-wrapper>
+              <{ content }>
+            </div>
           </div>
 
           if (`#{controlsHtml}`) {

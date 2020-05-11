@@ -65,7 +65,7 @@ store Ui {
     if (darkMode) {
       "#CCC"
     } else {
-      "#666"
+      "#444"
     }
   }
 

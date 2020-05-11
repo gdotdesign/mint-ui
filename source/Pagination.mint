@@ -1,121 +1,98 @@
 component Ui.Pagination {
-  property onChange : Function(Number, Promise(Never, Void)) =
-    (page : Number) : Promise(Never, Void) { next {  } }
-
+  property onChange : Function(Number, Promise(Never, Void)) = Promise.Extra.never1
+  property disabled : Bool = false
   property sidePages : Number = 2
   property perPage : Number = 10
   property total : Number = 0
+  property size : Number = 16
   property page : Number = 0
 
   style base {
+    grid-gap: #{size * 0.625}px;
+    grid-auto-flow: column;
     align-items: center;
-    display: flex;
-
-    * + * {
-      margin-left: 5px;
-    }
+    width: min-content;
+    display: grid;
   }
 
-  style span {
-    margin: 0 5px 0 10px;
+  style ellipsis {
+    font-size: #{size}px;
 
     &:before {
       content: "\\2219 \\2219 \\2219";
-      line-height: 8px;
     }
   }
 
-  get pages : Number {
-    Math.floor(Math.max(total - 1, 0) / perPage)
-  }
+  fun renderButton (data : Tuple(Number, Bool, String, String)) : Html {
+    try {
+      {page, active, label, icon} =
+        data
 
-  get buttonRange : Array(Number) {
-    Array.range(
-      Math.max(1, page - sidePages),
-      Math.min(page + sidePages + 1, pages))
-  }
+      type =
+        if (active) {
+          "primary"
+        } else {
+          "surface"
+        }
 
-  get buttons : Array(Html) {
-    for (index of buttonRange) {
+      key =
+        Number.toString(page) + label + icon
+
       <Ui.Button
-        onClick={(event : Html.Event) : a { onChange(index) }}
-        key={Number.toString(index)}>
-
-        <{ Number.toString(index + 1) }>
-
-      </Ui.Button>
-    }
-  }
-
-  get previousButton : Html {
-    if (page != 0 && pages > 0) {
-      <Ui.Button onClick={(event : Html.Event) : a { onChange(page - 1) }}>
-        "Prev"
-      </Ui.Button>
-    } else {
-      Html.empty()
-    }
-  }
-
-  get nextButton : Html {
-    if (page != pages && pages > 0) {
-      <Ui.Button onClick={(event : Html.Event) : a { onChange(page + 1) }}>
-        "Next"
-      </Ui.Button>
-    } else {
-      Html.empty()
-    }
-  }
-
-  get leftDots : Html {
-    if (sidePages < (page - 1) && pages > 0) {
-      <span::span/>
-    } else {
-      Html.empty()
-    }
-  }
-
-  get rightDots : Html {
-    if ((page + sidePages + 1 < pages) && pages > 0) {
-      <span::span/>
-    } else {
-      Html.empty()
-    }
-  }
-
-  get rightButton : Html {
-    if (pages > 1) {
-      <Ui.Button onClick={(event : Html.Event) : a { onChange(pages) }}>
-        "1"
-      </Ui.Button>
-    } else {
-      Html.empty()
-    }
-  }
-
-  get leftButton : Html {
-    if (pages >= 1) {
-      <Ui.Button onClick={(event : Html.Event) : a { onChange(0) }}>
-        <{ Number.toString(pages + 1) }>
-      </Ui.Button>
-    } else {
-      Html.empty()
+        onClick={(event : Html.Event) { onChange(page) }}
+        disabled={disabled}
+        iconBefore={icon}
+        ellipsis={false}
+        label={label}
+        type={type}
+        size={size}
+        key={key}/>
     }
   }
 
   fun render : Html {
     <div::base>
-      <{ previousButton }>
+      /* First page button */
+      if (!Array.contains(0, buttonRange)) {
+        renderButton({0, false, "", "double-chevron-left"})
+      }
 
-      <{ leftButton }>
+      /* Previous button */
+      if (page > 0) {
+        renderButton({page - 1, false, "", "chevron-left"})
+      }
 
-      <{ leftDots }>
-      <{ buttons }>
-      <{ rightDots }>
+      /* Left ellipsis */
+      if (sidePages < (page - 1) && pages > 0) {
+        <span::ellipsis/>
+      }
 
-      <{ rightButton }>
+      for (index of buttonRange) {
+        renderButton({index, index == page, Number.toString(index + 1), ""})
+      }
 
-      <{ nextButton }>
+      /* Right ellipsis */
+      if ((page + sidePages + 1 < pages) && pages > 0) {
+        <span::ellipsis/>
+      }
+
+      /* Next page button */
+      if (page < pages && pages > 0) {
+        renderButton({page + 1, false, "", "chevron-right"})
+      }
+
+      /* Last page button */
+      if (page < pages && !Array.contains(pages, buttonRange)) {
+        renderButton({pages, false, "", "double-chevron-right"})
+      }
     </div>
+  } where {
+    buttonRange =
+      Array.range(
+        Math.max(0, page - sidePages),
+        Math.min(page + sidePages, pages))
+
+    pages =
+      Math.floor(Math.max(total - 1, 0) / perPage)
   }
 }

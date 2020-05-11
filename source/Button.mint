@@ -1,4 +1,3 @@
-/* A basic button component with a label and optional icons before and after it. */
 component Ui.Button {
   connect Ui exposing {
     borderRadiusCoefficient,
@@ -25,6 +24,7 @@ component Ui.Button {
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
   property breakWords : Bool = false
+  property ellipsis : Bool = true
   property type : String = "primary"
   property label : String = ""
   property href : String = ""
@@ -122,7 +122,7 @@ component Ui.Button {
   style label {
     if (breakWords) {
       word-break: break-word;
-    } else {
+    } else if (ellipsis) {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;

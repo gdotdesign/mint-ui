@@ -11,23 +11,29 @@ component Ui.Input {
   }
 
   property placeholder : String = ""
+  property inputDelay : Number = 0
+  property disabled : Bool = false
   property type : String = "text"
   property value : String = ""
-  property iconInteractive : Bool = false
-  property icon : String = ""
-  property disabled : Bool = false
-  property inputDelay : Number = 0
   property size : Number = 16
 
+  property iconInteractive : Bool = false
+  property icon : String = ""
+
   property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+
   property onKeyDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property onKeyUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
-  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
-  property onFocus : Function(Promise(Never, Void)) = Promise.never
   property onTabIn : Function(Promise(Never, Void)) = Promise.never
+
+  property onFocus : Function(Promise(Never, Void)) = Promise.never
   property onBlur : Function(Promise(Never, Void)) = Promise.never
 
   state currentValue : Maybe(String) = Maybe::Nothing
@@ -150,8 +156,8 @@ component Ui.Input {
 
   fun notify : Promise(Never, Void) {
     sequence {
-      Debug.log("WTF")
       onChange(Maybe.withDefault(value, currentValue))
+
       next { currentValue = Maybe::Nothing }
     }
   }

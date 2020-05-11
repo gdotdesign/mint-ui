@@ -38,7 +38,7 @@ component Ui.Calendar.Cell {
       }
     }
 
-    if (Debug.log(selected)) {
+    if (selected) {
       background: #{primaryBackground};
       color: #{primaryText};
     }

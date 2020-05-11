@@ -1,7 +1,7 @@
 component Ui.Layout.Documentation {
-  connect Ui exposing { surfaceBackground, fontFamily, contentBackground, contentText }
+  connect Ui exposing { fontFamily, contentBackground, contentText, borderColor }
 
-  property items : Array(Ui.Item) = []
+  property items : Array(Tuple(String, String)) = []
   property children : Array(Html) = []
 
   state tocItems : Array(Tuple(String, String)) = []
@@ -10,13 +10,13 @@ component Ui.Layout.Documentation {
     background: #{contentBackground};
     color: #{contentText};
 
-    grid-template-columns: 300px 1fr 300px;
+    grid-template-columns: min-content 1fr 300px;
     grid-gap: 20px;
     display: grid;
   }
 
   style content {
-    padding: 20px;
+    padding: 40px 20px 100px;
     min-width: 0;
   }
 
@@ -27,7 +27,7 @@ component Ui.Layout.Documentation {
   }
 
   style toc {
-    border-left: 1px solid #{surfaceBackground};
+    border-left: 1px solid #{borderColor};
     align-self: start;
 
     padding: 5px 20px;
@@ -42,14 +42,19 @@ component Ui.Layout.Documentation {
     font-family: #{fontFamily};
   }
 
-  style item {
+  style item (active : Bool) {
+    padding: 5px 10px;
     display: block;
     text-decoration: none;
     color: inherit;
+
+    if (active) {
+      font-weight: bold;
+    }
   }
 
   style items {
-    border-right: 1px solid #{surfaceBackground};
+    border-right: 1px solid #{borderColor};
     font-family: #{fontFamily};
     padding: 20px;
   }
@@ -73,7 +78,6 @@ component Ui.Layout.Documentation {
             Dom.Extra.getElementsBySelector("a[name]", element)
             |> Array.map(
               (item : Dom.Element) { {Dom.Extra.getAttribute("name", item), Dom.Extra.getTextContent(item)} })
-            |> Debug.log()
 
           next { tocItems = items }
         }
@@ -92,13 +96,18 @@ component Ui.Layout.Documentation {
 
   fun render : Html {
     <div::base>
-      <div::items>
+      <nav::items>
         for (item of items) {
-          <a::item href={item.href}>
-            <{ item.name }>
-          </a>
+          try {
+            {path, name} =
+              item
+
+            <a::item(Window.url().path == path) href={path}>
+              <{ name }>
+            </a>
+          }
         }
-      </div>
+      </nav>
 
       <div::content as content>
         <Ui.Content>

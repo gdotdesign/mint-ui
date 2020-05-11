@@ -1,9 +1,8 @@
 component Ui.Toggle {
   connect Ui exposing {
+    borderRadiusCoefficient,
     fontFamily,
     surfaceBackground,
-    borderRadiusCoefficient,
-    surfaceText,
     contentBackground,
     contentText,
     primaryBackground,
@@ -79,8 +78,8 @@ component Ui.Toggle {
     position: absolute;
 
     width: calc(50% - #{size * 0.375}px);
-    border-radius: #{size * 0.2}px;
     background: #{surfaceBackground};
+    border-radius: #{size * 0.2}px;
 
     transition: left 120ms;
 
@@ -117,9 +116,9 @@ component Ui.Toggle {
   fun render : Html {
     <button::base
       aria-checked={Bool.toString(checked)}
+      role="checkbox"
       disabled={disabled}
-      onClick={toggle}
-      role="checkbox">
+      onClick={toggle}>
 
       <div::label aria-hidden="true">
         <{ onLabel }>
