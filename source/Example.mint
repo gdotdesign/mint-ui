@@ -79,6 +79,8 @@ component Example {
     padding: 20px;
     min-width: 300px;
     grid-gap: 20px;
+    align-content: start;
+    align-items: start;
     display: grid;
   }
 
