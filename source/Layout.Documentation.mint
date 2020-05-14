@@ -10,7 +10,7 @@ component Ui.Layout.Documentation {
     background: #{contentBackground};
     color: #{contentText};
 
-    grid-template-columns: min-content 1fr 300px;
+    grid-template-columns: 300px 1fr 300px;
     grid-gap: 20px;
     display: grid;
   }

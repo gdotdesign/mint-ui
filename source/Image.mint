@@ -3,13 +3,30 @@ component Ui.Image {
 
   property borderRadius : String = ""
   property fullWidth : Bool = false
-  property draggable : Bool = true
-  property height : Number = 26
-  property width : Number = 26
+  property draggable : Bool = false
+  property height : Number = 100
+  property width : Number = 100
   property src : String = ""
+  property alt : String = ""
 
-  state errored : Bool = false
+  state visible : Bool = false
   state loaded : Bool = false
+
+  use Provider.Intersection {
+    rootMargin = "50px",
+    treshold = 0.01,
+    element = base,
+    callback =
+      (ratio : Number) {
+        if (ratio > 0) {
+          next { visible = true }
+        } else {
+          next {  }
+        }
+      }
+  } when {
+    !visible
+  }
 
   style image {
     object-position: center;
@@ -29,12 +46,16 @@ component Ui.Image {
 
   style base {
     background: #{surfaceBackground};
-    border-radius: #{width / 7}px;
     height: #{height}px;
-    width: #{width}px;
+
+    if (fullWidth) {
+      width: 100%;
+    } else {
+      width: #{width}px;
+    }
 
     if (String.isEmpty(borderRadius)) {
-      border-radius: #{width / 7}px;
+      border-radius: #{24 * borderRadiusCoefficient}px;
     } else {
       border-radius: #{borderRadius};
     }
@@ -53,11 +74,14 @@ component Ui.Image {
   }
 
   fun render : Html {
-    <div::base>
-      <img::image
-        onDragStart={handleDragStart}
-        onLoad={setLoaded}
-        src={src}/>
+    <div::base as base>
+      if (visible) {
+        <img::image
+          onDragStart={handleDragStart}
+          onLoad={setLoaded}
+          alt={alt}
+          src={src}/>
+      }
     </div>
   }
 }

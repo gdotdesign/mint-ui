@@ -4,7 +4,7 @@ component Example {
   property horizontalSpacing : Number = 0
   property verticalSpacing : Number = 0
 
-  property maxWidth : Number = 0
+  property fill : Bool = false
 
   property data : Tuple(Html, String)
   property controls : Function(Html) = () { <></> }
@@ -16,13 +16,18 @@ component Example {
                 linear-gradient(45deg,#{contentBackgroundFaded} 25%,transparent 25%,transparent 75%,#{contentBackgroundFaded} 75%,#{contentBackgroundFaded});
 
     background-position: 0 0,10px 10px;
+    border-radius: 4px 4px 0 0;
     background-size: 20px 20px;
-    justify-content: center;
-
     background-color: #{contentBackground};
-    justify-content: center;
-    align-items: center;
-    display: flex;
+
+    if (fill) {
+      display: grid;
+    } else {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+
     overflow: hidden;
     padding: 30px;
   }

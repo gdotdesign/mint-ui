@@ -4,7 +4,8 @@ component Ui.Slider {
     primaryBackground,
     surfaceBackground,
     contentBackground,
-    primaryShadow
+    primaryShadow,
+    borderColor
   }
 
   property onChange : Function(Number, Promise(Never, Void)) = Promise.Extra.never1
@@ -52,7 +53,7 @@ component Ui.Slider {
     &::-moz-range-track,
     &::-ms-track {
       border-radius: 5px;
-      border: #{size * 0.125}px solid #{surfaceBackground};
+      border: #{size * 0.125}px solid #{borderColor};
       background-color: #{contentBackground};
       height: #{size * 0.5}px;
     }

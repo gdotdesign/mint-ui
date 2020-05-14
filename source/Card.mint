@@ -93,71 +93,36 @@ component Ui.Card.Container {
 }
 
 component Ui.Card.Image {
-  connect Ui exposing { surfaceBackground, borderRadiusCoefficient }
-
-  property draggable : Bool = true
+  connect Ui exposing { borderRadiusCoefficient }
   property height : Number = 26
   property src : String = ""
 
-  state errored : Bool = false
-  state loaded : Bool = false
-
-  style image {
-    object-position: center;
-    object-fit: cover;
-
-    transition: opacity 120ms;
-    border-radius: inherit;
-    height: inherit;
-    width: inherit;
-
-    if (loaded) {
-      opacity: 1;
-    } else {
-      opacity: 0;
-    }
-  }
-
   style base {
-    background: #{surfaceBackground};
-    height: #{height}px;
-    width: 100%;
-
-    &:last-child {
-      border-bottom-right-radius: #{24 * borderRadiusCoefficient}px;
-      border-bottom-left-radius: #{24 * borderRadiusCoefficient}px;
+    &:last-child > * {
+      border-radius: 0 0
+                     #{24 * borderRadiusCoefficient}px
+                     #{24 * borderRadiusCoefficient}px;
     }
 
-    &:first-child {
-      border-top-right-radius: #{24 * borderRadiusCoefficient}px;
-      border-top-left-radius: #{24 * borderRadiusCoefficient}px;
-    }
-  }
-
-  fun setLoaded : Promise(Never, Void) {
-    next { loaded = true }
-  }
-
-  fun handleDragStart (event : Html.Event) : Void {
-    if (draggable) {
-      void
-    } else {
-      Html.Event.preventDefault(event)
+    &:first-child > * {
+      border-radius: #{24 * borderRadiusCoefficient}px
+                     #{24 * borderRadiusCoefficient}px
+                     0 0;
     }
   }
 
   fun render : Html {
     <div::base>
-      <img::image
-        onDragStart={handleDragStart}
-        onLoad={setLoaded}
+      <Ui.Image
+        fullWidth={true}
+        height={height}
         src={src}/>
     </div>
   }
 }
 
 component Ui.Card {
-  connect Ui exposing { fontFamily, contentBackground, contentText, surfaceBackground, borderRadiusCoefficient }
+  connect Ui exposing { fontFamily, contentBackground, contentText, surfaceBackground, borderRadiusCoefficient, borderColor }
 
   property children : Array(Html) = []
   property minWidth : Number = 0
@@ -165,6 +130,7 @@ component Ui.Card {
 
   style base {
     border-radius: #{24 * borderRadiusCoefficient}px;
+    border: 1px solid #{borderColor};
     min-width: #{minWidth}px;
 
     flex-direction: column;

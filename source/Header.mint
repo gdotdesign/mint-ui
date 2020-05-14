@@ -1,11 +1,11 @@
 component Ui.Header {
-  connect Ui exposing { primaryBackground, primaryText }
+  connect Ui exposing { surfaceBackground, surfaceText }
 
   property children : Array(Html) = []
 
   style base {
-    background: #{primaryBackground};
-    color: #{primaryText};
+    background: #{surfaceBackground};
+    color: #{surfaceText};
 
     padding: 0 32px;
     height: 64px;

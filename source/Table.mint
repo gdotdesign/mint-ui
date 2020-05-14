@@ -26,6 +26,7 @@ component Ui.Table {
 
   style base {
     background: #{contentBackground};
+    border: 1px solid #{borderColor};
     border-collapse: collapse;
     color: #{contentText};
     width: 100%;

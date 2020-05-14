@@ -31,7 +31,7 @@ store Ui {
 
   get borderColor : String {
     if (darkMode) {
-      "#303030"
+      "#2C2C2C"
     } else {
       "#E6E6E6"
     }

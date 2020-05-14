@@ -1,5 +1,5 @@
 component Ui.Content {
-  connect Ui exposing { fontFamily, surfaceBackground, surfaceText, primaryBackground }
+  connect Ui exposing { fontFamily, contentBackgroundFaded, contentText, primaryBackground, borderColor }
 
   property children : Array(Html) = []
 
@@ -27,12 +27,13 @@ component Ui.Content {
     }
 
     code {
-      background: #{surfaceBackground};
-      color: #{surfaceText};
+      background: #{contentBackgroundFaded};
+      border: 1px solid #{borderColor};
+      color: #{contentText};
       border-radius: 2px;
       display: inline-block;
       padding: 5px 8px;
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 

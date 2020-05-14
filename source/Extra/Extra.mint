@@ -43,6 +43,27 @@ module String.Extra {
 }
 
 module Dom.Extra {
+  fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+    `#{element}.scrollTo({
+      behavior: 'smooth',
+      left: #{left},
+      top: #{top} })`
+  }
+
+  fun scrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
+    `#{element}.scrollTo({
+      left: #{left},
+      top: #{top} })`
+  }
+
+  fun getScrollLeft (element : Dom.Element) : Number {
+    `#{element}.scrollLeft || 0`
+  }
+
+  fun getScrollWidth (element : Dom.Element) : Number {
+    `#{element}.scrollWidth || 0`
+  }
+
   fun measureText (font : String, text : String) : Number {
     `
     (() => {
@@ -86,6 +107,10 @@ module Dom.Extra {
 
   fun getTextContent (element : Dom.Element) : String {
     `#{element}.textContent`
+  }
+
+  fun getChildren (element : Dom.Element) : Array(Dom.Element) {
+    `Array.from(#{element}.children)`
   }
 
   fun getTagName (element : Dom.Element) : String {
