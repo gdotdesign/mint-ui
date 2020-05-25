@@ -18,6 +18,7 @@ component Ui.StickyPanel {
   /* If true pointer events pass through the panel. */
   property passThrough : Bool = false
 
+  /* The z-index of the panel. */
   property zIndex : Number = 0
 
   state left : Number = 0
@@ -28,6 +29,7 @@ component Ui.StickyPanel {
     z-index: #{zIndex};
     left: #{left}px;
     top: #{top}px;
+
     position: fixed;
   }
 

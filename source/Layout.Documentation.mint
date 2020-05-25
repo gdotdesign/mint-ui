@@ -1,7 +1,7 @@
 component Ui.Layout.Documentation {
-  connect Ui exposing { fontFamily, contentBackground, contentText, borderColor }
+  connect Ui exposing { fontFamily, contentBackground, contentText, borderColor, primaryBackground }
 
-  property items : Array(Tuple(String, String)) = []
+  property items : Array(Tuple(String, Array(Tuple(String, String)))) = []
   property children : Array(Html) = []
 
   state tocItems : Array(Tuple(String, String)) = []
@@ -42,6 +42,15 @@ component Ui.Layout.Documentation {
     font-family: #{fontFamily};
   }
 
+  style category {
+    margin-bottom: 5px;
+    display: block;
+
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+  }
+
   style item (active : Bool) {
     padding: 5px 10px;
     display: block;
@@ -49,7 +58,7 @@ component Ui.Layout.Documentation {
     color: inherit;
 
     if (active) {
-      font-weight: bold;
+      color: #{primaryBackground};
     }
   }
 
@@ -99,12 +108,25 @@ component Ui.Layout.Documentation {
       <nav::items>
         for (item of items) {
           try {
-            {path, name} =
+            {category, subitems} =
               item
 
-            <a::item(Window.url().path == path) href={path}>
-              <{ name }>
-            </a>
+            <>
+              <strong::category>
+                <{ category }>
+              </strong>
+
+              for (item of subitems) {
+                try {
+                  {path, name} =
+                    item
+
+                  <a::item(Window.url().path == path) href={path}>
+                    <{ name }>
+                  </a>
+                }
+              }
+            </>
           }
         }
       </nav>

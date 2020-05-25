@@ -33,7 +33,7 @@ store Ui {
     if (darkMode) {
       "#2C2C2C"
     } else {
-      "#E6E6E6"
+      "#EEE"
     }
   }
 
@@ -49,7 +49,7 @@ store Ui {
     if (darkMode) {
       "#3A3A3A"
     } else {
-      "#F6F6F6"
+      "#F5F5F5"
     }
   }
 
@@ -73,7 +73,7 @@ store Ui {
     if (darkMode) {
       "#444"
     } else {
-      "#E9E9E9"
+      "#ECECEC"
     }
   }
 
