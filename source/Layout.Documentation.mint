@@ -1,5 +1,5 @@
 component Ui.Layout.Documentation {
-  connect Ui exposing { fontFamily, contentBackground, contentText, borderColor, primaryBackground }
+  connect Ui exposing { mobile, fontFamily, contentBackground, contentText, borderColor, primaryBackground }
 
   property items : Array(Tuple(String, Array(Tuple(String, String)))) = []
   property children : Array(Html) = []
@@ -16,7 +16,7 @@ component Ui.Layout.Documentation {
   }
 
   style content {
-    padding: 40px 20px 100px;
+    padding: 30px 20px 100px;
     min-width: 0;
   }
 
@@ -31,7 +31,7 @@ component Ui.Layout.Documentation {
     align-self: start;
 
     padding: 5px 20px;
-    margin-top: 20px;
+    margin-top: 30px;
 
     position: sticky;
     top: 20px;
@@ -52,7 +52,7 @@ component Ui.Layout.Documentation {
   }
 
   style item (active : Bool) {
-    padding: 5px 10px;
+    padding: 5px 0;
     display: block;
     text-decoration: none;
     color: inherit;
@@ -65,7 +65,7 @@ component Ui.Layout.Documentation {
   style items {
     border-right: 1px solid #{borderColor};
     font-family: #{fontFamily};
-    padding: 20px;
+    padding: 30px 32px;
   }
 
   fun componentDidMount {
@@ -105,31 +105,33 @@ component Ui.Layout.Documentation {
 
   fun render : Html {
     <div::base>
-      <nav::items>
-        for (item of items) {
-          try {
-            {category, subitems} =
-              item
+      if (!mobile) {
+        <nav::items>
+          for (item of items) {
+            try {
+              {category, subitems} =
+                item
 
-            <>
-              <strong::category>
-                <{ category }>
-              </strong>
+              <>
+                <strong::category>
+                  <{ category }>
+                </strong>
 
-              for (item of subitems) {
-                try {
-                  {path, name} =
-                    item
+                for (item of subitems) {
+                  try {
+                    {path, name} =
+                      item
 
-                  <a::item(Window.url().path == path) href={path}>
-                    <{ name }>
-                  </a>
+                    <a::item(Window.url().path == path) href={path}>
+                      <{ name }>
+                    </a>
+                  }
                 }
-              }
-            </>
+              </>
+            }
           }
-        }
-      </nav>
+        </nav>
+      }
 
       <div::content as content>
         <Ui.Content>
@@ -137,20 +139,22 @@ component Ui.Layout.Documentation {
         </Ui.Content>
       </div>
 
-      <div::toc onClick={handleClick}>
-        for (item of tocItems) {
-          try {
-            {hash, content} =
-              item
+      if (!mobile) {
+        <div::toc onClick={handleClick}>
+          for (item of tocItems) {
+            try {
+              {hash, content} =
+                item
 
-            <div>
-              <a::h2 href="##{hash}">
-                <{ content }>
-              </a>
-            </div>
+              <div>
+                <a::h2 href="##{hash}">
+                  <{ content }>
+                </a>
+              </div>
+            }
           }
-        }
-      </div>
+        </div>
+      }
     </div>
   }
 }

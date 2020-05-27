@@ -9,6 +9,10 @@ module Promise.Extra {
 }
 
 module Window.Extra {
+  fun isActiveURL (url : String) : Bool {
+    Window.url() == Url.parse(url)
+  }
+
   fun alert (message : String) : Promise(Never, Void) {
     `window.alert(#{message})`
   }

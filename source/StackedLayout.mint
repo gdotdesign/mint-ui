@@ -1,12 +1,45 @@
 component Ui.Page {
-  connect Ui exposing { contentBackgroundFaded, contentText }
+  connect Ui exposing { mobile, contentBackground, contentText }
 
   property children : Array(Html) = []
 
   style base {
-    background: #{contentBackgroundFaded};
+    background: #{contentBackground};
     color: #{contentText};
-    padding: 32px;
+
+    if (mobile) {
+      padding: 16px;
+    } else {
+      padding: 32px;
+    }
+  }
+
+  fun render : Html {
+    <div::base>
+      <{ children }>
+    </div>
+  }
+}
+
+component Ui.CenteredPage {
+  connect Ui exposing { contentBackground, contentText, mobile }
+
+  property children : Array(Html) = []
+
+  style base {
+    background: #{contentBackground};
+    color: #{contentText};
+
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+
+    if (mobile) {
+      padding: 16px;
+    } else {
+      padding: 32px;
+    }
   }
 
   fun render : Html {
@@ -21,6 +54,8 @@ A layout which fills the screen and contains
 a header, breadcrumbs and content.
 */
 component Ui.StackedLayout {
+  connect Ui exposing { borderColor }
+
   /* The content element. */
   property content : Html = <></>
 
@@ -40,13 +75,19 @@ component Ui.StackedLayout {
     display: grid;
   }
 
+  style border-bottom {
+    &:not(:empty) {
+      border-bottom: 1px solid #{borderColor};
+    }
+  }
+
   fun render : Html {
     <div::base>
-      <div>
+      <div::border-bottom>
         <{ header }>
       </div>
 
-      <div>
+      <div::border-bottom>
         <{ breadcrumbs }>
       </div>
 

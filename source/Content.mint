@@ -1,10 +1,22 @@
 component Ui.Content {
-  connect Ui exposing { fontFamily, contentBackgroundFaded, contentText, primaryBackground, borderColor }
+  connect Ui exposing { fontFamily, contentBackgroundFaded, contentText, primaryBackground, borderColor, mobile }
 
   property children : Array(Html) = []
+  property textAlign : String = ""
+  property padding : Bool = false
 
   style base {
     font-family: #{fontFamily};
+    text-align: #{textAlign};
+    line-height: 170%;
+
+    if (padding && mobile) {
+      padding: 16px;
+    } else if (padding) {
+      padding: 32px;
+    } else {
+      padding: 0;
+    }
 
     > *:first-child {
       margin-top: 0;

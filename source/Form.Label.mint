@@ -11,6 +11,7 @@ component Ui.Form.Label {
     color: #{contentText};
     font-weight: bold;
     opacity: 0.8;
+    line-height: 1;
     flex: 1;
   }
 

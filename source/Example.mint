@@ -1,5 +1,13 @@
 component Example {
-  connect Ui exposing { surfaceBackground, surfaceText, contentBackground, contentBackgroundFaded, borderColor, contentText }
+  connect Ui exposing {
+    surfaceBackground,
+    surfaceText,
+    contentBackground,
+    contentBackgroundFaded,
+    borderColor,
+    contentText,
+    mobile
+  }
 
   property horizontalSpacing : Number = 0
   property verticalSpacing : Number = 0
@@ -87,12 +95,23 @@ component Example {
     align-content: start;
     align-items: start;
     display: grid;
+
+    if (mobile) {
+      min-width: 0;
+    } else {
+      min-width: 300px;
+    }
   }
 
   style wrapper {
-    grid-template-columns: 1fr min-content;
     border-radius: 3px 3px 0 0;
     display: grid;
+
+    if (mobile) {
+      grid-template-columns: 1fr;
+    } else {
+      grid-template-columns: 1fr min-content;
+    }
   }
 
   fun render : Html {

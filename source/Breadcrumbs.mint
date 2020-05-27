@@ -1,22 +1,28 @@
 component Ui.Breadcrumbs {
   connect Ui exposing {
-    contentBackgroundFaded,
-    contentTextFaded,
-    contentText,
     primaryBackground,
-    fontFamily
+    borderColor,
+    contentBackground,
+    contentText,
+    fontFamily,
+    mobile
   }
 
   property items : Array(Tuple(String, Html)) = []
-  property separator : Html = <>"/"</>
+
+  property separator : Html =
+    <>
+      "/"
+    </>
+
   property size : Number = 16
 
   style base {
     padding: #{size * 0.875}px #{size * 2}px;
-    background: #{contentBackgroundFaded};
     font-family: #{fontFamily};
-
+    background: #{contentBackground};
     color: #{contentText};
+
     font-size: #{size}px;
     white-space: nowrap;
   }
@@ -29,7 +35,7 @@ component Ui.Breadcrumbs {
 
   style breadcrumb {
     text-decoration: none;
-    color: #{contentText};
+    color: inherit;
     outline: none;
 
     &:not(:last-child) {
@@ -70,15 +76,19 @@ component Ui.Breadcrumbs {
   }
 
   fun render : Html {
-    try {
-      span =
-        <span::separator aria-hidden="true">
-          <{ separator }>
-        </span>
+    if (mobile) {
+      <></>
+    } else {
+      try {
+        span =
+          <span::separator aria-hidden="true">
+            <{ separator }>
+          </span>
 
-      <nav::base>
-        <{ Array.intersperse(span, content) }>
-      </nav>
+        <nav::base>
+          <{ Array.intersperse(span, content) }>
+        </nav>
+      }
     }
   }
 }

@@ -77,9 +77,9 @@ component Ui.Toggle {
     top: #{size * 0.1875}px;
     position: absolute;
 
+    border-radius: #{size * borderRadiusCoefficient}px;
     width: calc(50% - #{size * 0.375}px);
     background: #{surfaceBackground};
-    border-radius: #{size * 0.2}px;
 
     transition: left 120ms;
 

@@ -94,6 +94,7 @@ component Ui.Card.Container {
 
 component Ui.Card.Image {
   connect Ui exposing { borderRadiusCoefficient }
+
   property height : Number = 26
   property src : String = ""
 
@@ -109,6 +110,10 @@ component Ui.Card.Image {
                      #{24 * borderRadiusCoefficient}px
                      0 0;
     }
+
+    &:not(:first-child):not(:last-child) > * {
+      border-radius: 0;
+    }
   }
 
   fun render : Html {
@@ -122,7 +127,7 @@ component Ui.Card.Image {
 }
 
 component Ui.Card {
-  connect Ui exposing { fontFamily, contentBackground, contentText, surfaceBackground, borderRadiusCoefficient, borderColor }
+  connect Ui exposing { fontFamily, contentBackgroundFaded, contentText, surfaceBackground, borderRadiusCoefficient, borderColor }
 
   property children : Array(Html) = []
   property minWidth : Number = 0
@@ -138,7 +143,7 @@ component Ui.Card {
 
     text-decoration: none;
 
-    background: #{contentBackground};
+    background: #{contentBackgroundFaded};
     color: #{contentText};
   }
 

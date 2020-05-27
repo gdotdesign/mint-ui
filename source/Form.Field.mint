@@ -8,6 +8,8 @@ component Ui.Form.Field {
     align-items: #{alignItems};
     display: flex;
 
+    text-align: left;
+
     > *:first-child {
       margin-right: #{marginRight};
     }
@@ -41,14 +43,14 @@ component Ui.Form.Field {
   get flexDirection : String {
     case (orientation) {
       "vertical" => "column-reverse"
-      => "row"
+      => "row-reverse"
     }
   }
 
   get labelSize : Number {
     case (orientation) {
       "vertical" => 14
-      => 16
+      => 14
     }
   }
 

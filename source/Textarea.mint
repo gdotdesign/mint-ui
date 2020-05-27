@@ -1,11 +1,3 @@
-enum Ui.Textarea.Behavior {
-  ResizeHorizontal
-  ResizeVertical
-  ResizeBoth
-  Static
-  Grow
-}
-
 component Ui.Textarea {
   connect Ui exposing {
     borderRadiusCoefficient,
@@ -17,7 +9,7 @@ component Ui.Textarea {
     fontFamily
   }
 
-  property behavior : Ui.Textarea.Behavior = Ui.Textarea.Behavior::ResizeBoth
+  property behavior : String = "resize-both"
   property placeholder : String = ""
   property inputDelay : Number = 0
   property disabled : Bool = false
@@ -80,7 +72,7 @@ component Ui.Textarea {
     margin: 0;
 
     case (behavior) {
-      Ui.Textarea.Behavior::Grow =>
+      "grow" =>
         position: absolute;
         overflow: hidden;
         height: 100%;
@@ -92,11 +84,10 @@ component Ui.Textarea {
     }
 
     case (behavior) {
-      Ui.Textarea.Behavior::ResizeHorizontal => resize: horizontal;
-      Ui.Textarea.Behavior::ResizeVertical => resize: vertical;
-      Ui.Textarea.Behavior::ResizeBoth => resize: both;
-      Ui.Textarea.Behavior::Static => resize: none;
-      Ui.Textarea.Behavior::Grow => resize: none;
+      "resize-horizontal" => resize: horizontal;
+      "resize-vertical" => resize: vertical;
+      "resize-both" => resize: both;
+      => resize: none;
     }
 
     &:disabled {
@@ -172,7 +163,7 @@ component Ui.Textarea {
   fun render : Html {
     <div::base>
       case (behavior) {
-        Ui.Textarea.Behavior::Grow =>
+        "grow" =>
           <div::common::mirror>
             try {
               /* Get the value as lines. */

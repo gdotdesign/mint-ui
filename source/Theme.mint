@@ -19,7 +19,12 @@ store Ui {
   state dangerBackground : String = "#f73333"
   state dangerText : String = "#FFF"
 
+  state mobile : Bool = Window.matchesMediaQuery("(max-width: 1000px)")
   state darkMode : Bool = false
+
+  state mediaQueryListener = Window.addMediaQueryListener(
+    "(max-width: 1000px)",
+    (active : Bool) { next { mobile = active } })
 
   fun setDarkMode (value : Bool) : Promise(Never, Void) {
     next { darkMode = value }

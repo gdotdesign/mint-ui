@@ -1,13 +1,14 @@
 component Ui.Dropdown.Panel {
-  connect Ui exposing { contentBackground, contentText }
+  connect Ui exposing { contentBackground, contentText, borderColor, borderRadiusCoefficient }
   property children : Array(Html) = []
   property width : String = "auto"
 
   style base {
-    box-shadow: 0 5px 20px 0 rgba(0,0,0,0.1);
-    border-radius: 2px;
+    box-shadow: 0 2px 10px -2px rgba(0,0,0,0.1);
+    border-radius: #{12.121212 * borderRadiusCoefficient}px;
     width: #{width};
-    padding: 10px;
+    border: 1px solid #{borderColor};
+    padding: 16px;
 
     background: #{contentBackground};
     color: #{contentText};
