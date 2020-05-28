@@ -43,7 +43,7 @@ component Ui.Form.Field {
   get flexDirection : String {
     case (orientation) {
       "vertical" => "column-reverse"
-      => "row-reverse"
+      => "row"
     }
   }
 

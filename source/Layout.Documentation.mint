@@ -13,6 +13,10 @@ component Ui.Layout.Documentation {
     grid-template-columns: 300px 1fr 300px;
     grid-gap: 20px;
     display: grid;
+
+    if (mobile) {
+      grid-template-columns: 1fr;
+    }
   }
 
   style content {

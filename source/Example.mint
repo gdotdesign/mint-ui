@@ -41,10 +41,14 @@ component Example {
   }
 
   style content-wrapper {
-    if (horizontalSpacing > 0) {
+    if (horizontalSpacing > 0 && !mobile) {
       grid-gap: #{horizontalSpacing}px;
       grid-auto-flow: column;
       align-items: center;
+    }
+
+    if (mobile) {
+      grid-gap: #{horizontalSpacing}px;
     }
 
     if (verticalSpacing > 0) {
@@ -90,7 +94,6 @@ component Example {
     border-left: 1px solid #{borderColor};
     background: #{contentBackgroundFaded};
     padding: 20px;
-    min-width: 300px;
     grid-gap: 20px;
     align-content: start;
     align-items: start;

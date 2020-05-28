@@ -19,7 +19,6 @@ component Ui.Select {
   property showClearSelection : Bool = true
   property placeholder : String = ""
   property value : String = ""
-  property minWidth : String = "300px"
   property disabled : Bool = false
   property size : Number = 16
 
@@ -57,7 +56,6 @@ component Ui.Select {
     font-size: 16px;
 
     height: 38px;
-    min-width: #{minWidth};
 
     padding: 7px 10px;
     padding-right: 35px;

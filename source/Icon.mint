@@ -5,6 +5,7 @@ component Ui.Icon {
   property opacity : Number = 1
   property name : String = ""
   property size : Number = 16
+  property href : String = ""
 
   style base {
     opacity: #{opacity};
@@ -19,18 +20,37 @@ component Ui.Icon {
     }
   }
 
+  style link {
+    color: inherit;
+  }
+
   fun render : Html {
     try {
       {width, height, content} =
         Map.getWithDefault(name, {0, 0, <></>}, icons)
 
-      <svg::base
-        viewBox="0 0 #{width} #{height}"
-        aria-hidden="true">
+      svg =
+        <svg::base
+          viewBox="0 0 #{width} #{height}"
+          aria-hidden="true">
 
-        <{ content }>
+          <{ content }>
 
-      </svg>
+        </svg>
+
+      if (String.Extra.isNotEmpty(href)) {
+        <a::link href={href}>
+          <svg::base
+            viewBox="0 0 #{width} #{height}"
+            aria-hidden="true">
+
+            <{ content }>
+
+          </svg>
+        </a>
+      } else {
+        svg
+      }
     }
   }
 }
