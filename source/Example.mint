@@ -5,8 +5,7 @@ component Example {
     contentBackground,
     contentBackgroundFaded,
     borderColor,
-    contentText,
-    mobile
+    contentText
   }
 
   property horizontalSpacing : Number = 0
@@ -16,8 +15,15 @@ component Example {
 
   property data : Tuple(Html, String)
   property controls : Function(Html) = () { <></> }
+  property breakpoint : Number = 1000
 
   state codeShown : Bool = false
+  state mobile : Bool = false
+
+  use Provider.ElementSize {
+    changes = (dimensions : Dom.Dimensions) { next { mobile = dimensions.width < breakpoint } },
+    element = base
+  }
 
   style content {
     background: linear-gradient(45deg,#{contentBackgroundFaded} 25%, transparent 25%, transparent 75%, #{contentBackgroundFaded} 75%, #{contentBackgroundFaded}),
@@ -125,7 +131,7 @@ component Example {
       {content, code} =
         data
 
-      <div::base>
+      <div::base as base>
         <div::wrapper>
           <div::content>
             <div::content-wrapper>

@@ -181,7 +181,9 @@ component Ui.Textarea {
                 |> Maybe.map(
                   (item : String) {
                     if (String.isEmpty(item)) {
-                      <>" "</>
+                      <>
+                        " "
+                      </>
                     } else {
                       <></>
                     }

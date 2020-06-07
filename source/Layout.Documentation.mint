@@ -20,7 +20,6 @@ component Ui.Layout.Documentation {
   }
 
   style content {
-    padding: 30px 20px 100px;
     min-width: 0;
   }
 
@@ -66,6 +65,11 @@ component Ui.Layout.Documentation {
     }
   }
 
+  style button {
+    padding: 16px;
+    display: grid;
+  }
+
   style items {
     border-right: 1px solid #{borderColor};
     font-family: #{fontFamily};
@@ -109,7 +113,46 @@ component Ui.Layout.Documentation {
 
   fun render : Html {
     <div::base>
-      if (!mobile) {
+      if (mobile) {
+        try {
+          active =
+            items
+            |> Array.map(
+              (item : Tuple(String, Array(Tuple(String, String)))) {
+                try {
+                  {category, subitems} =
+                    item
+
+                  subitems
+                  |> Array.map(
+                    (subItem : Tuple(String, String)) {
+                      try {
+                        {path, name} =
+                          subItem
+
+                        if (Window.url().path == path) {
+                          Maybe::Just(name)
+                        } else {
+                          Maybe::Nothing
+                        }
+                      }
+                    })
+                }
+              })
+            |> Array.concat
+            |> Array.compact
+            |> Array.first
+            |> Maybe.withDefault("")
+
+          <div::button>
+            <Ui.Button
+              align="start"
+              label={active}
+              type="surface"
+              iconAfter="chevron-down"/>
+          </div>
+        }
+      } else {
         <nav::items>
           for (item of items) {
             try {
@@ -138,7 +181,7 @@ component Ui.Layout.Documentation {
       }
 
       <div::content as content>
-        <Ui.Content>
+        <Ui.Content padding={true}>
           <{ children }>
         </Ui.Content>
       </div>

@@ -26,15 +26,17 @@ component Ui.Header {
   }
 
   style base {
-    font-family: #{fontFamily};
-
     background: #{contentBackground};
     color: #{contentText};
 
+    font-family: #{fontFamily};
     font-size: #{size}px;
-    box-sizing: border-box;
+
+    justify-content: space-between;
+    grid-auto-flow: column;
     align-items: center;
-    display: flex;
+    grid-gap: 20px;
+    display: grid;
 
     if (mobile) {
       padding: 0 #{size}px;
@@ -45,22 +47,9 @@ component Ui.Header {
     }
   }
 
-  style items {
-    grid-gap: #{size * 2.5}px;
-    grid-auto-flow: column;
-    align-items: center;
-    display: grid;
-
-    margin-left: auto;
-  }
-
   style divider {
     border-left: 0.2em solid #{borderColor};
     height: 2.4em;
-  }
-
-  style icon {
-    margin-left: auto;
   }
 
   fun handleClick {
@@ -71,7 +60,7 @@ component Ui.Header {
     <div::base>
       <{ brand }>
 
-      <div::items>
+      <Ui.LineGrid gap={size * 2.5}>
         if (mobile) {
           <div onClick={handleClick}>
             <Ui.Icon
@@ -104,7 +93,7 @@ component Ui.Header {
             }
           </>
         }
-      </div>
+      </Ui.LineGrid>
     </div>
   }
 }
@@ -115,8 +104,8 @@ enum Ui.Items {
 }
 
 record Ui.Item {
-  href : String,
-  label : String,
   iconBefore : String,
-  iconAfter : String
+  iconAfter : String,
+  label : String,
+  href : String
 }

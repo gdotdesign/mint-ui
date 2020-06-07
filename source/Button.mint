@@ -23,13 +23,15 @@ component Ui.Button {
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
-  property breakWords : Bool = false
-  property ellipsis : Bool = true
+  property align : String = "center"
   property type : String = "primary"
   property label : String = ""
   property href : String = ""
 
+  property breakWords : Bool = false
   property disabled : Bool = false
+  property ellipsis : Bool = true
+
   property size : Number = 16
 
   property iconBefore : String = ""
@@ -109,14 +111,11 @@ component Ui.Button {
   }
 
   style container {
-    grid-gap: #{size * 0.5}px;
-    grid-auto-flow: column;
-    display: inline-grid;
-    align-items: center;
-
     padding: #{size * 0.5}px #{size * 1.2}px;
     min-height: #{size * 2.375}px;
     box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
   }
 
   style label {
@@ -140,23 +139,25 @@ component Ui.Button {
     try {
       content =
         <div::container>
-          if (String.Extra.isNotEmpty(iconBefore)) {
-            <Ui.Icon
-              name={iconBefore}
-              size={size}/>
-          }
+          <Ui.LineGrid gap={size * 0.5}>
+            if (String.Extra.isNotEmpty(iconBefore)) {
+              <Ui.Icon
+                name={iconBefore}
+                size={size}/>
+            }
 
-          if (String.Extra.isNotEmpty(label)) {
-            <div::label>
-              <{ label }>
-            </div>
-          }
+            if (String.Extra.isNotEmpty(label)) {
+              <div::label>
+                <{ label }>
+              </div>
+            }
 
-          if (String.Extra.isNotEmpty(iconAfter)) {
-            <Ui.Icon
-              name={iconAfter}
-              size={size}/>
-          }
+            if (String.Extra.isNotEmpty(iconAfter)) {
+              <Ui.Icon
+                name={iconAfter}
+                size={size}/>
+            }
+          </Ui.LineGrid>
         </div>
 
       mouseDownHandler =

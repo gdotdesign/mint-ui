@@ -44,7 +44,7 @@ component Ui.Content {
       color: #{contentText};
       border-radius: 2px;
       display: inline-block;
-      padding: 5px 8px;
+      padding: 2px 6px 0px;
       font-size: 14px;
     }
   }

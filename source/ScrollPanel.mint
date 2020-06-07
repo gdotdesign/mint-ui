@@ -186,16 +186,16 @@ component Ui.ScrollPanel {
     if (orientation == "horizontal") {
       next
         {
-          scrollPosition = `this._horizontal._0 && this._horizontal._0.scrollLeft`,
-          clientSize = `this._horizontal._0 && this._horizontal._0.clientWidth`,
-          scrollSize = `this._horizontal._0 && this._horizontal._0.scrollWidth`
+          scrollPosition = `#{horizontal}._0 && #{horizontal}._0.scrollLeft`,
+          clientSize = `#{horizontal}._0 && #{horizontal}._0.clientWidth`,
+          scrollSize = `#{horizontal}._0 && #{horizontal}._0.scrollWidth`
         }
     } else {
       next
         {
-          scrollPosition = `this._vertical._0 && this._vertical._0.scrollTop`,
-          clientSize = `this._vertical._0 && this._vertical._0.clientHeight`,
-          scrollSize = `this._vertical._0 && this._vertical._0.scrollHeight`
+          scrollPosition = `#{vertical}._0 && #{vertical}._0.scrollTop`,
+          clientSize = `#{vertical}._0 && #{vertical}._0.clientHeight`,
+          scrollSize = `#{vertical}._0 && #{vertical}._0.scrollHeight`
         }
     }
   }

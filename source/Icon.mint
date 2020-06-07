@@ -1,6 +1,10 @@
 component Ui.Icon {
+  connect Ui exposing { primaryBackground }
   connect Ui.Icons exposing { icons }
 
+  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property interactive : Bool = false
+  property disabled : Bool = false
   property autoSize : Bool = false
   property opacity : Number = 1
   property name : String = ""
@@ -10,6 +14,23 @@ component Ui.Icon {
   style base {
     opacity: #{opacity};
     fill: currentColor;
+
+    if (interactive) {
+      pointer-events: auto;
+      cursor: pointer;
+    } else {
+      pointer-events: none;
+      cursor: auto;
+    }
+
+    if (disabled) {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    &:hover {
+      color: #{primaryBackground};
+    }
 
     if (autoSize) {
       height: 1em;
@@ -32,7 +53,7 @@ component Ui.Icon {
       svg =
         <svg::base
           viewBox="0 0 #{width} #{height}"
-          aria-hidden="true">
+          onClick={onClick}>
 
           <{ content }>
 
@@ -40,13 +61,7 @@ component Ui.Icon {
 
       if (String.Extra.isNotEmpty(href)) {
         <a::link href={href}>
-          <svg::base
-            viewBox="0 0 #{width} #{height}"
-            aria-hidden="true">
-
-            <{ content }>
-
-          </svg>
+          <{ svg }>
         </a>
       } else {
         svg

@@ -127,31 +127,17 @@ component Ui.Calendar {
   }
 
   get nextMonthIcon : Html {
-    <Ui.Icon.Path
+    <Ui.Icon
       onClick={nextMonth}
-      viewbox="0 0 9 16"
-      height="16px"
-      width="9px"
-      path={
-        "M6 8L.1 1.78c-.14-.16-.14-.4.02-.57L1.17.13c.15-.16.4-.1" \
-        "6.54 0l7.2 7.6c.07.07.1.18.1.28 0 .1-.03.2-.1.3l-7.2 7.6" \
-        "c-.14.14-.38.14-.53-.02l-1.05-1.1c-.16-.15-.16-.4 0-.56L" \
-        "5.98 8z"
-      }/>
+      interactive={true}
+      name="chevron-right"/>
   }
 
   get previousMonthIcon : Html {
-    <Ui.Icon.Path
+    <Ui.Icon
       onClick={previousMonth}
-      viewbox="0 0 9 16"
-      height="16px"
-      width="9px"
-      path={
-        "M3 8l5.9-6.22c.14-.16.14-.4-.02-.57L7.83.13c-.15-.16-.4-" \
-        ".16-.54 0L.1 7.7c-.07.07-.1.17-.1.28 0 .1.03.2.1.3l7.2 7" \
-        ".6c.14.14.38.14.53-.02l1.05-1.1c.16-.15.16-.4 0-.56L3.02" \
-        " 8z"
-      }/>
+      interactive={true}
+      name="chevron-left"/>
   }
 
   fun render : Html {

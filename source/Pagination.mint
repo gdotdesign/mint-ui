@@ -8,11 +8,7 @@ component Ui.Pagination {
   property page : Number = 0
 
   style base {
-    grid-gap: #{size * 0.625}px;
-    grid-auto-flow: column;
-    align-items: center;
     width: min-content;
-    display: grid;
   }
 
   style ellipsis {
@@ -52,39 +48,41 @@ component Ui.Pagination {
 
   fun render : Html {
     <div::base>
-      /* First page button */
-      if (!Array.contains(0, buttonRange)) {
-        renderButton({0, false, "", "double-chevron-left"})
-      }
+      <Ui.LineGrid gap={size * 0.625}>
+        /* First page button */
+        if (!Array.contains(0, buttonRange)) {
+          renderButton({0, false, "", "double-chevron-left"})
+        }
 
-      /* Previous button */
-      if (page > 0) {
-        renderButton({page - 1, false, "", "chevron-left"})
-      }
+        /* Previous button */
+        if (page > 0) {
+          renderButton({page - 1, false, "", "chevron-left"})
+        }
 
-      /* Left ellipsis */
-      if (sidePages < (page - 1) && pages > 0) {
-        <span::ellipsis/>
-      }
+        /* Left ellipsis */
+        if (sidePages < (page - 1) && pages > 0) {
+          <span::ellipsis/>
+        }
 
-      for (index of buttonRange) {
-        renderButton({index, index == page, Number.toString(index + 1), ""})
-      }
+        for (index of buttonRange) {
+          renderButton({index, index == page, Number.toString(index + 1), ""})
+        }
 
-      /* Right ellipsis */
-      if ((page + sidePages + 1 < pages) && pages > 0) {
-        <span::ellipsis/>
-      }
+        /* Right ellipsis */
+        if ((page + sidePages + 1 < pages) && pages > 0) {
+          <span::ellipsis/>
+        }
 
-      /* Next page button */
-      if (page < pages && pages > 0) {
-        renderButton({page + 1, false, "", "chevron-right"})
-      }
+        /* Next page button */
+        if (page < pages && pages > 0) {
+          renderButton({page + 1, false, "", "chevron-right"})
+        }
 
-      /* Last page button */
-      if (page < pages && !Array.contains(pages, buttonRange)) {
-        renderButton({pages, false, "", "double-chevron-right"})
-      }
+        /* Last page button */
+        if (page < pages && !Array.contains(pages, buttonRange)) {
+          renderButton({pages, false, "", "double-chevron-right"})
+        }
+      </Ui.LineGrid>
     </div>
   } where {
     buttonRange =
