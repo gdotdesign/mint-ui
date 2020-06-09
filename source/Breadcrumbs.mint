@@ -1,35 +1,36 @@
 component Ui.Breadcrumbs {
   connect Ui exposing {
-    primaryBackground,
-    borderColor,
-    contentBackground,
-    contentText,
-    fontFamily,
+    defaultTheme,
+    darkMode,
     mobile
   }
-
-  property items : Array(Tuple(String, Html)) = []
 
   property separator : Html =
     <>
       "/"
     </>
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  property items : Array(Tuple(String, Html)) = []
   property size : Number = 16
 
+  get actualTheme {
+    Maybe.withDefault(defaultTheme, theme)
+  }
+
   style base {
-    padding: #{size * 0.875}px #{size * 2}px;
-    font-family: #{fontFamily};
-    background: #{contentBackground};
-    color: #{contentText};
+    background: #{actualTheme.content.color(darkMode)};
+    color: #{actualTheme.content.text(darkMode)};
+    font-family: #{actualTheme.fontFamily};
+    padding: 0.875em 2em;
 
     font-size: #{size}px;
     white-space: nowrap;
   }
 
   style separator {
-    margin: 0 #{size * 0.75}px;
     display: inline-block;
+    margin: 0 0.75em;
     opacity: 0.4;
   }
 
@@ -48,7 +49,7 @@ component Ui.Breadcrumbs {
 
     &:hover,
     &:focus {
-      color: #{primaryBackground};
+      color: #{actualTheme.primary.s500.color};
     }
   }
 

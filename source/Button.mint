@@ -1,6 +1,7 @@
 component Ui.Button {
   connect Ui exposing {
     borderRadiusCoefficient,
+    defaultTheme,
     fontFamily,
     primaryBackground,
     primaryShadow,
@@ -37,13 +38,19 @@ component Ui.Button {
   property iconBefore : String = ""
   property iconAfter : String = ""
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  get actualTheme {
+    Maybe.withDefault(defaultTheme, theme)
+  }
+
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
     -webkit-appearance: none;
     appearance: none;
 
-    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
+    border-radius: #{size * defaultTheme.borderRadiusCoefficient * 1.1875}px;
     border: 0;
 
     font-family: #{fontFamily};
@@ -75,8 +82,8 @@ component Ui.Button {
         color: #{successText};
 
       "primary" =>
-        background-color: #{primaryBackground};
-        color: #{primaryText};
+        background-color: #{actualTheme.primary.s500.color};
+        color: #{actualTheme.primary.s500.text};
 
       "danger" =>
         background-color: #{dangerBackground};
@@ -94,7 +101,7 @@ component Ui.Button {
         "surface" => box-shadow: 0 0 0 #{size * 0.1875}px #{surfaceShadow};
         "success" => box-shadow: 0 0 0 #{size * 0.1875}px #{successShadow};
         "warning" => box-shadow: 0 0 0 #{size * 0.1875}px #{warningShadow};
-        "primary" => box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
+        "primary" => box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.s50.color};
         "danger" => box-shadow: 0 0 0 #{size * 0.1875}px #{dangerShadow};
         =>
       }
@@ -113,9 +120,10 @@ component Ui.Button {
   style container {
     padding: #{size * 0.5}px #{size * 1.2}px;
     min-height: #{size * 2.375}px;
+    justify-content: #{align};
     box-sizing: border-box;
-    display: inline-flex;
     align-items: center;
+    display: flex;
   }
 
   style label {
