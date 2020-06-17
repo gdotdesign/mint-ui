@@ -1,17 +1,23 @@
 component Ui.Dropdown.Panel {
-  connect Ui exposing { contentBackground, contentText, borderColor, borderRadiusCoefficient }
+  connect Ui exposing { resolveTheme }
+
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property children : Array(Html) = []
   property width : String = "auto"
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style base {
     box-shadow: 0 2px 10px -2px rgba(0,0,0,0.1);
-    border-radius: #{12.121212 * borderRadiusCoefficient}px;
+    border-radius: #{12.121212 * actualTheme.borderRadiusCoefficient}px;
     width: #{width};
-    border: 1px solid #{borderColor};
+    border: 1px solid #{actualTheme.border};
     padding: 16px;
 
-    background: #{contentBackground};
-    color: #{contentText};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
   }
 
   fun render : Html {

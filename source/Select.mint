@@ -1,17 +1,10 @@
 component Ui.Select {
-  connect Ui exposing {
-    surfaceBackground,
-    borderRadiusCoefficient,
-    contentBackground,
-    contentText,
-    borderColor,
-    primaryBackground,
-    primaryShadow
-  }
+  connect Ui exposing { resolveTheme }
 
   property onChange : Function(String, Promise(Never, Void)) =
     (selected : String) : Promise(Never, Void) { Promise.never() }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property items : Array(Ui.AutoComplete.Item) = []
   property position : String = "bottom-right"
   property closeOnSelect : Bool = true
@@ -39,14 +32,18 @@ component Ui.Select {
       }
   }
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style element {
     border-radius: 4.8px;
     border: 2px solid;
 
-    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    border: #{size * 0.125}px solid #{borderColor};
-    background-color: #{contentBackground};
-    color: #{contentText};
+    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border: #{size * 0.125}px solid #{actualTheme.border};
+    background-color: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
 
     font-family: sans-serif;
     box-sizing: border-box;
@@ -72,18 +69,18 @@ component Ui.Select {
     }
 
     if (open) {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
-      border-color: #{primaryBackground};
+      box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
+      border-color: #{actualTheme.primary.s500.color};
     } else {
-      border-color: #{borderColor};
+      border-color: #{actualTheme.border};
     }
 
     &:focus {
       if (!disabled) {
-        box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
-        border-color: #{primaryBackground};
+        box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
+        border-color: #{actualTheme.primary.s500.color};
       } else {
-        border-color: #{borderColor};
+        border-color: #{actualTheme.border};
       }
     }
   }

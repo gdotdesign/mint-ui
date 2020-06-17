@@ -14,16 +14,9 @@ record Ui.Table.Header {
 }
 
 component Ui.Table {
-  connect Ui exposing {
-    borderColor,
-    contentBackground,
-    contentBackgroundFaded,
-    contentText,
-    fontFamily,
-    primaryBackground,
-    primaryText
-  }
+  connect Ui exposing { resolveTheme }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property orderDirection : String = ""
   property orderBy : String = ""
   property headers : Array(Ui.Table.Header) = []
@@ -38,12 +31,13 @@ component Ui.Table {
   }
 
   style base {
-    background: #{contentBackground};
-    border: 1px solid #{borderColor};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
+
+    border: 1px solid #{actualTheme.border};
     border-collapse: collapse;
 
-    font-family: #{fontFamily};
-    color: #{contentText};
+    font-family: #{actualTheme.fontFamily};
     line-height: 170%;
     width: 100%;
 
@@ -55,30 +49,30 @@ component Ui.Table {
 
     td + td,
     th + th {
-      border-left: 1px solid #{borderColor};
+      border-left: 1px solid #{actualTheme.border};
     }
 
     tr + tr td {
-      border-top: 1px solid #{borderColor};
+      border-top: 1px solid #{actualTheme.border};
     }
 
     th {
-      border-bottom: 2px solid #{borderColor};
-      background: #{contentBackgroundFaded};
+      border-bottom: 2px solid #{actualTheme.border};
+      background: #{actualTheme.contentFaded.color};
     }
   }
 
   style mobile-table {
-    border: 1px solid #{borderColor};
-    font-family: #{fontFamily};
+    border: 1px solid #{actualTheme.border};
+    font-family: #{actualTheme.fontFamily};
     line-height: 170%;
     border-bottom: 0;
   }
 
   style code {
-    background: #{contentBackgroundFaded};
-    border: 1px solid #{borderColor};
-    color: #{contentText};
+    background: #{actualTheme.contentFaded.color};
+    border: 1px solid #{actualTheme.border};
+    color: #{actualTheme.contentFaded.text};
 
     padding: 2px 6px 0px;
     border-radius: 2px;
@@ -97,18 +91,8 @@ component Ui.Table {
     padding: 0.75em;
 
     + * {
-      border-top: 1px solid #{borderColor};
+      border-top: 1px solid #{actualTheme.border};
     }
-  }
-
-  style summary {
-    font-weight: bold;
-    font-size: 14px;
-
-    border-bottom: 1px solid #{borderColor};
-    padding: 0.5em 0.75em;
-    cursor: pointer;
-    display: block;
   }
 
   style actions {
@@ -116,16 +100,19 @@ component Ui.Table {
   }
 
   style details {
-    &:nth-child(odd) summary {
-      background: #{contentBackgroundFaded};
+    -webkit-appearance: none;
+    appearance: none;
+
+    &:nth-child(odd) summary:not(:focus):not(:hover) {
+      background: #{actualTheme.contentFaded.color};
     }
 
     &[open] {
-      border-bottom: 3px solid #{borderColor};
+      border-bottom: 3px solid #{actualTheme.border};
 
       summary {
-        background: #{primaryBackground};
-        color: #{primaryText};
+        background: #{actualTheme.primary.s500.color};
+        color: #{actualTheme.primary.s500.text};
         border-bottom: 0;
 
         svg {
@@ -133,6 +120,38 @@ component Ui.Table {
         }
       }
     }
+  }
+
+  style summary {
+    font-weight: bold;
+    font-size: 14px;
+
+    border-bottom: 1px solid #{actualTheme.border};
+    padding: 0.5em 0.75em;
+    cursor: pointer;
+    align-items: center;
+    height: 40px;
+    box-sizing: border-box;
+    display: flex;
+    outline: none;
+
+    &:focus,
+    &:hover {
+      background: #{actualTheme.primary.s50.color};
+      color: #{actualTheme.primary.s50.text};
+    }
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  style cell {
+    line-height: 1;
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
   }
 
   fun renderCell (cell : Ui.Cell) : Html {
@@ -184,14 +203,16 @@ component Ui.Table {
                 <Ui.LineGrid gap={5}>
                   <Ui.Icon name="chevron-right"/>
 
-                  try {
-                    cell =
-                      cells
-                      |> Array.at(0)
-                      |> Maybe.withDefault(Ui.Cell::String(""))
+                  <div::cell>
+                    try {
+                      cell =
+                        cells
+                        |> Array.at(0)
+                        |> Maybe.withDefault(Ui.Cell::String(""))
 
-                    renderCell(cell)
-                  }
+                      renderCell(cell)
+                    }
+                  </div>
                 </Ui.LineGrid>
               </summary>
 

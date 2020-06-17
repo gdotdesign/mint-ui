@@ -1,99 +1,94 @@
-component Ui.Page {
-  connect Ui exposing { mobile, contentBackground, contentText }
-
-  property children : Array(Html) = []
-
-  style base {
-    background: #{contentBackground};
-    color: #{contentText};
-
-    if (mobile) {
-      padding: 16px;
-    } else {
-      padding: 32px;
-    }
-  }
-
-  fun render : Html {
-    <div::base>
-      <{ children }>
-    </div>
-  }
-}
-
-component Ui.CenteredPage {
-  connect Ui exposing { contentBackground, contentText, mobile }
-
-  property children : Array(Html) = []
-
-  style base {
-    background: #{contentBackground};
-    color: #{contentText};
-
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    display: flex;
-
-    if (mobile) {
-      padding: 16px;
-    } else {
-      padding: 32px;
-    }
-  }
-
-  fun render : Html {
-    <div::base>
-      <{ children }>
-    </div>
-  }
-}
-
-/*
-A layout which fills the screen and contains
-a header, breadcrumbs and content.
-*/
 component Ui.StackedLayout {
-  connect Ui exposing { borderColor }
+  connect Ui exposing { resolveTheme }
 
-  /* The content element. */
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  property breadcrumbs : Html = <></>
   property content : Html = <></>
-
-  /* The header element. */
+  property footer : Html = <></>
   property header : Html = <></>
 
-  /* The breadcrubms element. */
-  property breadcrumbs : Html = <></>
-
   style base {
-    grid-template-rows: min-content min-content 1fr;
     min-height: 100vh;
+    max-width: 100vw;
+
+    grid-template-rows: #{rows};
     display: grid;
+
+    > * {
+      min-width: 0;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #{actualTheme.border};
+      }
+
+      &:empty {
+        display: none;
+      }
+    }
   }
 
   style content {
     display: grid;
+    flex: 1;
   }
 
-  style border-bottom {
-    &:not(:empty) {
-      border-bottom: 1px solid #{borderColor};
-    }
+  style item {
+    flex: 0 0 auto;
+  }
+
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  get rows {
+    [
+      {header, "min-content"},
+      {breadcrumbs, "min-content"},
+      {content, "1fr"},
+      {footer, "min-content"}
+    ]
+    |> Array.map(
+      (item : Tuple(Html, String)) {
+        try {
+          {html, ratio} =
+            item
+
+          if (Html.Extra.isNotEmpty(html)) {
+            Maybe::Just(ratio)
+          } else {
+            Maybe::Nothing
+          }
+        }
+      })
+    |> Array.compact
+    |> String.join(" ")
   }
 
   fun render : Html {
     <div::base>
-      <div::border-bottom>
-        <{ header }>
-      </div>
+      if (Html.Extra.isNotEmpty(header)) {
+        <div::item>
+          <{ header }>
+        </div>
+      }
 
-      <div::border-bottom>
-        <{ breadcrumbs }>
-      </div>
+      if (Html.Extra.isNotEmpty(breadcrumbs)) {
+        <div::item>
+          <{ breadcrumbs }>
+        </div>
+      }
 
-      <div::content>
-        <{ content }>
-      </div>
+      if (Html.Extra.isNotEmpty(content)) {
+        <div::content>
+          <{ content }>
+        </div>
+      }
+
+      if (Html.Extra.isNotEmpty(footer)) {
+        <div::item>
+          <{ footer }>
+        </div>
+      }
     </div>
   }
 }

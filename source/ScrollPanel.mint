@@ -1,10 +1,11 @@
 component Ui.ScrollPanel {
-  connect Ui exposing { surfaceBackground, contentBackgroundFaded }
+  connect Ui exposing { resolveTheme }
 
   state scrollPosition : Number = 0
   state scrollSize : Number = 0
   state clientSize : Number = 0
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property children : Array(Html) = []
 
   property fromColor : String = "rgba(0,0,0,0)"
@@ -16,45 +17,18 @@ component Ui.ScrollPanel {
   property maxSize : Number = 300
   property size : Number = 20
 
-  fun componentWillUnmount : Promise(Never, Void) {
-    `
-    (() => {
-      this.resizeObserver && this.resizeObserver.disconnect()
-      this.observer && this.observer.disconnect()
-    })
-    `
+  use Provider.ElementSize {
+    element = Maybe.oneOf([horizontal, vertical]),
+    changes = recalculateFromSize
   }
 
-  fun componentDidMount : Promise(Never, Void) {
-    try {
-      element =
-        Maybe.oneOf(
-          [
-            horizontal,
-            vertical
-          ])
-        |> Maybe.toResult("")
-
-      `
-      (() => {
-        this.observer = new MutationObserver(() => {
-          #{recalculate()}
-        });
-        this.resizeObserver = new ResizeObserver(entries => {
-          #{recalculate()}
-        });
-
-        this.resizeObserver.observe(#{element});
-        this.observer.observe(#{element},{subtree: true, childList: true});
-      })()
-      `
-    } catch {
-      ``
-    }
+  use Provider.Mutation {
+    element = Maybe.oneOf([horizontal, vertical]),
+    changes = recalculate
   }
 
   style base {
-    scrollbar-color: #{surfaceBackground} #{contentBackgroundFaded};
+    scrollbar-color: #{actualTheme.surface.color} #{actualTheme.contentFaded.color};
     scrollbar-width: thin;
 
     if (animateScroll) {
@@ -79,15 +53,15 @@ component Ui.ScrollPanel {
     }
 
     &::-webkit-scrollbar-track {
-      background: #{contentBackgroundFaded};
+      background: #{actualTheme.contentFaded.color};
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #{surfaceBackground};
+      background: #{actualTheme.surface.color};
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: #{surfaceBackground};
+      background: #{actualTheme.surface.color};
     }
   }
 
@@ -180,6 +154,14 @@ component Ui.ScrollPanel {
     } else {
       padding-right: #{extraPadding}px;
     }
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
+  fun recalculateFromSize (dimensions : Dom.Dimensions) {
+    recalculate()
   }
 
   fun recalculate : Promise(Never, Void) {

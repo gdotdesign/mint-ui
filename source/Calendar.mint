@@ -1,30 +1,29 @@
 component Ui.Calendar {
-  connect Ui exposing {
-    fontFamily,
-    contentBackground,
-    contentText,
-    borderRadiusCoefficient,
-    borderColor
-  }
+  connect Ui exposing { resolveTheme }
 
   property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
   property onChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property changeMonthOnSelect : Bool = false
   property month : Time = Time.today()
   property date : Time = Time.today()
   property disabled : Bool = false
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style base {
     -moz-user-select: none;
     user-select: none;
 
-    background: #{contentBackground};
-    color: #{contentText};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
 
-    border: 2px solid #{borderColor};
-    border-radius: #{24 * borderRadiusCoefficient}px;
-    font-family: #{fontFamily};
+    border-radius: #{24 * actualTheme.borderRadiusCoefficient}px;
+    border: 2px solid #{actualTheme.border};
+    font-family: #{actualTheme.fontFamily};
 
     padding: 20px;
     width: 300px;
@@ -59,8 +58,8 @@ component Ui.Calendar {
   }
 
   style dayNames {
-    border-bottom: 1px solid #{borderColor};
-    border-top: 1px solid #{borderColor};
+    border-bottom: 1px solid #{actualTheme.border};
+    border-top: 1px solid #{actualTheme.border};
     justify-content: space-between;
     padding: 10px 0;
     margin: 15px 0;

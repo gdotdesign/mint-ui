@@ -1,12 +1,20 @@
 component Ui.Content {
-  connect Ui exposing { fontFamily, contentBackgroundFaded, contentText, primaryBackground, borderColor, mobile }
+  connect Ui exposing {
+    resolveTheme,
+    mobile
+  }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property children : Array(Html) = []
   property textAlign : String = ""
   property padding : Bool = false
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style base {
-    font-family: #{fontFamily};
+    font-family: #{actualTheme.fontFamily};
     text-align: #{textAlign};
     line-height: 170%;
 
@@ -35,14 +43,16 @@ component Ui.Content {
     }
 
     a:not([name]):not([class]) {
-      color: #{primaryBackground};
+      color: #{actualTheme.primary.s500.color};
     }
 
     code {
-      background: #{contentBackgroundFaded};
-      border: 1px solid #{borderColor};
-      color: #{contentText};
+      background: #{actualTheme.contentFaded.color};
+      color: #{actualTheme.contentFaded.text};
+
+      border: 1px solid #{actualTheme.border};
       border-radius: 2px;
+
       display: inline-block;
       padding: 2px 6px 0px;
       font-size: 14px;

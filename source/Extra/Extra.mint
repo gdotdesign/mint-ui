@@ -1,4 +1,22 @@
 module Promise.Extra {
+  fun create : Tuple(Function(value, Void), Function(error, Void), Promise(error, value)) {
+    `
+    (() => {
+      let resolve, reject;
+
+      const promise = new Promise((a, b) => {
+        resolve = a
+        reject = b
+      })
+
+      return [
+        (value) => resolve(value),
+        (error) => reject(error),
+        promise
+      ]
+    })()`
+  }
+
   fun never1 (param : a) : Promise(Never, Void) {
     Promise.resolve(void)
   }
@@ -47,6 +65,15 @@ module String.Extra {
 }
 
 module Dom.Extra {
+  fun containsMaybe (
+    maybeElement : Maybe(Dom.Element),
+    base : Dom.Element
+  ) : Bool {
+    maybeElement
+    |> Maybe.map(Dom.contains(base))
+    |> Maybe.withDefault(false)
+  }
+
   fun smoothScrollTo (element : Dom.Element, left : Number, top : Number) : Promise(Never, Void) {
     `#{element}.scrollTo({
       behavior: 'smooth',
@@ -164,5 +191,11 @@ module Test.Extra {
       }
     })
     `
+  }
+}
+
+module Html.Extra {
+  fun isNotEmpty (element : Html) {
+    `!!#{element}`
   }
 }

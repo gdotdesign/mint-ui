@@ -1,19 +1,14 @@
 component Ui.Calendar.Cell {
-  connect Ui exposing {
-    surfaceBackground,
-    surfaceText,
-    primaryBackground,
-    primaryText,
-    borderRadiusCoefficient
-  }
+  connect Ui exposing { resolveTheme }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property onClick : Function(Time, Promise(Never, Void)) = (day : Time) : Promise(Never, Void) { Promise.never() }
   property day : Time = Time.now()
   property selected : Bool = false
   property active : Bool = false
 
   style base {
-    border-radius: #{17 * borderRadiusCoefficient}px;
+    border-radius: #{17 * actualTheme.borderRadiusCoefficient}px;
     justify-content: center;
     line-height: 34px;
     display: flex;
@@ -30,18 +25,22 @@ component Ui.Calendar.Cell {
 
     &:hover {
       if (active) {
-        background: #{primaryBackground};
-        color: #{primaryText};
+        background: #{actualTheme.primary.s500.color};
+        color: #{actualTheme.primary.s500.text};
       } else {
-        background: #{surfaceBackground};
-        color: #{surfaceText};
+        background: #{actualTheme.surface.color};
+        color: #{actualTheme.surface.text};
       }
     }
 
     if (selected) {
-      background: #{primaryBackground};
-      color: #{primaryText};
+      background: #{actualTheme.primary.s500.color};
+      color: #{actualTheme.primary.s500.text};
     }
+  }
+
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
   }
 
   fun handleClick (event : Html.Event) : Promise(Never, Void) {

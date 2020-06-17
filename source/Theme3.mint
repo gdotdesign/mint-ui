@@ -1,4 +1,4 @@
-component Ui.Theme {
+component Ui.Theme3 {
   connect Ui exposing { darkMode }
 
   property children : Array(Html) = []

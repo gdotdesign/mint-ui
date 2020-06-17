@@ -1,17 +1,8 @@
 component Ui.Toggle {
-  connect Ui exposing {
-    borderRadiusCoefficient,
-    fontFamily,
-    surfaceBackground,
-    contentBackground,
-    contentText,
-    primaryBackground,
-    primaryShadow,
-    primaryText,
-    borderColor
-  }
+  connect Ui exposing { resolveTheme }
 
   property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property offLabel : String = "OFF"
   property onLabel : String = "ON"
   property disabled : Bool = false
@@ -25,24 +16,24 @@ component Ui.Toggle {
     appearance: none;
 
     if (checked) {
-      background-color: #{primaryBackground};
-      border-color: #{primaryBackground};
-      color: #{primaryText};
+      background-color: #{actualTheme.primary.s500.color};
+      border-color: #{actualTheme.primary.s500.color};
+      color: #{actualTheme.primary.s500.text};
     } else {
-      background-color: #{contentBackground};
-      border-color: #{borderColor};
-      color: #{contentText};
+      background-color: #{actualTheme.content.color};
+      border-color: #{actualTheme.border};
+      color: #{actualTheme.content.text};
     }
 
-    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    border: #{size * 0.125}px solid #{borderColor};
-
-    font-size: #{size * 0.875}px;
-    font-family: #{fontFamily};
-    font-weight: bold;
+    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border: 2px solid;
 
     display: inline-flex;
     align-items: center;
+
+    font-family: #{actualTheme.fontFamily};
+    font-size: #{size * 0.875}px;
+    font-weight: bold;
 
     height: #{size * 2.375}px;
     width: #{width}px;
@@ -57,8 +48,20 @@ component Ui.Toggle {
     }
 
     &:focus {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
-      border-color: #{primaryBackground};
+      border-color: #{actualTheme.primary.s500.color};
+
+      &::before {
+        border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+        box-shadow: 0 0 0 0.35em #{actualTheme.primary.s500.color};
+        pointer-events: none;
+        position: absolute;
+        opacity: 0.5;
+        content: "";
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: 0;
+      }
     }
 
     &:disabled {
@@ -77,9 +80,9 @@ component Ui.Toggle {
     top: #{size * 0.1875}px;
     position: absolute;
 
-    border-radius: #{size * borderRadiusCoefficient}px;
+    border-radius: #{size * actualTheme.borderRadiusCoefficient}px;
+    background: #{actualTheme.surface.color};
     width: calc(50% - #{size * 0.375}px);
-    background: #{surfaceBackground};
 
     transition: left 120ms;
 
@@ -90,10 +93,14 @@ component Ui.Toggle {
     }
   }
 
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
   get width : Number {
     try {
       font =
-        "#{size * 0.875}px #{fontFamily}"
+        "#{size * 0.875}px #{actualTheme.fontFamily}"
 
       onWidth =
         onLabel
@@ -116,9 +123,9 @@ component Ui.Toggle {
   fun render : Html {
     <button::base
       aria-checked={Bool.toString(checked)}
-      role="checkbox"
       disabled={disabled}
-      onClick={toggle}>
+      onClick={toggle}
+      role="checkbox">
 
       <div::label aria-hidden="true">
         <{ onLabel }>

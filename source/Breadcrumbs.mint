@@ -1,31 +1,20 @@
 component Ui.Breadcrumbs {
-  connect Ui exposing {
-    defaultTheme,
-    darkMode,
-    mobile
-  }
-
-  property separator : Html =
-    <>
-      "/"
-    </>
+  connect Ui exposing { resolveTheme, mobile }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property items : Array(Tuple(String, Html)) = []
+  property separator : Html = <>"/"</>
   property size : Number = 16
 
-  get actualTheme {
-    Maybe.withDefault(defaultTheme, theme)
-  }
-
   style base {
-    background: #{actualTheme.content.color(darkMode)};
-    color: #{actualTheme.content.text(darkMode)};
-    font-family: #{actualTheme.fontFamily};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
     padding: 0.875em 2em;
+    display: flex;
 
+    font-family: #{actualTheme.fontFamily};
     font-size: #{size}px;
-    white-space: nowrap;
+    line-height: 1;
   }
 
   style separator {
@@ -34,14 +23,9 @@ component Ui.Breadcrumbs {
     opacity: 0.4;
   }
 
-  style breadcrumb {
+  style link {
     text-decoration: none;
-    color: inherit;
     outline: none;
-
-    &:not(:last-child) {
-      opacity: 0.75;
-    }
 
     &::-moz-focus-inner {
       border: 0;
@@ -50,7 +34,22 @@ component Ui.Breadcrumbs {
     &:hover,
     &:focus {
       color: #{actualTheme.primary.s500.color};
+      text-decoration: underline;
     }
+  }
+
+  style breadcrumb {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: inherit;
+
+    &:not(:last-child) {
+      opacity: 0.75;
+    }
+  }
+
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
   }
 
   get content : Array(Html) {
@@ -60,11 +59,11 @@ component Ui.Breadcrumbs {
           item
 
         if (String.isEmpty(href)) {
-          <span aria-label="breadcrumb">
+          <span::breadcrumb aria-label="breadcrumb">
             <{ content }>
           </span>
         } else {
-          <a::breadcrumb
+          <a::breadcrumb::link
             aria-label="breadcrumb"
             href={href}>
 

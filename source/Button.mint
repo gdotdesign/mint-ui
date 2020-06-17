@@ -1,24 +1,5 @@
 component Ui.Button {
-  connect Ui exposing {
-    borderRadiusCoefficient,
-    defaultTheme,
-    fontFamily,
-    primaryBackground,
-    primaryShadow,
-    primaryText,
-    warningBackground,
-    warningShadow,
-    warningText,
-    successBackground,
-    successShadow,
-    successText,
-    surfaceBackground,
-    surfaceShadow,
-    surfaceText,
-    dangerBackground,
-    dangerShadow,
-    dangerText
-  }
+  connect Ui exposing { resolveTheme }
 
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
@@ -41,7 +22,7 @@ component Ui.Button {
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   get actualTheme {
-    Maybe.withDefault(defaultTheme, theme)
+    resolveTheme(theme)
   }
 
   style styles {
@@ -50,10 +31,10 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
-    border-radius: #{size * defaultTheme.borderRadiusCoefficient * 1.1875}px;
-    border: 0;
+    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border: 1px solid transparent;
 
-    font-family: #{fontFamily};
+    font-family: #{actualTheme.fontFamily};
     text-decoration: none;
     font-size: #{size}px;
     line-height: 130%;
@@ -70,24 +51,24 @@ component Ui.Button {
 
     case (type) {
       "surface" =>
-        background-color: #{surfaceBackground};
-        color: #{surfaceText};
+        background-color: #{actualTheme.surface.color};
+        color: #{actualTheme.surface.text};
 
       "warning" =>
-        background-color: #{warningBackground};
-        color: #{warningText};
+        background-color: #{actualTheme.warning.s500.color};
+        color: #{actualTheme.warning.s500.text};
 
       "success" =>
-        background-color: #{successBackground};
-        color: #{successText};
+        background-color: #{actualTheme.success.s500.color};
+        color: #{actualTheme.success.s500.text};
 
       "primary" =>
         background-color: #{actualTheme.primary.s500.color};
         color: #{actualTheme.primary.s500.text};
 
       "danger" =>
-        background-color: #{dangerBackground};
-        color: #{dangerText};
+        background-color: #{actualTheme.danger.s500.color};
+        color: #{actualTheme.danger.s500.text};
 
       =>
     }
@@ -98,16 +79,16 @@ component Ui.Button {
 
     &:focus {
       case (type) {
-        "surface" => box-shadow: 0 0 0 #{size * 0.1875}px #{surfaceShadow};
-        "success" => box-shadow: 0 0 0 #{size * 0.1875}px #{successShadow};
-        "warning" => box-shadow: 0 0 0 #{size * 0.1875}px #{warningShadow};
-        "primary" => box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.s50.color};
-        "danger" => box-shadow: 0 0 0 #{size * 0.1875}px #{dangerShadow};
+        "success" => box-shadow: 0 0 0 0.1875em #{actualTheme.success.shadow};
+        "warning" => box-shadow: 0 0 0 0.1875em #{actualTheme.warning.shadow};
+        "primary" => box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
+        "danger" => box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
         =>
       }
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       filter: brightness(0.8) contrast(1.5);
     }
 
@@ -118,12 +99,13 @@ component Ui.Button {
   }
 
   style container {
-    padding: #{size * 0.5}px #{size * 1.2}px;
-    min-height: #{size * 2.375}px;
     justify-content: #{align};
-    box-sizing: border-box;
     align-items: center;
     display: flex;
+
+    box-sizing: border-box;
+    padding: 0.5em 1.2em;
+    min-height: 2.375em;
   }
 
   style label {

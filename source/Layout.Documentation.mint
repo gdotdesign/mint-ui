@@ -1,15 +1,17 @@
 component Ui.Layout.Documentation {
-  connect Ui exposing { mobile, fontFamily, contentBackground, contentText, borderColor, primaryBackground }
+  connect Ui exposing { mobile, resolveTheme }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property items : Array(Tuple(String, Array(Tuple(String, String)))) = []
   property children : Array(Html) = []
 
   state tocItems : Array(Tuple(String, String)) = []
 
-  style base {
-    background: #{contentBackground};
-    color: #{contentText};
+  get actualTheme {
+    resolveTheme(theme)
+  }
 
+  style base {
     grid-template-columns: 300px 1fr 300px;
     grid-gap: 20px;
     display: grid;
@@ -24,13 +26,13 @@ component Ui.Layout.Documentation {
   }
 
   style h2 {
-    font-family: #{fontFamily};
+    font-family: #{actualTheme.fontFamily};
     text-decoration: none;
     color: inherit;
   }
 
   style toc {
-    border-left: 1px solid #{borderColor};
+    border-left: 1px solid #{actualTheme.border};
     align-self: start;
 
     padding: 5px 20px;
@@ -42,7 +44,7 @@ component Ui.Layout.Documentation {
     grid-gap: 10px;
     display: grid;
 
-    font-family: #{fontFamily};
+    font-family: #{actualTheme.fontFamily};
   }
 
   style category {
@@ -61,7 +63,7 @@ component Ui.Layout.Documentation {
     color: inherit;
 
     if (active) {
-      color: #{primaryBackground};
+      color: #{actualTheme.primary.s400.color};
     }
   }
 
@@ -71,8 +73,8 @@ component Ui.Layout.Documentation {
   }
 
   style items {
-    border-right: 1px solid #{borderColor};
-    font-family: #{fontFamily};
+    border-right: 1px solid #{actualTheme.border};
+    font-family: #{actualTheme.fontFamily};
     padding: 30px 32px;
   }
 

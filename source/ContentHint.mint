@@ -1,15 +1,14 @@
 component Ui.ContentHint {
-  connect Ui exposing {
-    contentBackgroundFaded,
-    primaryBackground,
-    warningBackground,
-    successBackground,
-    dangerBackground
-  }
+  connect Ui exposing { resolveTheme }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property children : Array(Html) = []
   property icon : String = ""
   property type : String = ""
+
+  get actualTheme {
+    resolveTheme(theme)
+  }
 
   style base {
     grid-template-columns: min-content 1fr;
@@ -17,7 +16,8 @@ component Ui.ContentHint {
     grid-gap: 1.4em;
     display: grid;
 
-    background: #{contentBackgroundFaded};
+    background: #{actualTheme.contentFaded.color};
+    color: #{actualTheme.contentFaded.text};
     border-left: 0.25em solid #{color};
 
     line-height: 150%;
@@ -32,10 +32,10 @@ component Ui.ContentHint {
 
   get color {
     case (type) {
-      "primary" => primaryBackground
-      "warning" => warningBackground
-      "success" => successBackground
-      "danger" => dangerBackground
+      "primary" => actualTheme.primary.s500.color
+      "warning" => actualTheme.warning.s500.color
+      "success" => actualTheme.success.s500.color
+      "danger" => actualTheme.danger.s500.color
       => ""
     }
   }

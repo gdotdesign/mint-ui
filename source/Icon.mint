@@ -1,8 +1,9 @@
 component Ui.Icon {
-  connect Ui exposing { primaryBackground }
+  connect Ui exposing { resolveTheme }
   connect Ui.Icons exposing { icons }
 
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property interactive : Bool = false
   property disabled : Bool = false
   property autoSize : Bool = false
@@ -29,7 +30,7 @@ component Ui.Icon {
     }
 
     &:hover {
-      color: #{primaryBackground};
+      color: #{actualTheme.primary.s500.color};
     }
 
     if (autoSize) {
@@ -43,6 +44,10 @@ component Ui.Icon {
 
   style link {
     color: inherit;
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
   }
 
   fun render : Html {

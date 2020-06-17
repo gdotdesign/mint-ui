@@ -1,17 +1,22 @@
 component Ui.FloatingNotification {
-  connect Ui exposing { fontFamily, darkMode, mobile, borderRadiusCoefficient }
+  connect Ui exposing { resolveTheme, darkMode, mobile }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property children : Array(Html) = []
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style base {
-    border-radius: #{24 * borderRadiusCoefficient}px;
+    border-radius: #{24 * actualTheme.borderRadiusCoefficient}px;
     position: fixed;
     padding: 20px;
     color: white;
     bottom: 20px;
     z-index: 200;
 
-    font-family: #{fontFamily};
+    font-family: #{actualTheme.fontFamily};
     text-align: center;
     font-weight: bold;
 
@@ -29,9 +34,9 @@ component Ui.FloatingNotification {
 
     @supports (not (backdrop-filter: blur(3px))) {
       if (darkMode) {
-        background: rgba(75,75,75,0.92);
+        background: rgba(70,70,70,0.92);
       } else {
-        background: rgba(50,50,50,0.92);
+        background: rgba(30,30,30,0.92);
       }
     }
 
@@ -39,9 +44,9 @@ component Ui.FloatingNotification {
       backdrop-filter: blur(3px);
 
       if (darkMode) {
-        background: rgba(80,80,80,0.8);
+        background: rgba(80,80,80,0.9);
       } else {
-        background: rgba(30,30,30,0.8);
+        background: rgba(25,25,25,0.9);
       }
     }
   }

@@ -1,4 +1,7 @@
 component Ui.Table.Header {
+  connect Ui exposing { resolveTheme }
+
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property orderDirection : String = ""
   property orderBy : String = ""
 
@@ -27,10 +30,14 @@ component Ui.Table.Header {
     line-height: 0;
 
     &:hover {
+      color: #{actualTheme.primary.s500.color};
       cursor: pointer;
-      color: #FF4700;
       opacity: 1;
     }
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
   }
 
   get opacity : Number {

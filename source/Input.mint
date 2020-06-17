@@ -1,14 +1,7 @@
 component Ui.Input {
-  connect Ui exposing {
-    borderRadiusCoefficient,
-    primaryBackground,
-    primaryShadow,
-    contentBackground,
-    contentText,
-    surfaceBackground,
-    borderColor,
-    fontFamily
-  }
+  connect Ui exposing { resolveTheme }
+
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   property placeholder : String = ""
   property inputDelay : Number = 0
@@ -58,29 +51,32 @@ component Ui.Input {
       }
   }
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
     box-sizing: border-box;
 
-    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    border: #{size * 0.125}px solid #{borderColor};
-    background-color: #{contentBackground};
-    color: #{contentText};
+    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border: 2px solid #{actualTheme.border};
+    background-color: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
 
-    font-family: #{fontFamily};
-
-    line-height: #{size}px;
+    font-family: #{actualTheme.fontFamily};
     font-size: #{size}px;
 
-    padding: #{size * 0.4375}px #{size * 0.625}px;
-    height: #{size * 2.375}px;
+    padding: 0.4375em 0.625em;
+    line-height: 1em;
+    height: 2.375em;
 
     outline: none;
     width: 100%;
 
     if (showIcon) {
-      padding-right: #{size * 2.125}px;
+      padding-right: 2.125em;
     }
 
     &:disabled {
@@ -90,8 +86,8 @@ component Ui.Input {
     }
 
     &:focus {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
-      border-color: #{primaryBackground};
+      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
+      border-color: #{actualTheme.primary.s500.color};
     }
   }
 
@@ -105,13 +101,13 @@ component Ui.Input {
   }
 
   style icon {
-    right: #{size * 0.6875}px;
-    top: #{size * 0.6875}px;
+    right: 0.6875em;
+    top: 0.6875em;
 
-    height: #{size}px;
-    width: #{size}px;
+    height: 1em;
+    width: 1em;
 
-    color: #{contentText};
+    color: #{actualTheme.content.text};
     position: absolute;
     cursor: pointer;
 
@@ -124,7 +120,7 @@ component Ui.Input {
     }
 
     &:hover {
-      color: #{primaryBackground};
+      color: #{actualTheme.primary.s500.color};
     }
   }
 

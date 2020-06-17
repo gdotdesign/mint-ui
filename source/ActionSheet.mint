@@ -1,7 +1,11 @@
 global component Ui.ActionSheet {
-  connect Ui exposing { borderColor, contentBackground, contentText, fontFamily, primaryBackground }
+  connect Ui exposing { resolveTheme }
 
+  state theme : Maybe(Ui.Theme) = Maybe::Nothing
   state items : Array(Ui.Items) = []
+  state size : Number = 16
+
+  state resolve : Function(Void, Void) = (value : Void) { void }
   state open : Bool = false
 
   style base {
@@ -17,6 +21,9 @@ global component Ui.ActionSheet {
     flex-direction: column;
     display: flex;
 
+    backdrop-filter: blur(5px);
+    font-size: #{size}px;
+
     if (open) {
       transition: visibility 1ms, opacity 320ms;
       visibility: visibilie;
@@ -31,40 +38,40 @@ global component Ui.ActionSheet {
   style item {
     grid-auto-flow: column;
     justify-content: start;
-    grid-gap: 10px;
     align-items: center;
+    grid-gap: 0.75em;
     display: grid;
 
-    padding: 0 15px;
-    height: 50px;
+    padding: 0 1em;
+    height: 3em;
 
     + * {
-      border-top: 1px solid #{borderColor};
+      border-top: 0.0625em solid #{actualTheme.border};
     }
 
     &:hover {
-      color: #{primaryBackground};
+      color: #{actualTheme.primary.s500.color};
     }
   }
 
   style label {
-    line-height: 16px;
-    height: 16px;
+    line-height: 1em;
+    height: 1em;
   }
 
   style divider {
-    border-top: 3px solid #{borderColor};
+    border-top: 0.1875em solid #{actualTheme.border};
   }
 
   style items {
-    border-radius: 3px;
+    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
     transition: 320ms;
-    margin: 10px;
+    margin: 0.625em;
 
-    background: #{contentBackground};
-    color: #{contentText};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
 
-    font-family: #{fontFamily};
+    font-family: #{actualTheme.fontFamily};
     cursor: pointer;
 
     if (open) {
@@ -76,26 +83,52 @@ global component Ui.ActionSheet {
     }
   }
 
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  fun setTheme (theme : Maybe(Ui.Theme)) : Promise(Never, Void) {
+    next { theme = theme }
+  }
+
+  fun setSize (size : Number) : Promise(Never, Void) {
+    next { size = size }
+  }
+
   fun hide : Promise(Never, Void) {
-    next { open = false }
+    try {
+      resolve(void)
+
+      next
+        {
+          resolve = (value : Void) { void },
+          open = false
+        }
+    }
   }
 
   fun show (items : Array(Ui.Items)) : Promise(Never, Void) {
     if (Array.isEmpty(items)) {
       next {  }
     } else {
-      next
-        {
-          items = items,
-          open = true
-        }
+      try {
+        {resolve, reject, promise} =
+          Promise.Extra.create()
+
+        next
+          {
+            resolve = resolve,
+            items = items,
+            open = true
+          }
+
+        promise
+      }
     }
   }
 
   fun handleClose (event : Html.Event) : Promise(Never, Void) {
-    if (Dom.contains(
-        event.target,
-        Maybe.withDefault(Dom.createElement("div"), container))) {
+    if (Dom.Extra.containsMaybe(container, event.target)) {
       next {  }
     } else {
       hide()
@@ -122,13 +155,19 @@ global component Ui.ActionSheet {
 
             Ui.Items::Item item =>
               <div::item onClick={handleClick(item)}>
-                <Ui.Icon
-                  name={item.iconBefore}
-                  autoSize={true}/>
+                if (String.Extra.isNotEmpty(item.iconBefore)) {
+                  <Ui.Icon
+                    name={item.iconBefore}
+                    autoSize={true}/>
+                }
 
-                <div::label>
-                  <{ item.label }>
-                </div>
+                <{ item.label }>
+
+                if (String.Extra.isNotEmpty(item.iconAfter)) {
+                  <Ui.Icon
+                    name={item.iconAfter}
+                    autoSize={true}/>
+                }
               </div>
           }
         }

@@ -1,18 +1,24 @@
 component Ui.Form.Label {
-  connect Ui exposing { fontFamily, contentText }
+  connect Ui exposing { resolveTheme }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property fontSize : Number = 16
   property text : String = ""
 
   style base {
-    font-family: #{fontFamily};
+    color: #{actualTheme.content.text};
+    font-family: #{actualTheme.fontFamily};
     font-size: #{fontSize}px;
+
     white-space: nowrap;
-    color: #{contentText};
     font-weight: bold;
-    opacity: 0.8;
     line-height: 1;
+    opacity: 0.8;
     flex: 1;
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
   }
 
   fun render : Html {

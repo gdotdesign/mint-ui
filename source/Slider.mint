@@ -1,15 +1,8 @@
 component Ui.Slider {
-  connect Ui exposing {
-    borderRadiusCoefficient,
-    primaryBackground,
-    surfaceBackground,
-    contentBackground,
-    primaryShadow,
-    borderColor
-  }
+  connect Ui exposing { resolveTheme }
 
   property onChange : Function(Number, Promise(Never, Void)) = Promise.Extra.never1
-
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property disabled : Bool = false
   property size : Number = 16
   property max : Number = 100
@@ -35,8 +28,8 @@ component Ui.Slider {
     &::-webkit-slider-thumb,
     &::-moz-range-thumb,
     &::-ms-thumb {
-      border-radius: #{size * borderRadiusCoefficient * 0.625}px;
-      background-color: #{primaryBackground};
+      border-radius: #{size * actualTheme.borderRadiusCoefficient * 0.625}px;
+      background-color: #{actualTheme.primary.s500.color};
       height: #{size * 1.5}px;
       width: #{size}px;
       cursor: pointer;
@@ -46,23 +39,23 @@ component Ui.Slider {
     &:focus::-webkit-slider-thumb,
     &:focus::-moz-range-thumb,
     &:focus::-ms-thumb {
-      background-color: #{primaryBackground};
+      background-color: #{actualTheme.primary.s500.color};
     }
 
     &::-webkit-slider-runnable-track,
     &::-moz-range-track,
     &::-ms-track {
       border-radius: 5px;
-      border: #{size * 0.125}px solid #{borderColor};
-      background-color: #{contentBackground};
+      border: #{size * 0.125}px solid #{actualTheme.border};
+      background-color: #{actualTheme.content.color};
       height: #{size * 0.5}px;
     }
 
     &:focus::-webkit-slider-runnable-track,
     &:focus::-moz-range-track,
     &:focus::-ms-track {
-      box-shadow: 0 0 0 #{size * 0.15}px #{primaryShadow};
-      border-color: #{primaryBackground};
+      box-shadow: 0 0 0 #{size * 0.15}px #{actualTheme.primary.shadow};
+      border-color: #{actualTheme.primary.s500.color};
     }
 
     &:focus {
@@ -72,6 +65,10 @@ component Ui.Slider {
     &::-moz-focus-outer {
       border: 0;
     }
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
   }
 
   fun changed (event : Html.Event) : Promise(Never, Void) {

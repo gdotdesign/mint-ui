@@ -9,6 +9,7 @@ record ColorPalette.DynamicShade {
 }
 
 record ColorPalette {
+  shadow : String,
   s50 : ColorPalette.Shade,
   s100 : ColorPalette.Shade,
   s200 : ColorPalette.Shade,
@@ -52,6 +53,7 @@ module ColorPalette {
         Color.mix(0.35, color, Color::HEX("000000FF"))
 
       {
+        shadow = Color.toCSSRGBA(Color.setAlpha(50, color)),
         s900 =
           {
             text = Color.toCSSRGBA(Color.readableTextColor(s900)),
@@ -112,8 +114,27 @@ record Ui.Theme {
   warning : ColorPalette,
   success : ColorPalette,
   danger : ColorPalette,
-  content : ColorPalette.DynamicShade,
-  border : Function(Bool, String),
+  contentLight : ColorPalette.Shade,
+  contentLightFaded : ColorPalette.Shade,
+  contentDark : ColorPalette.Shade,
+  contentDarkFaded : ColorPalette.Shade,
+  surfaceLight : ColorPalette.Shade,
+  surfaceDark : ColorPalette.Shade,
+  borderDark : String,
+  borderLight : String,
+  borderRadiusCoefficient : Number,
+  fontFamily : String
+}
+
+record Ui.Theme.Resolved {
+  primary : ColorPalette,
+  warning : ColorPalette,
+  success : ColorPalette,
+  danger : ColorPalette,
+  content : ColorPalette.Shade,
+  contentFaded : ColorPalette.Shade,
+  surface : ColorPalette.Shade,
+  border : String,
   borderRadiusCoefficient : Number,
   fontFamily : String
 }
@@ -123,56 +144,100 @@ store Ui {
 
   state borderRadiusCoefficient : Number = 0.165
 
+  fun or (value : x, maybe : Maybe(a)) {
+    Maybe.withDefault(value, maybe)
+  }
+
+  fun resolveTheme (theme : Maybe(Ui.Theme)) {
+    try {
+      resolved =
+        Maybe.withDefault(defaultTheme, theme)
+
+      if (darkMode) {
+        {
+          primary = resolved.primary,
+          warning = resolved.warning,
+          success = resolved.success,
+          danger = resolved.danger,
+          content = resolved.contentDark,
+          contentFaded = resolved.contentDarkFaded,
+          surface = resolved.surfaceDark,
+          border = resolved.borderDark,
+          borderRadiusCoefficient = resolved.borderRadiusCoefficient,
+          fontFamily = resolved.fontFamily
+        }
+      } else {
+        {
+          primary = resolved.primary,
+          warning = resolved.warning,
+          success = resolved.success,
+          danger = resolved.danger,
+          content = resolved.contentLight,
+          contentFaded = resolved.contentLightFaded,
+          surface = resolved.surfaceLight,
+          border = resolved.borderLight,
+          borderRadiusCoefficient = resolved.borderRadiusCoefficient,
+          fontFamily = resolved.fontFamily
+        }
+      }
+    }
+  }
+
   state defaultTheme : Ui.Theme = {
     primary = ColorPalette.fromColor(Color::HEX("0591FCFF")),
     warning = ColorPalette.fromColor(Color::HEX("FFC107FF")),
     success = ColorPalette.fromColor(Color::HEX("26AE3DFF")),
     danger = ColorPalette.fromColor(Color::HEX("F44336FF")),
-    borderRadiusCoefficient = 0.165,
-    border =
-      (darkMode : Bool) {
-        if (darkMode) {
-          "#2C2C2C"
-        } else {
-          "#EEE"
-        }
-      },
-    content =
+    contentLight =
       {
-        color =
-          (darkMode : Bool) {
-            if (darkMode) {
-              "#333"
-            } else {
-              "#FFF"
-            }
-          },
-        text =
-          (darkMode : Bool) {
-            if (darkMode) {
-              "#CCC"
-            } else {
-              "#444"
-            }
-          }
+        text = Color.toCSSRGBA(Color.readableTextColor(Color::HEX("FFFFFFFF"))),
+        color = Color.toCSSRGBA(Color::HEX("FFFFFFFF"))
       },
+    contentLightFaded =
+      {
+        text = Color.toCSSRGBA(Color.readableTextColor(Color::HEX("F9F9F9FF"))),
+        color = Color.toCSSRGBA(Color::HEX("F9F9F9FF"))
+      },
+    contentDark =
+      {
+        text = Color.toCSSRGBA(Color.readableTextColor(Color::HEX("333333FF"))),
+        color = Color.toCSSRGBA(Color::HEX("333333FF"))
+      },
+    contentDarkFaded =
+      {
+        text = Color.toCSSRGBA(Color.readableTextColor(Color::HEX("2F2F2FFF"))),
+        color = Color.toCSSRGBA(Color::HEX("2F2F2FFF"))
+      },
+    surfaceLight =
+      {
+        text = Color.toCSSRGBA(Color.readableTextColor(Color::HEX("F0F0F0"))),
+        color = Color.toCSSRGBA(Color::HEX("F0F0F0"))
+      },
+    surfaceDark =
+      {
+        text = Color.toCSSRGBA(Color.readableTextColor(Color::HEX("3A3A3AFF"))),
+        color = Color.toCSSRGBA(Color::HEX("3A3A3AFF"))
+      },
+    borderLight = "#E9E9E9",
+    borderDark = "#2C2C2C",
+    borderRadiusCoefficient = 0.165,
     fontFamily = "Arial"
   }
 
-  state primaryBackground : String = "red"
-  state primaryShadow : String = "maroon"
-  state primaryText : String = "yellow"
+  state primaryBackground : String = "purple"
+  state primaryShadow : String = "purple"
+  state primaryText : String = "white"
 
-  state warningShadow : String = "hsla(25.5,100%,48.8%,0.3)"
-  state warningBackground : String = "#f96a00"
-  state warningText : String = "#FFF"
+  state warningShadow : String = "blue"
+  state warningBackground : String = "blue"
+  state warningText : String = "white"
 
-  state successShadow : String = "hsla(130.1,64.2%,41.6%, 0.3)"
-  state successBackground : String = "#26ae3d"
-  state successText : String = "#FFF"
+  state successShadow : String = "cyan"
+  state successBackground : String = "cyan"
+  state successText : String = "white"
 
-  state dangerShadow : String = "hsla(0,92.5%,58.4%, 0.3)"
-  state dangerBackground : String = "#f73333"
+  state dangerShadow : String = "black"
+  state dangerBackground : String = "black  "
   state dangerText : String = "#FFF"
 
   state mobile : Bool = Window.matchesMediaQuery("(max-width: 1000px)")
@@ -192,25 +257,25 @@ store Ui {
 
   get borderColor : String {
     if (darkMode) {
-      "#2C2C2C"
+      "CadetBlue"
     } else {
-      "#EEE"
+      "CadetBlue"
     }
   }
 
   get contentBackground : String {
     if (darkMode) {
-      "#333"
+      "AntiqueWhite"
     } else {
-      "#FFF"
+      "AntiqueWhite"
     }
   }
 
   get contentBackgroundFaded : String {
     if (darkMode) {
-      "#3A3A3A"
+      "Aquamarine"
     } else {
-      "#F5F5F5"
+      "Aquamarine"
     }
   }
 
@@ -224,33 +289,33 @@ store Ui {
 
   get contentText : String {
     if (darkMode) {
-      "#CCC"
+      "Crimson"
     } else {
-      "#444"
+      "Crimson"
     }
   }
 
   get surfaceBackground : String {
     if (darkMode) {
-      "#444"
+      "DarkSlateGray"
     } else {
-      "#ECECEC"
+      "DarkSlateGray"
     }
   }
 
   get surfaceShadow : String {
     if (darkMode) {
-      "rgba(68,68,68,0.3)"
+      "DarkSlateGray"
     } else {
-      "rgba(170,170,170,0.3)"
+      "DarkSlateGray)"
     }
   }
 
   get surfaceText : String {
     if (darkMode) {
-      "#EEE"
+      "Fuchsia"
     } else {
-      "#666"
+      "Fuchsia"
     }
   }
 }

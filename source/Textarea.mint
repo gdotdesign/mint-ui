@@ -1,5 +1,6 @@
 component Ui.Textarea {
   connect Ui exposing {
+    resolveTheme,
     borderRadiusCoefficient,
     primaryBackground,
     primaryShadow,
@@ -9,6 +10,7 @@ component Ui.Textarea {
     fontFamily
   }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property behavior : String = "resize-both"
   property placeholder : String = ""
   property inputDelay : Number = 0
@@ -52,6 +54,10 @@ component Ui.Textarea {
       }
   }
 
+  get actualTheme {
+    resolveTheme(theme)
+  }
+
   style common {
     border: #{size * 0.125}px solid #{borderColor};
     padding: #{size * 0.4375}px #{size * 0.625}px;
@@ -60,8 +66,8 @@ component Ui.Textarea {
 
   style textarea {
     border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
-    background-color: #{contentBackground};
-    color: #{contentText};
+    background-color: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
 
     font-family: inherit;
     line-height: inherit;

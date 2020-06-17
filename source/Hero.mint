@@ -1,9 +1,14 @@
 component Ui.Hero {
-  connect Ui exposing { contentBackground, contentText, fontFamily, mobile }
+  connect Ui exposing { resolveTheme, contentBackground, contentText, fontFamily, mobile }
 
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property subtitle : Html = <></>
   property action : Html = <></>
   property title : Html = <></>
+
+  get actualTheme {
+    resolveTheme(theme)
+  }
 
   style base {
     justify-content: center;
@@ -12,8 +17,8 @@ component Ui.Hero {
     display: flex;
 
     font-family: #{fontFamily};
-    background: #{contentBackground};
-    color: #{contentText};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
     padding: 0 30px;
   }
 

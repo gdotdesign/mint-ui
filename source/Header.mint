@@ -1,9 +1,5 @@
 component Ui.Header {
-  connect Ui exposing {
-    defaultTheme,
-    darkMode,
-    mobile
-  }
+  connect Ui exposing { resolveTheme, mobile }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property items : Array(Ui.Items) = []
@@ -22,19 +18,26 @@ component Ui.Header {
     align-items: center;
     grid-gap: 0.5em;
     display: grid;
+    outline: none;
 
     if (active) {
-      color: #{defaultTheme.primary.s500.color};
+      color: #{actualTheme.primary.s500.color};
     } else {
       color: inherit;
+    }
+
+    &:hover,
+    &:focus {
+      color: #{actualTheme.primary.s500.color};
+      text-decoration: underline;
     }
   }
 
   style base {
-    background: #{defaultTheme.content.color(darkMode)};
-    color: #{defaultTheme.content.text(darkMode)};
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
 
-    font-family: #{defaultTheme.fontFamily};
+    font-family: #{actualTheme.fontFamily};
     font-size: #{size}px;
 
     justify-content: space-between;
@@ -53,12 +56,12 @@ component Ui.Header {
   }
 
   style divider {
-    border-left: 0.2em solid #{defaultTheme.border(darkMode)};
+    border-left: 0.2em solid #{actualTheme.border};
     height: 2.4em;
   }
 
   get actualTheme {
-    Maybe.withDefault(defaultTheme, theme)
+    resolveTheme(theme)
   }
 
   fun handleClick {
