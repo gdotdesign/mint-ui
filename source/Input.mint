@@ -6,6 +6,7 @@ component Ui.Input {
   property placeholder : String = ""
   property inputDelay : Number = 0
   property disabled : Bool = false
+  property invalid : Bool = false
   property type : String = "text"
   property value : String = ""
   property size : Number = 16
@@ -61,19 +62,27 @@ component Ui.Input {
     box-sizing: border-box;
 
     border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
-    border: 2px solid #{actualTheme.border};
     background-color: #{actualTheme.content.color};
     color: #{actualTheme.content.text};
 
     font-family: #{actualTheme.fontFamily};
-    font-size: #{size}px;
+    font-size: inherit;
 
     padding: 0.4375em 0.625em;
     line-height: 1em;
     height: 2.375em;
 
+    /* This disables the autofill color. */
+    filter: none;
+
     outline: none;
     width: 100%;
+
+    if (invalid) {
+      border: 2px solid #{actualTheme.danger.s500.color};
+    } else {
+      border: 2px solid #{actualTheme.border};
+    }
 
     if (showIcon) {
       padding-right: 2.125em;
@@ -86,14 +95,21 @@ component Ui.Input {
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-      border-color: #{actualTheme.primary.s500.color};
+      if (invalid) {
+        box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
+        border-color: #{actualTheme.danger.s300.color};
+      } else {
+        box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
+        border-color: #{actualTheme.primary.s500.color};
+      }
     }
   }
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
+
+    font-size: #{size}px;
 
     display: inline-block;
     position: relative;
@@ -110,6 +126,7 @@ component Ui.Input {
     color: #{actualTheme.content.text};
     position: absolute;
     cursor: pointer;
+    display: grid;
 
     if (iconInteractive) {
       pointer-events: auto;
@@ -178,7 +195,7 @@ component Ui.Input {
         <div::icon onClick={onIconClick}>
           <Ui.Icon
             name={icon}
-            size={size}/>
+            autoSize={true}/>
         </div>
       }
     </div>

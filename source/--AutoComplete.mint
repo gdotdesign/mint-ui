@@ -269,9 +269,7 @@ component Ui.AutoComplete {
           <Ui.List.Item
             onClick={(event : Html.Event) : Promise(Never, Void) { select(index, item.key) }}
             selected={selected == index}
-            key={item.key}
-            selectable={true}
-            title={item.content}>
+            key={item.key}>
 
             <{ item.content }>
 

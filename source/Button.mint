@@ -151,13 +151,13 @@ component Ui.Button {
         </div>
 
       mouseDownHandler =
-        Ui.Utils.disabledHandler(disabled, onMouseDown)
+        Ui.disabledHandler(disabled, onMouseDown)
 
       mouseUpHandler =
-        Ui.Utils.disabledHandler(disabled, onMouseUp)
+        Ui.disabledHandler(disabled, onMouseUp)
 
       clickHandler =
-        Ui.Utils.disabledHandler(disabled, onClick)
+        Ui.disabledHandler(disabled, onClick)
 
       if (String.Extra.isNotEmpty(href) && !disabled) {
         <a::styles as anchor

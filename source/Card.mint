@@ -1,28 +1,7 @@
-component Ui.Card.Image {
-  connect Ui exposing { resolveTheme }
-
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-  property height : Number = 26
-  property src : String = ""
-
-  get actualTheme {
-    resolveTheme(theme)
-  }
-
-  fun render : Html {
-    <Ui.Image
-      borderRadius="0"
-      fullWidth={true}
-      height={height}
-      src={src}/>
-  }
-}
-
 component Ui.Card {
   connect Ui exposing { resolveTheme }
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
-  property overflow : String = "hidden"
   property children : Array(Html) = []
   property minWidth : Number = 0
   property href : String = ""
@@ -44,11 +23,20 @@ component Ui.Card {
 
     background: #{actualTheme.contentFaded.color};
     text-decoration: none;
-    overflow: #{overflow};
     outline: none;
 
     > * + * {
       border-top: 1px solid #{actualTheme.border};
+    }
+
+    > *:first-child {
+      border-top-right-radius: inherit;
+      border-top-left-radius: inherit;
+    }
+
+    > *:last-child {
+      border-bottom-right-radius: inherit;
+      border-bottom-left-radius: inherit;
     }
 
     &::-moz-focus-inner {

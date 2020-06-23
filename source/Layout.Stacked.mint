@@ -1,4 +1,4 @@
-component Ui.StackedLayout {
+component Ui.Layout.Stacked {
   connect Ui exposing { resolveTheme }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing

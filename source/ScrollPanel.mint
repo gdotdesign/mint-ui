@@ -9,7 +9,7 @@ component Ui.ScrollPanel {
   property children : Array(Html) = []
 
   property fromColor : String = "rgba(0,0,0,0)"
-  property toColor : String = "rgba(0,0,0,0.3)"
+  property toColor : String = "rgba(0,0,0,0.1)"
 
   property orientation : String = "vertical"
   property animateScroll : Bool = false
@@ -30,6 +30,7 @@ component Ui.ScrollPanel {
   style base {
     scrollbar-color: #{actualTheme.surface.color} #{actualTheme.contentFaded.color};
     scrollbar-width: thin;
+    outline: none;
 
     if (animateScroll) {
       scroll-behavior: smooth;
@@ -160,6 +161,10 @@ component Ui.ScrollPanel {
     resolveTheme(theme)
   }
 
+  get element {
+    Maybe.oneOf([horizontal, vertical])
+  }
+
   fun recalculateFromSize (dimensions : Dom.Dimensions) {
     recalculate()
   }
@@ -185,15 +190,11 @@ component Ui.ScrollPanel {
   fun render : Html {
     if (orientation == "horizontal") {
       <div::base::horizontal as horizontal onScroll={recalculate}>
-        <div>
-          <{ children }>
-        </div>
+        <{ children }>
       </div>
     } else {
       <div::base::vertical as vertical onScroll={recalculate}>
-        <div>
-          <{ children }>
-        </div>
+        <{ children }>
       </div>
     }
   }

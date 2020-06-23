@@ -25,10 +25,12 @@ component Ui.Checkbox {
     padding: 0;
     border: 0;
 
+    font-size: #{size}px;
+
     border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.0625}px;
-    border: #{size * 0.125}px solid #{actualTheme.border};
-    height: #{size * 2.125}px;
-    width: #{size * 2.125}px;
+    border: 0.125em solid #{actualTheme.border};
+    height: 2.125em;
+    width: 2.125em;
 
     if (checked) {
       background-color: #{actualTheme.primary.s500.color};
@@ -45,31 +47,13 @@ component Ui.Checkbox {
     }
 
     &:focus {
+      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
       border-color: #{actualTheme.primary.s500.color};
-    }
-
-    &:focus::before {
-      border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.s500.color};
-      opacity: 0.5;
     }
 
     &:disabled {
       filter: saturate(0) brightness(0.8) contrast(0.5);
       cursor: not-allowed;
-    }
-  }
-
-  style icon {
-    if (!checked) {
-      opacity: 0.25;
     }
   }
 

@@ -26,8 +26,8 @@ component Ui.ContentHint {
   }
 
   style icon {
-    color: #{color};
     font-size: 1.6em;
+    color: #{color};
   }
 
   get color {

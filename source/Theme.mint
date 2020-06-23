@@ -53,7 +53,7 @@ module ColorPalette {
         Color.mix(0.35, color, Color::HEX("000000FF"))
 
       {
-        shadow = Color.toCSSRGBA(Color.setAlpha(50, color)),
+        shadow = Color.toCSSRGBA(Color.setAlpha(25, color)),
         s900 =
           {
             text = Color.toCSSRGBA(Color.readableTextColor(s900)),
@@ -253,6 +253,17 @@ store Ui {
 
   fun setBorderRadiusCoefficient (value : Number) : Promise(Never, Void) {
     next { defaultTheme = { defaultTheme | borderRadiusCoefficient = value } }
+  }
+
+  fun disabledHandler (
+    disabled : Bool,
+    handler : Function(a, Promise(Never, Void))
+  ) : Function(a, Promise(Never, Void)) {
+    if (disabled) {
+      Promise.Extra.never1()
+    } else {
+      handler
+    }
   }
 
   get borderColor : String {

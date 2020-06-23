@@ -1,10 +1,11 @@
 component Ui.Hero {
-  connect Ui exposing { resolveTheme, contentBackground, contentText, fontFamily, mobile }
+  connect Ui exposing { resolveTheme, mobile }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property subtitle : Html = <></>
   property action : Html = <></>
   property title : Html = <></>
+  property size : Number = 16
 
   get actualTheme {
     resolveTheme(theme)
@@ -16,35 +17,43 @@ component Ui.Hero {
     align-items: center;
     display: flex;
 
-    font-family: #{fontFamily};
     background: #{actualTheme.content.color};
+    font-family: #{actualTheme.fontFamily};
     color: #{actualTheme.content.text};
-    padding: 0 30px;
+    font-size: #{size}px;
+
+    if (mobile) {
+      padding: 1em;
+    } else {
+      padding: 2em;
+    }
   }
 
   style subtitle {
+    margin-bottom: 2.25em;
     text-align: center;
-    margin-bottom: 36px;
-    font-size: 22px;
 
     if (mobile) {
-      font-size: 16px;
+      font-size: 1em;
+    } else {
+      font-size: 1.375em;
     }
   }
 
   style title {
+    margin-bottom: 1.25em;
     text-align: center;
     font-weight: bold;
-    font-size: 36px;
-    margin-bottom: 20px;
 
     if (mobile) {
-      font-size: 22px;
+      font-size: 1.375em;
+    } else {
+      font-size: 2.25em;
     }
   }
 
   style action {
-    grid-gap: 20px;
+    grid-gap: 1em;
     display: grid;
 
     if (mobile) {
@@ -56,17 +65,23 @@ component Ui.Hero {
 
   fun render : Html {
     <div::base>
-      <div::title>
-        <{ title }>
-      </div>
+      if (Html.Extra.isNotEmpty(title)) {
+        <div::title>
+          <{ title }>
+        </div>
+      }
 
-      <div::subtitle>
-        <{ subtitle }>
-      </div>
+      if (Html.Extra.isNotEmpty(subtitle)) {
+        <div::subtitle>
+          <{ subtitle }>
+        </div>
+      }
 
-      <div::action>
-        <{ action }>
-      </div>
+      if (Html.Extra.isNotEmpty(action)) {
+        <div::action>
+          <{ action }>
+        </div>
+      }
     </div>
   }
 }

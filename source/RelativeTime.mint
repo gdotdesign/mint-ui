@@ -1,4 +1,4 @@
-component Ui.Time {
+component Ui.RelativeTime {
   property date : Time = Time.now()
 
   state now : Time = Time.now()
@@ -10,8 +10,8 @@ component Ui.Time {
   }
 
   fun render : Html {
-    <div::base title={Time.toIso(date)}>
+    <time::base title={Time.toIso(date)}>
       <{ Time.relative(date, now) }>
-    </div>
+    </time>
   }
 }

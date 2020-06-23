@@ -1,14 +1,5 @@
 component Ui.Textarea {
-  connect Ui exposing {
-    resolveTheme,
-    borderRadiusCoefficient,
-    primaryBackground,
-    primaryShadow,
-    contentBackground,
-    contentText,
-    borderColor,
-    fontFamily
-  }
+  connect Ui exposing { resolveTheme }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property behavior : String = "resize-both"
@@ -59,13 +50,13 @@ component Ui.Textarea {
   }
 
   style common {
-    border: #{size * 0.125}px solid #{borderColor};
-    padding: #{size * 0.4375}px #{size * 0.625}px;
+    border: 0.125em solid #{actualTheme.border};
+    padding: 0.4375em 0.625em;
     box-sizing: border-box;
   }
 
   style textarea {
-    border-radius: #{size * borderRadiusCoefficient * 1.1875}px;
+    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
     background-color: #{actualTheme.content.color};
     color: #{actualTheme.content.text};
 
@@ -103,8 +94,8 @@ component Ui.Textarea {
     }
 
     &:focus {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{primaryShadow};
-      border-color: #{primaryBackground};
+      box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
+      border-color: #{actualTheme.primary.s500.color};
     }
   }
 
@@ -121,10 +112,11 @@ component Ui.Textarea {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 
-    min-height: #{size * 2.375}px;
-    font-family: #{fontFamily};
-    line-height: 1.3em;
+    font-family: #{actualTheme.fontFamily};
     font-size: #{size}px;
+
+    min-height: 2.375em;
+    line-height: 1.3em;
 
     word-break: break-word;
     word-wrap: break-word;

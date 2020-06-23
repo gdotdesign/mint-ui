@@ -1,14 +1,27 @@
 component Ui.Form.Field {
+  connect Ui exposing { resolveTheme }
+
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  property error : Maybe(String) = Maybe::Nothing
   property orientation : String = "vertical"
   property children : Array(Html) = []
   property label : String = ""
 
   style base {
-    flex-direction: #{flexDirection};
-    align-items: #{alignItems};
-    display: flex;
+    case (orientation) {
+      "vertical" =>
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        align-items: stretch;
+
+      =>
+        flex-direction: row;
+        align-items: center;
+    }
 
     text-align: left;
+    display: flex;
 
     > *:first-child {
       margin-right: #{marginRight};
@@ -17,6 +30,18 @@ component Ui.Form.Field {
     > *:last-child {
       margin-bottom: #{marginBottom};
     }
+  }
+
+  style error {
+    color: #{actualTheme.danger.s500.color};
+    font-family: #{actualTheme.fontFamily};
+    font-size: 0.875em;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+
+  get actualTheme {
+    resolveTheme(theme)
   }
 
   get marginRight : String {
@@ -28,39 +53,27 @@ component Ui.Form.Field {
 
   get marginBottom : String {
     case (orientation) {
-      "vertical" => "5px"
+      "vertical" => "7px"
       => ""
-    }
-  }
-
-  get alignItems : String {
-    case (orientation) {
-      "horizontal" => "center"
-      => ""
-    }
-  }
-
-  get flexDirection : String {
-    case (orientation) {
-      "vertical" => "column-reverse"
-      => "row"
-    }
-  }
-
-  get labelSize : Number {
-    case (orientation) {
-      "vertical" => 14
-      => 14
     }
   }
 
   fun render : Html {
     <div::base>
+      case (error) {
+        Maybe::Just message =>
+          <div::error>
+            <{ message }>
+          </div>
+
+        => <></>
+      }
+
       <{ children }>
 
       <Ui.Form.Label
         text={label}
-        fontSize={labelSize}/>
+        fontSize={14}/>
     </div>
   }
 }

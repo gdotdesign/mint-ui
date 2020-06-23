@@ -28,23 +28,19 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
     `
   }
 
-  fun attach : Void {
+  fun update : Void {
     `
     (() => {
-      this.keyDown || (this.keyDown = ((event) => #{handleKeyDown}(_normalizeEvent(event))))
-      this.keyUp || (this.keyUp = ((event) => #{handleKeyUp}(_normalizeEvent(event))))
+      if (#{subscriptions}.length) {
+        this.keyDown || (this.keyDown = ((event) => #{handleKeyDown}(_normalizeEvent(event))))
+        this.keyUp || (this.keyUp = ((event) => #{handleKeyUp}(_normalizeEvent(event))))
 
-      window.addEventListener("keydown", this.keyDown, true)
-      window.addEventListener("keyup", this.keyUp, true)
-    })()
-    `
-  }
-
-  fun detach : Void {
-    `
-    (() => {
-      window.removeEventListener("keydown", this.keyDown, true)
-      window.removeEventListener("keyup", this.keyUp, true)
+        window.addEventListener("keydown", this.keyDown, true)
+        window.addEventListener("keyup", this.keyUp, true)
+      } else {
+        window.removeEventListener("keydown", this.keyDown, true)
+        window.removeEventListener("keyup", this.keyUp, true)
+      }
     })()
     `
   }

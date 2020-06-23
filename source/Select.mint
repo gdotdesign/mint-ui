@@ -7,28 +7,47 @@ component Ui.Select {
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property items : Array(Ui.AutoComplete.Item) = []
   property position : String = "bottom-right"
-  property closeOnSelect : Bool = true
-  property searchPlaceholder : String = ""
-  property showClearSelection : Bool = true
   property placeholder : String = ""
   property value : String = ""
+  property invalid : Bool = false
   property disabled : Bool = false
   property size : Number = 16
+  property offset : Number = 5
+  property zIndex : Number = 1
 
+  state focused : Bool = false
   state open : Bool = false
+
+  use Provider.Keydown {
+    keydowns = handleKeyDown
+  } when {
+    focused || open
+  }
 
   use Providers.TabFocus {
     onTabIn =
       (item : Dom.Element) : Promise(Never, Void) {
-        if (item == Maybe.withDefault(Dom.createElement("div"), element)) {
-          handleFocus()
+        if (Maybe::Just(item) == element) {
+          next
+            {
+              open = true,
+              focused = true
+            }
         } else {
           next {  }
         }
       },
     onTabOut =
-      (element : Dom.Element) : Promise(Never, Void) {
-        next {  }
+      (item : Dom.Element) : Promise(Never, Void) {
+        if (Maybe::Just(item) == element) {
+          next
+            {
+              open = false,
+              focused = false
+            }
+        } else {
+          next {  }
+        }
       }
   }
 
@@ -37,9 +56,6 @@ component Ui.Select {
   }
 
   style element {
-    border-radius: 4.8px;
-    border: 2px solid;
-
     border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
     border: #{size * 0.125}px solid #{actualTheme.border};
     background-color: #{actualTheme.content.color};
@@ -49,13 +65,12 @@ component Ui.Select {
     box-sizing: border-box;
     user-select: none;
 
-    line-height: 20px;
-    font-size: 16px;
+    line-height: 1.25em;
+    font-size: #{size}px;
 
-    height: 38px;
+    height: 2.375em;
 
-    padding: 7px 10px;
-    padding-right: 35px;
+    padding: 0.5em 0.625em;
 
     position: relative;
     outline: none;
@@ -68,19 +83,29 @@ component Ui.Select {
       cursor: pointer;
     }
 
-    if (open) {
+    if (open && invalid) {
+      box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.danger.shadow};
+    } else if (open) {
       box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
+    }
+
+    if (open && invalid) {
+      border-color: #{actualTheme.danger.s300.color};
+    } else if (invalid) {
+      border-color: #{actualTheme.danger.s500.color};
+    } else if (open) {
       border-color: #{actualTheme.primary.s500.color};
     } else {
       border-color: #{actualTheme.border};
     }
 
     &:focus {
-      if (!disabled) {
-        box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
-        border-color: #{actualTheme.primary.s500.color};
+      if (invalid) {
+        box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
+        border-color: #{actualTheme.danger.s300.color};
       } else {
-        border-color: #{actualTheme.border};
+        box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
+        border-color: #{actualTheme.primary.s500.color};
       }
     }
   }
@@ -90,45 +115,27 @@ component Ui.Select {
     opacity: 0.5;
   }
 
-  style chevron {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-
-    fill: #666;
-  }
-
-  get placeholderElement : Html {
-    <div::placeholder>
-      <{ placeholder }>
-    </div>
-  }
-
-  get label : Html {
-    items
-    |> Array.find(
-      (item : Ui.AutoComplete.Item) : Bool { item.key == value })
-    |> Maybe.map(.content)
-    |> Maybe.withDefault(placeholderElement)
-  }
-
-  fun handleTabOut : Promise(Never, Void) {
-    Dom.focus(element)
+  style grid {
+    grid-template-columns: 1fr min-content;
+    align-items: center;
+    grid-gap: 0.625em;
+    display: grid;
   }
 
   fun handleFocus : Promise(Never, Void) {
-    if (disabled) {
-      next {  }
-    } else if (open) {
-      sequence {
-        autoComplete&.hide&()
+    sequence {
+      next { focused = true }
+
+      if (disabled) {
         next {  }
-      }
-    } else {
-      sequence {
-        Timer.nextFrame("")
-        autoComplete&.show&()
-        next { open = true }
+      } else if (open) {
+        next { open = false }
+      } else {
+        sequence {
+          Timer.nextFrame("")
+
+          next { open = true }
+        }
       }
     }
   }
@@ -137,64 +144,99 @@ component Ui.Select {
     next { open = false }
   }
 
-  fun handleOpen : Promise(Never, Void) {
-    next { open = true }
-  }
+  fun handleKeyDown (event : Html.Event) {
+    case (list) {
+      Maybe::Just item =>
+        case (event.keyCode) {
+          27 => handleClose()
 
-  fun handleKeyDown (event : Html.Event) : Promise(Never, Void) {
-    sequence {
-      autoComplete&.handleKeyDown&(event)
-      next {  }
+          13 =>
+            sequence {
+              item.handleKeyDown(event)
+
+              if (open) {
+                next {  }
+              } else {
+                next { open = true }
+              }
+            }
+
+          => item.handleKeyDown(event)
+        }
+
+      Maybe::Nothing => next {  }
     }
   }
 
   fun handleSelect (value : String) : Promise(Never, Void) {
     sequence {
       onChange(value)
-      Dom.focus(element)
-    }
-  }
-
-  get tabindex : String {
-    if (disabled) {
-      "-1"
-    } else {
-      "0"
     }
   }
 
   fun render : Html {
-    <Ui.AutoComplete as autoComplete
-      placeholder={searchPlaceholder}
-      closeOnSelect={closeOnSelect}
-      onClose={handleClose}
-      position={position}
-      showClearSelection={showClearSelection}
-      onTabOut={handleTabOut}
-      onSelect={handleSelect}
-      selected={value}
-      open={open}
-      onOpen={handleOpen}
-      items={items}
-      element={
-        <div::element as element
-          tabindex={tabindex}
-          onKeyDown={handleKeyDown}
-          onMouseUp={handleFocus}>
+    try {
+      content =
+        <Ui.Dropdown.Panel>
+          <Ui.InteractiveList as list
+            onSelect={handleSelect}
+            interactive={false}
+            size={size}
+            selected={
+              Set.empty()
+              |> Set.add(value)
+            }
+            items={items}/>
+        </Ui.Dropdown.Panel>
 
+      label =
+        items
+        |> Array.find(
+          (item : Ui.AutoComplete.Item) : Bool { item.key == value })
+        |> Maybe.map(
+          (item : Ui.AutoComplete.Item) {
+            <div>
+              <{ item.content }>
+            </div>
+          })
+        |> Maybe.withDefault(
+          <div::placeholder>
+            <{ placeholder }>
+          </div>)
+
+      grid =
+        <div::grid>
           <{ label }>
 
-          <svg::chevron
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            height="12"
-            width="12">
-
-            <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/>
-
-          </svg>
-
+          <Ui.Icon
+            name="chevron-down"
+            autoSize={true}/>
         </div>
-      }/>
+
+      html =
+        if (disabled) {
+          <div::element>
+            <{ grid }>
+          </div>
+        } else {
+          <div::element as element
+            tabindex="0"
+            onMouseUp={handleFocus}>
+
+            <{ grid }>
+
+          </div>
+        }
+
+      <Ui.Dropdown
+        onClick={(event : Html.Event) { Dom.focus(element) }}
+        closeOnOutsideClick={true}
+        onClose={handleClose}
+        position={position}
+        offset={offset}
+        open={open}
+        content={content}
+        element={html}/>
+    }
   }
 }

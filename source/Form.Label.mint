@@ -6,15 +6,16 @@ component Ui.Form.Label {
   property text : String = ""
 
   style base {
-    color: #{actualTheme.content.text};
     font-family: #{actualTheme.fontFamily};
     font-size: #{fontSize}px;
+
+    color: #{actualTheme.content.text};
 
     white-space: nowrap;
     font-weight: bold;
     line-height: 1;
+    flex: 0 0 auto;
     opacity: 0.8;
-    flex: 1;
   }
 
   get actualTheme {

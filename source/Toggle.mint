@@ -48,20 +48,8 @@ component Ui.Toggle {
     }
 
     &:focus {
+      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
       border-color: #{actualTheme.primary.s500.color};
-
-      &::before {
-        border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
-        box-shadow: 0 0 0 0.35em #{actualTheme.primary.s500.color};
-        pointer-events: none;
-        position: absolute;
-        opacity: 0.5;
-        content: "";
-        bottom: 0;
-        right: 0;
-        left: 0;
-        top: 0;
-      }
     }
 
     &:disabled {
