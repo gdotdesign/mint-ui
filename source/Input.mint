@@ -79,9 +79,9 @@ component Ui.Input {
     width: 100%;
 
     if (invalid) {
-      border: 2px solid #{actualTheme.danger.s500.color};
+      border: 0.125em solid #{actualTheme.danger.s500.color};
     } else {
-      border: 2px solid #{actualTheme.border};
+      border: 0.125em solid #{actualTheme.border};
     }
 
     if (showIcon) {

@@ -128,6 +128,14 @@ module Dom.Extra {
       })
   }
 
+  fun setAttribute (
+    attribute : String,
+    value : String,
+    element : Dom.Element
+  ) : Dom.Element {
+    `#{element}.setAttribute(#{attribute}, #{value}) && element`
+  }
+
   fun getElementsBySelector (selector : String, element : Dom.Element) : Array(Dom.Element) {
     `Array.from(#{element}.querySelectorAll(#{selector}))`
   }
@@ -197,5 +205,15 @@ module Test.Extra {
 module Html.Extra {
   fun isNotEmpty (element : Html) {
     `!!#{element}`
+  }
+}
+
+module Array.Extra {
+  fun reverseIf (condition : Bool, array : Array(a)) : Array(a) {
+    if (condition) {
+      Array.reverse(array)
+    } else {
+      array
+    }
   }
 }

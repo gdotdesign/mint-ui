@@ -16,7 +16,7 @@ component Ui.Content {
   style base {
     font-family: #{actualTheme.fontFamily};
     text-align: #{textAlign};
-    line-height: 170%;
+    line-height: 1.7em;
 
     if (padding && mobile) {
       padding: 16px;
@@ -32,6 +32,14 @@ component Ui.Content {
 
     > *:last-child {
       margin-bottom: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      line-height: 1.2em;
     }
 
     h2 {

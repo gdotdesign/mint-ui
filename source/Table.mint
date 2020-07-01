@@ -16,6 +16,7 @@ record Ui.Table.Header {
 component Ui.Table {
   connect Ui exposing { resolveTheme }
 
+  property onOrderChange : Function(Tuple(String, String), Promise(Never, Void)) = Promise.Extra.never1
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property orderDirection : String = ""
   property orderBy : String = ""
@@ -251,6 +252,7 @@ component Ui.Table {
           for (header of headers) {
             <Ui.Table.Header
               data={header}
+              onOrderChange={onOrderChange}
               orderDirection={orderDirection}
               orderBy={orderBy}/>
           }

@@ -1,13 +1,30 @@
+/*
+An action sheet comes up from the bottom of the screen and displays actions
+a user can take.
+
+- usually this component is used in mobile resolutions
+- showing the component returns a promise which is resolved when the
+  component is closed
+*/
 global component Ui.ActionSheet {
-  connect Ui exposing { resolveTheme }
+  connect Ui exposing { resolveTheme, mobile }
 
-  state theme : Maybe(Ui.Theme) = Maybe::Nothing
-  state items : Array(Ui.Items) = []
-  state size : Number = 16
-
+  /* The resolve function. */
   state resolve : Function(Void, Void) = (value : Void) { void }
+
+  /* The theme for the component. */
+  state theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The displayed items. */
+  state items : Array(Ui.NavItem) = []
+
+  /* The state of the component (open / closed). */
   state open : Bool = false
 
+  /* The base size of the component. */
+  state size : Number = 16
+
+  /* The style of the backdrop element. */
   style base {
     background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
     position: fixed;
@@ -21,8 +38,11 @@ global component Ui.ActionSheet {
     flex-direction: column;
     display: flex;
 
-    backdrop-filter: blur(5px);
     font-size: #{size}px;
+
+    if (!mobile) {
+      align-items: center;
+    }
 
     if (open) {
       transition: visibility 1ms, opacity 320ms;
@@ -35,6 +55,7 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Style of an item. */
   style item {
     grid-auto-flow: column;
     justify-content: start;
@@ -54,18 +75,15 @@ global component Ui.ActionSheet {
     }
   }
 
-  style label {
-    line-height: 1em;
-    height: 1em;
-  }
-
+  /* Style for the divider. */
   style divider {
     border-top: 0.1875em solid #{actualTheme.border};
   }
 
+  /* Style for the items container. */
   style items {
     border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
-    transition: 320ms;
+    transition: transform 320ms, opacity 320ms;
     margin: 0.625em;
 
     background: #{actualTheme.content.color};
@@ -73,6 +91,10 @@ global component Ui.ActionSheet {
 
     font-family: #{actualTheme.fontFamily};
     cursor: pointer;
+
+    if (!mobile) {
+      min-width: 300px;
+    }
 
     if (open) {
       transform: translateY(0);
@@ -83,31 +105,29 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Returns the actual theme. */
   get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
-  fun setTheme (theme : Maybe(Ui.Theme)) : Promise(Never, Void) {
-    next { theme = theme }
-  }
-
-  fun setSize (size : Number) : Promise(Never, Void) {
-    next { size = size }
-  }
-
+  /* Hides the component. */
   fun hide : Promise(Never, Void) {
-    try {
+    sequence {
+      next { open = false }
+
+      Timer.timeout(320, "")
       resolve(void)
 
-      next
-        {
-          resolve = (value : Void) { void },
-          open = false
-        }
+      next { resolve = (value : Void) { void } }
     }
   }
 
-  fun show (items : Array(Ui.Items)) : Promise(Never, Void) {
+  /* Shows the component with the given items and options. */
+  fun showWithOptions (
+    theme : Maybe(Ui.Theme),
+    size : Number,
+    items : Array(Ui.NavItem)
+  ) : Promise(Never, Void) {
     if (Array.isEmpty(items)) {
       next {  }
     } else {
@@ -118,7 +138,9 @@ global component Ui.ActionSheet {
         next
           {
             resolve = resolve,
+            theme = theme,
             items = items,
+            size = size,
             open = true
           }
 
@@ -127,6 +149,12 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Shows the component with the given items. */
+  fun show (items : Array(Ui.NavItem)) : Promise(Never, Void) {
+    showWithOptions(Maybe::Nothing, 16, items)
+  }
+
+  /* The close event handler. */
   fun handleClose (event : Html.Event) : Promise(Never, Void) {
     if (Dom.Extra.containsMaybe(container, event.target)) {
       next {  }
@@ -135,10 +163,11 @@ global component Ui.ActionSheet {
     }
   }
 
-  fun handleClick (item : Ui.Item, event : Html.Event) {
-    if (String.Extra.isNotEmpty(item.href)) {
+  /* The click event handler. */
+  fun handleClick (href : String, event : Html.Event) {
+    if (String.Extra.isNotEmpty(href)) {
       sequence {
-        Window.navigate(item.href)
+        Window.navigate(href)
         hide()
       }
     } else {
@@ -146,26 +175,27 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Renders the component. */
   fun render : Html {
     <div::base onClick={handleClose}>
       <div::items as container>
         for (item of items) {
           case (item) {
-            Ui.Items::Divider => <div::divider/>
+            Ui.NavItem::Divider => <div::divider/>
 
-            Ui.Items::Item item =>
-              <div::item onClick={handleClick(item)}>
-                if (String.Extra.isNotEmpty(item.iconBefore)) {
+            Ui.NavItem::Item iconAfter iconBefore label href =>
+              <div::item onClick={handleClick(href)}>
+                if (String.Extra.isNotEmpty(iconBefore)) {
                   <Ui.Icon
-                    name={item.iconBefore}
+                    name={iconBefore}
                     autoSize={true}/>
                 }
 
-                <{ item.label }>
+                <{ label }>
 
-                if (String.Extra.isNotEmpty(item.iconAfter)) {
+                if (String.Extra.isNotEmpty(iconAfter)) {
                   <Ui.Icon
-                    name={item.iconAfter}
+                    name={iconAfter}
                     autoSize={true}/>
                 }
               </div>

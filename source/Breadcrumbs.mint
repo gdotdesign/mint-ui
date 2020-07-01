@@ -1,11 +1,23 @@
+/*
+Indicate the current page’s location within a navigational hierarchy
+that automatically adds separators.
+*/
 component Ui.Breadcrumbs {
   connect Ui exposing { resolveTheme, mobile }
 
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The displayed items. */
   property items : Array(Tuple(String, Html)) = []
+
+  /* The separator between items. */
   property separator : Html = <>"/"</>
+
+  /* The base size of the component. */
   property size : Number = 16
 
+  /* The style of the base element. */
   style base {
     background: #{actualTheme.content.color};
     color: #{actualTheme.content.text};
@@ -14,15 +26,17 @@ component Ui.Breadcrumbs {
 
     font-family: #{actualTheme.fontFamily};
     font-size: #{size}px;
-    line-height: 1;
+    line-height: 1.2;
   }
 
+  /* The style of the separator. */
   style separator {
     display: inline-block;
     margin: 0 0.75em;
     opacity: 0.4;
   }
 
+  /* The style of the elements which are clickable. */
   style link {
     text-decoration: none;
     outline: none;
@@ -38,6 +52,7 @@ component Ui.Breadcrumbs {
     }
   }
 
+  /* The style of the elements which are not clickable. */
   style breadcrumb {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -48,38 +63,39 @@ component Ui.Breadcrumbs {
     }
   }
 
+  /* Returns the actual theme. */
   get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
-  get content : Array(Html) {
-    for (item of items) {
-      try {
-        {href, content} =
-          item
-
-        if (String.isEmpty(href)) {
-          <span::breadcrumb aria-label="breadcrumb">
-            <{ content }>
-          </span>
-        } else {
-          <a::breadcrumb::link
-            aria-label="breadcrumb"
-            href={href}>
-
-            <{ content }>
-
-          </a>
-        }
-      }
-    }
-  }
-
+  /* Renders the component. */
   fun render : Html {
     if (mobile) {
       <></>
     } else {
       try {
+        content =
+          for (item of items) {
+            try {
+              {href, content} =
+                item
+
+              if (String.isEmpty(href)) {
+                <span::breadcrumb aria-label="breadcrumb">
+                  <{ content }>
+                </span>
+              } else {
+                <a::breadcrumb::link
+                  aria-label="breadcrumb"
+                  href={href}>
+
+                  <{ content }>
+
+                </a>
+              }
+            }
+          }
+
         span =
           <span::separator aria-hidden="true">
             <{ separator }>

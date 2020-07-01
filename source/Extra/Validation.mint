@@ -14,6 +14,14 @@ module Validation {
     }
   }
 
+  fun isSame (value : a, value2 : a, error : Tuple(String, String)) : Maybe(Tuple(String, String)) {
+    if (value == value2) {
+      Maybe::Nothing
+    } else {
+      Maybe::Just(error)
+    }
+  }
+
   fun exactNumberOfCharacters (
     value : String,
     size : Number,

@@ -1,6 +1,7 @@
 component Ui.Table.Header {
   connect Ui exposing { resolveTheme }
 
+  property onOrderChange : Function(Tuple(String, String), Promise(Never, Void)) = Promise.Extra.never1
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property orderDirection : String = ""
   property orderBy : String = ""
@@ -77,7 +78,7 @@ component Ui.Table.Header {
           "asc"
         }
 
-      next {  }
+      onOrderChange({data.sortKey, nextOrderDirection})
     }
   }
 

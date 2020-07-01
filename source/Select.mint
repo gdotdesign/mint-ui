@@ -5,7 +5,7 @@ component Ui.Select {
     (selected : String) : Promise(Never, Void) { Promise.never() }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
-  property items : Array(Ui.AutoComplete.Item) = []
+  property items : Array(Ui.ListItem) = []
   property position : String = "bottom-right"
   property placeholder : String = ""
   property value : String = ""
@@ -93,7 +93,7 @@ component Ui.Select {
       border-color: #{actualTheme.danger.s300.color};
     } else if (invalid) {
       border-color: #{actualTheme.danger.s500.color};
-    } else if (open) {
+    } else if (open || focused) {
       border-color: #{actualTheme.primary.s500.color};
     } else {
       border-color: #{actualTheme.border};
@@ -192,11 +192,11 @@ component Ui.Select {
       label =
         items
         |> Array.find(
-          (item : Ui.AutoComplete.Item) : Bool { item.key == value })
+          (item : Ui.ListItem) : Bool { Ui.ListItem.key(item) == value })
         |> Maybe.map(
-          (item : Ui.AutoComplete.Item) {
+          (item : Ui.ListItem) {
             <div>
-              <{ item.content }>
+              <{ Ui.ListItem.content(item) }>
             </div>
           })
         |> Maybe.withDefault(

@@ -1,10 +1,20 @@
+/* This is a cell of the calender component. */
 component Ui.Calendar.Cell {
   connect Ui exposing { resolveTheme }
 
+  /* The click event. */
+  property onClick : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The theme for the button. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
-  property onClick : Function(Time, Promise(Never, Void)) = (day : Time) : Promise(Never, Void) { Promise.never() }
+
+  /* The day. */
   property day : Time = Time.now()
+
+  /* Wether or not the cell is selected. */
   property selected : Bool = false
+
+  /* Wether or not the cell is active. */
   property active : Bool = false
 
   style base {

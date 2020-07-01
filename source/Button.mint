@@ -1,30 +1,56 @@
+/*
+Simple button component with a label and icons before or after.
+
+It works in two modes:
+- as a button, the `onClick` event needs to be handled
+- as a link if the `href` property is not empty
+*/
 component Ui.Button {
   connect Ui exposing { resolveTheme }
 
+  /* The mouse down event handler. */
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The mouse up event handler. */
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The click event handler. */
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* Where to align the text in case the button is wide. */
   property align : String = "center"
+
+  /* The type of the button. */
   property type : String = "primary"
+
+  /* The label of the button. */
   property label : String = ""
+
+  /* The href of the button. */
   property href : String = ""
 
+  /* Wether or not to break the words. */
   property breakWords : Bool = false
+
+  /* Wether or not the button is disabled. */
   property disabled : Bool = false
+
+  /* Wether or not make the text use ellipsis if it's overflows. */
   property ellipsis : Bool = true
 
+  /* The size of the button. */
   property size : Number = 16
 
+  /* The icon before the label. */
   property iconBefore : String = ""
+
+  /* The icon after the label. */
   property iconAfter : String = ""
 
+  /* The theme for the button. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
-
+  /* Styles for the button. */
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
@@ -32,7 +58,7 @@ component Ui.Button {
     appearance: none;
 
     border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
-    border: 1px solid transparent;
+    display: inline-block;
 
     font-family: #{actualTheme.fontFamily};
     text-decoration: none;
@@ -48,6 +74,7 @@ component Ui.Button {
     outline: none;
     padding: 0;
     margin: 0;
+    border: 0;
 
     case (type) {
       "surface" =>
@@ -98,6 +125,7 @@ component Ui.Button {
     }
   }
 
+  /* Styles for the container. */
   style container {
     justify-content: #{align};
     align-items: center;
@@ -108,6 +136,7 @@ component Ui.Button {
     min-height: 2.375em;
   }
 
+  /* Styles for the label. */
   style label {
     if (breakWords) {
       word-break: break-word;
@@ -118,6 +147,11 @@ component Ui.Button {
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
   /* Focuses the button. */
   fun focus : Promise(Never, Void) {
     [button, anchor]
@@ -125,6 +159,7 @@ component Ui.Button {
     |> Dom.focus()
   }
 
+  /* Renders the button. */
   fun render : Html {
     try {
       content =

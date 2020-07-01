@@ -1,13 +1,3 @@
-enum Ui.ListItems {
-  Item(Ui.ListItem)
-}
-
-record Ui.ListItem {
-  matchString : String,
-  content : Html,
-  key : String
-}
-
 component Ui.InteractiveList {
   property items : Array(Ui.ListItem) = []
 
@@ -47,7 +37,7 @@ component Ui.InteractiveList {
           Html.Event.preventDefault(event)
 
           index =
-            Array.indexBy(intended, .key, items)
+            Array.indexBy(intended, Ui.ListItem.key, items)
 
           nextIndex =
             if (index == Array.size(items) - 1) {
@@ -58,7 +48,7 @@ component Ui.InteractiveList {
 
           nextKey =
             items[nextIndex]
-            |> Maybe.map(.key)
+            |> Maybe.map(Ui.ListItem.key)
             |> Maybe.withDefault("")
 
           if (intendable) {
@@ -78,7 +68,7 @@ component Ui.InteractiveList {
           Html.Event.preventDefault(event)
 
           index =
-            Array.indexBy(intended, .key, items)
+            Array.indexBy(intended, Ui.ListItem.key, items)
 
           nextIndex =
             if (index == 0) {
@@ -89,7 +79,7 @@ component Ui.InteractiveList {
 
           nextKey =
             items[nextIndex]
-            |> Maybe.map(.key)
+            |> Maybe.map(Ui.ListItem.key)
             |> Maybe.withDefault("")
 
           if (intendable) {
@@ -124,16 +114,21 @@ component Ui.InteractiveList {
       <Ui.ScrollPanel>
         <div::items as container>
           for (item of items) {
-            <Ui.List.Item
-              onClick={(event : Html.Event) { handleSelect(item.key) }}
-              selected={Set.has(item.key, selected)}
-              intended={intendable && item.key == intended}
-              size={size}
-              key={item.key}>
+            case (item) {
+              Ui.ListItem::Divider => <></>
 
-              <{ item.content }>
+              Ui.ListItem::Item key content =>
+                <Ui.List.Item
+                  onClick={(event : Html.Event) { handleSelect(key) }}
+                  intended={intendable && key == intended}
+                  selected={Set.has(key, selected)}
+                  size={size}
+                  key={key}>
 
-            </Ui.List.Item>
+                  <{ content }>
+
+                </Ui.List.Item>
+            }
           }
         </div>
       </Ui.ScrollPanel>

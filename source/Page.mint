@@ -24,7 +24,7 @@ component Ui.Page {
     }
 
     if (mobile) {
-      padding: 16px;
+      padding: 32px 16px;
     } else {
       padding: 32px;
     }
@@ -42,8 +42,8 @@ component Ui.Page {
   }
 
   style corner-top {
+    transform: rotate(180deg);
     position: absolute;
-    rotate: 180deg;
     right: 0;
     top: 0;
 

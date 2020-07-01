@@ -6,6 +6,7 @@ component Ui.Textarea {
   property placeholder : String = ""
   property inputDelay : Number = 0
   property disabled : Bool = false
+  property invalid : Bool = false
   property value : String = ""
   property size : Number = 16
 
@@ -68,6 +69,12 @@ component Ui.Textarea {
     outline: none;
     margin: 0;
 
+    if (invalid) {
+      border-color: #{actualTheme.danger.s500.color};
+    } else {
+      border-color: #{actualTheme.border};
+    }
+
     case (behavior) {
       "grow" =>
         position: absolute;
@@ -94,8 +101,13 @@ component Ui.Textarea {
     }
 
     &:focus {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
-      border-color: #{actualTheme.primary.s500.color};
+      if (invalid) {
+        box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
+        border-color: #{actualTheme.danger.s300.color};
+      } else {
+        box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
+        border-color: #{actualTheme.primary.s500.color};
+      }
     }
   }
 

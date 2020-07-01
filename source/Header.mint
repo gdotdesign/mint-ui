@@ -2,7 +2,7 @@ component Ui.Header {
   connect Ui exposing { resolveTheme, mobile }
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
-  property items : Array(Ui.Items) = []
+  property items : Array(Ui.NavItem) = []
   property brand : Html = <></>
   property size : Number = 16
 
@@ -83,21 +83,21 @@ component Ui.Header {
           <>
             for (item of items) {
               case (item) {
-                Ui.Items::Divider => <div::divider/>
+                Ui.NavItem::Divider => <div::divider/>
 
-                Ui.Items::Item item =>
-                  <a::item(url == Url.parse(item.href)) href={item.href}>
-                    if (String.Extra.isNotEmpty(item.iconBefore)) {
+                Ui.NavItem::Item href iconBefore iconAfter label =>
+                  <a::item(url == Url.parse(href)) href={href}>
+                    if (String.Extra.isNotEmpty(iconBefore)) {
                       <Ui.Icon
-                        name={item.iconBefore}
+                        name={iconBefore}
                         autoSize={true}/>
                     }
 
-                    <{ item.label }>
+                    <{ label }>
 
-                    if (String.Extra.isNotEmpty(item.iconAfter)) {
+                    if (String.Extra.isNotEmpty(iconAfter)) {
                       <Ui.Icon
-                        name={item.iconAfter}
+                        name={iconAfter}
                         autoSize={true}/>
                     }
                   </a>
@@ -108,16 +108,4 @@ component Ui.Header {
       </Ui.LineGrid>
     </div>
   }
-}
-
-enum Ui.Items {
-  Divider
-  Item(Ui.Item)
-}
-
-record Ui.Item {
-  iconBefore : String,
-  iconAfter : String,
-  label : String,
-  href : String
 }
