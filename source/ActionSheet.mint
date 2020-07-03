@@ -82,7 +82,7 @@ global component Ui.ActionSheet {
 
   /* Style for the items container. */
   style items {
-    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     transition: transform 320ms, opacity 320ms;
     margin: 0.625em;
 

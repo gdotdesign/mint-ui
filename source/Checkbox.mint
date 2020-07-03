@@ -27,7 +27,7 @@ component Ui.Checkbox {
 
     font-size: #{size}px;
 
-    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.0625}px;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     border: 0.125em solid #{actualTheme.border};
     height: 2.125em;
     width: 2.125em;

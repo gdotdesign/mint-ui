@@ -57,7 +57,7 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
-    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     display: inline-block;
 
     font-family: #{actualTheme.fontFamily};

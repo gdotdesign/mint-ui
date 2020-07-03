@@ -5,25 +5,35 @@ component Ui.Calendar.Cell {
   /* The click event. */
   property onClick : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
 
-  /* The theme for the button. */
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
-  /* The day. */
-  property day : Time = Time.now()
 
   /* Wether or not the cell is selected. */
   property selected : Bool = false
 
-  /* Wether or not the cell is active. */
+  /* Wether or not the cell is active (selectable). */
   property active : Bool = false
 
+  /* The size of the component. */
+  property size : Number = 16
+
+  /* Wether or not the component is disabled. */
+  property disabled : Bool = false
+
+  /* The day. */
+  property day : Time
+
+  /* Styles for the cell. */
   style base {
-    border-radius: #{17 * actualTheme.borderRadiusCoefficient}px;
+    border-radius: #{0.78125 * actualTheme.borderRadiusCoefficient}em;
+    font-size: #{size}px;
+
     justify-content: center;
-    line-height: 34px;
+    align-items: center;
     display: flex;
-    height: 34px;
-    width: 34px;
+
+    height: 2em;
+    width: 2em;
 
     if (active) {
       cursor: pointer;
@@ -31,6 +41,10 @@ component Ui.Calendar.Cell {
     } else {
       pointer-events: none;
       opacity: 0.2;
+    }
+
+    if (disabled) {
+      pointer-events: none;
     }
 
     &:hover {
@@ -49,17 +63,20 @@ component Ui.Calendar.Cell {
     }
   }
 
+  /* Returns the actual theme. */
   get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
+  /* The click event handler. */
   fun handleClick (event : Html.Event) : Promise(Never, Void) {
     onClick(day)
   }
 
+  /* Renders the component. */
   fun render : Html {
     <div::base
-      title={Time.format("yyyy-MM-dd HH:mm:ss", day)}
+      title={Time.format("yyyy-MM-dd", day)}
       onClick={handleClick}>
 
       <{ Number.toString(Time.day(day)) }>

@@ -57,7 +57,7 @@ component Ui.Textarea {
   }
 
   style textarea {
-    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     background-color: #{actualTheme.content.color};
     color: #{actualTheme.content.text};
 

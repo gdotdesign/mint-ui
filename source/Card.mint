@@ -1,20 +1,28 @@
+/* A card component which has items with pre defined structure. */
 component Ui.Card {
   connect Ui exposing { resolveTheme }
+
+  /* The theme for the card. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
+  /* The child elements. */
   property children : Array(Html) = []
+
+  /* The minimum width of the card. */
   property minWidth : Number = 0
+
+  /* The URL to link the card to. */
   property href : String = ""
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
+  /* The size of the component. */
+  property size : Number = 16
 
+  /* Styles for the card. */
   style base {
-    border-radius: #{40 * actualTheme.borderRadiusCoefficient}px;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
 
-    box-shadow: 0 0 1px 1px #{actualTheme.border},
-                0 0 0 4px #{actualTheme.contentFaded.color};
+    box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
+                0 0 0 0.25em #{actualTheme.contentFaded.color};
 
     min-width: #{minWidth}px;
 
@@ -22,11 +30,13 @@ component Ui.Card {
     display: flex;
 
     background: #{actualTheme.contentFaded.color};
-    text-decoration: none;
     outline: none;
 
+    text-decoration: none;
+    font-size: #{size}px;
+
     > * + * {
-      border-top: 1px solid #{actualTheme.border};
+      border-top: 0.0625em solid #{actualTheme.border};
     }
 
     > *:first-child {
@@ -46,17 +56,23 @@ component Ui.Card {
     &:hover,
     &:focus {
       if (!String.isEmpty(href)) {
-        box-shadow: 0 0 1px 1px #{actualTheme.primary.s400.color},
-                    0 0 0 4px #{actualTheme.primary.shadow};
+        box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.primary.s400.color},
+                    0 0 0 0.25em #{actualTheme.primary.shadow};
 
         cursor: pointer;
       } else {
-        box-shadow: 0 0 1px 1px #{actualTheme.border},
-                    0 0 0 4px #{actualTheme.contentFaded.color};
+        box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
+                    0 0 0 0.25em #{actualTheme.contentFaded.color};
       }
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Renders the card. */
   fun render : Html {
     if (String.isEmpty(href)) {
       <div::base>

@@ -11,7 +11,7 @@ component Ui.Dropdown.Panel {
   }
 
   style base {
-    border-radius: #{12.121212 * actualTheme.borderRadiusCoefficient}px;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     box-shadow: 0 2px 10px -2px rgba(0,0,0,0.1);
     border: 1px solid #{actualTheme.border};
     width: #{width};

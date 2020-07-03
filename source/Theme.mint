@@ -142,7 +142,7 @@ record Ui.Theme.Resolved {
 store Ui {
   state fontFamily : String = "Arial"
 
-  state borderRadiusCoefficient : Number = 0.165
+  state borderRadiusCoefficient : Number = 0.16
 
   fun or (value : x, maybe : Maybe(a)) {
     Maybe.withDefault(value, maybe)
@@ -220,7 +220,7 @@ store Ui {
       },
     borderLight = "#E9E9E9",
     borderDark = "#2C2C2C",
-    borderRadiusCoefficient = 0.165,
+    borderRadiusCoefficient = 0.16,
     fontFamily = "Arial"
   }
 
