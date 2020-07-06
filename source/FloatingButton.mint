@@ -4,7 +4,7 @@ component Ui.FloatingButton {
   property onClick : Function(Promise(Never, Void)) = Promise.never
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property size : Number = 60
-  property icon : String
+  property icon : Html
 
   get actualTheme {
     resolveTheme(theme)
@@ -31,7 +31,7 @@ component Ui.FloatingButton {
     <div::base onClick={onClick}>
       <Ui.Icon
         size={size / 2}
-        name={icon}/>
+        icon={icon}/>
     </div>
   }
 }

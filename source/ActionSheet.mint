@@ -185,17 +185,17 @@ global component Ui.ActionSheet {
 
             Ui.NavItem::Item iconAfter iconBefore label href =>
               <div::item onClick={handleClick(href)}>
-                if (String.Extra.isNotEmpty(iconBefore)) {
+                if (Html.Extra.isNotEmpty(iconBefore)) {
                   <Ui.Icon
-                    name={iconBefore}
+                    icon={iconBefore}
                     autoSize={true}/>
                 }
 
                 <{ label }>
 
-                if (String.Extra.isNotEmpty(iconAfter)) {
+                if (Html.Extra.isNotEmpty(iconAfter)) {
                   <Ui.Icon
-                    name={iconAfter}
+                    icon={iconAfter}
                     autoSize={true}/>
                 }
               </div>

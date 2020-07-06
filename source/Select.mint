@@ -209,7 +209,7 @@ component Ui.Select {
           <{ label }>
 
           <Ui.Icon
-            name="chevron-down"
+            icon={Ui.Icons:CHEVRON_DOWN}
             autoSize={true}/>
         </div>
 

@@ -1,5 +1,5 @@
 enum Ui.Cell {
-  Actions(Array(Tuple(String, Bool, Function(Html.Event, Promise(Never, Void)))))
+  Actions(Array(Tuple(Html, Bool, Function(Html.Event, Promise(Never, Void)))))
   String(String)
   Number(Number)
   Code(String)
@@ -177,14 +177,14 @@ component Ui.Table {
           <Ui.LineGrid justifyContent="center">
             for (item of actions) {
               try {
-                {name, disabled, action} =
+                {icon, disabled, action} =
                   item
 
                 <Ui.Icon
                   disabled={disabled}
                   interactive={true}
                   onClick={action}
-                  name={name}/>
+                  icon={icon}/>
               }
             }
           </Ui.LineGrid>
@@ -202,7 +202,7 @@ component Ui.Table {
             <details::details>
               <summary::summary>
                 <Ui.LineGrid gap={5}>
-                  <Ui.Icon name="chevron-right"/>
+                  <Ui.Icon icon={Ui.Icons:CHEVRON_RIGHT}/>
 
                   <div::cell>
                     try {

@@ -2,8 +2,8 @@ enum Ui.NavItem {
   Divider
 
   Item(
-  iconBefore : String,
-    iconAfter : String,
+  iconBefore : Html,
+    iconAfter : Html,
     label : String,
     href : String)
 }

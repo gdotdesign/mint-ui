@@ -127,8 +127,8 @@ component Ui.Calendar {
       <div::header>
         <Ui.Icon
           onClick={handleChevronLeftClick}
+          icon={Ui.Icons:CHEVRON_LEFT}
           interactive={!disabled}
-          name="chevron-left"
           autoSize={true}/>
 
         <div::text>
@@ -137,8 +137,8 @@ component Ui.Calendar {
 
         <Ui.Icon
           onClick={handleChevronRightClick}
+          icon={Ui.Icons:CHEVRON_RIGHT}
           interactive={!disabled}
-          name="chevron-right"
           autoSize={true}/>
       </div>
 

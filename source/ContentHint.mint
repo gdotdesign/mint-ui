@@ -3,7 +3,7 @@ component Ui.ContentHint {
 
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property children : Array(Html) = []
-  property icon : String = ""
+  property icon : Html = <></>
   property type : String = ""
 
   get actualTheme {
@@ -45,7 +45,7 @@ component Ui.ContentHint {
       <div::icon>
         <Ui.Icon
           autoSize={true}
-          name={icon}/>
+          icon={icon}/>
       </div>
 
       <div>

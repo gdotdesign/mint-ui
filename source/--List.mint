@@ -74,7 +74,7 @@ component Ui.List.Item {
       grid =
         <Ui.LineGrid gap={5}>
           if (intended) {
-            <Ui.Icon name="chevron-right"/>
+            <Ui.Icon icon={Ui.Icons:CHEVRON_RIGHT}/>
           }
 
           <{ children }>

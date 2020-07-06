@@ -19,7 +19,7 @@ component Ui.Pagination {
     }
   }
 
-  fun renderButton (data : Tuple(Number, Bool, String, String)) : Html {
+  fun renderButton (data : Tuple(Number, Bool, String, Html)) : Html {
     try {
       {page, active, label, icon} =
         data
@@ -32,7 +32,7 @@ component Ui.Pagination {
         }
 
       key =
-        Number.toString(page) + label + icon
+        Number.toString(page) + label
 
       <Ui.Button
         onClick={(event : Html.Event) { onChange(page) }}
@@ -51,12 +51,12 @@ component Ui.Pagination {
       <Ui.LineGrid gap={size * 0.625}>
         /* First page button */
         if (!Array.contains(0, buttonRange)) {
-          renderButton({0, false, "", "double-chevron-left"})
+          renderButton({0, false, "", Ui.Icons:DOUBLE_CHEVRON_LEFT})
         }
 
         /* Previous button */
         if (page > 0) {
-          renderButton({page - 1, false, "", "chevron-left"})
+          renderButton({page - 1, false, "", Ui.Icons:CHEVRON_LEFT})
         }
 
         /* Left ellipsis */
@@ -65,7 +65,7 @@ component Ui.Pagination {
         }
 
         for (index of buttonRange) {
-          renderButton({index, index == page, Number.toString(index + 1), ""})
+          renderButton({index, index == page, Number.toString(index + 1), <></>})
         }
 
         /* Right ellipsis */
@@ -75,12 +75,12 @@ component Ui.Pagination {
 
         /* Next page button */
         if (page < pages && pages > 0) {
-          renderButton({page + 1, false, "", "chevron-right"})
+          renderButton({page + 1, false, "", Ui.Icons:CHEVRON_RIGHT})
         }
 
         /* Last page button */
         if (page < pages && !Array.contains(pages, buttonRange)) {
-          renderButton({pages, false, "", "double-chevron-right"})
+          renderButton({pages, false, "", Ui.Icons:DOUBLE_CHEVRON_RIGHT})
         }
       </Ui.LineGrid>
     </div>

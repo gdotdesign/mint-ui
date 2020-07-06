@@ -1,6 +1,5 @@
 component Ui.Icon {
   connect Ui exposing { resolveTheme }
-  connect Ui.Icons exposing { icons }
 
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -8,37 +7,43 @@ component Ui.Icon {
   property disabled : Bool = false
   property autoSize : Bool = false
   property opacity : Number = 1
-  property name : String = ""
+  property icon : Html = <></>
   property size : Number = 16
   property href : String = ""
 
   style base {
-    opacity: #{opacity};
-    fill: currentColor;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 
-    if (interactive) {
-      pointer-events: auto;
-      cursor: pointer;
-    } else {
-      pointer-events: none;
-      cursor: auto;
-    }
+    svg {
+      opacity: #{opacity};
+      fill: currentColor;
 
-    if (disabled) {
-      pointer-events: none;
-      opacity: 0.5;
-    }
+      if (interactive) {
+        pointer-events: auto;
+        cursor: pointer;
+      } else {
+        pointer-events: none;
+        cursor: auto;
+      }
 
-    &:hover {
-      color: #{actualTheme.primary.s500.color};
-    }
+      if (disabled) {
+        pointer-events: none;
+        opacity: 0.5;
+      }
 
-    if (autoSize) {
-      height: 1em;
-      width: 1em;
-    } else {
-      height: #{size}px;
-      width: #{size}px;
+      &:hover {
+        color: #{actualTheme.primary.s500.color};
+      }
+
+      if (autoSize) {
+        height: 1em;
+        width: 1em;
+      } else {
+        height: #{size}px;
+        width: #{size}px;
+      }
     }
   }
 
@@ -51,26 +56,14 @@ component Ui.Icon {
   }
 
   fun render : Html {
-    try {
-      {width, height, content} =
-        Map.getWithDefault(name, {0, 0, <></>}, icons)
-
-      svg =
-        <svg::base
-          viewBox="0 0 #{width} #{height}"
-          onClick={onClick}>
-
-          <{ content }>
-
-        </svg>
-
-      if (String.Extra.isNotEmpty(href)) {
-        <a::link href={href}>
-          <{ svg }>
-        </a>
-      } else {
-        svg
-      }
+    if (String.Extra.isNotEmpty(href)) {
+      <a::base::link href={href}>
+        <{ icon }>
+      </a>
+    } else {
+      <div::base>
+        <{ icon }>
+      </div>
     }
   }
 }

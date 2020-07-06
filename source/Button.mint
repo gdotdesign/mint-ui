@@ -42,10 +42,10 @@ component Ui.Button {
   property size : Number = 16
 
   /* The icon before the label. */
-  property iconBefore : String = ""
+  property iconBefore : Html = <></>
 
   /* The icon after the label. */
-  property iconAfter : String = ""
+  property iconAfter : Html = <></>
 
   /* The theme for the button. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -165,9 +165,9 @@ component Ui.Button {
       content =
         <div::container>
           <Ui.LineGrid gap={size * 0.5}>
-            if (String.Extra.isNotEmpty(iconBefore)) {
+            if (Html.Extra.isNotEmpty(iconBefore)) {
               <Ui.Icon
-                name={iconBefore}
+                icon={iconBefore}
                 size={size}/>
             }
 
@@ -177,9 +177,9 @@ component Ui.Button {
               </div>
             }
 
-            if (String.Extra.isNotEmpty(iconAfter)) {
+            if (Html.Extra.isNotEmpty(iconAfter)) {
               <Ui.Icon
-                name={iconAfter}
+                icon={iconAfter}
                 size={size}/>
             }
           </Ui.LineGrid>

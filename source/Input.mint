@@ -12,7 +12,7 @@ component Ui.Input {
   property size : Number = 16
 
   property iconInteractive : Bool = false
-  property icon : String = ""
+  property icon : Html = <></>
 
   property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
@@ -142,7 +142,7 @@ component Ui.Input {
   }
 
   get showIcon : Bool {
-    !String.isEmpty(icon)
+    Html.Extra.isNotEmpty(icon)
   }
 
   fun focus : Promise(Never, Void) {
@@ -194,8 +194,8 @@ component Ui.Input {
       if (showIcon) {
         <div::icon onClick={onIconClick}>
           <Ui.Icon
-            name={icon}
-            autoSize={true}/>
+            autoSize={true}
+            icon={icon}/>
         </div>
       }
     </div>

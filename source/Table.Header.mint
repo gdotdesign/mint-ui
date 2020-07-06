@@ -93,12 +93,12 @@ component Ui.Table.Header {
           <div::icon onClick={handleSort}>
             if (orderBy == data.sortKey) {
               if (orderDirection == "desc") {
-                <Ui.Icon name="triangle-down"/>
+                <Ui.Icon icon={Ui.Icons:TRIANGLE_DOWN}/>
               } else {
-                <Ui.Icon name="triangle-up"/>
+                <Ui.Icon icon={Ui.Icons:TRIANGLE_UP}/>
               }
             } else {
-              <Ui.Icon name="triangle-up-down"/>
+              <Ui.Icon icon={Ui.Icons:TRIANGLE_UP_DOWN}/>
             }
           </div>
         } else {

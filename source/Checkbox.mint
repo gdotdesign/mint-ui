@@ -73,7 +73,7 @@ component Ui.Checkbox {
       role="checkbox">
 
       <Ui.Icon
-        name="checkmark"
+        icon={Ui.Icons:CHECK}
         size={size}
         opacity={
           if (checked) {

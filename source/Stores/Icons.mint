@@ -1,297 +1,209 @@
-store Ui.Icons {
-  state icons : Map(String, Tuple(Number, Number, Html)) = Map.empty()
-  |> Map.set(
-    "info",
-    {
-      14, 16, <path
-        fill-rule="evenodd"
-        d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"/>
-    })
-  |> Map.set(
-    "double-chevron-right",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M3.5 3L2 4.5 5.75 8 2 11.5 3.5 13l5-5-5-5zM9 3L7.5 4.5 11.25 8 7.5 11.5 9 13l5-5-5-5z"/>
-    })
-  |> Map.set(
-    "double-chevron-left",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M12.5 13l1.5-1.5L10.25 8 14 4.5 12.5 3l-5 5zM7 13l1.5-1.5L4.75 8 8.5 4.5 7 3 2 8z"/>
-    })
-  |> Map.set(
-    "chevron-down",
-    {
-      10, 16, <path
-        fill-rule="evenodd"
-        d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6l-5 5z"/>
-    })
-  |> Map.set(
-    "chevron-left",
-    {
-      8, 16, <path
-        fill-rule="evenodd"
-        d="M5.75 13l1.5-1.5L3.5 8l3.75-3.5L5.75 3l-5 5z"/>
-    })
-  |> Map.set(
-    "chevron-right",
-    {
-      8, 16, <path
-        fill-rule="evenodd"
-        d="M2.25 3L.75 4.5 4.5 8 .75 11.5l1.5 1.5 5-5z"/>
-    })
-  |> Map.set(
-    "eye",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d={
-          "M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94" \
-          "-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 " \
-          "4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89" \
-          "-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"
-        }/>
-    })
-  |> Map.set(
-    "close",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d={
-          "M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L" \
-          "4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.4" \
-          "8 8z"
-        }/>
-    })
-  |> Map.set(
-    "checkmark",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/>
-    })
-  |> Map.set(
-    "home",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M16 9l-3-3V2h-2v2L8 1 0 9h2l1 5c0 .55.45 1 1 1h8c.55 0 1-.45 1-1l1-5h2zm-4 5H9v-4H7v4H4L2.81 7.69 8 2.5l5.19 5.19L12 14z"/>
-    })
-  |> Map.set("arrow-right", {10, 16, <path d="M10 8L4 3v3H0v4h4v3l6-5z"/>})
-  |> Map.set(
-    "code",
-    {
-      14, 16, <path
-        fill-rule="evenodd"
-        d={
-          "M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4" \
-          ".5 5L6 11.5 2.5 8 6 4.5 4.5 3z"
-        }/>
-    })
-  |> Map.set(
-    "desktop-download",
-    {
-      16,
-      16,
-      <path
-        fill-rule="evenodd"
-        d={
-          "M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-" \
-          "1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h" \
-          "8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-" \
-          ".45-1-1-1z"
-        }/>
-    })
-  |> Map.set(
-    "alert",
-    {
-      16,
-      16,
-      <path
-        d={
-          "M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138" \
-          " 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964" \
-          "c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1." \
-          "5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5" \
-          ".987h2.039v4.006z"
-        }/>
-    })
-  |> Map.set(
-    "archive",
-    {
-      14,
-      16,
-      <path
-        fill-rule="evenodd"
-        d={
-          "M13 2H1v2h12V2zM0 4a1 1 0 001 1v9a1 1 0 001 1h10a1 1 0 0" \
-          "01-1V5a1 1 0 001-1V2a1 1 0 00-1-1H1a1 1 0 00-1 1v2zm2 1h" \
-          "10v9H2V5zm2 3h6V7H4v1z"
-        }/>
-    })
-  |> Map.set("arrow-both", {20, 16, <path d="M0 8l6-5v3h8V3l6 5-6 5v-3H6v3L0 8z"/>})
-  |> Map.set("arrow-down", {10, 16, <path d="M7 7V3H3v4H0l5 6 5-6H7z"/>})
-  |> Map.set("arrow-left", {10, 16, <path d="M6 3L0 8l6 5v-3h4V6H6V3z"/>})
-  |> Map.set("arrow-up", {10, 16, <path d="M5 3L0 9h3v4h4V9h3L5 3z"/>})
-  |> Map.set("arrow-small-down", {6, 16, <path d="M4 7V5H2v2H0l3 4 3-4H4z"/>})
-  |> Map.set(
-    "bell",
-    {
-      14, 16, <path
-        d={
-          "M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.2" \
-          "3 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 " \
-          ".38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 " \
-          "2-2H5c0 1.11.89 2 2 2z"
-        }/>
-    })
-  |> Map.set(
-    "project",
-    {
-      16,
-      16,
-      <path
-        fill-rule="evenodd"
-        d={
-          "M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1" \
-          "H1v14zM14 0H1a1 1 0 00-1 1v14a1 1 0 001 1h13a1 1 0 001-1" \
-          "V1a1 1 0 00-1-1z"
-        }/>
-    })
-  |> Map.set(
-    "plus",
-    {
-      12,
-      16,
-      <path
-        fill-rule="evenodd"
-        d="M12 9H7v5H5V9H0V7h5V2h2v5h5v2z"/>
-    })
-  |> Map.set(
-    "search",
-    {
-      16,
-      16,
-      <path
-        fill-rule="evenodd"
-        d={
-          "M15.7 13.3l-3.81-3.83A5.93 5.93 0 0013 6c0-3.31-2.69-6-6" \
-          "-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3" \
-          ".81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 000-1.41" \
-          "v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4." \
-          "7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"
-        }/>
-    })
-  |> Map.set(
-    "circuit-board",
-    {
-      14, 16, <path
-        fill-rule="evenodd"
-        d="M3 5c0-.55.45-1 1-1s1 .45 1 1-.45 1-1 1-1-.45-1-1zm8 0c0-.55-.45-1-1-1s-1 .45-1 1 .45 1 1 1 1-.45 1-1zm0 6c0-.55-.45-1-1-1s-1 .45-1 1 .45 1 1 1 1-.45 1-1zm2-10H5v2.17c.36.19.64.47.83.83h2.34c.42-.78 1.33-1.28 2.34-1.05.75.19 1.36.8 1.53 1.55.31 1.38-.72 2.59-2.05 2.59-.8 0-1.48-.44-1.83-1.09H5.83c-.42.8-1.33 1.28-2.34 1.03-.73-.17-1.34-.78-1.52-1.52C1.72 4.49 2.2 3.59 3 3.17V1H1c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1l5-5h2.17c.42-.78 1.33-1.28 2.34-1.05.75.19 1.36.8 1.53 1.55.31 1.38-.72 2.59-2.05 2.59-.8 0-1.48-.44-1.83-1.09H6.99L4 15h9c.55 0 1-.45 1-1V2c0-.55-.45-1-1-1z"/>
-    })
-  |> Map.set(
-    "repo",
-    {
-      12,
-      16,
-      <path
-        fill-rule="evenodd"
-        d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/>
-    })
-  |> Map.set(
-    "github",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-    })
-  |> Map.set(
-    "book",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"/>
-    })
-  |> Map.set(
-    "key",
-    {
-      14, 16, <path
-        fill-rule="evenodd"
-        d="M12.83 2.17C12.08 1.42 11.14 1.03 10 1c-1.13.03-2.08.42-2.83 1.17S6.04 3.86 6.01 5c0 .3.03.59.09.89L0 12v1l1 1h2l1-1v-1h1v-1h1v-1h2l1.09-1.11c.3.08.59.11.91.11 1.14-.03 2.08-.42 2.83-1.17S13.97 6.14 14 5c-.03-1.14-.42-2.08-1.17-2.83zM11 5.38c-.77 0-1.38-.61-1.38-1.38 0-.77.61-1.38 1.38-1.38.77 0 1.38.61 1.38 1.38 0 .77-.61 1.38-1.38 1.38z"/>
-    })
-  |> Map.set(
-    "pencil",
-    {
-      14, 16, <path
-        fill-rule="evenodd"
-        d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 011.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/>
-    })
-  |> Map.set(
-    "three-bars",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z"/>
-    })
-  |> Map.set(
-    "settings",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M4 7H3V2h1v5zm-1 7h1v-3H3v3zm5 0h1V8H8v6zm5 0h1v-2h-1v2zm1-12h-1v6h1V2zM9 2H8v2h1V2zM5 8H2c-.55 0-1 .45-1 1s.45 1 1 1h3c.55 0 1-.45 1-1s-.45-1-1-1zm5-3H7c-.55 0-1 .45-1 1s.45 1 1 1h3c.55 0 1-.45 1-1s-.45-1-1-1zm5 4h-3c-.55 0-1 .45-1 1s.45 1 1 1h3c.55 0 1-.45 1-1s-.45-1-1-1z"/>
-    })
-  |> Map.set(
-    "person",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"/>
-    })
-  |> Map.set(
-    "triangle-down",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d="M0 5l6 6 6-6H0z"/>
-    })
-  |> Map.set(
-    "triangle-up",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d="M12 11L6 5l-6 6h12z"/>
-    })
-  |> Map.set(
-    "triangle-up-down",
-    {
-      12, 16, <path
-        d="M12 7L6 1 0 7zM12 9l-6 6-6-6z"
-        fill-rule="evenodd"/>
-    })
-  |> Map.set(
-    "trash",
-    {
-      12, 16, <path
-        fill-rule="evenodd"
-        d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/>
-    })
-  |> Map.set(
-    "infinity",
-    {
-      16, 16, <path
-        fill-rule="evenodd"
-        d="M4 6a2 2 0 100 4c.137 0 .402-.073.796-.318a7.49 7.49 0 001.138-.908c.285-.27.543-.542.753-.774a14.22 14.22 0 00-.753-.774 7.49 7.49 0 00-1.138-.908C4.402 6.073 4.137 6 4 6zm5.313 2c.21.232.468.504.753.774.37.35.764.676 1.138.908.394.245.659.318.796.318a2 2 0 100-4c-.137 0-.402.073-.796.318a7.483 7.483 0 00-1.138.908c-.285.27-.543.542-.753.774zM8 9.527a15.45 15.45 0 01-.691.7 9.587 9.587 0 01-1.457 1.154C5.34 11.698 4.69 12 4 12a4 4 0 010-8c.691 0 1.34.302 1.852.62.531.33 1.034.754 1.457 1.154.255.24.489.481.691.699.202-.218.436-.458.691-.7a9.587 9.587 0 011.457-1.154C10.66 4.302 11.31 4 12 4a4 4 0 010 8c-.691 0-1.34-.302-1.852-.62a9.464 9.464 0 01-1.457-1.154A14.47 14.47 0 018 9.527z"/>
-    })
-  |> Map.set(
-    "jersey",
-    {
-      14, 16, <path
-        fill-rule="evenodd"
-        d="M4.5 6l-.5.5v5l.5.5h2l.5-.5v-5L6.5 6h-2zM6 11H5V7h1v4zm6.27-7.25C12.05 2.37 11.96 1.12 12 0H9.02c0 .27-.13.48-.39.69-.25.2-.63.3-1.13.3-.5 0-.88-.09-1.13-.3-.23-.2-.36-.42-.36-.69H3c.05 1.13-.03 2.38-.25 3.75C2.55 5.13 1.95 5.88 1 6v9c.02.27.11.48.31.69.2.21.42.3.69.31h11c.27-.02.48-.11.69-.31.21-.2.3-.42.31-.69V6c-.95-.13-1.53-.88-1.75-2.25h.02zM13 15H2V7c.89-.5 1.48-1.25 1.72-2.25S4.03 2.5 4 1h1c-.02.78.16 1.47.52 2.06.36.58 1.02.89 2 .94.98-.02 1.64-.33 2-.94.36-.59.5-1.28.48-2.06h1c.02 1.42.13 2.55.33 3.38.2.81.69 2 1.67 2.63v8V15zM8.5 6l-.5.5v5l.5.5h2l.5-.5v-5l-.5-.5h-2zm1.5 5H9V7h1v4z"/>
-    })
-  |> Map.set(
-    "cart",
-    {24, 24, <path d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm1.336-5l1.977-7h-16.813l2.938 7h11.898zm4.969-10l-3.432 12h-12.597l.839 2h13.239l3.474-12h1.929l.743-2h-4.195z"/>})
+module Ui.Icons {
+  const ZAP = @svg(../../assets/icons/zap.svg)
+  const X = @svg(../../assets/icons/x.svg)
+  const WORKFLOW_ALL = @svg(../../assets/icons/workflow-all.svg)
+  const WORKFLOW = @svg(../../assets/icons/workflow.svg)
+  const WATCH = @svg(../../assets/icons/watch.svg)
+  const VERSIONS = @svg(../../assets/icons/versions.svg)
+  const VERIFIED = @svg(../../assets/icons/verified.svg)
+  const UNVERIFIED = @svg(../../assets/icons/unverified.svg)
+  const UNSAVED = @svg(../../assets/icons/unsaved.svg)
+  const UNMUTE = @svg(../../assets/icons/unmute.svg)
+  const UNFOLD = @svg(../../assets/icons/unfold.svg)
+  const TRIANGLE_UP_DOWN = @svg(../../assets/icons/triangle-down.svg)
+  const TRIANGLE_UP = @svg(../../assets/icons/triangle-up.svg)
+  const TRIANGLE_RIGHT = @svg(../../assets/icons/triangle-right.svg)
+  const TRIANGLE_LEFT = @svg(../../assets/icons/triangle-left.svg)
+  const TRIANGLE_DOWN = @svg(../../assets/icons/triangle-down.svg)
+  const TRASHCAN = @svg(../../assets/icons/trashcan.svg)
+  const TOOLS = @svg(../../assets/icons/tools.svg)
+  const THUMBSUP = @svg(../../assets/icons/thumbsup.svg)
+  const THUMBSDOWN = @svg(../../assets/icons/thumbsdown.svg)
+  const THREE_BARS = @svg(../../assets/icons/three-bars.svg)
+  const TEXT_SIZE = @svg(../../assets/icons/text-size.svg)
+  const TERMINAL = @svg(../../assets/icons/terminal.svg)
+  const TELESCOPE = @svg(../../assets/icons/telescope.svg)
+  const TASKLIST = @svg(../../assets/icons/tasklist.svg)
+  const TAG = @svg(../../assets/icons/tag.svg)
+  const SYNC = @svg(../../assets/icons/sync.svg)
+  const STOP = @svg(../../assets/icons/stop.svg)
+  const STAR = @svg(../../assets/icons/star.svg)
+  const SQUIRREL = @svg(../../assets/icons/squirrel.svg)
+  const SMILEY = @svg(../../assets/icons/smiley.svg)
+  const SKIP = @svg(../../assets/icons/skip.svg)
+  const SIGN_OUT = @svg(../../assets/icons/sign-out.svg)
+  const SIGN_IN = @svg(../../assets/icons/sign-in.svg)
+  const SHIELD_X = @svg(../../assets/icons/shield-x.svg)
+  const SHIELD_LOCK = @svg(../../assets/icons/shield-lock.svg)
+  const SHIELD_CHECK = @svg(../../assets/icons/shield-check.svg)
+  const SHIELD = @svg(../../assets/icons/shield.svg)
+  const SETTINGS = @svg(../../assets/icons/settings.svg)
+  const SERVER = @svg(../../assets/icons/server.svg)
+  const SEARCH = @svg(../../assets/icons/search.svg)
+  const SCREEN_NORMAL = @svg(../../assets/icons/screen-normal.svg)
+  const SCREEN_FULL = @svg(../../assets/icons/screen-full.svg)
+  const SAVED = @svg(../../assets/icons/saved.svg)
+  const RUBY = @svg(../../assets/icons/ruby.svg)
+  const RSS = @svg(../../assets/icons/rss.svg)
+  const ROCKET = @svg(../../assets/icons/rocket.svg)
+  const REQUEST_CHANGES = @svg(../../assets/icons/request-changes.svg)
+  const REPO_TEMPLATE_PRIVATE = @svg(../../assets/icons/repo-template-private.svg)
+  const REPO_TEMPLATE = @svg(../../assets/icons/repo-template.svg)
+  const REPORT = @svg(../../assets/icons/report.svg)
+  const REPO_PUSH = @svg(../../assets/icons/repo-push.svg)
+  const REPO_PULL = @svg(../../assets/icons/repo-pull.svg)
+  const REPO_FORKED = @svg(../../assets/icons/repo-forked.svg)
+  const REPO_FORCE_PUSH = @svg(../../assets/icons/repo-force-push.svg)
+  const REPO_CLONE = @svg(../../assets/icons/repo-clone.svg)
+  const REPO = @svg(../../assets/icons/repo.svg)
+  const REPLY = @svg(../../assets/icons/reply.svg)
+  const RADIO_TOWER = @svg(../../assets/icons/radio-tower.svg)
+  const QUOTE = @svg(../../assets/icons/quote.svg)
+  const QUESTION = @svg(../../assets/icons/question.svg)
+  const PULSE = @svg(../../assets/icons/pulse.svg)
+  const PROJECT = @svg(../../assets/icons/project.svg)
+  const PRIMITIVE_SQUARE = @svg(../../assets/icons/primitive-square.svg)
+  const PRIMITIVE_DOT_STROKE = @svg(../../assets/icons/primitive-dot-stroke.svg)
+  const PRIMITIVE_DOT = @svg(../../assets/icons/primitive-dot.svg)
+  const PLUS_SMALL = @svg(../../assets/icons/plus-small.svg)
+  const PLUS = @svg(../../assets/icons/plus.svg)
+  const PLUG = @svg(../../assets/icons/plug.svg)
+  const PLAY = @svg(../../assets/icons/play.svg)
+  const PIN = @svg(../../assets/icons/pin.svg)
+  const PERSON = @svg(../../assets/icons/person.svg)
+  const PENCIL = @svg(../../assets/icons/pencil.svg)
+  const PAINTCAN = @svg(../../assets/icons/paintcan.svg)
+  const PACKAGE = @svg(../../assets/icons/package.svg)
+  const ORGANIZATION = @svg(../../assets/icons/organization.svg)
+  const OCTOFACE = @svg(../../assets/icons/octoface.svg)
+  const NOTE = @svg(../../assets/icons/note.svg)
+  const NO_NEWLINE = @svg(../../assets/icons/no-newline.svg)
+  const MUTE = @svg(../../assets/icons/mute.svg)
+  const MORTAR_BOARD = @svg(../../assets/icons/mortar-board.svg)
+  const MIRROR = @svg(../../assets/icons/mirror.svg)
+  const MILESTONE = @svg(../../assets/icons/milestone.svg)
+  const MENTION = @svg(../../assets/icons/mention.svg)
+  const MEGAPHONE = @svg(../../assets/icons/megaphone.svg)
+  const MARK_GITHUB = @svg(../../assets/icons/mark-github.svg)
+  const MARKDOWN = @svg(../../assets/icons/markdown.svg)
+  const MAIL_READ = @svg(../../assets/icons/mail-read.svg)
+  const MAIL = @svg(../../assets/icons/mail.svg)
+  const LOGO_GITHUB = @svg(../../assets/icons/logo-github.svg)
+  const LOGO_GIST = @svg(../../assets/icons/logo-gist.svg)
+  const LOCK = @svg(../../assets/icons/lock.svg)
+  const LOCATION = @svg(../../assets/icons/location.svg)
+  const LIST_UNORDERED = @svg(../../assets/icons/list-unordered.svg)
+  const LIST_ORDERED = @svg(../../assets/icons/list-ordered.svg)
+  const LINK_EXTERNAL = @svg(../../assets/icons/link-external.svg)
+  const LINK = @svg(../../assets/icons/link.svg)
+  const LINE_ARROW_UP = @svg(../../assets/icons/line-arrow-up.svg)
+  const LINE_ARROW_RIGHT = @svg(../../assets/icons/line-arrow-right.svg)
+  const LINE_ARROW_LEFT = @svg(../../assets/icons/line-arrow-left.svg)
+  const LINE_ARROW_DOWN = @svg(../../assets/icons/line-arrow-down.svg)
+  const LIGHT_BULB = @svg(../../assets/icons/light-bulb.svg)
+  const LAW = @svg(../../assets/icons/law.svg)
+  const KEYBOARD = @svg(../../assets/icons/keyboard.svg)
+  const KEY = @svg(../../assets/icons/key.svg)
+  const KEBAB_VERTICAL = @svg(../../assets/icons/kebab-vertical.svg)
+  const KEBAB_HORIZONTAL = @svg(../../assets/icons/kebab-horizontal.svg)
+  const JERSEY = @svg(../../assets/icons/jersey.svg)
+  const ITALIC = @svg(../../assets/icons/italic.svg)
+  const ISSUE_REOPENED = @svg(../../assets/icons/issue-reopened.svg)
+  const ISSUE_OPENED = @svg(../../assets/icons/issue-opened.svg)
+  const ISSUE_CLOSED = @svg(../../assets/icons/issue-closed.svg)
+  const INTERNAL_REPO = @svg(../../assets/icons/internal-repo.svg)
+  const INFO = @svg(../../assets/icons/info.svg)
+  const INFINITY = @svg(../../assets/icons/infinity.svg)
+  const INBOX = @svg(../../assets/icons/inbox.svg)
+  const HUBOT = @svg(../../assets/icons/hubot.svg)
+  const HORIZONTAL_RULE = @svg(../../assets/icons/horizontal-rule.svg)
+  const HOME = @svg(../../assets/icons/home.svg)
+  const HISTORY = @svg(../../assets/icons/history.svg)
+  const HEART_OUTLINE = @svg(../../assets/icons/heart-outline.svg)
+  const HEART = @svg(../../assets/icons/heart.svg)
+  const GRAPH = @svg(../../assets/icons/graph.svg)
+  const GRABBER = @svg(../../assets/icons/grabber.svg)
+  const GLOBE = @svg(../../assets/icons/globe.svg)
+  const GIT_PULL_REQUEST = @svg(../../assets/icons/git-pull-request.svg)
+  const GIT_MERGE = @svg(../../assets/icons/git-merge.svg)
+  const GITHUB_ACTION = @svg(../../assets/icons/github-action.svg)
+  const GIT_COMPARE = @svg(../../assets/icons/git-compare.svg)
+  const GIT_COMMIT = @svg(../../assets/icons/git-commit.svg)
+  const GIT_BRANCH = @svg(../../assets/icons/git-branch.svg)
+  const GIST_SECRET = @svg(../../assets/icons/gist-secret.svg)
+  const GIST = @svg(../../assets/icons/gist.svg)
+  const GIFT = @svg(../../assets/icons/gift.svg)
+  const GEAR = @svg(../../assets/icons/gear.svg)
+  const FOLD_UP = @svg(../../assets/icons/fold-up.svg)
+  const FOLD_DOWN = @svg(../../assets/icons/fold-down.svg)
+  const FOLD = @svg(../../assets/icons/fold.svg)
+  const FLAME = @svg(../../assets/icons/flame.svg)
+  const FILE_ZIP = @svg(../../assets/icons/file-zip.svg)
+  const FILE_SYMLINK_FILE = @svg(../../assets/icons/file-symlink-file.svg)
+  const FILE_SYMLINK_DIRECTORY = @svg(../../assets/icons/file-symlink-directory.svg)
+  const FILE_SUBMODULE = @svg(../../assets/icons/file-submodule.svg)
+  const FILE_PDF = @svg(../../assets/icons/file-pdf.svg)
+  const FILE_MEDIA = @svg(../../assets/icons/file-media.svg)
+  const FILE_DIRECTORY = @svg(../../assets/icons/file-directory.svg)
+  const FILE_CODE = @svg(../../assets/icons/file-code.svg)
+  const FILE_BINARY = @svg(../../assets/icons/file-binary.svg)
+  const FILE = @svg(../../assets/icons/file.svg)
+  const EYE_CLOSED = @svg(../../assets/icons/eye-closed.svg)
+  const EYE = @svg(../../assets/icons/eye.svg)
+  const ELLIPSIS = @svg(../../assets/icons/ellipsis.svg)
+  const DIFF_RENAMED = @svg(../../assets/icons/diff-renamed.svg)
+  const DIFF_REMOVED = @svg(../../assets/icons/diff-removed.svg)
+  const DIFF_MODIFIED = @svg(../../assets/icons/diff-modified.svg)
+  const DIFF_IGNORED = @svg(../../assets/icons/diff-ignored.svg)
+  const DIFF_ADDED = @svg(../../assets/icons/diff-added.svg)
+  const DIFF = @svg(../../assets/icons/diff.svg)
+  const DEVICE_MOBILE = @svg(../../assets/icons/device-mobile.svg)
+  const DEVICE_DESKTOP = @svg(../../assets/icons/device-desktop.svg)
+  const DEVICE_CAMERA_VIDEO = @svg(../../assets/icons/device-camera-video.svg)
+  const DEVICE_CAMERA = @svg(../../assets/icons/device-camera.svg)
+  const DESKTOP_DOWNLOAD = @svg(../../assets/icons/desktop-download.svg)
+  const DEPENDENT = @svg(../../assets/icons/dependent.svg)
+  const DATABASE = @svg(../../assets/icons/database.svg)
+  const DASHBOARD = @svg(../../assets/icons/dashboard.svg)
+  const DASH = @svg(../../assets/icons/dash.svg)
+  const CREDIT_CARD = @svg(../../assets/icons/credit-card.svg)
+  const COMMENT_DISCUSSION = @svg(../../assets/icons/comment-discussion.svg)
+  const COMMENT = @svg(../../assets/icons/comment.svg)
+  const CODE = @svg(../../assets/icons/code.svg)
+  const CLOUD_UPLOAD = @svg(../../assets/icons/cloud-upload.svg)
+  const CLOUD_DOWNLOAD = @svg(../../assets/icons/cloud-download.svg)
+  const CLOCK = @svg(../../assets/icons/clock.svg)
+  const CLIPPY = @svg(../../assets/icons/clippy.svg)
+  const CIRCUIT_BOARD = @svg(../../assets/icons/circuit-board.svg)
+  const CIRCLE_SLASH = @svg(../../assets/icons/circle-slash.svg)
+  const CHEVRON_UP = @svg(../../assets/icons/chevron-up.svg)
+  const CHEVRON_RIGHT = @svg(../../assets/icons/chevron-right.svg)
+  const DOUBLE_CHEVRON_RIGHT = @svg(../../assets/icons/double-chevron-right.svg)
+  const DOUBLE_CHEVRON_LEFT = @svg(../../assets/icons/double-chevron-left.svg)
+  const CHEVRON_LEFT = @svg(../../assets/icons/chevron-left.svg)
+  const CHEVRON_DOWN = @svg(../../assets/icons/chevron-down.svg)
+  const CHECKLIST = @svg(../../assets/icons/checklist.svg)
+  const CHECK = @svg(../../assets/icons/check.svg)
+  const CALENDAR = @svg(../../assets/icons/calendar.svg)
+  const BUG = @svg(../../assets/icons/bug.svg)
+  const BROWSER = @svg(../../assets/icons/browser.svg)
+  const BROADCAST = @svg(../../assets/icons/broadcast.svg)
+  const BRIEFCASE = @svg(../../assets/icons/briefcase.svg)
+  const BOOKMARK = @svg(../../assets/icons/bookmark.svg)
+  const BOOK = @svg(../../assets/icons/book.svg)
+  const BOLD = @svg(../../assets/icons/bold.svg)
+  const BELL = @svg(../../assets/icons/bell.svg)
+  const BEAKER = @svg(../../assets/icons/beaker.svg)
+  const ARROW_UP = @svg(../../assets/icons/arrow-up.svg)
+  const ARROW_SMALL_UP = @svg(../../assets/icons/arrow-small-up.svg)
+  const ARROW_SMALL_RIGHT = @svg(../../assets/icons/arrow-small-right.svg)
+  const ARROW_SMALL_LEFT = @svg(../../assets/icons/arrow-small-left.svg)
+  const ARROW_SMALL_DOWN = @svg(../../assets/icons/arrow-small-down.svg)
+  const ARROW_RIGHT = @svg(../../assets/icons/arrow-right.svg)
+  const ARROW_LEFT = @svg(../../assets/icons/arrow-left.svg)
+  const ARROW_DOWN = @svg(../../assets/icons/arrow-down.svg)
+  const ARROW_BOTH = @svg(../../assets/icons/arrow-both.svg)
+  const ARCHIVE = @svg(../../assets/icons/archive.svg)
+  const ALERT = @svg(../../assets/icons/alert.svg)
+  const CART = @svg(../../assets/icons/cart.svg)
 }

@@ -76,7 +76,7 @@ component Ui.Header {
         if (mobile) {
           <div onClick={handleClick}>
             <Ui.Icon
-              name="three-bars"
+              icon={Ui.Icons:THREE_BARS}
               size={size * 2}/>
           </div>
         } else {
@@ -87,17 +87,17 @@ component Ui.Header {
 
                 Ui.NavItem::Item href iconBefore iconAfter label =>
                   <a::item(url == Url.parse(href)) href={href}>
-                    if (String.Extra.isNotEmpty(iconBefore)) {
+                    if (Html.Extra.isNotEmpty(iconBefore)) {
                       <Ui.Icon
-                        name={iconBefore}
+                        icon={iconBefore}
                         autoSize={true}/>
                     }
 
                     <{ label }>
 
-                    if (String.Extra.isNotEmpty(iconAfter)) {
+                    if (Html.Extra.isNotEmpty(iconAfter)) {
                       <Ui.Icon
-                        name={iconAfter}
+                        icon={iconAfter}
                         autoSize={true}/>
                     }
                   </a>
