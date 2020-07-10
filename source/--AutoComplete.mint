@@ -10,8 +10,6 @@ record Ui.AutoComplete.Item {
 }
 
 component Ui.AutoComplete {
-  connect Ui exposing { fontFamily, contentBackground, contentText }
-
   property onClose : Function(Promise(Never, Void)) = Promise.never
   property onOpen : Function(Promise(Never, Void)) = Promise.never
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
@@ -38,7 +36,7 @@ component Ui.AutoComplete {
   state status : Ui.AutoComplete.Status = Ui.AutoComplete.Status::Closed("", 0, [])
 
   style empty {
-    font-family: #{fontFamily};
+    font-family: serif;
     font-style: italic;
     padding: 10px;
     opacity: 0.75;
@@ -46,7 +44,7 @@ component Ui.AutoComplete {
 
   style clear {
     color: red;
-    font-family: #{fontFamily};
+    font-family: serif;
     text-transform: uppercase;
     display: block;
     cursor: pointer;

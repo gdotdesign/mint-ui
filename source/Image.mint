@@ -1,5 +1,8 @@
 component Ui.Image {
-  connect Ui exposing { surfaceBackground, borderRadiusCoefficient }
+  connect Ui exposing { resolveTheme }
+
+  /* The theme for the image. */
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   property borderRadius : String = ""
   property fullWidth : Bool = false
@@ -45,7 +48,7 @@ component Ui.Image {
   }
 
   style base {
-    background: #{surfaceBackground};
+    background: #{actualTheme.surface.color};
     height: #{height}px;
 
     if (fullWidth) {
@@ -55,10 +58,15 @@ component Ui.Image {
     }
 
     if (String.isEmpty(borderRadius)) {
-      border-radius: #{24 * borderRadiusCoefficient}px;
+      border-radius: #{24 * actualTheme.borderRadiusCoefficient}px;
     } else {
       border-radius: #{borderRadius};
     }
+  }
+
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
   }
 
   fun setLoaded : Promise(Never, Void) {

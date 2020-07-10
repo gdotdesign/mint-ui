@@ -1,15 +1,20 @@
+/* A highlighted hint for some content. */
 component Ui.ContentHint {
   connect Ui exposing { resolveTheme }
 
+  /* The theme for the hint. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The children to display. */
   property children : Array(Html) = []
+
+  /* The icon to display. */
   property icon : Html = <></>
-  property type : String = ""
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
+  /* The type. */
+  property type : String = "primary"
 
+  /* The styles for the base. */
   style base {
     grid-template-columns: min-content 1fr;
     align-items: center;
@@ -25,11 +30,18 @@ component Ui.ContentHint {
     margin: 1em 0;
   }
 
+  /* The style for the icon. */
   style icon {
     font-size: 1.6em;
     color: #{color};
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Returns the color. */
   get color {
     case (type) {
       "primary" => actualTheme.primary.s500.color
@@ -40,6 +52,7 @@ component Ui.ContentHint {
     }
   }
 
+  /* Renders the hint. */
   fun render : Html {
     <div::base>
       <div::icon>

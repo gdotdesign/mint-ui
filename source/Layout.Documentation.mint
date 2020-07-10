@@ -12,6 +12,9 @@ component Ui.Layout.Documentation {
   }
 
   style base {
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
+
     grid-template-columns: 300px 1fr 300px;
     grid-gap: 20px;
     display: grid;
@@ -151,7 +154,7 @@ component Ui.Layout.Documentation {
               align="start"
               label={active}
               type="surface"
-              iconAfter="chevron-down"/>
+              iconAfter={Ui.Icons:CHEVRON_DOWN}/>
           </div>
         }
       } else {

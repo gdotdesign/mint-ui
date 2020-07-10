@@ -1,27 +1,41 @@
-component Ui.Content {
-  connect Ui exposing {
-    resolveTheme,
-    mobile
-  }
+/*
+A component to display content:
 
+- headings
+- paragraphs
+- ordered and unordered lists
+- images
+- preformatted text (such as code)
+*/
+component Ui.Content {
+  connect Ui exposing { resolveTheme, mobile }
+
+  /* The theme for the content. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The children to display. */
   property children : Array(Html) = []
+
+  /* Where to align the text. */
   property textAlign : String = ""
+
+  /* Wether or not to add a padding to the content. */
   property padding : Bool = false
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
+  /* The size of the checkbox. */
+  property size : Number = 16
 
+  /* The styles for the contents. */
   style base {
     font-family: #{actualTheme.fontFamily};
     text-align: #{textAlign};
+    font-size: #{size}px;
     line-height: 1.7em;
 
     if (padding && mobile) {
-      padding: 16px;
+      padding: 1em;
     } else if (padding) {
-      padding: 32px;
+      padding: 2em;
     } else {
       padding: 0;
     }
@@ -58,15 +72,22 @@ component Ui.Content {
       background: #{actualTheme.contentFaded.color};
       color: #{actualTheme.contentFaded.text};
 
-      border: 1px solid #{actualTheme.border};
-      border-radius: 2px;
+      border: 0.0625em solid #{actualTheme.border};
+      border-radius: 0.125em;
 
+      padding: 0.125em 0.375em 0;
       display: inline-block;
-      padding: 2px 6px 0px;
-      font-size: 14px;
+
+      font-size: 0.875em;
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Renders the content. */
   fun render : Html {
     <div::base>
       <{ children }>

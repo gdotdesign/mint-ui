@@ -1,18 +1,31 @@
-component Example {
+/* A component to display and example, controls and source code of a component. */
+component Ui.Example {
   connect Ui exposing { resolveTheme }
 
+  /* Controls the horizontal spacing between the elements. */
   property horizontalSpacing : Number = 0
+
+  /* Controls the vertical spacing between the elements. */
   property verticalSpacing : Number = 0
 
+  /* Wether or not the example fills the demo area. */
   property fill : Bool = false
 
-  property data : Tuple(Html, String)
+  /* The controls. */
   property controls : Function(Html) = () { <></> }
+
+  /* Controls when to use a one column layout. */
   property breakpoint : Number = 1000
 
+  /* The theme for the hint. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
-  state codeShown : Bool = false
+  /* The example and it's source code to display. */
+  property data : Tuple(Html, String)
+
+  /* The size of the component. */
+  property size : Number = 16
+
   state mobile : Bool = false
 
   use Provider.ElementSize {
@@ -20,18 +33,40 @@ component Example {
     element = base
   }
 
-  get actualTheme {
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
-  style content {
-    background: linear-gradient(45deg, #{actualTheme.contentFaded.color} 25%, transparent 25%, transparent 75%,  #{actualTheme.contentFaded.color} 75%,  #{actualTheme.contentFaded.color}),
-                linear-gradient(45deg, #{actualTheme.contentFaded.color} 25%, transparent 25%,transparent 75%, #{actualTheme.contentFaded.color} 75%, #{actualTheme.contentFaded.color});
+  /* the style for the base. */
+  style base {
+    box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
+                0 0 0 0.25em #{actualTheme.contentFaded.color};
+
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    font-size: #{size}px;
+    position: relative;
+    display: grid;
+
+    if (mobile) {
+      grid-template-columns: 1fr;
+    } else {
+      grid-template-columns: 1fr min-content;
+    }
+  }
+
+  /* The style for the demo-area. */
+  style demo-area {
+    background: linear-gradient(45deg, #{actualTheme.contentFaded.color} 25%, transparent 25%, transparent 75%, #{actualTheme.contentFaded.color} 75%, #{actualTheme.contentFaded.color}),
+                linear-gradient(45deg, #{actualTheme.contentFaded.color} 25%, transparent 25%, transparent 75%, #{actualTheme.contentFaded.color} 75%, #{actualTheme.contentFaded.color});
 
     background-color: #{actualTheme.content.color};
-    background-position: 0 0,10px 10px;
-    background-size: 20px 20px;
-    border-radius: 4px 4px 0 0;
+    background-position: 0 0, 0.625em 0.625em;
+    background-size: 1.25em 1.25em;
+
+    border-radius: 0.25em 0.25em 0 0;
+    overflow: hidden;
+    padding: 2em;
 
     if (fill) {
       display: grid;
@@ -40,12 +75,10 @@ component Example {
       align-items: center;
       display: flex;
     }
-
-    overflow: hidden;
-    padding: 30px;
   }
 
-  style content-wrapper {
+  /* The style for the demo-area wrapper. */
+  style demo-area-wrapper {
     if (horizontalSpacing > 0 && !mobile) {
       grid-gap: #{horizontalSpacing}px;
       grid-auto-flow: column;
@@ -63,68 +96,51 @@ component Example {
     display: grid;
   }
 
+  /* The style for the code. */
   style pre {
-    border-top: 1px solid #{actualTheme.border};
     background: #{actualTheme.contentFaded.color};
+    border-top: 1px solid #{actualTheme.border};
     color: #{actualTheme.contentFaded.text};
-    padding: 20px;
+    padding: 1em 1.25em;
+    overflow: auto;
     margin: 0;
 
-    overflow: auto;
+    if (mobile) {
+      grid-column: 1;
+    } else {
+      grid-column: span 2;
+    }
 
     code {
       all: unset;
-      font-size: 16px;
-      line-height: 150%;
+
       font-family: monospace;
+      line-height: 150%;
+      font-size: 1em;
     }
   }
 
-  style base {
-    box-shadow: 0 0 0 3px #{actualTheme.contentFaded.color};
-    border: 1px solid #{actualTheme.border};
-    border-radius: 3px;
-    position: relative;
-  }
-
-  style buttons {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-  }
-
+  /* The style for the controls. */
   style controls {
-    border-left: 1px solid #{actualTheme.border};
     background: #{actualTheme.contentFaded.color};
     color: #{actualTheme.contentFaded.text};
+    padding: 1em;
 
-    padding: 20px;
-    grid-gap: 20px;
     align-content: start;
     align-items: start;
+    grid-gap: 1em;
     display: grid;
 
     if (mobile) {
+      border-top: 0.0625em solid #{actualTheme.border};
       min-width: 0;
     } else {
-      min-width: 300px;
+      border-left: 0.0625em solid #{actualTheme.border};
+      min-width: 18.75em;
     }
   }
 
-  style wrapper {
-    border-radius: 3px 3px 0 0;
-    display: grid;
-
-    if (mobile) {
-      grid-template-columns: 1fr;
-    } else {
-      grid-template-columns: 1fr min-content;
-    }
-  }
-
+  /* Renders the component. */
   fun render : Html {
     try {
       controlsHtml =
@@ -134,19 +150,17 @@ component Example {
         data
 
       <div::base as base>
-        <div::wrapper>
-          <div::content>
-            <div::content-wrapper>
-              <{ content }>
-            </div>
+        <div::demo-area>
+          <div::demo-area-wrapper>
+            <{ content }>
           </div>
-
-          if (`#{controlsHtml}`) {
-            <div::controls>
-              <{ controlsHtml }>
-            </div>
-          }
         </div>
+
+        if (Html.Extra.isNotEmpty(controlsHtml)) {
+          <div::controls>
+            <{ controlsHtml }>
+          </div>
+        }
 
         <pre::pre>
           <code>

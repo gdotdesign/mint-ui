@@ -68,6 +68,24 @@ component Ui.Header {
     Ui.ActionSheet.show(items)
   }
 
+  fun renderItem (iconBefore : Html, iconAfter : Html, label : String) {
+    <>
+      if (Html.Extra.isNotEmpty(iconBefore)) {
+        <Ui.Icon
+          icon={iconBefore}
+          autoSize={true}/>
+      }
+
+      <{ label }>
+
+      if (Html.Extra.isNotEmpty(iconAfter)) {
+        <Ui.Icon
+          icon={iconAfter}
+          autoSize={true}/>
+      }
+    </>
+  }
+
   fun render : Html {
     <div::base>
       <{ brand }>
@@ -85,21 +103,14 @@ component Ui.Header {
               case (item) {
                 Ui.NavItem::Divider => <div::divider/>
 
-                Ui.NavItem::Item href iconBefore iconAfter label =>
+                Ui.NavItem::Item iconBefore iconAfter label action =>
+                  <div::item(false) onClick={action}>
+                    <{ renderItem(iconBefore, iconAfter, label) }>
+                  </div>
+
+                Ui.NavItem::Link iconBefore iconAfter label href =>
                   <a::item(url == Url.parse(href)) href={href}>
-                    if (Html.Extra.isNotEmpty(iconBefore)) {
-                      <Ui.Icon
-                        icon={iconBefore}
-                        autoSize={true}/>
-                    }
-
-                    <{ label }>
-
-                    if (Html.Extra.isNotEmpty(iconAfter)) {
-                      <Ui.Icon
-                        icon={iconAfter}
-                        autoSize={true}/>
-                    }
+                    <{ renderItem(iconBefore, iconAfter, label) }>
                   </a>
               }
             }

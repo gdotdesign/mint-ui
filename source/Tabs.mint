@@ -32,8 +32,6 @@ component Ui.Tabs.Tab {
 }
 
 component Ui.Tabs {
-  connect Ui exposing { fontFamily }
-
   property onChange : Function(String, Promise(Never, Void)) =
     (key : String) : Promise(Never, Void) { next {  } }
 
@@ -42,7 +40,7 @@ component Ui.Tabs {
   property selected : String = ""
 
   style tabs {
-    font-family: #{fontFamily};
+    font-family: serif;
     border-bottom: 3px solid #EEE;
     display: flex;
   }

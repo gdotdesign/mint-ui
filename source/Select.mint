@@ -141,14 +141,18 @@ component Ui.Select {
   }
 
   fun handleClose : Promise(Never, Void) {
-    next { open = false }
+    next
+      {
+        open = false,
+        focused = false
+      }
   }
 
   fun handleKeyDown (event : Html.Event) {
     case (list) {
       Maybe::Just item =>
         case (event.keyCode) {
-          27 => handleClose()
+          27 => next { open = false }
 
           13 =>
             sequence {

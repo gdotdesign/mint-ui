@@ -163,8 +163,19 @@ global component Ui.ActionSheet {
     }
   }
 
-  /* The click event handler. */
-  fun handleClick (href : String, event : Html.Event) {
+  /* The item click event handler. */
+  fun handleItemClick (
+    onClick : Function(Html.Event, Promise(Never, Void)),
+    event : Html.Event
+  ) {
+    sequence {
+      onClick(event)
+      hide()
+    }
+  }
+
+  /* The link click event handler. */
+  fun handleLinkClick (href : String, event : Html.Event) {
     if (String.Extra.isNotEmpty(href)) {
       sequence {
         Window.navigate(href)
@@ -175,30 +186,39 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Renders the contents of the item. */
+  fun renderItem (
+    iconAfter : Html,
+    iconBefore : Html,
+    label : String,
+    onClick : Function(Html.Event, Promise(Never, Void))
+  ) {
+    <div::item onClick={onClick}>
+      if (Html.Extra.isNotEmpty(iconBefore)) {
+        <Ui.Icon
+          icon={iconBefore}
+          autoSize={true}/>
+      }
+
+      <{ label }>
+
+      if (Html.Extra.isNotEmpty(iconAfter)) {
+        <Ui.Icon
+          icon={iconAfter}
+          autoSize={true}/>
+      }
+    </div>
+  }
+
   /* Renders the component. */
   fun render : Html {
     <div::base onClick={handleClose}>
       <div::items as container>
         for (item of items) {
           case (item) {
+            Ui.NavItem::Item iconAfter iconBefore label action => renderItem(iconAfter, iconBefore, label, handleItemClick(action))
+            Ui.NavItem::Link iconAfter iconBefore label href => renderItem(iconAfter, iconBefore, label, handleLinkClick(href))
             Ui.NavItem::Divider => <div::divider/>
-
-            Ui.NavItem::Item iconAfter iconBefore label href =>
-              <div::item onClick={handleClick(href)}>
-                if (Html.Extra.isNotEmpty(iconBefore)) {
-                  <Ui.Icon
-                    icon={iconBefore}
-                    autoSize={true}/>
-                }
-
-                <{ label }>
-
-                if (Html.Extra.isNotEmpty(iconAfter)) {
-                  <Ui.Icon
-                    icon={iconAfter}
-                    autoSize={true}/>
-                }
-              </div>
           }
         }
       </div>

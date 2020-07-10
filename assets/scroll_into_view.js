@@ -41,7 +41,7 @@ window.scrollIntoViewIfNeeded = function (dom, centerIfNeeded) {
     elem = dom.parentNode,
     origin;
 
-  while (elem instanceof HTMLElement) {
+  while (elem instanceof HTMLElement && elem !== document.body) {
     // Apply desired scroll amount.
     origin = absolute(elem, makePoint(elem.clientLeft, elem.clientTop));
     elem.scrollLeft = coverRange(

@@ -1,15 +1,21 @@
+/* A simple checkbox component. */
 component Ui.Checkbox {
   connect Ui exposing { resolveTheme }
 
+  /* The theme for the card. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
-  property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
-  property disabled : Bool = false
-  property checked : Bool = false
-  property size : Number = 16
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
+  /* The handler for the change event. */
+  property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* Wether or not the checkbox is disabled. */
+  property disabled : Bool = false
+
+  /* Wether or not the checkbox is checked. */
+  property checked : Bool = false
+
+  /* The size of the checkbox. */
+  property size : Number = 16
 
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -57,14 +63,22 @@ component Ui.Checkbox {
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Toggles the checkbox. */
   fun toggle : Promise(Never, Void) {
     onChange(!checked)
   }
 
+  /* Focuses the checkbox. */
   fun focus : Promise(Never, Void) {
     Dom.focus(checkbox)
   }
 
+  /* Renders the checkbox. */
   fun render : Html {
     <button::base as checkbox
       aria-checked={Bool.toString(checked)}

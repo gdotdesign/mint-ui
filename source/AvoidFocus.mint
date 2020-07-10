@@ -10,6 +10,7 @@ component Ui.AvoidFocus {
   /* The child elements. */
   property children : Array(Html) = []
 
+  /* We are using the mutation provider to update elements on the fly. */
   use Provider.Mutation {
     changes = update,
     element = base
