@@ -1,5 +1,5 @@
 component Ui.Select {
-  connect Ui exposing { resolveTheme }
+  connect Ui exposing { resolveTheme, mobile }
 
   property onChange : Function(String, Promise(Never, Void)) =
     (selected : String) : Promise(Never, Void) { Promise.never() }
@@ -224,8 +224,8 @@ component Ui.Select {
           </div>
         } else {
           <div::element as element
-            tabindex="0"
-            onMouseUp={handleFocus}>
+            onMouseUp={handleFocus}
+            tabindex="0">
 
             <{ grid }>
 
@@ -237,10 +237,11 @@ component Ui.Select {
         closeOnOutsideClick={true}
         onClose={handleClose}
         position={position}
-        offset={offset}
-        open={open}
         content={content}
-        element={html}/>
+        fullWidth={true}
+        offset={offset}
+        element={html}
+        open={open}/>
     }
   }
 }

@@ -33,11 +33,6 @@ component Ui.Example {
     element = base
   }
 
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
-  }
-
   /* the style for the base. */
   style base {
     box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
@@ -138,6 +133,11 @@ component Ui.Example {
       border-left: 0.0625em solid #{actualTheme.border};
       min-width: 18.75em;
     }
+  }
+
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
   }
 
   /* Renders the component. */

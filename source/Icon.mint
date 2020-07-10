@@ -61,7 +61,7 @@ component Ui.Icon {
         <{ icon }>
       </a>
     } else {
-      <div::base>
+      <div::base onClick={onClick}>
         <{ icon }>
       </div>
     }

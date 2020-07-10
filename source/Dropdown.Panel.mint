@@ -1,6 +1,6 @@
 /* This component is usually used inside of a dropdown. */
 component Ui.Dropdown.Panel {
-  connect Ui exposing { resolveTheme }
+  connect Ui exposing { resolveTheme, mobile }
 
   /* The theme for the hint. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -23,11 +23,15 @@ component Ui.Dropdown.Panel {
 
     background: #{actualTheme.content.color};
     width: #{width};
-    padding: 1em;
+    padding: 0.5em;
 
     font-family: #{actualTheme.fontFamily};
-    font-size: #{size};
     color: #{actualTheme.content.text};
+    font-size: #{size};
+
+    if (mobile) {
+      padding: 0.75em;
+    }
   }
 
   /* Returns the actual theme. */

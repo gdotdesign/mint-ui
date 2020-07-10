@@ -19,6 +19,17 @@ component Ui.InteractiveList {
     display: grid;
   }
 
+  fun componentDidMount {
+    next
+      {
+        intended =
+          selected
+          |> Set.toArray
+          |> Array.first
+          |> Maybe.withDefault("")
+      }
+  }
+
   fun intend (value : String) {
     next { intended = value }
   }

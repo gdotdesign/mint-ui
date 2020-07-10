@@ -155,6 +155,10 @@ module Dom.Extra {
   fun getTagName (element : Dom.Element) : String {
     `#{element}.tagName`
   }
+
+  fun blurActiveElement : Promise(Never, Void) {
+    `document.activeElement && document.activeElement.blur()`
+  }
 }
 
 module Test.Extra {

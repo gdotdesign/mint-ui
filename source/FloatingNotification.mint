@@ -32,22 +32,10 @@ component Ui.FloatingNotification {
       left: 50%;
     }
 
-    @supports (not (backdrop-filter: blur(3px))) {
-      if (darkMode) {
-        background: rgba(70,70,70,0.92);
-      } else {
-        background: rgba(30,30,30,0.92);
-      }
-    }
-
-    @supports (backdrop-filter: blur(3px)) {
-      backdrop-filter: blur(3px);
-
-      if (darkMode) {
-        background: rgba(80,80,80,0.9);
-      } else {
-        background: rgba(25,25,25,0.9);
-      }
+    if (darkMode) {
+      background: rgba(70,70,70,0.92);
+    } else {
+      background: rgba(30,30,30,0.92);
     }
   }
 
