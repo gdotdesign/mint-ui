@@ -1,9 +1,26 @@
+/*
+The base component for a modal, this contains the backdrop and the centered
+content with transitions.
+
+Use this when you want to create a custom modal.
+*/
 component Ui.Modal.Base {
+  /* The close event handler. */
   property onClose : Function(Promise(Never, Void)) = Promise.never
+
+  /* Wether or not to trigger the close event when clicking on the backdrop. */
   property closeOnOutsideClick : Bool = true
+
+  /* The duration of the transition. */
   property transitionDuration : Number = 240
+
+  /* The content to render. */
   property content : Html = <></>
+
+  /* The zIndex of the modal. */
   property zIndex : Number = 100
+
+  /* Wether or not the modal is open. */
   property open : Bool = false
 
   /* Styles for the base element. */
@@ -63,6 +80,7 @@ component Ui.Modal.Base {
     }
   }
 
+  /* Renders the modal. */
   fun render : Html {
     <div::base as base onClick={handleClick}>
       <div::wrapper>

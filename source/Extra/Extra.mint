@@ -87,12 +87,28 @@ module Dom.Extra {
       top: #{top} })`
   }
 
+  fun getClientWidth (element : Dom.Element) : Number {
+    `#{element}.clientWidth || 0`
+  }
+
+  fun getClientHeight (element : Dom.Element) : Number {
+    `#{element}.clientHeight || 0`
+  }
+
   fun getScrollLeft (element : Dom.Element) : Number {
     `#{element}.scrollLeft || 0`
   }
 
   fun getScrollWidth (element : Dom.Element) : Number {
     `#{element}.scrollWidth || 0`
+  }
+
+  fun getScrollTop (element : Dom.Element) : Number {
+    `#{element}.scrollTop || 0`
+  }
+
+  fun getScrollHeight (element : Dom.Element) : Number {
+    `#{element}.scrollHeight || 0`
   }
 
   fun measureText (font : String, text : String) : Number {
@@ -156,6 +172,18 @@ module Dom.Extra {
     `#{element}.tagName`
   }
 
+  fun getActiveElement : Maybe(Dom.Element) {
+    `
+    (() => {
+      if (document.activeElement) {
+        return #{Maybe::Just(`document.activeElement`)}
+      } else {
+        return #{Maybe::Nothing}
+      }
+    })()
+    `
+  }
+
   fun blurActiveElement : Promise(Never, Void) {
     `document.activeElement && document.activeElement.blur()`
   }
@@ -213,6 +241,25 @@ module Html.Extra {
 }
 
 module Array.Extra {
+  fun findByAndMap (
+    method : Function(a, Tuple(Bool, b)),
+    array : Array(a)
+  ) : Maybe(b) {
+    `
+    (() => {
+      for (let item of #{array}) {
+        const [found, value]   = #{method}(item)
+
+        if (found) {
+          return #{Maybe::Just(`value`)}
+        }
+      }
+
+      return #{Maybe::Nothing}
+    })()
+    `
+  }
+
   fun reverseIf (condition : Bool, array : Array(a)) : Array(a) {
     if (condition) {
       Array.reverse(array)

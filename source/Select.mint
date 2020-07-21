@@ -25,29 +25,22 @@ component Ui.Select {
   }
 
   use Providers.TabFocus {
+    element = element,
     onTabIn =
-      (item : Dom.Element) : Promise(Never, Void) {
-        if (Maybe::Just(item) == element) {
-          next
-            {
-              open = true,
-              focused = true
-            }
-        } else {
-          next {  }
-        }
+      () : Promise(Never, Void) {
+        next
+          {
+            open = true,
+            focused = true
+          }
       },
     onTabOut =
-      (item : Dom.Element) : Promise(Never, Void) {
-        if (Maybe::Just(item) == element) {
-          next
-            {
-              open = false,
-              focused = false
-            }
-        } else {
-          next {  }
-        }
+      () : Promise(Never, Void) {
+        next
+          {
+            open = false,
+            focused = false
+          }
       }
   }
 

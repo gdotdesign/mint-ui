@@ -1,12 +1,26 @@
+/* A vertical layout which usually good for normal websites. */
 component Ui.Layout.Stacked {
   connect Ui exposing { resolveTheme }
 
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* Content for the notification area. */
+  property notification : Html = <></>
+
+  /* Content for the breadcrumbs area. */
   property breadcrumbs : Html = <></>
+
+  /* Content for the main area. */
   property content : Html = <></>
+
+  /* Content for the footer area. */
   property footer : Html = <></>
+
+  /* Content for the header area. */
   property header : Html = <></>
 
+  /* Styles for the base element. */
   style base {
     min-height: 100vh;
     max-width: 100vw;
@@ -27,21 +41,20 @@ component Ui.Layout.Stacked {
     }
   }
 
+  /* Style for the content. */
   style content {
     display: grid;
-    flex: 1;
   }
 
-  style item {
-    flex: 0 0 auto;
-  }
-
+  /* Returns the actual theme. */
   get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
+  /* Returns the data for the `grid-template-rows` CSS property. */
   get rows {
     [
+      {notification, "min-content"},
       {header, "min-content"},
       {breadcrumbs, "min-content"},
       {content, "1fr"},
@@ -64,16 +77,23 @@ component Ui.Layout.Stacked {
     |> String.join(" ")
   }
 
+  /* Renders the component. */
   fun render : Html {
     <div::base>
+      if (Html.Extra.isNotEmpty(notification)) {
+        <div>
+          <{ notification }>
+        </div>
+      }
+
       if (Html.Extra.isNotEmpty(header)) {
-        <div::item>
+        <div>
           <{ header }>
         </div>
       }
 
       if (Html.Extra.isNotEmpty(breadcrumbs)) {
-        <div::item>
+        <div>
           <{ breadcrumbs }>
         </div>
       }
@@ -85,7 +105,7 @@ component Ui.Layout.Stacked {
       }
 
       if (Html.Extra.isNotEmpty(footer)) {
-        <div::item>
+        <div>
           <{ footer }>
         </div>
       }

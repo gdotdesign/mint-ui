@@ -1,15 +1,20 @@
+/* A component which represents a page, with default styles. */
 component Ui.Page {
   connect Ui exposing { mobile, resolveTheme }
 
+  /* The theme for the button. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The maximum with of the content. */
   property maxContentWidth : String = "auto"
+
+  /* The children to display. */
   property children : Array(Html) = []
+
+  /* Wether or not to center the content. */
   property center : Bool = false
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
-
+  /* The styles for the page. */
   style base {
     background: #{actualTheme.content.color};
     color: #{actualTheme.content.text};
@@ -30,29 +35,30 @@ component Ui.Page {
     }
   }
 
+  /* The style for the top corner. */
   style corner-bottom {
-    position: absolute;
     bottom: 0;
     left: 0;
-
-    svg {
-      display: block;
-      fill: #{actualTheme.border};
-    }
   }
 
+  /* The style for the top corner. */
   style corner-top {
     transform: rotate(180deg);
-    position: absolute;
     right: 0;
     top: 0;
+  }
+
+  /* The style for the corner. */
+  style corner {
+    position: absolute;
 
     svg {
-      display: block;
       fill: #{actualTheme.border};
+      display: block;
     }
   }
 
+  /* The style for the content. */
   style content {
     position: relative;
     z-index: 1;
@@ -62,9 +68,15 @@ component Ui.Page {
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Renders the page. */
   fun render : Html {
     <div::base as base>
-      <div::corner-bottom>
+      <div::corner::corner-bottom>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="150"
@@ -76,7 +88,7 @@ component Ui.Page {
         </svg>
       </div>
 
-      <div::corner-top>
+      <div::corner::corner-top>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="150"

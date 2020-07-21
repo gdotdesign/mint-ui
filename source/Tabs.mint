@@ -63,18 +63,17 @@ component Ui.Tabs {
       <div::tabs>
         for (tab of items) {
           <Ui.Tabs.Tab
-            label={tab.label}
+            onClick={() { handleSelect(tab.key) }}
             selected={tab.key == selected}
-            onClick={() : Promise(Never, Void) { handleSelect(tab.key) }}/>
+            label={tab.label}/>
         }
       </div>
 
       <div::content>
         <{
           items
-          |> Array.find(
-            (tab : Ui.Tabs.Item) : Bool { tab.key == selected })
-          |> Maybe.map((tab : Ui.Tabs.Item) : Html { tab.content() })
+          |> Array.find((tab : Ui.Tabs.Item) { tab.key == selected })
+          |> Maybe.map((tab : Ui.Tabs.Item) { tab.content() })
           |> Maybe.withDefault(<></>)
         }>
       </div>

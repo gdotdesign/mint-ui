@@ -1,16 +1,35 @@
+/* A component to render SVG icons. */
 component Ui.Icon {
   connect Ui exposing { resolveTheme }
 
+  /* The click event handler. */
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* Wether or not the icon can be interacted with. */
   property interactive : Bool = false
+
+  /* Wether or not the icon is disabled. */
   property disabled : Bool = false
+
+  /* Wether or not automatically size the icon based on the font-size. */
   property autoSize : Bool = false
+
+  /* The opacity of the icon. */
   property opacity : Number = 1
+
+  /* The actual SVG icon. */
   property icon : Html = <></>
+
+  /* The size of the icon. */
   property size : Number = 16
+
+  /* If provided the icon will behave as an anchor to the specified URL. */
   property href : String = ""
 
+  /* The styles for the icon. */
   style base {
     justify-content: center;
     align-items: center;
@@ -47,11 +66,13 @@ component Ui.Icon {
     }
   }
 
+  /* The style for the link. */
   style link {
     color: inherit;
   }
 
-  get actualTheme {
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 

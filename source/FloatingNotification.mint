@@ -1,34 +1,38 @@
+/* A floating notification at the bottom center of the screen. */
 component Ui.FloatingNotification {
   connect Ui exposing { resolveTheme, darkMode, mobile }
 
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The children to render. */
   property children : Array(Html) = []
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
+  /* The size of the component. */
+  property size : Number = 16
 
   style base {
     border-radius: #{24 * actualTheme.borderRadiusCoefficient}px;
     position: fixed;
-    padding: 20px;
-    color: white;
-    bottom: 20px;
     z-index: 200;
+    padding: 1em;
+    color: white;
+    bottom: 1em;
 
     font-family: #{actualTheme.fontFamily};
+    font-size: #{size}px;
     text-align: center;
     font-weight: bold;
 
     if (mobile) {
       transform: none;
-      padding: 10px;
-      left: 4px;
-      right: 4px;
-      bottom: 4px;
+      padding: 0.75em;
+      bottom: 0.25em;
+      right: 0.25em;
+      left: 0.25em;
     } else {
       transform: translateX(-50%);
-      bottom: 20px;
+      bottom: 1em;
       left: 50%;
     }
 
@@ -39,6 +43,12 @@ component Ui.FloatingNotification {
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Renders the notification. */
   fun render : Html {
     <div::base>
       <{ children }>

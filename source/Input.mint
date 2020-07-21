@@ -1,61 +1,85 @@
+/* A component for getting user input. */
 component Ui.Input {
   connect Ui exposing { resolveTheme }
 
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
+  /* The placeholder to show. */
   property placeholder : String = ""
+
+  /* The number of milliseconds to delay the `onChange` event. */
   property inputDelay : Number = 0
+
+  /* Wether or not the input is disabled. */
   property disabled : Bool = false
+
+  /* Wether or not the input is invalid. */
   property invalid : Bool = false
+
+  /* The type of the input, should be either `text` or `email`. */
   property type : String = "text"
+
+  /* The value of the input. */
   property value : String = ""
+
+  /* The size of the input. */
   property size : Number = 16
 
+  /* Wether or not the icon is interactive. */
   property iconInteractive : Bool = false
+
+  /* The content for the icon. */
   property icon : Html = <></>
 
+  /* The event handler for the icons click event. */
   property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The `mousedown` event handler. */
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The `mouseup` event handler. */
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The `change` event handler. */
   property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The `keydown` event handler. */
   property onKeyDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The `keyup` event handler. */
   property onKeyUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The event handler when the user tabs out of the input. */
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
+
+  /* The event handler when the user tabs into the input. */
   property onTabIn : Function(Promise(Never, Void)) = Promise.never
 
+  /* The `focus` event handler. */
   property onFocus : Function(Promise(Never, Void)) = Promise.never
+
+  /* The `blur` event handler. */
   property onBlur : Function(Promise(Never, Void)) = Promise.never
 
+  /* The current value of the input. */
   state currentValue : Maybe(String) = Maybe::Nothing
+
+  /* The ID of the last timeout. */
   state timeoutId : Number = 0
 
   use Providers.TabFocus {
-    onTabIn =
-      (element : Dom.Element) : Promise(Never, Void) {
-        if (Maybe::Just(element) == input) {
-          onTabIn()
-        } else {
-          next {  }
-        }
-      },
-    onTabOut =
-      (element : Dom.Element) : Promise(Never, Void) {
-        if (Maybe::Just(element) == input) {
-          onTabOut()
-        } else {
-          next {  }
-        }
-      }
+    onTabOut = onTabOut,
+    onTabIn = onTabIn,
+    element = input
   }
 
-  get actualTheme {
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
+  /* The styles for the input. */
   style input {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
@@ -105,6 +129,7 @@ component Ui.Input {
     }
   }
 
+  /* The styles for the base. */
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
@@ -116,6 +141,7 @@ component Ui.Input {
     width: 100%;
   }
 
+  /* The styles for the icon. */
   style icon {
     right: 0.6875em;
     top: 0.6875em;
@@ -141,14 +167,17 @@ component Ui.Input {
     }
   }
 
+  /* Wether to show the icon or not. */
   get showIcon : Bool {
     Html.Extra.isNotEmpty(icon)
   }
 
+  /* Focuses the input. */
   fun focus : Promise(Never, Void) {
     Dom.focus(input)
   }
 
+  /* The change event handler. */
   fun handleChange (event : Html.Event) : Promise(Never, Void) {
     sequence {
       nextValue =
@@ -167,6 +196,7 @@ component Ui.Input {
     }
   }
 
+  /* Triggers the change event after the timeout. */
   fun notify : Promise(Never, Void) {
     sequence {
       onChange(Maybe.withDefault(value, currentValue))
@@ -175,10 +205,10 @@ component Ui.Input {
     }
   }
 
+  /* Renders the input. */
   fun render : Html {
     <div::base>
       <input::input as input
-        value={Maybe.withDefault(value, currentValue)}
         onChange={handleChange}
         onInput={handleChange}
         onMouseDown={onMouseDown}
@@ -187,6 +217,7 @@ component Ui.Input {
         onFocus={onFocus}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
+        value={Maybe.withDefault(value, currentValue)}
         placeholder={placeholder}
         disabled={disabled}
         type={type}/>

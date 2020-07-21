@@ -7,6 +7,12 @@ record Provider.Keydown.Subscription {
 provider Provider.Keydown : Provider.Keydown.Subscription {
   state listener : Function(Void) = () { void }
 
+  fun handleKeyDown (event : Html.Event) {
+    for (subscription of subscriptions) {
+      subscription.keydowns(event)
+    }
+  }
+
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
@@ -16,18 +22,7 @@ provider Provider.Keydown : Provider.Keydown.Subscription {
         next { listener = () { void } }
       }
     } else {
-      next
-        {
-          listener =
-            Window.addEventListener(
-              "keydown",
-              true,
-              (event : Html.Event) {
-                for (subscription of subscriptions) {
-                  subscription.keydowns(event)
-                }
-              })
-        }
+      next { listener = Window.addEventListener("keydown", true, handleKeyDown) }
     }
   }
 }

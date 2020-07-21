@@ -1,47 +1,66 @@
 record Provider.TabFocus.Subscription {
-  onTabIn : Function(Dom.Element, Promise(Never, Void)),
-  onTabOut : Function(Dom.Element, Promise(Never, Void))
+  onTabOut : Function(Promise(Never, Void)),
+  onTabIn : Function(Promise(Never, Void)),
+  element : Maybe(Dom.Element)
 }
 
 provider Providers.TabFocus : Provider.TabFocus.Subscription {
-  fun handleKeyUp (event : Html.Event) : Promise(Never, Void) {
-    `
-    (() => {
-      if (#{event.keyCode} == 9) {
-        for (let subscription of this.subscriptions) {
-          subscription[1].onTabIn(document.activeElement)
+  state keyDownListener : Function(Void) = () { void }
+  state keyUpListener : Function(Void) = () { void }
+
+  fun handleKeyUp (event : Html.Event) {
+    if (event.keyCode == 9) {
+      try {
+        activeElement =
+          Dom.Extra.getActiveElement()
+
+        for (subscription of subscriptions) {
+          subscription.onTabIn()
+        } when {
+          subscription.element == activeElement
         }
       }
-    })()
-    `
+    } else {
+      []
+    }
   }
 
-  fun handleKeyDown (event : Html.Event) : Promise(Never, Void) {
-    `
-    (() => {
-      if (#{event.keyCode} == 9) {
-        for (let subscription of this.subscriptions) {
-          subscription[1].onTabOut(#{event.target})
+  fun handleKeyDown (event : Html.Event) {
+    if (event.keyCode == 9) {
+      try {
+        target =
+          Maybe::Just(event.target)
+
+        for (subscription of subscriptions) {
+          subscription.onTabOut()
+        } when {
+          subscription.element == target
         }
       }
-    })()
-    `
+    } else {
+      []
+    }
   }
 
-  fun update : Void {
-    `
-    (() => {
-      if (#{subscriptions}.length) {
-        this.keyDown || (this.keyDown = ((event) => #{handleKeyDown}(_normalizeEvent(event))))
-        this.keyUp || (this.keyUp = ((event) => #{handleKeyUp}(_normalizeEvent(event))))
+  /* Updates the provider. */
+  fun update : Promise(Never, Void) {
+    if (Array.isEmpty(subscriptions)) {
+      try {
+        keyDownListener()
+        keyUpListener()
 
-        window.addEventListener("keydown", this.keyDown, true)
-        window.addEventListener("keyup", this.keyUp, true)
-      } else {
-        window.removeEventListener("keydown", this.keyDown, true)
-        window.removeEventListener("keyup", this.keyUp, true)
+        next
+          {
+            keyDownListener = () { void },
+            keyUpListener = () { void }
+          }
       }
-    })()
-    `
+    } else {
+      next
+        {
+          keyDownListener = Window.addEventListener("keydown", true, handleKeyDown),
+          keyUpListener = Window.addEventListener("keyup", true, handleKeyUp)
+        }
+    }
   }
 }

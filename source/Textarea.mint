@@ -28,22 +28,9 @@ component Ui.Textarea {
   state timeoutId : Number = 0
 
   use Providers.TabFocus {
-    onTabIn =
-      (element : Dom.Element) : Promise(Never, Void) {
-        if (Maybe::Just(element) == textarea) {
-          onTabIn()
-        } else {
-          next {  }
-        }
-      },
-    onTabOut =
-      (element : Dom.Element) : Promise(Never, Void) {
-        if (Maybe::Just(element) == textarea) {
-          onTabOut()
-        } else {
-          next {  }
-        }
-      }
+    onTabOut = onTabOut,
+    onTabIn = onTabIn,
+    element = textarea
   }
 
   get actualTheme {

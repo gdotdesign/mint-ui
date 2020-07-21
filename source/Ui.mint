@@ -37,7 +37,7 @@ store Ui {
     danger = ColorPalette.fromColor(Color::HEX("F44336FF")),
     borderRadiusCoefficient = 0.16,
     borderLight = "#E9E9E9",
-    borderDark = "#2C2C2C",
+    borderDark = "#262626",
     fontFamily = "Arial"
   }
 
@@ -45,7 +45,7 @@ store Ui {
   state mobile : Bool = Window.matchesMediaQuery("(max-width: 1000px)")
 
   /* Wether or not to show dark mode. */
-  state darkMode : Bool = false
+  state darkMode : Bool = true
 
   /* A media query listener for to set mobile property. */
   state mediaQueryListener = Window.addMediaQueryListener(

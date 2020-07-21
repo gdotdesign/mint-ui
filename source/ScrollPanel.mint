@@ -1,25 +1,49 @@
+/*
+A scrollable container with custom scrollbars and indicators for more items
+at the start and end of the container.
+*/
 component Ui.ScrollPanel {
   connect Ui exposing { resolveTheme }
 
-  state scrollPosition : Number = 0
-  state scrollSize : Number = 0
-  state clientSize : Number = 0
-
+  /* The theme for the button. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The children to render. */
   property children : Array(Html) = []
 
+  /* The start color of the indicator gradient. */
   property fromColor : String = "rgba(0,0,0,0)"
+
+  /* The end color of the indicator gradient. */
   property toColor : String = "rgba(0,0,0,0.1)"
 
+  /* The orientation, this determines which way the panel should scroll. */
   property orientation : String = "vertical"
+
+  /* Wether or not programatic the scrolling should be animated. */
   property animateScroll : Bool = false
+
+  /* An extra padding from the scroll bars. */
   property extraPadding : Number = 10
+
+  /* The maximum size of the component. */
   property maxSize : Number = 300
+
+  /* The size of the indicator. */
   property size : Number = 20
 
+  /* The current scroll position. */
+  state scrollPosition : Number = 0
+
+  /* The current scroll size. */
+  state scrollSize : Number = 0
+
+  /* The current client size. */
+  state clientSize : Number = 0
+
   use Provider.ElementSize {
-    element = Maybe.oneOf([horizontal, vertical]),
-    changes = recalculateFromSize
+    changes = (dimensions : Dom.Dimensions) { recalculate() },
+    element = Maybe.oneOf([horizontal, vertical])
   }
 
   use Provider.Mutation {
@@ -27,6 +51,7 @@ component Ui.ScrollPanel {
     changes = recalculate
   }
 
+  /* Base style for the component. */
   style base {
     scrollbar-color: #{actualTheme.surface.color} #{actualTheme.contentFaded.color};
     scrollbar-width: thin;
@@ -66,6 +91,7 @@ component Ui.ScrollPanel {
     }
   }
 
+  /* Style for the horizontal variant. */
   style horizontal {
     max-width: #{maxSize}px;
 
@@ -112,6 +138,7 @@ component Ui.ScrollPanel {
     }
   }
 
+  /* Style for the vertical variant. */
   style vertical {
     max-height: #{maxSize}px;
 
@@ -157,36 +184,49 @@ component Ui.ScrollPanel {
     }
   }
 
-  get actualTheme {
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
-  get element {
-    Maybe.oneOf([horizontal, vertical])
-  }
-
-  fun recalculateFromSize (dimensions : Dom.Dimensions) {
-    recalculate()
-  }
-
+  /* Sets the state variables from the current state of the element. */
   fun recalculate : Promise(Never, Void) {
     if (orientation == "horizontal") {
       next
         {
-          scrollPosition = `#{horizontal}._0 && #{horizontal}._0.scrollLeft`,
-          clientSize = `#{horizontal}._0 && #{horizontal}._0.clientWidth`,
-          scrollSize = `#{horizontal}._0 && #{horizontal}._0.scrollWidth`
+          scrollPosition =
+            horizontal
+            |> Maybe.map(Dom.Extra.getScrollLeft)
+            |> Maybe.withDefault(0),
+          clientSize =
+            horizontal
+            |> Maybe.map(Dom.Extra.getClientWidth)
+            |> Maybe.withDefault(0),
+          scrollSize =
+            horizontal
+            |> Maybe.map(Dom.Extra.getScrollWidth)
+            |> Maybe.withDefault(0)
         }
     } else {
       next
         {
-          scrollPosition = `#{vertical}._0 && #{vertical}._0.scrollTop`,
-          clientSize = `#{vertical}._0 && #{vertical}._0.clientHeight`,
-          scrollSize = `#{vertical}._0 && #{vertical}._0.scrollHeight`
+          scrollPosition =
+            vertical
+            |> Maybe.map(Dom.Extra.getScrollTop)
+            |> Maybe.withDefault(0),
+          clientSize =
+            vertical
+            |> Maybe.map(Dom.Extra.getClientHeight)
+            |> Maybe.withDefault(0),
+          scrollSize =
+            vertical
+            |> Maybe.map(Dom.Extra.getScrollHeight)
+            |> Maybe.withDefault(0)
         }
     }
   }
 
+  /* Renders the component. */
   fun render : Html {
     if (orientation == "horizontal") {
       <div::base::horizontal as horizontal onScroll={recalculate}>

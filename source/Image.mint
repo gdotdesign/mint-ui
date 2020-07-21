@@ -1,18 +1,35 @@
+/* An image component. */
 component Ui.Image {
   connect Ui exposing { resolveTheme }
 
   /* The theme for the image. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
+  /* The value for the border-radius CSS property. */
   property borderRadius : String = ""
+
+  /* Wether or not the image fills the width of it's parent element. */
   property fullWidth : Bool = false
+
+  /* Wehter or not the image is draggable using browser drag & drop. */
   property draggable : Bool = false
+
+  /* The height of the image. */
   property height : Number = 100
+
+  /* The width of the image. */
   property width : Number = 100
+
+  /* The source of the image. */
   property src : String = ""
+
+  /* The alt attribute for the image. */
   property alt : String = ""
 
+  /* Wether or not the image is visible. */
   state visible : Bool = false
+
+  /* Wether or not the image is loaded. */
   state loaded : Bool = false
 
   use Provider.Intersection {
@@ -31,6 +48,7 @@ component Ui.Image {
     !visible
   }
 
+  /* The style for the image. */
   style image {
     object-position: center;
     object-fit: cover;
@@ -47,6 +65,7 @@ component Ui.Image {
     }
   }
 
+  /* The style for the base. */
   style base {
     background: #{actualTheme.surface.color};
     height: #{height}px;
@@ -69,10 +88,12 @@ component Ui.Image {
     resolveTheme(theme)
   }
 
-  fun setLoaded : Promise(Never, Void) {
+  /* The load event handler. */
+  fun handleLoad : Promise(Never, Void) {
     next { loaded = true }
   }
 
+  /* The drag start event handler. */
   fun handleDragStart (event : Html.Event) : Void {
     if (draggable) {
       void
@@ -81,12 +102,13 @@ component Ui.Image {
     }
   }
 
+  /* Renders the image. */
   fun render : Html {
     <div::base as base>
       if (visible) {
         <img::image
           onDragStart={handleDragStart}
-          onLoad={setLoaded}
+          onLoad={handleLoad}
           alt={alt}
           src={src}/>
       }

@@ -7,6 +7,17 @@ record Provider.Url.Subscription {
 provider Provider.Url : Provider.Url.Subscription {
   state listener : Function(Void) = () { void }
 
+  fun handlePopstate (event : Html.Event) {
+    try {
+      url =
+        Window.url()
+
+      for (subscription of subscriptions) {
+        subscription.changes(url)
+      }
+    }
+  }
+
   /* Updates the provider. */
   fun update : Promise(Never, Void) {
     if (Array.isEmpty(subscriptions)) {
@@ -16,23 +27,7 @@ provider Provider.Url : Provider.Url.Subscription {
         next { listener = () { void } }
       }
     } else {
-      next
-        {
-          listener =
-            Window.addEventListener(
-              "popstate",
-              false,
-              (event : Html.Event) {
-                try {
-                  url =
-                    Window.url()
-
-                  for (subscription of subscriptions) {
-                    subscription.changes(url)
-                  }
-                }
-              })
-        }
+      next { listener = Window.addEventListener("popstate", false, handlePopstate) }
     }
   }
 }

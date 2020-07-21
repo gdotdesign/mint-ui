@@ -56,7 +56,7 @@ global component Ui.ActionSheet {
   }
 
   /* Style of an item. */
-  style item {
+  style item (group : Bool) {
     grid-auto-flow: column;
     justify-content: start;
     align-items: center;
@@ -66,12 +66,29 @@ global component Ui.ActionSheet {
     padding: 0 1em;
     height: 3em;
 
-    + * {
-      border-top: 0.0625em solid #{actualTheme.border};
+    &:first-child {
+      border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em
+                     #{1.5625 * actualTheme.borderRadiusCoefficient}em
+                     0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0
+                     #{1.5625 * actualTheme.borderRadiusCoefficient}em
+                     #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    }
+
+    if (group) {
+      background: #{actualTheme.contentFaded.color};
+      font-weight: bold;
+    } else {
+      cursor: pointer;
     }
 
     &:hover {
-      color: #{actualTheme.primary.s500.color};
+      if (!group) {
+        color: #{actualTheme.primary.s500.color};
+      }
     }
   }
 
@@ -90,7 +107,10 @@ global component Ui.ActionSheet {
     color: #{actualTheme.content.text};
 
     font-family: #{actualTheme.fontFamily};
-    cursor: pointer;
+
+    > * + * {
+      border-top: 0.0625em solid #{actualTheme.border};
+    }
 
     if (!mobile) {
       min-width: 300px;
@@ -102,6 +122,22 @@ global component Ui.ActionSheet {
     } else {
       transform: translateY(100%);
       opacity: 0;
+    }
+  }
+
+  style group {
+    grid-template-columns: 0.4375em 1fr;
+    display: grid;
+  }
+
+  style gutter {
+    border-right: 0.0625em solid #{actualTheme.border};
+    background: #{actualTheme.contentFaded.color};
+  }
+
+  style group-items {
+    > * + * {
+      border-top: 0.0625em solid #{actualTheme.border};
     }
   }
 
@@ -187,13 +223,14 @@ global component Ui.ActionSheet {
   }
 
   /* Renders the contents of the item. */
-  fun renderItem (
+  fun renderContents (
     iconAfter : Html,
     iconBefore : Html,
     label : String,
+    group : Bool,
     onClick : Function(Html.Event, Promise(Never, Void))
   ) {
-    <div::item onClick={onClick}>
+    <div::item(group) onClick={onClick}>
       if (Html.Extra.isNotEmpty(iconBefore)) {
         <Ui.Icon
           icon={iconBefore}
@@ -210,16 +247,36 @@ global component Ui.ActionSheet {
     </div>
   }
 
+  fun renderItem (item : Ui.NavItem) : Html {
+    case (item) {
+      Ui.NavItem::Item iconAfter iconBefore label action => renderContents(iconAfter, iconBefore, label, false, handleItemClick(action))
+      Ui.NavItem::Link iconAfter iconBefore label href => renderContents(iconAfter, iconBefore, label, false, handleLinkClick(href))
+
+      Ui.NavItem::Group iconAfter iconBefore label items =>
+        <{
+          renderContents(iconAfter, iconBefore, label, true, Promise.Extra.never1())
+
+          <div::group>
+            <div::gutter/>
+
+            <div::group-items>
+              for (item of items) {
+                renderItem(item)
+              }
+            </div>
+          </div>
+        }>
+
+      Ui.NavItem::Divider => <div::divider/>
+    }
+  }
+
   /* Renders the component. */
   fun render : Html {
     <div::base onClick={handleClose}>
       <div::items as container>
         for (item of items) {
-          case (item) {
-            Ui.NavItem::Item iconAfter iconBefore label action => renderItem(iconAfter, iconBefore, label, handleItemClick(action))
-            Ui.NavItem::Link iconAfter iconBefore label href => renderItem(iconAfter, iconBefore, label, handleLinkClick(href))
-            Ui.NavItem::Divider => <div::divider/>
-          }
+          renderItem(item)
         }
       </div>
     </div>
