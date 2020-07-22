@@ -71,6 +71,13 @@ component Ui.Modal.Base {
     }
   }
 
+  /* Focuses the first focusable element in the modal. */
+  fun focusFirst : Promise(Never, Void) {
+    base
+    |> Maybe.map(Dom.Extra.focusFirst)
+    |> Maybe.withDefault(Promise.never())
+  }
+
   /* Handles the click event on the backdrop. */
   fun handleClick (event : Html.Event) : Promise(Never, Void) {
     if (Maybe::Just(event.target) == base && closeOnOutsideClick) {

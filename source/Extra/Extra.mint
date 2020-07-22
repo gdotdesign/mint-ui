@@ -65,6 +65,15 @@ module String.Extra {
 }
 
 module Dom.Extra {
+  fun focusFirst (element : Dom.Element) {
+    element
+    |> Debug.log()
+    |> focusableElements
+    |> Debug.log()
+    |> Array.first
+    |> Dom.focus
+  }
+
   /* Returns all focusable child elements. */
   fun focusableElements (element : Dom.Element) : Array(Dom.Element) {
     `
@@ -78,7 +87,7 @@ module Dom.Extra {
 
       /* Save the scroll position of each element. */
       const scrollPositions =
-        document.querySelectorAll("*")).reduce((memo, element) => {
+        Array.from(document.querySelectorAll("*")).reduce((memo, element) => {
           if (element.scrollHeight > 0 || element.scrollWidth > 0) {
             memo.set(element, [element.scrollLeft, element.scrollTop])
           }

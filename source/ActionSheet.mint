@@ -57,6 +57,15 @@ global component Ui.ActionSheet {
 
   /* Style of an item. */
   style item (group : Bool) {
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    width: 100%;
+    outline: 0;
+    margin: 0;
+    border: 0;
+
     grid-auto-flow: column;
     justify-content: start;
     align-items: center;
@@ -85,7 +94,8 @@ global component Ui.ActionSheet {
       cursor: pointer;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       if (!group) {
         color: #{actualTheme.primary.s500.color};
       }
@@ -180,6 +190,15 @@ global component Ui.ActionSheet {
             open = true
           }
 
+        sequence {
+          Timer.timeout(100, "")
+
+          case (container) {
+            Maybe::Just element => Dom.Extra.focusFirst(element)
+            Maybe::Nothing => next {  }
+          }
+        }
+
         promise
       }
     }
@@ -230,21 +249,34 @@ global component Ui.ActionSheet {
     group : Bool,
     onClick : Function(Html.Event, Promise(Never, Void))
   ) {
-    <div::item(group) onClick={onClick}>
-      if (Html.Extra.isNotEmpty(iconBefore)) {
-        <Ui.Icon
-          icon={iconBefore}
-          autoSize={true}/>
-      }
+    try {
+      contents =
+        <>
+          if (Html.Extra.isNotEmpty(iconBefore)) {
+            <Ui.Icon
+              icon={iconBefore}
+              autoSize={true}/>
+          }
 
-      <{ label }>
+          <{ label }>
 
-      if (Html.Extra.isNotEmpty(iconAfter)) {
-        <Ui.Icon
-          icon={iconAfter}
-          autoSize={true}/>
+          if (Html.Extra.isNotEmpty(iconAfter)) {
+            <Ui.Icon
+              icon={iconAfter}
+              autoSize={true}/>
+          }
+        </>
+
+      if (group) {
+        <div::item(group) onClick={onClick}>
+          <{ contents }>
+        </div>
+      } else {
+        <button::item(group) onClick={onClick}>
+          <{ contents }>
+        </button>
       }
-    </div>
+    }
   }
 
   fun renderItem (item : Ui.NavItem) : Html {
@@ -274,11 +306,13 @@ global component Ui.ActionSheet {
   /* Renders the component. */
   fun render : Html {
     <div::base onClick={handleClose}>
-      <div::items as container>
-        for (item of items) {
-          renderItem(item)
-        }
-      </div>
+      <Ui.FocusTrap>
+        <div::items as container>
+          for (item of items) {
+            renderItem(item)
+          }
+        </div>
+      </Ui.FocusTrap>
     </div>
   }
 }

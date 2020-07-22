@@ -32,14 +32,24 @@ global component Ui.Modal {
 
   /* Shows the component with the given content. */
   fun show (content : Html) : Promise(String, Void) {
-    showWithOptions(content, 100, 240)
+    showWithOptions(
+      content,
+      100,
+      240,
+      () {
+        case (base) {
+          Maybe::Just comp => comp.focusFirst()
+          Maybe::Nothing => next {  }
+        }
+      })
   }
 
   /* Shows the component with the given content and z-index. */
   fun showWithOptions (
     content : Html,
     zIndex : Number,
-    transitionDuration : Number
+    transitionDuration : Number,
+    openCallback : Function(Promise(Never, Void))
   ) : Promise(String, Void) {
     try {
       {resolve, reject, promise} =
@@ -55,7 +65,12 @@ global component Ui.Modal {
           open = true
         }
 
-      Dom.Extra.blurActiveElement()
+      sequence {
+        Timer.timeout(transitionDuration, "")
+
+        openCallback()
+      }
+
       promise
     }
   }
@@ -95,7 +110,7 @@ global component Ui.Modal {
 
   /* Renders the modal. */
   fun render : Html {
-    <Ui.Modal.Base
+    <Ui.Modal.Base as base
       content={content}
       onClose={hide}
       open={open}/>
