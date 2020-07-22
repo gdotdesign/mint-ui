@@ -23,7 +23,7 @@ global component Ui.Modal {
       [
         {
           condition = () : Bool { true },
-          bypassFocused = false,
+          bypassFocused = true,
           shortcut = [27],
           action = hide
         }

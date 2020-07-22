@@ -4,6 +4,7 @@
     "javascripts": ["assets/scroll_into_view.js"]
   },
   "source-directories": [
+    "../mint-color/source",
     "source"
   ],
   "test-directories": [

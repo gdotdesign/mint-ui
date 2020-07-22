@@ -7,6 +7,7 @@ enum Ui.NavItem {
   /* A divider. */
   Divider
 
+  /* A group of other navigation items. */
   Group(
     items : Array(Ui.NavItem),
     iconBefore : Html,

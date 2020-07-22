@@ -65,6 +65,53 @@ module String.Extra {
 }
 
 module Dom.Extra {
+  /* Returns all focusable child elements. */
+  fun focusableElements (element : Dom.Element) : Array(Dom.Element) {
+    `
+    (() => {
+      /* Save focused element. */
+      const focused = document.activeElement
+
+      /* Save scroll position. */
+      const scrollX = window.scrollX
+      const scrollY = window.scrollY
+
+      /* Save the scroll position of each element. */
+      const scrollPositions =
+        document.querySelectorAll("*")).reduce((memo, element) => {
+          if (element.scrollHeight > 0 || element.scrollWidth > 0) {
+            memo.set(element, [element.scrollLeft, element.scrollTop])
+          }
+
+          return memo
+        }, new Map)
+
+      /* Gather the focusable elements by focusing them and comparing it
+         with the focused element. */
+      const foundElements =
+        Array.from(#{element}.querySelectorAll("*")).reduce((memo ,element) => {
+          element.focus()
+          if (document.activeElement == element && element.tabIndex !== -1) {
+            memo.push(element)
+          }
+
+          return memo
+        }, [])
+
+      /* Restore scroll positions and focus. */
+      for (let element in scrollPositions) {
+        const [x, y] = scrollPositions[element]
+        element.scrollTo(x, y)
+      }
+
+      window.scrollTo(scrollX, scrollY)
+      focused.focus()
+
+      return foundElements
+    })()
+    `
+  }
+
   fun containsMaybe (
     maybeElement : Maybe(Dom.Element),
     base : Dom.Element

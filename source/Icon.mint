@@ -35,6 +35,11 @@ component Ui.Icon {
     align-items: center;
     display: flex;
 
+    &:focus,
+    &:hover {
+      color: #{actualTheme.primary.s500.color};
+    }
+
     svg {
       opacity: #{opacity};
       fill: currentColor;
@@ -52,10 +57,6 @@ component Ui.Icon {
         opacity: 0.5;
       }
 
-      &:hover {
-        color: #{actualTheme.primary.s500.color};
-      }
-
       if (autoSize) {
         height: 1em;
         width: 1em;
@@ -71,20 +72,41 @@ component Ui.Icon {
     color: inherit;
   }
 
+  style button {
+    all: unset;
+  }
+
   /* Returns the actual theme. */
   get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
   fun render : Html {
-    if (String.Extra.isNotEmpty(href)) {
-      <a::base::link href={href}>
-        <{ icon }>
-      </a>
-    } else {
-      <div::base onClick={onClick}>
-        <{ icon }>
-      </div>
+    try {
+      tabindex =
+        if (interactive) {
+          "0"
+        } else {
+          "-1"
+        }
+
+      if (String.Extra.isNotEmpty(href)) {
+        <a::base::link
+          href={href}
+          tabindex={tabindex}>
+
+          <{ icon }>
+
+        </a>
+      } else {
+        <button::base::button
+          onClick={onClick}
+          tabindex={tabindex}>
+
+          <{ icon }>
+
+        </button>
+      }
     }
   }
 }

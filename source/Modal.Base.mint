@@ -82,10 +82,12 @@ component Ui.Modal.Base {
 
   /* Renders the modal. */
   fun render : Html {
-    <div::base as base onClick={handleClick}>
-      <div::wrapper>
-        <{ content }>
+    <Ui.FocusTrap>
+      <div::base as base onClick={handleClick}>
+        <div::wrapper>
+          <{ content }>
+        </div>
       </div>
-    </div>
+    </Ui.FocusTrap>
   }
 }
