@@ -15,7 +15,7 @@ component Ui.Dropdown {
   property closeOnOutsideClick : Bool = false
 
   /* Wether or not to make the dropdown the same width as the element. */
-  property fullWidth : Bool = false
+  property matchWidth : Bool = false
 
   /* The position of the panel. */
   property position : String = "bottom-left"
@@ -35,7 +35,7 @@ component Ui.Dropdown {
   /* Wether or not the dropdown is open. */
   property open : Bool = false
 
-  /* The width of the panel if `fullWidth` is true. */
+  /* The width of the panel if `matchWidth` is true. */
   state width : Number = 0
 
   use Provider.Mouse {
@@ -54,7 +54,7 @@ component Ui.Dropdown {
 
   /* Style for the panel. */
   style panel {
-    if (fullWidth) {
+    if (matchWidth) {
       width: #{width}px;
     }
 
@@ -76,7 +76,7 @@ component Ui.Dropdown {
     }
   }
 
-  /* Updates the dimensions of the panel if `fullWidth` is true. */
+  /* Updates the dimensions of the panel if `matchWidth` is true. */
   fun updateDimensions : Promise(Never, Void) {
     case (stickyPanel) {
       Maybe::Just panel =>

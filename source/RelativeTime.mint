@@ -16,6 +16,7 @@ component Ui.RelativeTime {
     display: inline-block;
   }
 
+  /* Renders the component. */
   fun render : Html {
     <time::base title={Time.toIso(date)}>
       <{ Time.relative(date, now) }>

@@ -32,6 +32,9 @@ component Ui.Input {
   /* The content for the icon. */
   property icon : Html = <></>
 
+  /* The ID of the datalist element to connect to this input. */
+  property list : String = ""
+
   /* The event handler for the icons click event. */
   property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
@@ -72,11 +75,6 @@ component Ui.Input {
     onTabOut = onTabOut,
     onTabIn = onTabIn,
     element = input
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The styles for the input. */
@@ -167,6 +165,11 @@ component Ui.Input {
     }
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
   /* Wether to show the icon or not. */
   get showIcon : Bool {
     Html.Extra.isNotEmpty(icon)
@@ -177,31 +180,26 @@ component Ui.Input {
     Dom.focus(input)
   }
 
-  /* The change event handler. */
-  fun handleChange (event : Html.Event) : Promise(Never, Void) {
-    sequence {
-      nextValue =
-        Dom.getValue(event.target)
-
-      `clearTimeout(#{timeoutId})`
-
-      id =
-        `setTimeout(#{notify}, #{inputDelay})`
+  /* Handles the `input` and `change` events. */
+  fun handleChange (event : Html.Event) {
+    try {
+      {nextId, nextValue, promise} =
+        Ui.InputDelay.handle(timeoutId, inputDelay, event)
 
       next
         {
-          timeoutId = id,
-          currentValue = Maybe::Just(nextValue)
+          currentValue = Maybe::Just(nextValue),
+          timeoutId = nextId
         }
-    }
-  }
 
-  /* Triggers the change event after the timeout. */
-  fun notify : Promise(Never, Void) {
-    sequence {
-      onChange(Maybe.withDefault(value, currentValue))
+      sequence {
+        /* Await the promise here. */
+        promise
 
-      next { currentValue = Maybe::Nothing }
+        onChange(Maybe.withDefault(value, currentValue))
+
+        next { currentValue = Maybe::Nothing }
+      }
     }
   }
 
@@ -220,6 +218,7 @@ component Ui.Input {
         value={Maybe.withDefault(value, currentValue)}
         placeholder={placeholder}
         disabled={disabled}
+        list={list}
         type={type}/>
 
       if (showIcon) {

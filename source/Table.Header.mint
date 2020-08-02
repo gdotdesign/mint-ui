@@ -1,24 +1,34 @@
+/* A table header component. */
 component Ui.Table.Header {
   connect Ui exposing { resolveTheme }
 
+  /* The handler for the order change event. */
   property onOrderChange : Function(Tuple(String, String), Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The order direction either "asc" or "desc". */
   property orderDirection : String = ""
+
+  /* The `sortKey` of the column which the content is ordered by. */
   property orderBy : String = ""
 
-  property data : Ui.Table.Header =
-    {
-      sortable = false,
-      shrink = false,
-      sortKey = "",
-      label = ""
-    }
+  /* The data for the header. */
+  property data : Ui.Table.Header
 
+  /* Style for the base. */
   style base {
-    white-space: #{whiteSpace};
-    width: #{width};
+    if (data.shrink) {
+      white-space: nowrap;
+      width: 1%;
+    } else {
+      white-space: initial;
+      width: initial;
+    }
   }
 
+  /* Style for a header. */
   style wrap {
     grid-template-columns: 1fr min-content;
     align-items: center;
@@ -26,9 +36,15 @@ component Ui.Table.Header {
     display: grid;
   }
 
+  /* Style for the icon. */
   style icon {
-    opacity: #{opacity};
     line-height: 0;
+
+    if (orderBy == data.sortKey) {
+      opacity: 1;
+    } else {
+      opacity: 0.5;
+    }
 
     &:hover {
       color: #{actualTheme.primary.s500.color};
@@ -37,34 +53,12 @@ component Ui.Table.Header {
     }
   }
 
-  get actualTheme {
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
-  get opacity : Number {
-    if (orderBy == data.sortKey) {
-      1
-    } else {
-      0.5
-    }
-  }
-
-  get width : String {
-    if (data.shrink) {
-      "1%"
-    } else {
-      "initial"
-    }
-  }
-
-  get whiteSpace : String {
-    if (data.shrink) {
-      "nowrap"
-    } else {
-      "initial"
-    }
-  }
-
+  /* The handler for the icon. */
   fun handleSort : Promise(Never, Void) {
     sequence {
       nextOrderDirection =
@@ -101,8 +95,6 @@ component Ui.Table.Header {
               <Ui.Icon icon={Ui.Icons:TRIANGLE_UP_DOWN}/>
             }
           </div>
-        } else {
-          <></>
         }
       </div>
     </th>

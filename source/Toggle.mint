@@ -1,14 +1,29 @@
+/* A toggle component. */
 component Ui.Toggle {
   connect Ui exposing { resolveTheme }
 
+  /* The change event handler. */
   property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The label for the false position. */
   property offLabel : String = "OFF"
+
+  /* The label for the true position. */
   property onLabel : String = "ON"
+
+  /* Wether or not the toggle is disabled. */
   property disabled : Bool = false
+
+  /* Wether or not the toggle is checked. */
   property checked : Bool = false
+
+  /* The size of the component. */
   property size : Number = 16
 
+  /* Styles for the base element. */
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
@@ -25,23 +40,25 @@ component Ui.Toggle {
       color: #{actualTheme.content.text};
     }
 
-    border-radius: #{size * actualTheme.borderRadiusCoefficient * 1.1875}px;
-    border: 2px solid;
+    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    border: 0.125em solid;
 
     display: inline-flex;
     align-items: center;
 
     font-family: #{actualTheme.fontFamily};
-    font-size: #{size * 0.875}px;
+    font-size: #{size}px;
     font-weight: bold;
 
-    height: #{size * 2.375}px;
     width: #{width}px;
+    height: 2.375em;
 
     position: relative;
     cursor: pointer;
     outline: none;
     padding: 0;
+
+    transition: background-color 120ms;
 
     &::-moz-focus-inner {
       border: 0;
@@ -58,33 +75,44 @@ component Ui.Toggle {
     }
   }
 
-  style label {
+  /* Style for the label. */
+  style label (shown : Bool) {
+    transition: opacity 120ms;
     text-align: center;
+    font-size: 0.875em;
     width: 50%;
+
+    if (shown) {
+      opacity: 1;
+    } else {
+      opacity: 0;
+    }
   }
 
+  /* Styles for the overlay. */
   style overlay {
-    bottom: #{size * 0.1875}px;
-    top: #{size * 0.1875}px;
-    position: absolute;
-
     border-radius: #{size * actualTheme.borderRadiusCoefficient}px;
     background: #{actualTheme.surface.color};
-    width: calc(50% - #{size * 0.375}px);
+    width: calc(50% - 0.375em);
+    position: absolute;
+    bottom: 0.1875em;
+    top: 0.1875em;
 
     transition: left 120ms;
 
     if (checked) {
-      left: calc(100% / 2 + #{size * 0.1875}px);
+      left: calc(100% / 2 + 0.1875em);
     } else {
-      left: #{size * 0.1875}px;
+      left: 0.1875em;
     }
   }
 
+  /* Returns the actual theme. */
   get actualTheme : Ui.Theme.Resolved {
     resolveTheme(theme)
   }
 
+  /* Returns the width of the toggle by measuring the labels. */
   get width : Number {
     try {
       font =
@@ -104,10 +132,12 @@ component Ui.Toggle {
     }
   }
 
+  /* Toggles the componnet. */
   fun toggle : Promise(Never, Void) {
     onChange(!checked)
   }
 
+  /* Renders the component. */
   fun render : Html {
     <button::base
       aria-checked={Bool.toString(checked)}
@@ -115,11 +145,11 @@ component Ui.Toggle {
       onClick={toggle}
       role="checkbox">
 
-      <div::label aria-hidden="true">
+      <div::label(checked) aria-hidden="true">
         <{ onLabel }>
       </div>
 
-      <div::label aria-hidden="true">
+      <div::label(!checked) aria-hidden="true">
         <{ offLabel }>
       </div>
 

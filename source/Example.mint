@@ -163,7 +163,7 @@ component Ui.Example {
         }
 
         <pre::pre>
-          <code>
+          <code class="language-mint">
             <{ code }>
           </code>
         </pre>

@@ -1,19 +1,3 @@
-component Ui.List {
-  property children : Array(Html) = []
-
-  style base {
-    > * + * {
-      margin-top: 5px;
-    }
-  }
-
-  fun render : Html {
-    <div::base>
-      <{ children }>
-    </div>
-  }
-}
-
 component Ui.List.Item {
   connect Ui exposing { resolveTheme }
 

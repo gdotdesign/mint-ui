@@ -37,14 +37,16 @@ component Ui.Icon {
 
     &:focus,
     &:hover {
-      color: #{actualTheme.primary.s500.color};
+      if (interactive && !disabled) {
+        color: #{actualTheme.primary.s500.color};
+      }
     }
 
     svg {
       opacity: #{opacity};
       fill: currentColor;
 
-      if (interactive) {
+      if (interactive && !disabled) {
         pointer-events: auto;
         cursor: pointer;
       } else {
@@ -83,29 +85,18 @@ component Ui.Icon {
 
   fun render : Html {
     try {
-      tabindex =
-        if (interactive) {
-          "0"
-        } else {
-          "-1"
-        }
-
       if (String.Extra.isNotEmpty(href)) {
-        <a::base::link
-          href={href}
-          tabindex={tabindex}>
-
+        <a::base::link href={href}>
           <{ icon }>
-
         </a>
-      } else {
-        <button::base::button
-          onClick={onClick}
-          tabindex={tabindex}>
-
+      } else if (interactive && !disabled) {
+        <button::base::button onClick={onClick}>
           <{ icon }>
-
         </button>
+      } else {
+        <div::base onClick={onClick}>
+          <{ icon }>
+        </div>
       }
     }
   }

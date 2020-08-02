@@ -2,8 +2,11 @@
 component Ui.InteractiveList {
   property items : Array(Ui.ListItem) = []
 
+  /* The select event handler (when an item is clicked). */
+  property onClickSelect : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+
   /* The select event handler. */
-  property onSelect : Function(String, Promise(Never, Void)) = (key : String) { next {  } }
+  property onSelect : Function(String, Promise(Never, Void)) = Promise.Extra.never1
 
   /* The selected set of items. */
   property selected : Set(String) = Set.empty()
@@ -57,6 +60,14 @@ component Ui.InteractiveList {
     }
   }
 
+  /* Handles a select event (when the item is clicked). */
+  fun handleClickSelect (value : String) {
+    sequence {
+      intend(value)
+      onClickSelect(value)
+    }
+  }
+
   /* Selects the next or previous element. */
   fun selectNext (forward : Bool) {
     try {
@@ -97,19 +108,19 @@ component Ui.InteractiveList {
   /* Handles the keydown event. */
   fun handleKeyDown (event : Html.Event) {
     case (event.keyCode) {
-      40 =>
+      Html.Event.Extra:ENTER => onSelect(intended)
+
+      Html.Event.Extra:DOWN =>
         try {
           Html.Event.preventDefault(event)
           selectNext(true)
         }
 
-      38 =>
+      Html.Event.Extra:UP =>
         try {
           Html.Event.preventDefault(event)
           selectNext(false)
         }
-
-      13 => onSelect(intended)
 
       => next {  }
     }
@@ -133,11 +144,9 @@ component Ui.InteractiveList {
           <div::items as container>
             for (item of items) {
               case (item) {
-                Ui.ListItem::Divider => <></>
-
                 Ui.ListItem::Item key content =>
                   <Ui.List.Item
-                    onClick={(event : Html.Event) { handleSelect(key) }}
+                    onClick={(event : Html.Event) { handleClickSelect(key) }}
                     intended={intendable && key == intended}
                     selected={Set.has(key, selected)}
                     size={size}
@@ -146,6 +155,8 @@ component Ui.InteractiveList {
                     <{ content }>
 
                   </Ui.List.Item>
+
+                Ui.ListItem::Divider => <></>
               }
             }
           </div>

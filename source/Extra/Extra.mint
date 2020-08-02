@@ -60,6 +60,7 @@ module String.Extra {
     .replace(/[^a-z0-9\-_]+/ig, '-')
     .replace(/-{2,}/g, '-')
     .replace(/^-|-$/i, '')
+    .toLowerCase()
     `
   }
 }
@@ -323,4 +324,12 @@ module Array.Extra {
       array
     }
   }
+}
+
+module Html.Event.Extra {
+  const ESCAPE = 27
+  const ENTER = 13
+  const SPACE = 32
+  const DOWN = 40
+  const UP = 38
 }

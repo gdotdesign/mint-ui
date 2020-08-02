@@ -1,5 +1,7 @@
 /* A panel that sticks to the given element. */
 component Ui.StickyPanel {
+  const DUMMY = Dom.createElement("div")
+
   /* The position of the panel. */
   property position : String = "bottom-left"
 
@@ -15,23 +17,17 @@ component Ui.StickyPanel {
   /* The offset of the panel. */
   property offset : Number = 0
 
-  /* If true pointer events pass through the panel. */
+  /* If `true`, pointer events will pass through the panel. */
   property passThrough : Bool = false
 
-  /* The z-index of the panel. */
+  /* The `z-index` of the panel. */
   property zIndex : Number = 0
 
+  /* Variable for the left position. */
   state left : Number = 0
+
+  /* Variable for the right position. */
   state top : Number = 0
-
-  style panel {
-    pointer-events: #{pointerEvents};
-    z-index: #{zIndex};
-    left: #{left}px;
-    top: #{top}px;
-
-    position: fixed;
-  }
 
   use Provider.AnimationFrame {
     frames = updateDimensions
@@ -39,24 +35,16 @@ component Ui.StickyPanel {
     shouldCalculate
   }
 
-  get pointerEvents : String {
-    if (passThrough) {
-      "none"
-    } else {
-      ""
-    }
-  }
+  /* Styles for the panel. */
+  style panel {
+    z-index: #{zIndex};
+    position: fixed;
+    left: #{left}px;
+    top: #{top}px;
 
-  /* Renders the element and the panel. */
-  fun render : Array(Html) {
-    [
-      element,
-      <Html.Portals.Body>
-        <div::panel as panel>
-          <{ content }>
-        </div>
-      </Html.Portals.Body>
-    ]
+    if (passThrough) {
+      pointer-events: none;
+    }
   }
 
   /* Returns the inverse position of the current position. */
@@ -77,14 +65,24 @@ component Ui.StickyPanel {
       "left-center" => "right-center"
       "left-bottom" => "right-bottom"
       "left-top" => "right-top"
+
       => position
     }
   }
 
+  /*
+  Returns `true` if the dimensions are fully visible in the window.
+
+  TODO: Move to core.
+  */
   fun isFullyVisible (dimensions : Dom.Dimensions) : Bool {
-    dimensions.top >= 0 && dimensions.left >= 0 && dimensions.right <= Window.width() && dimensions.bottom <= Window.height()
+    dimensions.top >= 0 &&
+      dimensions.left >= 0 &&
+      dimensions.right <= Window.width() &&
+      dimensions.bottom <= Window.height()
   }
 
+  /* Calculates the position from the dimensions of the panel and element. */
   fun calculatePosition (
     position : String,
     dimensions : Dom.Dimensions,
@@ -142,6 +140,7 @@ component Ui.StickyPanel {
       }
   }
 
+  /* Calculates the position of the panel. */
   fun updateDimensions : Promise(Never, Void) {
     next
       {
@@ -151,7 +150,7 @@ component Ui.StickyPanel {
   } where {
     panelDimensions =
       panel
-      |> Maybe.withDefault(Dom.createElement("div"))
+      |> Maybe.withDefault(DUMMY)
       |> Dom.getDimensions()
 
     dimensions =
@@ -170,5 +169,17 @@ component Ui.StickyPanel {
           dimensions,
           panelDimensions)
       }
+  }
+
+  /* Renders the element and the panel. */
+  fun render : Array(Html) {
+    [
+      element,
+      <Html.Portals.Body>
+        <div::panel as panel>
+          <{ content }>
+        </div>
+      </Html.Portals.Body>
+    ]
   }
 }

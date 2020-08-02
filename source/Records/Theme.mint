@@ -1,3 +1,4 @@
+/* Represents the theme of the components. */
 record Ui.Theme {
   primary : ColorPalette,
   warning : ColorPalette,
@@ -9,21 +10,8 @@ record Ui.Theme {
   contentDarkFaded : ColorPalette.Shade,
   surfaceLight : ColorPalette.Shade,
   surfaceDark : ColorPalette.Shade,
-  borderDark : String,
   borderLight : String,
-  borderRadiusCoefficient : Number,
-  fontFamily : String
-}
-
-record Ui.Theme.Resolved {
-  primary : ColorPalette,
-  warning : ColorPalette,
-  success : ColorPalette,
-  danger : ColorPalette,
-  content : ColorPalette.Shade,
-  contentFaded : ColorPalette.Shade,
-  surface : ColorPalette.Shade,
-  border : String,
+  borderDark : String,
   borderRadiusCoefficient : Number,
   fontFamily : String
 }

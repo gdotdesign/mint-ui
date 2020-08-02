@@ -1,79 +1,121 @@
-record Ui.Tabs.Item {
-  content : Function(Html),
-  label : String,
-  key : String
-}
+/* A simple tabs component. */
+component Ui.Tabs {
+  connect Ui exposing { resolveTheme }
 
-component Ui.Tabs.Tab {
-  property onClick : Function(Promise(Never, Void)) = Promise.never
-  property selected : Bool = false
-  property label : String = ""
+  /* The theme for the component. */
+  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
+  /* The change event handler. */
+  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The data for the tabs. */
+  property items : Array(Ui.Tab) = []
+
+  /* The `key` for the active tab. */
+  property active : String = ""
+
+  /* The size of the component. */
+  property size : Number = 16
+
+  /* The style for the base element. */
   style base {
-    border-bottom: 3px solid #{color};
-    margin-bottom: -3px;
-    padding: 16px 20px;
-    cursor: pointer;
+    background: #{actualTheme.content.color};
+    color: #{actualTheme.content.text};
+
+    font-family: #{actualTheme.fontFamily};
+    font-size: #{size}px;
+
+    grid-template-rows: min-content 1fr;
+    display: grid;
   }
 
-  get color : String {
-    if (selected) {
-      "red"
+  /* The style for the tab handles container. */
+  style tabs {
+    border-bottom: 0.1875em solid #{actualTheme.contentFaded.color};
+    grid-auto-flow: column;
+    grid-gap: 0.5em;
+    display: grid;
+  }
+
+  /* The style for the content. */
+  style content {
+    padding: 1em;
+  }
+
+  /* The style for a specific tab handle. */
+  style tab (active : Bool) {
+    background: 0;
+    border: 0;
+
+    margin-bottom: -0.1875em;
+    padding: 1.2em 1em;
+
+    font-size: inherit;
+    font-weight: bold;
+
+    grid-auto-flow: column;
+    align-items: center;
+    grid-gap: 1em;
+    display: grid;
+
+    cursor: pointer;
+    outline: none;
+
+    &:focus {
+      border-bottom: 0.1875em solid #{actualTheme.primary.s300.color};
+      color: #{actualTheme.primary.s300.color};
+    }
+
+    if (active) {
+      border-bottom: 0.1875em solid #{actualTheme.primary.s500.color};
+      color: #{actualTheme.primary.s500.color};
     } else {
-      "transparent"
+      border-bottom: 0.1875em solid transparent;
     }
   }
 
-  fun render : Html {
-    <div::base onClick={onClick}>
-      <{ label }>
-    </div>
-  }
-}
-
-component Ui.Tabs {
-  property onChange : Function(String, Promise(Never, Void)) =
-    (key : String) : Promise(Never, Void) { next {  } }
-
-  property items : Array(Ui.Tabs.Item) = []
-  property disabled : Bool = false
-  property selected : String = ""
-
-  style tabs {
-    font-family: serif;
-    border-bottom: 3px solid #EEE;
-    display: flex;
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
   }
 
-  style content {
-    padding: 10px;
-    padding-top: 20px;
-  }
-
+  /* The event handler for the tab select. */
   fun handleSelect (key : String) : Promise(Never, Void) {
-    if (key == selected) {
+    if (key == active) {
       next {  }
     } else {
       onChange(key)
     }
   }
 
+  /* Renders the component. */
   fun render : Html {
-    <div>
+    <div::base>
       <div::tabs>
         for (tab of items) {
-          <Ui.Tabs.Tab
-            onClick={() { handleSelect(tab.key) }}
-            selected={tab.key == selected}
-            label={tab.label}/>
+          <button::tab(tab.key == active) onClick={() { handleSelect(tab.key) }}>
+            if (Html.Extra.isNotEmpty(tab.iconBefore)) {
+              <Ui.Icon
+                icon={tab.iconBefore}
+                autoSize={true}/>
+            }
+
+            <{ tab.label }>
+
+            if (Html.Extra.isNotEmpty(tab.iconAfter)) {
+              <Ui.Icon
+                icon={tab.iconAfter}
+                autoSize={true}/>
+            }
+          </button>
         }
       </div>
 
       <div::content>
         <{
           items
-          |> Array.find((tab : Ui.Tabs.Item) { tab.key == selected })
-          |> Maybe.map((tab : Ui.Tabs.Item) { tab.content() })
+          |> Array.find((tab : Ui.Tab) { tab.key == active })
+          |> Maybe.map((tab : Ui.Tab) { tab.content })
           |> Maybe.withDefault(<></>)
         }>
       </div>

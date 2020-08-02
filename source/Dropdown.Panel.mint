@@ -27,7 +27,7 @@ component Ui.Dropdown.Panel {
 
     font-family: #{actualTheme.fontFamily};
     color: #{actualTheme.content.text};
-    font-size: #{size};
+    font-size: #{size}px;
 
     if (mobile) {
       padding: 0.75em;

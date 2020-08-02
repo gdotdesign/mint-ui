@@ -1,21 +1,47 @@
+/* A select component. */
 component Ui.Select {
   connect Ui exposing { resolveTheme, mobile }
 
-  property onChange : Function(String, Promise(Never, Void)) =
-    (selected : String) : Promise(Never, Void) { Promise.never() }
+  /* The change event handler. */
+  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /* The items to show. */
   property items : Array(Ui.ListItem) = []
-  property position : String = "bottom-right"
+
+  /* The placeholder to show when there is no value selected. */
   property placeholder : String = ""
+
+  /* The key of the current selected element. */
   property value : String = ""
+
+  /* Wether or not the select is invalid. */
   property invalid : Bool = false
+
+  /* Wether or not the select is disabled. */
   property disabled : Bool = false
+
+  /* The size of the select. */
   property size : Number = 16
+
+  /* The position of the dropdown. */
+  property position : String = "bottom-right"
+
+  /* Wether or not the dropdown should match the width of the input. */
+  property matchWidth : Bool = false
+
+  /* The offset of the dropdown from the input. */
   property offset : Number = 5
+
+  /* the z-index of the dropdown. */
   property zIndex : Number = 1
 
+  /* A variable for tracking the focused state. */
   state focused : Bool = false
+
+  /* A variable for tracking the open state. */
   state open : Bool = false
 
   use Provider.Keydown {
@@ -25,29 +51,19 @@ component Ui.Select {
   }
 
   use Providers.TabFocus {
-    element = element,
-    onTabIn =
-      () : Promise(Never, Void) {
-        next
-          {
-            open = true,
-            focused = true
-          }
-      },
-    onTabOut =
-      () : Promise(Never, Void) {
-        next
-          {
-            open = false,
-            focused = false
-          }
-      }
+    onTabOut = handleClose,
+    onTabIn = handleTabIn,
+    element = element
   }
 
-  get actualTheme {
-    resolveTheme(theme)
+  use Provider.OutsideClick {
+    clicks = handleClicks,
+    element = element
+  } when {
+    focused
   }
 
+  /* The styles for the element. */
   style element {
     border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     border: #{size * 0.125}px solid #{actualTheme.border};
@@ -103,11 +119,13 @@ component Ui.Select {
     }
   }
 
+  /* The styles for the placeholder. */
   style placeholder {
     user-select: none;
     opacity: 0.5;
   }
 
+  /* The styles for the grid. */
   style grid {
     grid-template-columns: 1fr min-content;
     align-items: center;
@@ -115,47 +133,61 @@ component Ui.Select {
     display: grid;
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Handler for the tab in event. */
+  fun handleTabIn : Promise(Never, Void) {
+    next { focused = true }
+  }
+
+  /* Handler for the focus event. */
   fun handleFocus : Promise(Never, Void) {
     sequence {
       next { focused = true }
 
-      if (disabled) {
-        next {  }
-      } else if (open) {
-        next { open = false }
-      } else {
-        sequence {
-          Timer.nextFrame("")
+      sequence {
+        Timer.nextFrame("")
 
-          next { open = true }
-        }
+        next { open = true }
       }
     }
   }
 
+  /* Handles the up events. */
+  fun handleClicks : Promise(Never, Void) {
+    next { focused = false }
+  }
+
+  /* Handler for the close event. */
   fun handleClose : Promise(Never, Void) {
     next
       {
-        open = false,
-        focused = false
+        focused = false,
+        open = false
       }
   }
 
+  /* Handles the keydown event. */
   fun handleKeyDown (event : Html.Event) {
     case (list) {
       Maybe::Just item =>
         case (event.keyCode) {
-          27 => next { open = false }
+          Html.Event.Extra:ESCAPE => next { open = false }
 
-          13 =>
+          Html.Event.Extra:ENTER =>
             sequence {
               item.handleKeyDown(event)
 
-              if (open) {
-                next {  }
-              } else {
-                next { open = true }
-              }
+              next { open = false }
+            }
+
+          Html.Event.Extra:SPACE =>
+            try {
+              Html.Event.preventDefault(event)
+              next { open = true }
             }
 
           => item.handleKeyDown(event)
@@ -165,18 +197,20 @@ component Ui.Select {
     }
   }
 
-  fun handleSelect (value : String) : Promise(Never, Void) {
+  fun handleClickSelect (value : String) : Promise(Never, Void) {
     sequence {
       onChange(value)
+      next { open = false }
     }
   }
 
   fun render : Html {
     try {
       content =
-        <Ui.Dropdown.Panel>
+        <Ui.Dropdown.Panel size={size}>
           <Ui.InteractiveList as list
-            onSelect={handleSelect}
+            onClickSelect={handleClickSelect}
+            onSelect={onChange}
             interactive={false}
             size={size}
             selected={
@@ -228,10 +262,10 @@ component Ui.Select {
       <Ui.Dropdown
         onClick={(event : Html.Event) { Dom.focus(element) }}
         closeOnOutsideClick={true}
+        matchWidth={matchWidth}
         onClose={handleClose}
         position={position}
         content={content}
-        fullWidth={true}
         offset={offset}
         element={html}
         open={open}/>

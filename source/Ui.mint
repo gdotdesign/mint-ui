@@ -1,3 +1,4 @@
+/* Represents the store which all components connect to. */
 store Ui {
   /* This is the default theme. */
   state defaultTheme : Ui.Theme = {

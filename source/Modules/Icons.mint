@@ -1,3 +1,4 @@
+/* A module for accessing the svg icons. */
 module Ui.Icons {
   const ALERT = @svg(../../assets/icons/alert.svg)
   const ARCHIVE = @svg(../../assets/icons/archive.svg)

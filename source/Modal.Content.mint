@@ -2,7 +2,7 @@
 component Ui.Modal.Content {
   connect Ui exposing { mobile, darkMode, resolveTheme }
 
-  /* The theme for the button. */
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The content to display in the body of the modal. */

@@ -24,6 +24,14 @@ module Ui.ListItem {
     }
   }
 
+  /* Returns the matchString of a list item. */
+  fun matchString (item : Ui.ListItem) : String {
+    case (item) {
+      Ui.ListItem::Item matchString => matchString
+      Ui.ListItem::Divider => ""
+    }
+  }
+
   /* Returns the key of a list item. */
   fun key (item : Ui.ListItem) : String {
     case (item) {

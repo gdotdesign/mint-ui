@@ -1,30 +1,69 @@
+/* A textarea component. */
 component Ui.Textarea {
   connect Ui exposing { resolveTheme }
 
+  /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
+
+  /*
+  The behavior of the textarea, can be:
+    - `resize-horizontal`
+    - `resize-vertical`
+    - `resize-both`
+    - `static`
+    - `grow`
+  */
   property behavior : String = "resize-both"
+
+  /* The placeholder to display if the value is empty. */
   property placeholder : String = ""
+
+  /* The number of milliseconds to delay the `onChange` event. */
   property inputDelay : Number = 0
+
+  /* Wether or not the textarea is disabled. */
   property disabled : Bool = false
+
+  /* Wether or not the textarea is invalid. */
   property invalid : Bool = false
+
+  /* The value of the textarea. */
   property value : String = ""
+
+  /* The size of the textarea. */
   property size : Number = 16
 
+  /* The `mousedown` event handler. */
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The `mouseup` event handler. */
   property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The `change` event handler. */
   property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The `keydown` event handler. */
   property onKeyDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+
+  /* The `keyup` event handler. */
   property onKeyUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
 
+  /* The event handler when the user tabs out of the input. */
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
+
+  /* The event handler when the user tabs into the input. */
   property onTabIn : Function(Promise(Never, Void)) = Promise.never
 
+  /* The `focus` event handler. */
   property onFocus : Function(Promise(Never, Void)) = Promise.never
+
+  /* The `blur` event handler. */
   property onBlur : Function(Promise(Never, Void)) = Promise.never
 
+  /* The current value of the input. */
   state currentValue : Maybe(String) = Maybe::Nothing
+
+  /* The ID of the last timeout. */
   state timeoutId : Number = 0
 
   use Providers.TabFocus {
@@ -33,16 +72,14 @@ component Ui.Textarea {
     element = textarea
   }
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
-
+  /* The common styles for the textarea and it's mirror. */
   style common {
     border: 0.125em solid #{actualTheme.border};
     padding: 0.4375em 0.625em;
     box-sizing: border-box;
   }
 
+  /* Styles for the textarea. */
   style textarea {
     border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
     background-color: #{actualTheme.content.color};
@@ -98,6 +135,7 @@ component Ui.Textarea {
     }
   }
 
+  /* Styles for the mirror. */
   style mirror {
     word-break: break-word;
     word-wrap: break-word;
@@ -107,6 +145,7 @@ component Ui.Textarea {
     display: block;
   }
 
+  /* Styles for the base. */
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
@@ -127,36 +166,40 @@ component Ui.Textarea {
     width: 100%;
   }
 
+  /* Returns the actual theme. */
+  get actualTheme : Ui.Theme.Resolved {
+    resolveTheme(theme)
+  }
+
+  /* Focuses the textarea. */
   fun focus : Promise(Never, Void) {
     Dom.focus(textarea)
   }
 
-  fun handleChange (event : Html.Event) : Promise(Never, Void) {
-    sequence {
-      nextValue =
-        Dom.getValue(event.target)
-
-      `clearTimeout(#{timeoutId})`
-
-      id =
-        `setTimeout(#{notify}, #{inputDelay})`
+  /* Handles the `input` and `change` events. */
+  fun handleChange (event : Html.Event) {
+    try {
+      {nextId, nextValue, promise} =
+        Ui.InputDelay.handle(timeoutId, inputDelay, event)
 
       next
         {
-          timeoutId = id,
-          currentValue = Maybe::Just(nextValue)
+          currentValue = Maybe::Just(nextValue),
+          timeoutId = nextId
         }
+
+      sequence {
+        /* Await the promise here. */
+        promise
+
+        onChange(Maybe.withDefault(value, currentValue))
+
+        next { currentValue = Maybe::Nothing }
+      }
     }
   }
 
-  fun notify : Promise(Never, Void) {
-    sequence {
-      onChange(Maybe.withDefault(value, currentValue))
-
-      next { currentValue = Maybe::Nothing }
-    }
-  }
-
+  /* Renders the textarea. */
   fun render : Html {
     <div::base>
       case (behavior) {
@@ -209,7 +252,6 @@ component Ui.Textarea {
       }
 
       <textarea::common::textarea as textarea
-        value={Maybe.withDefault(value, currentValue)}
         onChange={handleChange}
         onInput={handleChange}
         onMouseDown={onMouseDown}
@@ -218,6 +260,7 @@ component Ui.Textarea {
         onFocus={onFocus}
         onKeyUp={onKeyUp}
         onBlur={onBlur}
+        value={Maybe.withDefault(value, currentValue)}
         placeholder={placeholder}
         disabled={disabled}/>
     </div>
