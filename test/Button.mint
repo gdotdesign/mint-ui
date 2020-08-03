@@ -11,13 +11,13 @@ suite "Ui.Button" {
     try {
       handler =
         (event : Html.Event) { Promise.never() }
-        |> Test.spyOn()
+        |> Test.Context.spyOn()
 
       with Test.Html {
         <Ui.Button onClick={handler}/>
         |> start()
         |> triggerClick("button")
-        |> Test.assertFunctionCalled(handler)
+        |> Test.Context.assertFunctionCalled(handler)
       }
     }
   }
@@ -27,13 +27,13 @@ suite "Ui.Button" {
       try {
         handler =
           (event : Html.Event) { Promise.never() }
-          |> Test.spyOn()
+          |> Test.Context.spyOn()
 
         with Test.Html {
           <Ui.Button onMouseDown={handler}/>
           |> start()
           |> triggerMouseDown("button")
-          |> Test.assertFunctionCalled(handler)
+          |> Test.Context.assertFunctionCalled(handler)
         }
       }
     }
@@ -44,13 +44,13 @@ suite "Ui.Button" {
       try {
         handler =
           (event : Html.Event) { Promise.never() }
-          |> Test.spyOn()
+          |> Test.Context.spyOn
 
         with Test.Html {
           <Ui.Button onMouseUp={handler}/>
           |> start()
           |> triggerMouseUp("button")
-          |> Test.assertFunctionCalled(handler)
+          |> Test.Context.assertFunctionCalled(handler)
         }
       }
     }
@@ -74,7 +74,7 @@ suite "Ui.Button - Disabled" {
       try {
         handler =
           (event : Html.Event) { Promise.never() }
-          |> Test.spyOn()
+          |> Test.Context.spyOn
 
         with Test.Html {
           <Ui.Button
@@ -82,7 +82,7 @@ suite "Ui.Button - Disabled" {
             disabled={true}/>
           |> start()
           |> triggerClick("button")
-          |> Test.assertFunctionNotCalled(handler)
+          |> Test.Context.assertFunctionNotCalled(handler)
         }
       }
     }
@@ -93,7 +93,7 @@ suite "Ui.Button - Disabled" {
       try {
         handler =
           (event : Html.Event) { Promise.never() }
-          |> Test.spyOn()
+          |> Test.Context.spyOn
 
         with Test.Html {
           <Ui.Button
@@ -101,7 +101,7 @@ suite "Ui.Button - Disabled" {
             disabled={true}/>
           |> start()
           |> triggerMouseDown("button")
-          |> Test.assertFunctionNotCalled(handler)
+          |> Test.Context.assertFunctionNotCalled(handler)
         }
       }
     }
@@ -112,7 +112,7 @@ suite "Ui.Button - Disabled" {
       try {
         handler =
           (event : Html.Event) { Promise.never() }
-          |> Test.spyOn()
+          |> Test.Context.spyOn
 
         with Test.Html {
           <Ui.Button
@@ -120,7 +120,7 @@ suite "Ui.Button - Disabled" {
             disabled={true}/>
           |> start()
           |> triggerMouseUp("button")
-          |> Test.assertFunctionNotCalled(handler)
+          |> Test.Context.assertFunctionNotCalled(handler)
         }
       }
     }

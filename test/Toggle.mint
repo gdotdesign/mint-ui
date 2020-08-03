@@ -3,13 +3,13 @@ suite "Ui.Toggle" {
     try {
       handler =
         (event : Bool) { Promise.never() }
-        |> Test.spyOn()
+        |> Test.Context.spyOn
 
       with Test.Html {
         <Ui.Toggle onChange={handler}/>
         |> start()
         |> triggerClick("button")
-        |> Test.assertFunctionCalled(handler)
+        |> Test.Context.assertFunctionCalled(handler)
       }
     }
   }
@@ -21,7 +21,7 @@ suite "Ui.Toggle - Disabled" {
       try {
         handler =
           (event : Bool) { Promise.never() }
-          |> Test.spyOn()
+          |> Test.Context.spyOn
 
         with Test.Html {
           <Ui.Toggle
@@ -29,7 +29,7 @@ suite "Ui.Toggle - Disabled" {
             disabled={true}/>
           |> start()
           |> triggerClick("button")
-          |> Test.assertFunctionNotCalled(handler)
+          |> Test.Context.assertFunctionNotCalled(handler)
         }
       }
     }
