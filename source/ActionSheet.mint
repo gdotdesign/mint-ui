@@ -179,7 +179,7 @@ global component Ui.ActionSheet {
     } else {
       try {
         {resolve, reject, promise} =
-          Promise.Extra.create()
+          Promise.create()
 
         next
           {
@@ -194,7 +194,7 @@ global component Ui.ActionSheet {
           Timer.timeout(100, "")
 
           case (container) {
-            Maybe::Just element => Dom.Extra.focusFirst(element)
+            Maybe::Just element => Dom.focusFirst(element)
             Maybe::Nothing => next {  }
           }
         }
@@ -211,7 +211,7 @@ global component Ui.ActionSheet {
 
   /* The close event handler. */
   fun handleClose (event : Html.Event) : Promise(Never, Void) {
-    if (Dom.Extra.containsMaybe(container, event.target)) {
+    if (Dom.containsMaybe(container, event.target)) {
       next {  }
     } else {
       hide()
@@ -231,7 +231,7 @@ global component Ui.ActionSheet {
 
   /* The link click event handler. */
   fun handleLinkClick (href : String, event : Html.Event) {
-    if (String.Extra.isNotEmpty(href)) {
+    if (String.isNotEmpty(href)) {
       sequence {
         Window.navigate(href)
         hide()
@@ -252,7 +252,7 @@ global component Ui.ActionSheet {
     try {
       contents =
         <>
-          if (Html.Extra.isNotEmpty(iconBefore)) {
+          if (Html.isNotEmpty(iconBefore)) {
             <Ui.Icon
               icon={iconBefore}
               autoSize={true}/>
@@ -260,7 +260,7 @@ global component Ui.ActionSheet {
 
           <{ label }>
 
-          if (Html.Extra.isNotEmpty(iconAfter)) {
+          if (Html.isNotEmpty(iconAfter)) {
             <Ui.Icon
               icon={iconAfter}
               autoSize={true}/>
@@ -286,7 +286,7 @@ global component Ui.ActionSheet {
 
       Ui.NavItem::Group iconAfter iconBefore label items =>
         <{
-          renderContents(iconAfter, iconBefore, label, true, Promise.Extra.never1())
+          renderContents(iconAfter, iconBefore, label, true, Promise.never1())
 
           <div::group>
             <div::gutter/>

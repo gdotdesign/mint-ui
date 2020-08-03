@@ -3,7 +3,7 @@ component Ui.Toggle {
   connect Ui exposing { resolveTheme }
 
   /* The change event handler. */
-  property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(Bool, Promise(Never, Void)) = Promise.never1
 
   /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -120,12 +120,12 @@ component Ui.Toggle {
 
       onWidth =
         onLabel
-        |> Dom.Extra.measureText(font)
+        |> Dom.measureText(font)
         |> Math.ceil()
 
       offWidth =
         offLabel
-        |> Dom.Extra.measureText(font)
+        |> Dom.measureText(font)
         |> Math.ceil()
 
       Math.max(offWidth, onWidth) * 2 + size * 3

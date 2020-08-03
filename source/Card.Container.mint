@@ -91,9 +91,9 @@ component Ui.Card.Container {
     try {
       size =
         [
-          Html.Extra.isNotEmpty(title),
-          Html.Extra.isNotEmpty(subtitle),
-          Html.Extra.isNotEmpty(content)
+          Html.isNotEmpty(title),
+          Html.isNotEmpty(subtitle),
+          Html.isNotEmpty(content)
         ]
         |> Array.select((item : Bool) { item })
         |> Array.size()
@@ -111,19 +111,19 @@ component Ui.Card.Container {
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(title)) {
+      if (Html.isNotEmpty(title)) {
         <div::title>
           <{ title }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(subtitle)) {
+      if (Html.isNotEmpty(subtitle)) {
         <div::subtitle>
           <{ subtitle }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(content)) {
+      if (Html.isNotEmpty(content)) {
         <div::content>
           <{ content }>
         </div>

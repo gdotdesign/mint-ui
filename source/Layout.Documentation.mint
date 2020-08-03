@@ -160,14 +160,14 @@ component Ui.Layout.Documentation {
     Refresh the page by setting the hash, this will trigger
     the scrolling to the actual hash.
     */
-    Window.Extra.refreshHash()
+    Window.triggerHashJump()
   }
 
   /* Gets the table of contents data of an element. */
   fun getTocData (element : Dom.Element) : Tuple(String, String) {
     {
-      Dom.Extra.getAttribute("name", element),
-      Dom.Extra.getTextContent(element)
+      Maybe.withDefault("", Dom.getAttribute("name", element)),
+      Dom.getTextContent(element)
     }
   }
 
@@ -177,7 +177,7 @@ component Ui.Layout.Documentation {
       Maybe::Just element =>
         try {
           items =
-            Dom.Extra.getElementsBySelector("a[name]", element)
+            Dom.getElementsBySelector("a[name]", element)
 
           tocItems =
             Array.map(getTocData, items)
@@ -191,8 +191,8 @@ component Ui.Layout.Documentation {
 
   /* Handles the click event of a table of contents item. */
   fun handleClick (event : Html.Event) {
-    if (Dom.Extra.getTagName(event.target) == "A") {
-      Window.Extra.refreshHash()
+    if (Dom.getTagName(event.target) == "A") {
+      Window.triggerHashJump()
     } else {
       next {  }
     }
@@ -202,7 +202,7 @@ component Ui.Layout.Documentation {
   fun handleChange (key : String) {
     try {
       path =
-        Array.Extra.findByAndMap(
+        Array.findByAndMap(
           (item : Ui.NavItem) {
             case (item) {
               Ui.NavItem::Link label href => {key == label, href}
@@ -221,7 +221,7 @@ component Ui.Layout.Documentation {
   /* Renders the contents of an item. */
   fun renderContents (iconBefore : Html, iconAfter : Html, label : String) {
     <>
-      if (Html.Extra.isNotEmpty(iconBefore)) {
+      if (Html.isNotEmpty(iconBefore)) {
         <Ui.Icon
           icon={iconBefore}
           autoSize={true}/>
@@ -229,7 +229,7 @@ component Ui.Layout.Documentation {
 
       <{ label }>
 
-      if (Html.Extra.isNotEmpty(iconAfter)) {
+      if (Html.isNotEmpty(iconAfter)) {
         <Ui.Icon
           icon={iconAfter}
           autoSize={true}/>
@@ -273,7 +273,7 @@ component Ui.Layout.Documentation {
       if (mobile) {
         try {
           active =
-            Array.Extra.findByAndMap(
+            Array.findByAndMap(
               (item : Ui.NavItem) {
                 case (item) {
                   Ui.NavItem::Link label href => {Window.url().path == href, label}

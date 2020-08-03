@@ -3,7 +3,7 @@ component Ui.Native.AutoComplete {
   connect Ui exposing { resolveTheme }
 
   /* The change event handler. */
-  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(String, Promise(Never, Void)) = Promise.never1
 
   /* The options of the input. */
   property options : Array(String) = []

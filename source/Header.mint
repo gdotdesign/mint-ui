@@ -96,7 +96,7 @@ component Ui.Header {
   /* Renders the contents of an item. */
   fun renderItem (iconBefore : Html, iconAfter : Html, label : String) {
     <>
-      if (Html.Extra.isNotEmpty(iconBefore)) {
+      if (Html.isNotEmpty(iconBefore)) {
         <Ui.Icon
           icon={iconBefore}
           autoSize={true}/>
@@ -104,7 +104,7 @@ component Ui.Header {
 
       <{ label }>
 
-      if (Html.Extra.isNotEmpty(iconAfter)) {
+      if (Html.isNotEmpty(iconAfter)) {
         <Ui.Icon
           icon={iconAfter}
           autoSize={true}/>

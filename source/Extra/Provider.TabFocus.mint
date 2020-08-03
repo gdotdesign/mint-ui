@@ -12,7 +12,7 @@ provider Providers.TabFocus : Provider.TabFocus.Subscription {
     if (event.keyCode == 9) {
       try {
         activeElement =
-          Dom.Extra.getActiveElement()
+          Dom.getActiveElement()
 
         for (subscription of subscriptions) {
           subscription.onTabIn()

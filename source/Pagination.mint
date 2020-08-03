@@ -1,7 +1,7 @@
 /* A component for displaying buttons for paginatable content. */
 component Ui.Pagination {
   /* The change event handler. */
-  property onChange : Function(Number, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(Number, Promise(Never, Void)) = Promise.never1
 
   /* Wether or not the pagination is disabled. */
   property disabled : Bool = false

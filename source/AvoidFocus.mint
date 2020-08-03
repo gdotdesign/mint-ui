@@ -26,8 +26,8 @@ component Ui.AvoidFocus {
     try {
       case (base) {
         Maybe::Just element =>
-          for (element of Dom.Extra.getElementsBySelector("*", element)) {
-            Dom.Extra.setAttribute("tabindex", "-1", element)
+          for (element of Dom.getElementsBySelector("*", element)) {
+            Dom.setAttribute("tabindex", "-1", element)
           }
 
         Maybe::Nothing => []

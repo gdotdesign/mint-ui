@@ -74,7 +74,7 @@ component Ui.Modal.Base {
   /* Focuses the first focusable element in the modal. */
   fun focusFirst : Promise(Never, Void) {
     base
-    |> Maybe.map(Dom.Extra.focusFirst)
+    |> Maybe.map(Dom.focusFirst)
     |> Maybe.withDefault(Promise.never())
   }
 

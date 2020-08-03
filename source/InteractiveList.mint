@@ -3,10 +3,10 @@ component Ui.InteractiveList {
   property items : Array(Ui.ListItem) = []
 
   /* The select event handler (when an item is clicked). */
-  property onClickSelect : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+  property onClickSelect : Function(String, Promise(Never, Void)) = Promise.never1
 
   /* The select event handler. */
-  property onSelect : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+  property onSelect : Function(String, Promise(Never, Void)) = Promise.never1
 
   /* The selected set of items. */
   property selected : Set(String) = Set.empty()
@@ -108,15 +108,15 @@ component Ui.InteractiveList {
   /* Handles the keydown event. */
   fun handleKeyDown (event : Html.Event) {
     case (event.keyCode) {
-      Html.Event.Extra:ENTER => onSelect(intended)
+      Html.Event:ENTER => onSelect(intended)
 
-      Html.Event.Extra:DOWN =>
+      Html.Event:DOWN =>
         try {
           Html.Event.preventDefault(event)
           selectNext(true)
         }
 
-      Html.Event.Extra:UP =>
+      Html.Event:UP =>
         try {
           Html.Event.preventDefault(event)
           selectNext(false)

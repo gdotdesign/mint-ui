@@ -3,10 +3,10 @@ component Ui.Calendar {
   connect Ui exposing { resolveTheme }
 
   /* The month change event handler. */
-  property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
+  property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.never1
 
   /* The change event handler. */
-  property onChange : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(Time, Promise(Never, Void)) = Promise.never1
 
   /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing

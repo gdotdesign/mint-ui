@@ -3,7 +3,7 @@ module Ui.InputDelay {
   fun handle (timeoutId : Number, delay : Number, event : Html.Event) : Tuple(Number, String, Promise(Never, Void)) {
     try {
       {resolve, reject, promise} =
-        Promise.Extra.create()
+        Promise.create()
 
       value =
         Dom.getValue(event.target)

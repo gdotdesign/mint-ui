@@ -36,22 +36,22 @@ component Ui.Input {
   property list : String = ""
 
   /* The event handler for the icons click event. */
-  property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The `mousedown` event handler. */
-  property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The `mouseup` event handler. */
-  property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The `change` event handler. */
-  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(String, Promise(Never, Void)) = Promise.never1
 
   /* The `keydown` event handler. */
-  property onKeyDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onKeyDown : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The `keyup` event handler. */
-  property onKeyUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onKeyUp : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The event handler when the user tabs out of the input. */
   property onTabOut : Function(Promise(Never, Void)) = Promise.never
@@ -172,7 +172,7 @@ component Ui.Input {
 
   /* Wether to show the icon or not. */
   get showIcon : Bool {
-    Html.Extra.isNotEmpty(icon)
+    Html.isNotEmpty(icon)
   }
 
   /* Focuses the input. */

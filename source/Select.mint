@@ -3,7 +3,7 @@ component Ui.Select {
   connect Ui exposing { resolveTheme, mobile }
 
   /* The change event handler. */
-  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(String, Promise(Never, Void)) = Promise.never1
 
   /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -175,16 +175,16 @@ component Ui.Select {
     case (list) {
       Maybe::Just item =>
         case (event.keyCode) {
-          Html.Event.Extra:ESCAPE => next { open = false }
+          Html.Event:ESCAPE => next { open = false }
 
-          Html.Event.Extra:ENTER =>
+          Html.Event:ENTER =>
             sequence {
               item.handleKeyDown(event)
 
               next { open = false }
             }
 
-          Html.Event.Extra:SPACE =>
+          Html.Event:SPACE =>
             try {
               Html.Event.preventDefault(event)
               next { open = true }

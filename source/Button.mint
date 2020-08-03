@@ -9,13 +9,13 @@ component Ui.Button {
   connect Ui exposing { resolveTheme }
 
   /* The mouse down event handler. */
-  property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The mouse up event handler. */
-  property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onMouseUp : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The click event handler. */
-  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* Where to align the text in case the button is wide. */
   property align : String = "center"
@@ -165,19 +165,19 @@ component Ui.Button {
       content =
         <div::container>
           <Ui.LineGrid gap={size * 0.5}>
-            if (Html.Extra.isNotEmpty(iconBefore)) {
+            if (Html.isNotEmpty(iconBefore)) {
               <Ui.Icon
                 icon={iconBefore}
                 size={size}/>
             }
 
-            if (String.Extra.isNotEmpty(label)) {
+            if (String.isNotEmpty(label)) {
               <div::label>
                 <{ label }>
               </div>
             }
 
-            if (Html.Extra.isNotEmpty(iconAfter)) {
+            if (Html.isNotEmpty(iconAfter)) {
               <Ui.Icon
                 icon={iconAfter}
                 size={size}/>
@@ -194,7 +194,7 @@ component Ui.Button {
       clickHandler =
         Ui.disabledHandler(disabled, onClick)
 
-      if (String.Extra.isNotEmpty(href) && !disabled) {
+      if (String.isNotEmpty(href) && !disabled) {
         <a::styles as anchor
           onMouseDown={mouseDownHandler}
           onMouseUp={mouseUpHandler}

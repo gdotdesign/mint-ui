@@ -6,7 +6,7 @@ component Ui.Checkbox {
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The handler for the change event. */
-  property onChange : Function(Bool, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(Bool, Promise(Never, Void)) = Promise.never1
 
   /* Wether or not the checkbox is disabled. */
   property disabled : Bool = false

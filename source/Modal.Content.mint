@@ -54,7 +54,7 @@ component Ui.Modal.Content {
     align-items: center;
     display: flex;
 
-    if (!Html.Extra.isNotEmpty(error)) {
+    if (!Html.isNotEmpty(error)) {
       border-bottom: 0.0625em solid #{actualTheme.border};
     }
   }
@@ -147,7 +147,7 @@ component Ui.Modal.Content {
   fun render : Html {
     <div::base>
       <div::header>
-        if (Html.Extra.isNotEmpty(icon)) {
+        if (Html.isNotEmpty(icon)) {
           <div::icon>
             <Ui.Icon
               size={1.375 * size}
@@ -165,7 +165,7 @@ component Ui.Modal.Content {
           icon={Ui.Icons:X}/>
       </div>
 
-      if (Html.Extra.isNotEmpty(error)) {
+      if (Html.isNotEmpty(error)) {
         <div::error>
           <{ error }>
         </div>
@@ -175,7 +175,7 @@ component Ui.Modal.Content {
         <{ content }>
       </div>
 
-      if (Html.Extra.isNotEmpty(actions)) {
+      if (Html.isNotEmpty(actions)) {
         <div::actions>
           <{ actions }>
         </div>

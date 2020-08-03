@@ -196,15 +196,15 @@ component Ui.ScrollPanel {
         {
           scrollPosition =
             horizontal
-            |> Maybe.map(Dom.Extra.getScrollLeft)
+            |> Maybe.map(Dom.getScrollLeft)
             |> Maybe.withDefault(0),
           clientSize =
             horizontal
-            |> Maybe.map(Dom.Extra.getClientWidth)
+            |> Maybe.map(Dom.getClientWidth)
             |> Maybe.withDefault(0),
           scrollSize =
             horizontal
-            |> Maybe.map(Dom.Extra.getScrollWidth)
+            |> Maybe.map(Dom.getScrollWidth)
             |> Maybe.withDefault(0)
         }
     } else {
@@ -212,15 +212,15 @@ component Ui.ScrollPanel {
         {
           scrollPosition =
             vertical
-            |> Maybe.map(Dom.Extra.getScrollTop)
+            |> Maybe.map(Dom.getScrollTop)
             |> Maybe.withDefault(0),
           clientSize =
             vertical
-            |> Maybe.map(Dom.Extra.getClientHeight)
+            |> Maybe.map(Dom.getClientHeight)
             |> Maybe.withDefault(0),
           scrollSize =
             vertical
-            |> Maybe.map(Dom.Extra.getScrollHeight)
+            |> Maybe.map(Dom.getScrollHeight)
             |> Maybe.withDefault(0)
         }
     }

@@ -156,7 +156,7 @@ component Ui.Example {
           </div>
         </div>
 
-        if (Html.Extra.isNotEmpty(controlsHtml)) {
+        if (Html.isNotEmpty(controlsHtml)) {
           <div::controls>
             <{ controlsHtml }>
           </div>

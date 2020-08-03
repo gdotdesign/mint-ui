@@ -53,7 +53,7 @@ global component Ui.Modal {
   ) : Promise(String, Void) {
     try {
       {resolve, reject, promise} =
-        Promise.Extra.create()
+        Promise.create()
 
       next
         {

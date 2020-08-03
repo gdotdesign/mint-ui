@@ -3,7 +3,7 @@ component Ui.Calendar.Cell {
   connect Ui exposing { resolveTheme }
 
   /* The click event. */
-  property onClick : Function(Time, Promise(Never, Void)) = Promise.Extra.never1
+  property onClick : Function(Time, Promise(Never, Void)) = Promise.never1
 
   /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing

@@ -66,7 +66,7 @@ component Ui.Layout.Stacked {
           {html, ratio} =
             item
 
-          if (Html.Extra.isNotEmpty(html)) {
+          if (Html.isNotEmpty(html)) {
             Maybe::Just(ratio)
           } else {
             Maybe::Nothing
@@ -80,31 +80,31 @@ component Ui.Layout.Stacked {
   /* Renders the component. */
   fun render : Html {
     <div::base>
-      if (Html.Extra.isNotEmpty(notification)) {
+      if (Html.isNotEmpty(notification)) {
         <div>
           <{ notification }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(header)) {
+      if (Html.isNotEmpty(header)) {
         <div>
           <{ header }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(breadcrumbs)) {
+      if (Html.isNotEmpty(breadcrumbs)) {
         <div>
           <{ breadcrumbs }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(content)) {
+      if (Html.isNotEmpty(content)) {
         <div::content>
           <{ content }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(footer)) {
+      if (Html.isNotEmpty(footer)) {
         <div>
           <{ footer }>
         </div>

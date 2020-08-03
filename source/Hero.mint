@@ -81,19 +81,19 @@ component Ui.Hero {
   /* Renders the component. */
   fun render : Html {
     <div::base>
-      if (Html.Extra.isNotEmpty(title)) {
+      if (Html.isNotEmpty(title)) {
         <div::title>
           <{ title }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(subtitle)) {
+      if (Html.isNotEmpty(subtitle)) {
         <div::subtitle>
           <{ subtitle }>
         </div>
       }
 
-      if (Html.Extra.isNotEmpty(actions)) {
+      if (Html.isNotEmpty(actions)) {
         <div::actions>
           <{ actions }>
         </div>

@@ -13,7 +13,7 @@ component Ui.FocusTrap {
               Maybe::Just(event.target)
 
             elements =
-              Dom.Extra.focusableElements(element)
+              Dom.focusableElements(element)
 
             first =
               Array.first(elements)

@@ -3,7 +3,7 @@ component Ui.Table.Header {
   connect Ui exposing { resolveTheme }
 
   /* The handler for the order change event. */
-  property onOrderChange : Function(Tuple(String, String), Promise(Never, Void)) = Promise.Extra.never1
+  property onOrderChange : Function(Tuple(String, String), Promise(Never, Void)) = Promise.never1
 
   /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing

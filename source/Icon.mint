@@ -3,7 +3,7 @@ component Ui.Icon {
   connect Ui exposing { resolveTheme }
 
   /* The click event handler. */
-  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The theme for the component. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -85,7 +85,7 @@ component Ui.Icon {
 
   fun render : Html {
     try {
-      if (String.Extra.isNotEmpty(href)) {
+      if (String.isNotEmpty(href)) {
         <a::base::link href={href}>
           <{ icon }>
         </a>

@@ -6,7 +6,7 @@ component Ui.Tabs {
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The change event handler. */
-  property onChange : Function(String, Promise(Never, Void)) = Promise.Extra.never1
+  property onChange : Function(String, Promise(Never, Void)) = Promise.never1
 
   /* The data for the tabs. */
   property items : Array(Ui.Tab) = []
@@ -94,7 +94,7 @@ component Ui.Tabs {
       <div::tabs>
         for (tab of items) {
           <button::tab(tab.key == active) onClick={() { handleSelect(tab.key) }}>
-            if (Html.Extra.isNotEmpty(tab.iconBefore)) {
+            if (Html.isNotEmpty(tab.iconBefore)) {
               <Ui.Icon
                 icon={tab.iconBefore}
                 autoSize={true}/>
@@ -102,7 +102,7 @@ component Ui.Tabs {
 
             <{ tab.label }>
 
-            if (Html.Extra.isNotEmpty(tab.iconAfter)) {
+            if (Html.isNotEmpty(tab.iconAfter)) {
               <Ui.Icon
                 icon={tab.iconAfter}
                 autoSize={true}/>

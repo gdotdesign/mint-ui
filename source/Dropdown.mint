@@ -6,7 +6,7 @@ component Ui.Dropdown {
   connect Ui exposing { mobile }
 
   /* The click event handler. */
-  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.Extra.never1
+  property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
   /* The close event handler. */
   property onClose : Function(Promise(Never, Void)) = Promise.never
@@ -39,8 +39,8 @@ component Ui.Dropdown {
   state width : Number = 0
 
   use Provider.Mouse {
-    clicks = Promise.Extra.never1,
-    moves = Promise.Extra.never1,
+    clicks = Promise.never1,
+    moves = Promise.never1,
     ups = close
   } when {
     open

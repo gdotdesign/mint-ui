@@ -3,15 +3,10 @@ record Provider.ElementSize.Subscription {
   element : Maybe(Dom.Element)
 }
 
-record ResizeObserver.Entry {
-  contentRect : Object,
-  target : Dom.Element
-}
-
 /* A provider for global "popstate" events. */
 provider Provider.ElementSize : Provider.ElementSize.Subscription {
   state observedElements : Array(Maybe(Dom.Element)) = []
-  state observer = `new ResizeObserver(#{notify})`
+  state observer = ResizeObserver.new(notify)
 
   fun notify (entries : Array(ResizeObserver.Entry)) {
     for (entry of entries) {
@@ -19,14 +14,7 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
         case (subscription.element) {
           Maybe::Just element =>
             if (element == entry.target) {
-              try {
-                dimensions =
-                  decode entry.contentRect as Dom.Dimensions
-
-                subscription.changes(dimensions)
-              } catch {
-                next {  }
-              }
+              subscription.changes(entry.dimensions)
             } else {
               next {  }
             }
@@ -41,13 +29,18 @@ provider Provider.ElementSize : Provider.ElementSize.Subscription {
   fun update : Promise(Never, Void) {
     try {
       for (element of Array.compact(observedElements)) {
-        `#{observer}.unobserve(#{element})`
+        ResizeObserver.unobserve(element, observer)
       }
 
       for (subscription of subscriptions) {
         case (subscription.element) {
-          Maybe::Just element => `#{observer}.observe(#{element})`
-          Maybe::Nothing => ""
+          Maybe::Just element =>
+            try {
+              ResizeObserver.observe(element, observer)
+              void
+            }
+
+          Maybe::Nothing => void
         }
       }
 

@@ -105,7 +105,7 @@ store Ui {
     handler : Function(a, Promise(Never, Void))
   ) : Function(a, Promise(Never, Void)) {
     if (disabled) {
-      Promise.Extra.never1()
+      Promise.never1()
     } else {
       handler
     }

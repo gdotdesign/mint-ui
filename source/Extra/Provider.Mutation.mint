@@ -3,14 +3,9 @@ record Provider.Mutation.Subscription {
   element : Maybe(Dom.Element)
 }
 
-record MutationObserver.Entry {
-  target : Dom.Element,
-  type : String
-}
-
 provider Provider.Mutation : Provider.Mutation.Subscription {
   state observedElements : Array(Maybe(Dom.Element)) = []
-  state observer = `new MutationObserver(#{notify})`
+  state observer = MutationObserver.new(notify)
 
   fun notify (entries : Array(MutationObserver.Entry)) {
     for (entry of entries) {
@@ -32,14 +27,14 @@ provider Provider.Mutation : Provider.Mutation.Subscription {
   fun update : Promise(Never, Void) {
     try {
       for (element of Array.compact(observedElements)) {
-        `#{observer}.disconnect(#{element})`
+        MutationObserver.unobserve(element, observer)
       }
 
       for (subscription of subscriptions) {
         case (subscription.element) {
           Maybe::Just element =>
             try {
-              `#{observer}.observe(#{element}, {subtree: true, childList: true})`
+              MutationObserver.observe(element, true, true, observer)
               subscription.changes()
             }
 
