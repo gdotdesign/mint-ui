@@ -1,5 +1,5 @@
 /*
-Simple button component with a label and icons before or after.
+Simple button component with a label and icons before or after the label.
 
 It works in two modes:
 - as a button, the `onClick` event needs to be handled
@@ -56,10 +56,11 @@ component Ui.Button {
     display: inline-block;
 
     font-family: var(--font-family);
-    text-decoration: none;
     font-size: #{size}px;
-    line-height: 130%;
     font-weight: bold;
+
+    text-decoration: none;
+    line-height: 130%;
 
     box-sizing: border-box;
     user-select: none;
@@ -72,10 +73,6 @@ component Ui.Button {
     border: 0;
 
     case (type) {
-      "surface" =>
-        background-color: var(--surface-color);
-        color: var(--surface-text);
-
       "warning" =>
         background-color: var(--warning-s500-color);
         color: var(--warning-s500-text);
@@ -91,6 +88,10 @@ component Ui.Button {
       "danger" =>
         background-color: var(--danger-s500-color);
         color: var(--danger-s500-text);
+
+      "surface" =>
+        background-color: var(--surface-color);
+        color: var(--surface-text);
 
       =>
     }

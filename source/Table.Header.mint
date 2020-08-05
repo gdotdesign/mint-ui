@@ -66,6 +66,7 @@ component Ui.Table.Header {
     }
   }
 
+  /* Renders the header. */
   fun render : Html {
     <th::base>
       <div::wrap>

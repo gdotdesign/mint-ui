@@ -1,35 +1,5 @@
 /* A component for getting user input. */
 component Ui.Input {
-  /* The placeholder to show. */
-  property placeholder : String = ""
-
-  /* The number of milliseconds to delay the `onChange` event. */
-  property inputDelay : Number = 0
-
-  /* Wether or not the input is disabled. */
-  property disabled : Bool = false
-
-  /* Wether or not the input is invalid. */
-  property invalid : Bool = false
-
-  /* The type of the input, should be either `text` or `email`. */
-  property type : String = "text"
-
-  /* The value of the input. */
-  property value : String = ""
-
-  /* The size of the input. */
-  property size : Number = 16
-
-  /* Wether or not the icon is interactive. */
-  property iconInteractive : Bool = false
-
-  /* The content for the icon. */
-  property icon : Html = <></>
-
-  /* The ID of the datalist element to connect to this input. */
-  property list : String = ""
-
   /* The event handler for the icons click event. */
   property onIconClick : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
@@ -59,6 +29,36 @@ component Ui.Input {
 
   /* The `blur` event handler. */
   property onBlur : Function(Promise(Never, Void)) = Promise.never
+
+  /* Wether or not the icon is interactive. */
+  property iconInteractive : Bool = false
+
+  /* The placeholder to show. */
+  property placeholder : String = ""
+
+  /* The number of milliseconds to delay the `onChange` event. */
+  property inputDelay : Number = 0
+
+  /* Wether or not the input is disabled. */
+  property disabled : Bool = false
+
+  /* Wether or not the input is invalid. */
+  property invalid : Bool = false
+
+  /* The type of the input, should be either `text` or `email`. */
+  property type : String = "text"
+
+  /* The value of the input. */
+  property value : String = ""
+
+  /* The size of the input. */
+  property size : Number = 16
+
+  /* The content for the icon. */
+  property icon : Html = <></>
+
+  /* The ID of the datalist element to connect to this input. */
+  property list : String = ""
 
   /* The current value of the input. */
   state currentValue : Maybe(String) = Maybe::Nothing
@@ -197,9 +197,9 @@ component Ui.Input {
   fun render : Html {
     <div::base>
       <input::input as input
+        onMouseDown={onMouseDown}
         onChange={handleChange}
         onInput={handleChange}
-        onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         onKeyDown={onKeyDown}
         onFocus={onFocus}

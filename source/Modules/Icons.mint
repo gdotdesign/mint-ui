@@ -1,4 +1,9 @@
-/* A module for accessing the svg icons. */
+/*
+A module for accessing the svg icons.
+
+These icons are from the original Octicons (9.6.0):
+https://github.com/primer/octicons/tree/v9.6.0
+*/
 module Ui.Icons {
   const ALERT = @svg(../../assets/icons/alert.svg)
   const ARCHIVE = @svg(../../assets/icons/archive.svg)

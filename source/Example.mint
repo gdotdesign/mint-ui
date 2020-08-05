@@ -10,7 +10,7 @@ component Ui.Example {
   property fill : Bool = false
 
   /* The controls. */
-  property controls : Function(Html) = () { <></> }
+  property controls : Html = <></>
 
   /* Controls when to use a one column layout. */
   property breakpoint : Number = 1000
@@ -133,9 +133,6 @@ component Ui.Example {
   /* Renders the component. */
   fun render : Html {
     try {
-      controlsHtml =
-        controls()
-
       {content, code} =
         data
 
@@ -146,9 +143,9 @@ component Ui.Example {
           </div>
         </div>
 
-        if (Html.isNotEmpty(controlsHtml)) {
+        if (Html.isNotEmpty(controls)) {
           <div::controls>
-            <{ controlsHtml }>
+            <{ controls }>
           </div>
         }
 

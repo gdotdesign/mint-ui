@@ -23,6 +23,13 @@ component Ui.Modal.Base {
   /* Wether or not the modal is open. */
   property open : Bool = false
 
+  use Provider.OutsideClick {
+    element = wrapper,
+    clicks = onClose
+  } when {
+    open
+  }
+
   /* Styles for the base element. */
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -73,25 +80,16 @@ component Ui.Modal.Base {
 
   /* Focuses the first focusable element in the modal. */
   fun focusFirst : Promise(Never, Void) {
-    base
+    wrapper
     |> Maybe.map(Dom.focusFirst)
     |> Maybe.withDefault(Promise.never())
-  }
-
-  /* Handles the click event on the backdrop. */
-  fun handleClick (event : Html.Event) : Promise(Never, Void) {
-    if (Maybe::Just(event.target) == base && closeOnOutsideClick) {
-      onClose()
-    } else {
-      next {  }
-    }
   }
 
   /* Renders the modal. */
   fun render : Html {
     <Ui.FocusTrap>
-      <div::base as base onClick={handleClick}>
-        <div::wrapper>
+      <div::base>
+        <div::wrapper as wrapper>
           <{ content }>
         </div>
       </div>

@@ -73,8 +73,18 @@ component Ui.Icon {
     color: inherit;
   }
 
+  /* The style for the button. */
   style button {
-    all: unset;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    color: inherit;
+    outline: 0;
+    padding: 0;
+    border: 0;
+    margin: 0;
   }
 
   fun render : Html {

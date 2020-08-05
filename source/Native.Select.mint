@@ -24,6 +24,7 @@ component Ui.Native.Select {
   /* A variable for tracking the focused state. */
   state focused : Bool = false
 
+  /* Styles for the element. */
   style element {
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
     border: #{size * 0.125}px solid var(--border);
@@ -63,11 +64,13 @@ component Ui.Native.Select {
     }
   }
 
+  /* Styles for the placeholder. */
   style placeholder {
     user-select: none;
     opacity: 0.5;
   }
 
+  /* Styles for the select. */
   style select {
     position: absolute;
     cursor: pointer;
@@ -84,6 +87,7 @@ component Ui.Native.Select {
     }
   }
 
+  /* Styles for the grid. */
   style grid {
     grid-template-columns: 1fr min-content;
     align-items: center;
@@ -113,8 +117,7 @@ component Ui.Native.Select {
     try {
       label =
         items
-        |> Array.find(
-          (item : Ui.ListItem) : Bool { Ui.ListItem.key(item) == value })
+        |> Array.find((item : Ui.ListItem) { Ui.ListItem.key(item) == value })
         |> Maybe.map(
           (item : Ui.ListItem) {
             <div>

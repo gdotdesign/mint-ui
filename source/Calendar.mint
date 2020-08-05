@@ -1,4 +1,4 @@
-/* A simple calendar component where the days can be selected on. */
+/* A simple calendar component where the days can be selected. */
 component Ui.Calendar {
   /* The month change event handler. */
   property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.never1
@@ -28,12 +28,13 @@ component Ui.Calendar {
 
     background: var(--content-color);
     color: var(--content-text);
+    padding: 1.25em;
 
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
     border: 0.125em solid var(--border);
+
     font-family: var(--font-family);
     font-size: #{size}px;
-    padding: 1.25em;
 
     grid-gap: 1em;
     display: grid;

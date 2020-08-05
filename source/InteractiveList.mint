@@ -1,7 +1,5 @@
 /* A vertical list the user can interact with using the keyboard. */
 component Ui.InteractiveList {
-  property items : Array(Ui.ListItem) = []
-
   /* The select event handler (when an item is clicked). */
   property onClickSelect : Function(String, Promise(Never, Void)) = Promise.never1
 
@@ -10,6 +8,9 @@ component Ui.InteractiveList {
 
   /* The selected set of items. */
   property selected : Set(String) = Set.empty()
+
+  /* The items to render. */
+  property items : Array(Ui.ListItem) = []
 
   /* Wether or not the list is interactive. */
   property interactive : Bool = true

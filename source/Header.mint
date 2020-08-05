@@ -2,18 +2,20 @@
 The header component with a brand and navigation items which on mobile collapses
 into a icon which when interacted with opens up an action sheet with the
 navigation items.
+
+TODO: Dropdown items and nested groups.
 */
 component Ui.Header {
   connect Ui exposing { mobile }
+
+  /* The menu icon. */
+  property icon : Html = Ui.Icons:THREE_BARS
 
   /* The navigation items. */
   property items : Array(Ui.NavItem) = []
 
   /* Content for the brand. */
   property brand : Html = <></>
-
-  /* The menu icon. */
-  property icon : Html = Ui.Icons:THREE_BARS
 
   /* The size of the component. */
   property size : Number = 16
@@ -135,10 +137,10 @@ component Ui.Header {
                       open={open}
                       element={
                         <div::item(false)
-                          tabIndex="0"
                           onFocus={() { next { openDropdowns = Map.set(key, true, openDropdowns) } }}
+                          onClick={() { next { openDropdowns = Map.set(key, true, openDropdowns) } }}
                           onBlur={() { next { openDropdowns = Map.set(key, false, openDropdowns) } }}
-                          onClick={() { next { openDropdowns = Map.set(key, true, openDropdowns) } }}>
+                          tabIndex="0">
 
                           <{ renderItem(iconBefore, iconAfter, label) }>
 

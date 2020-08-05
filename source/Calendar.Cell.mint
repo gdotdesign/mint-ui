@@ -1,4 +1,4 @@
-/* This is a cell of the calender component. */
+/* This is a cell of the calendar component. */
 component Ui.Calendar.Cell {
   /* The click event. */
   property onClick : Function(Time, Promise(Never, Void)) = Promise.never1

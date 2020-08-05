@@ -38,9 +38,9 @@ component Ui.Form.Field {
 
   /* The style for the error message. */
   style error {
+    font-family: var(--font-family);
     color: var(--danger-s500-color);
 
-    font-family: var(--font-family);
     font-size: 0.875em;
     font-weight: bold;
   }
@@ -48,10 +48,10 @@ component Ui.Form.Field {
   /* The style for the label. */
   style label {
     font-family: var(--font-family);
+    color: var(--content-text);
+
     font-size: 0.875em;
     font-weight: bold;
-
-    color: var(--content-text);
 
     white-space: nowrap;
     line-height: 1;
@@ -66,7 +66,7 @@ component Ui.Form.Field {
         case (orientation) {
           "horizontal" =>
             <{
-              <div key="control">
+              <div>
                 <{ children }>
               </div>
 
@@ -81,7 +81,7 @@ component Ui.Form.Field {
                 <{ label }>
               </div>
 
-              <div key="control">
+              <div>
                 <{ children }>
               </div>
             }>

@@ -1,9 +1,14 @@
-component Theme {
-  connect Ui exposing { darkMode }
+/* Represents a theme. */
+component Ui.Theme {
+  connect Ui exposing { resolveTheme }
 
+  /* The theme. */
   property theme : Ui.Theme = Ui:DEFAULT_THEME
+
+  /* The children to render. */
   property children : Array(Html) = []
 
+  /* The styles (variables) of the theme. */
   style base (resolved : Ui.Theme.Resolved) {
     /* Primary color variables. */
     --primary-s900-color: #{resolved.primary.s900.color};
@@ -113,7 +118,7 @@ component Theme {
 
     --danger-shadow: #{resolved.danger.shadow};
 
-    /* Primary color variables. */
+    /* Success color variables. */
     --success-s900-color: #{resolved.success.s900.color};
     --success-s900-text: #{resolved.success.s900.text};
 
@@ -163,11 +168,10 @@ component Theme {
     --border-radius-coefficient: #{resolved.borderRadiusCoefficient};
     --font-family: #{resolved.fontFamily};
     --border: #{resolved.border};
-    --dark-mode: #{Bool.toString(darkMode)};
   }
 
   fun render : Html {
-    <div::base(Ui.Theme.resolve(theme, darkMode))>
+    <div::base(resolveTheme(theme))>
       <{ children }>
     </div>
   }

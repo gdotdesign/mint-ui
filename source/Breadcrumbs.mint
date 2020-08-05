@@ -1,6 +1,6 @@
 /*
-Indicate the current page’s location within a navigational hierarchy
-that automatically adds separators.
+Indicates the current page’s location within a navigational hierarchy
+with automatically added separators.
 */
 component Ui.Breadcrumbs {
   connect Ui exposing { mobile }
@@ -49,7 +49,7 @@ component Ui.Breadcrumbs {
     }
   }
 
-  /* The style of the elements which are not clickable. */
+  /* The style of the a breadcrumb. */
   style breadcrumb {
     text-overflow: ellipsis;
     overflow: hidden;

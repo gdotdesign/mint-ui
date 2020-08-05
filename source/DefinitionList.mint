@@ -1,5 +1,14 @@
 /* A definition list component. */
 component Ui.DefinitionList {
+  const DEFAULT_CELL = Ui.Cell::String("")
+
+  const DEAFULT_HEADER = {
+    sortable = false,
+    shrink = false,
+    sortKey = "",
+    label = ""
+  }
+
   /* The data for the headers. */
   property headers : Array(Ui.Table.Header) = []
 
@@ -97,7 +106,7 @@ component Ui.DefinitionList {
                   cell =
                     cells
                     |> Array.at(0)
-                    |> Maybe.withDefault(Ui.Cell::String(""))
+                    |> Maybe.withDefault(DEFAULT_CELL)
 
                   <Ui.Cell cell={cell}/>
                 }
@@ -109,14 +118,9 @@ component Ui.DefinitionList {
             for (cell of cells) {
               try {
                 header =
-                  headers[Array.indexOf(cell, cells)]
-                  |> Maybe.withDefault(
-                    {
-                      sortable = false,
-                      shrink = false,
-                      sortKey = "",
-                      label = ""
-                    })
+                  headers
+                  |> Array.at(Array.indexOf(cell, cells))
+                  |> Maybe.withDefault(DEAFULT_HEADER)
 
                 <div::item>
                   <div::label>

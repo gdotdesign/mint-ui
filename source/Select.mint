@@ -189,6 +189,7 @@ component Ui.Select {
     }
   }
 
+  /* Handles the click event. */
   fun handleClickSelect (value : String) : Promise(Never, Void) {
     sequence {
       onChange(value)
@@ -196,6 +197,7 @@ component Ui.Select {
     }
   }
 
+  /* Renders the select. */
   fun render : Html {
     try {
       content =

@@ -13,9 +13,8 @@ component Ui.Dropdown.Panel {
 
   /* Styles for the panel. */
   style base {
-    box-shadow: 0 0.125em 0.625em -0.125em rgba(0,0,0,0.1);
-
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    box-shadow: 0 0.125em 0.625em -0.125em rgba(0,0,0,0.1);
     border: 0.0625em solid var(--border);
 
     background: var(--content-color);

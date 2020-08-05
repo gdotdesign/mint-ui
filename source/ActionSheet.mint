@@ -3,8 +3,9 @@ An action sheet comes up from the bottom of the screen and displays actions
 a user can take.
 
 - usually this component is used in mobile resolutions
-- showing the component returns a promise which is resolved when the
-  component is closed
+- showing the component returns a promise which is resolved when closed
+- the keyboard focus is trapped in the list (tab and shift-tab)
+- when closed the focus is returned to the last focused element before opening
 */
 global component Ui.ActionSheet {
   connect Ui exposing { mobile }
@@ -129,9 +130,8 @@ global component Ui.ActionSheet {
     margin: 0.625em;
 
     background: var(--content-color);
-    color: var(--content-text);
-
     font-family: var(--font-family);
+    color: var(--content-text);
 
     > * + * {
       border-top: 0.0625em solid var(--border);
@@ -150,16 +150,19 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Styles for a group of items. */
   style group {
     grid-template-columns: 0.4375em 1fr;
     display: grid;
   }
 
+  /* Styles for the gutter on the left. */
   style gutter {
     border-right: 0.0625em solid var(--border);
     background: var(--content-faded-color);
   }
 
+  /* Styles for the group item container. */
   style group-items {
     > * + * {
       border-top: 0.0625em solid var(--border);
@@ -298,14 +301,37 @@ global component Ui.ActionSheet {
     }
   }
 
+  /* Renders the given navigation item. */
   fun renderItem (item : Ui.NavItem) : Html {
     case (item) {
-      Ui.NavItem::Item iconAfter iconBefore label action => renderContents(iconAfter, iconBefore, label, false, handleItemClick(action))
-      Ui.NavItem::Link iconAfter iconBefore label href => renderContents(iconAfter, iconBefore, label, false, handleLinkClick(href))
+      Ui.NavItem::Divider => <div::divider/>
+
+      Ui.NavItem::Item iconAfter iconBefore label action =>
+        renderContents(
+          iconAfter,
+          iconBefore,
+          label,
+          false,
+          handleItemClick(action))
+
+      Ui.NavItem::Link iconAfter iconBefore label href =>
+        renderContents(
+          iconAfter,
+          iconBefore,
+          label,
+          false,
+          handleLinkClick(href))
 
       Ui.NavItem::Group iconAfter iconBefore label items =>
-        <{
-          renderContents(iconAfter, iconBefore, label, true, Promise.never1())
+        <>
+          <{
+            renderContents(
+              iconAfter,
+              iconBefore,
+              label,
+              true,
+              Promise.never1())
+          }>
 
           <div::group>
             <div::gutter/>
@@ -316,15 +342,13 @@ global component Ui.ActionSheet {
               }
             </div>
           </div>
-        }>
-
-      Ui.NavItem::Divider => <div::divider/>
+        </>
     }
   }
 
   /* Renders the component. */
   fun render : Html {
-    <Theme theme={theme}>
+    <Ui.Theme theme={theme}>
       <div::base onClick={handleClose}>
         <Ui.FocusTrap>
           <div::items as container>
@@ -334,6 +358,6 @@ global component Ui.ActionSheet {
           </div>
         </Ui.FocusTrap>
       </div>
-    </Theme>
+    </Ui.Theme>
   }
 }

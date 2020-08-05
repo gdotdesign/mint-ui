@@ -37,7 +37,7 @@ component Ui.Cell {
           </code>
 
         Ui.Cell::Actions actions =>
-          <Ui.LineGrid>
+          <Ui.LineGrid gap={size * 0.5}>
             <{ actions }>
           </Ui.LineGrid>
       }

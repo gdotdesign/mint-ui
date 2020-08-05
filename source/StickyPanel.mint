@@ -1,5 +1,6 @@
 /* A panel that sticks to the given element. */
 component Ui.StickyPanel {
+  /* The dummy element. */
   const DUMMY = Dom.createElement("div")
 
   /* The position of the panel. */

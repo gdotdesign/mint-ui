@@ -49,7 +49,7 @@ component Ui.Dropdown {
   use Provider.AnimationFrame {
     frames = updateDimensions
   } when {
-    open
+    open && matchWidth
   }
 
   /* Style for the panel. */

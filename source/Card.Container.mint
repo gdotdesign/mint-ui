@@ -18,9 +18,8 @@ component Ui.Card.Container {
   /* Styles for the base element. */
   style base {
     font-family: var(--font-family);
-    text-align: #{textAlign};
-
     color: var(--content-text);
+    text-align: #{textAlign};
 
     if (!String.isEmpty(thumbnail)) {
       grid-template-columns: 3em 1fr;

@@ -6,6 +6,9 @@ global component Ui.Modal {
   /* The reject function. */
   state reject : Function(String, Void) = (error : String) { void }
 
+  /* The theme. */
+  state theme : Ui.Theme = Ui:DEFAULT_THEME
+
   /* The content of the modal. */
   state content : Html = <></>
 
@@ -36,6 +39,7 @@ global component Ui.Modal {
       content,
       100,
       240,
+      Ui:DEFAULT_THEME,
       () {
         case (base) {
           Maybe::Just comp => comp.focusFirst()
@@ -49,6 +53,7 @@ global component Ui.Modal {
     content : Html,
     zIndex : Number,
     transitionDuration : Number,
+    theme : Ui.Theme,
     openCallback : Function(Promise(Never, Void))
   ) : Promise(String, Void) {
     try {
@@ -62,12 +67,12 @@ global component Ui.Modal {
           resolve = resolve,
           zIndex = zIndex,
           reject = reject,
+          theme = theme,
           open = true
         }
 
       sequence {
         Timer.timeout(transitionDuration, "")
-
         openCallback()
       }
 
@@ -110,11 +115,11 @@ global component Ui.Modal {
 
   /* Renders the modal. */
   fun render : Html {
-    <Theme>
+    <Ui.Theme>
       <Ui.Modal.Base as base
         content={content}
         onClose={hide}
         open={open}/>
-    </Theme>
+    </Ui.Theme>
   }
 }

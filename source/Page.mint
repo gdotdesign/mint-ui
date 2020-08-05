@@ -1,4 +1,8 @@
-/* A component which represents a page, with default styles. */
+/*
+A component which represents a page, with default styles.
+
+TODO: Move the corner images to files.
+*/
 component Ui.Page {
   connect Ui exposing { mobile }
 

@@ -14,21 +14,20 @@ component Ui.Card {
 
   /* Styles for the card. */
   style base {
-    border-radius: calc(1.5625em * var(--border-radius-coefficient));
-
     box-shadow: 0 0 0.0625em 0.0625em var(--border),
                 0 0 0 0.25em var(--content-faded-color);
 
-    min-width: #{minWidth}px;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    background: var(--content-faded-color);
 
     flex-direction: column;
     display: flex;
 
-    background: var(--content-faded-color);
-    outline: none;
-
     text-decoration: none;
     font-size: #{size}px;
+
+    min-width: #{minWidth}px;
+    outline: none;
 
     > * + * {
       border-top: 0.0625em solid var(--border);

@@ -17,7 +17,6 @@ component Ui.FloatingButton {
     appearance: none;
 
     box-shadow: 0 0 #{size * 0.08}px rgba(0,0,0,0.25);
-
     background: var(--primary-s500-color);
     border-radius: 50%;
     padding: 0;
