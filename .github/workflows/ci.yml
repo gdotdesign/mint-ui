@@ -29,5 +29,8 @@ jobs:
         # Mint version.
         version: 0.10.0-pre
     
-    - name: Run script
+    - name: Install dependencies
+      run: mint install
+      
+    - name: Run tests
       run: mint test
