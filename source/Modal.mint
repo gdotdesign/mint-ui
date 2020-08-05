@@ -110,9 +110,11 @@ global component Ui.Modal {
 
   /* Renders the modal. */
   fun render : Html {
-    <Ui.Modal.Base as base
-      content={content}
-      onClose={hide}
-      open={open}/>
+    <Theme>
+      <Ui.Modal.Base as base
+        content={content}
+        onClose={hide}
+        open={open}/>
+    </Theme>
   }
 }

@@ -1,10 +1,5 @@
 /* This component is for showing structured content in a Card. */
 component Ui.Card.Container {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* Where to align the text (center, left or right). */
   property textAlign : String = "left"
 
@@ -22,10 +17,10 @@ component Ui.Card.Container {
 
   /* Styles for the base element. */
   style base {
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     text-align: #{textAlign};
 
-    color: #{actualTheme.content.text};
+    color: var(--content-text);
 
     if (!String.isEmpty(thumbnail)) {
       grid-template-columns: 3em 1fr;
@@ -60,7 +55,7 @@ component Ui.Card.Container {
 
   /* Styles for the subtitle. */
   style subtitle {
-    color: #{actualTheme.contentFaded.text};
+    color: var(--content-faded-text);
     font-size: 0.75em;
     line-height: 1.5;
     opacity: 0.6;
@@ -72,15 +67,10 @@ component Ui.Card.Container {
       grid-column: span 2;
     }
 
-    font-family: #{actualTheme.fontFamily};
-    color: #{actualTheme.contentFaded.text};
+    font-family: var(--font-family);
+    color: var(--content-faded-text);
     font-size: 0.875em;
     line-height: 1.6;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /*

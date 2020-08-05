@@ -8,10 +8,7 @@ A component to display content:
 - preformatted text (such as code)
 */
 component Ui.Content {
-  connect Ui exposing { resolveTheme, mobile }
-
-  /* The theme for the content. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The children to display. */
   property children : Array(Html) = []
@@ -27,7 +24,7 @@ component Ui.Content {
 
   /* The styles for the contents. */
   style base {
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     text-align: #{textAlign};
     font-size: #{size}px;
     line-height: 1.7em;
@@ -65,14 +62,14 @@ component Ui.Content {
     }
 
     a:not([name]):not([class]) {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
     }
 
     code {
-      background: #{actualTheme.contentFaded.color};
-      color: #{actualTheme.contentFaded.text};
+      background: var(--content-faded-color);
+      color: var(--content-faded-text);
 
-      border: 0.0625em solid #{actualTheme.border};
+      border: 0.0625em solid var(--border);
       border-radius: 0.125em;
 
       padding: 0.125em 0.375em 0;
@@ -80,11 +77,6 @@ component Ui.Content {
 
       font-size: 0.875em;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the content. */

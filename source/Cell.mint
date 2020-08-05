@@ -1,10 +1,5 @@
 /* Component for rendering a `Ui.Cell` enum. */
 component Ui.Cell {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The size of the cell. */
   property size : Number = 16
 
@@ -18,19 +13,14 @@ component Ui.Cell {
 
   /* Styles for the code. */
   style code {
-    background: #{actualTheme.contentFaded.color};
-    border: 0.0625em solid #{actualTheme.border};
-    color: #{actualTheme.contentFaded.text};
+    background: var(--content-faded-color);
+    border: 0.0625em solid var(--border);
+    color: var(--content-faded-text);
 
     padding: 0.125em 0.375em 0px;
     border-radius: 0.125em;
     font-size: 0.875em;
     white-space: pre;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the cell. */
@@ -48,18 +38,7 @@ component Ui.Cell {
 
         Ui.Cell::Actions actions =>
           <Ui.LineGrid>
-            for (item of actions) {
-              try {
-                {icon, disabled, action} =
-                  item
-
-                <Ui.Icon
-                  disabled={disabled}
-                  interactive={true}
-                  onClick={action}
-                  icon={icon}/>
-              }
-            }
+            <{ actions }>
           </Ui.LineGrid>
       }
     </div>

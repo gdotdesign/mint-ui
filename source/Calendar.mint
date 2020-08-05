@@ -1,15 +1,10 @@
 /* A simple calendar component where the days can be selected on. */
 component Ui.Calendar {
-  connect Ui exposing { resolveTheme }
-
   /* The month change event handler. */
   property onMonthChange : Function(Time, Promise(Never, Void)) = Promise.never1
 
   /* The change event handler. */
   property onChange : Function(Time, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* Wether or not to trigger the `onMonthChange` event if clicking on a day in an other month. */
   property changeMonthOnSelect : Bool = false
@@ -31,12 +26,12 @@ component Ui.Calendar {
     -moz-user-select: none;
     user-select: none;
 
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    border: 0.125em solid #{actualTheme.border};
-    font-family: #{actualTheme.fontFamily};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    border: 0.125em solid var(--border);
+    font-family: var(--font-family);
     font-size: #{size}px;
     padding: 1.25em;
 
@@ -84,19 +79,14 @@ component Ui.Calendar {
 
   /* Style for the day names. */
   style dayNames {
-    border-bottom: 0.0625em solid #{actualTheme.border};
-    border-top: 0.0625em solid #{actualTheme.border};
+    border-bottom: 0.0625em solid var(--border);
+    border-top: 0.0625em solid var(--border);
 
     justify-content: space-between;
     display: flex;
 
     padding: 0.625em 0;
     line-height: 1;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Event handler for the cell click. */

@@ -1,10 +1,5 @@
 /* A simple tabs component. */
 component Ui.Tabs {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The change event handler. */
   property onChange : Function(String, Promise(Never, Void)) = Promise.never1
 
@@ -19,10 +14,10 @@ component Ui.Tabs {
 
   /* The style for the base element. */
   style base {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
 
     grid-template-rows: min-content 1fr;
@@ -31,7 +26,7 @@ component Ui.Tabs {
 
   /* The style for the tab handles container. */
   style tabs {
-    border-bottom: 0.1875em solid #{actualTheme.contentFaded.color};
+    border-bottom: 0.1875em solid var(--content-faded-color);
     grid-auto-flow: column;
     grid-gap: 0.5em;
     display: grid;
@@ -62,21 +57,16 @@ component Ui.Tabs {
     outline: none;
 
     &:focus {
-      border-bottom: 0.1875em solid #{actualTheme.primary.s300.color};
-      color: #{actualTheme.primary.s300.color};
+      border-bottom: 0.1875em solid var(--primary-s300-color);
+      color: var(--primary-s300-color);
     }
 
     if (active) {
-      border-bottom: 0.1875em solid #{actualTheme.primary.s500.color};
-      color: #{actualTheme.primary.s500.color};
+      border-bottom: 0.1875em solid var(--primary-s500-color);
+      color: var(--primary-s500-color);
     } else {
       border-bottom: 0.1875em solid transparent;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The event handler for the tab select. */

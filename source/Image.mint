@@ -1,10 +1,5 @@
 /* An image component. */
 component Ui.Image {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the image. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The value for the border-radius CSS property. */
   property borderRadius : String = ""
 
@@ -67,7 +62,7 @@ component Ui.Image {
 
   /* The style for the base. */
   style base {
-    background: #{actualTheme.surface.color};
+    background: var(--surface-color);
     height: #{height}px;
 
     if (fullWidth) {
@@ -77,15 +72,10 @@ component Ui.Image {
     }
 
     if (String.isEmpty(borderRadius)) {
-      border-radius: #{24 * actualTheme.borderRadiusCoefficient}px;
+      border-radius: calc(24px * var(--border-radius-coefficient));
     } else {
       border-radius: #{borderRadius};
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The load event handler. */

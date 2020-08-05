@@ -1,9 +1,6 @@
 /* A simple hero component with an image, title, subtitle and actions. */
 component Ui.Hero {
-  connect Ui exposing { resolveTheme, mobile }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The content for the subtitle. */
   property subtitle : Html = <></>
@@ -24,9 +21,9 @@ component Ui.Hero {
     align-items: center;
     display: flex;
 
-    background: #{actualTheme.content.color};
-    font-family: #{actualTheme.fontFamily};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    font-family: var(--font-family);
+    color: var(--content-text);
     font-size: #{size}px;
 
     if (mobile) {
@@ -71,11 +68,6 @@ component Ui.Hero {
     } else {
       grid-auto-flow: column;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the component. */

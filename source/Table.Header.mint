@@ -1,12 +1,7 @@
 /* A table header component. */
 component Ui.Table.Header {
-  connect Ui exposing { resolveTheme }
-
   /* The handler for the order change event. */
   property onOrderChange : Function(Tuple(String, String), Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The order direction either "asc" or "desc". */
   property orderDirection : String = ""
@@ -47,15 +42,10 @@ component Ui.Table.Header {
     }
 
     &:hover {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
       cursor: pointer;
       opacity: 1;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The handler for the icon. */

@@ -1,49 +1,42 @@
 component Ui.List.Item {
-  connect Ui exposing { resolveTheme }
-
   property children : Array(Html) = []
 
   property onClick : Function(Html.Event, Promise(Never, Void)) =
     (event : Html.Event) : Promise(Never, Void) { Promise.never() }
 
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
   property intended : Bool = false
   property selected : Bool = false
   property size : Number = 16
 
-  get actualTheme {
-    resolveTheme(theme)
-  }
-
   style selected {
-    background: #{actualTheme.primary.s500.color};
-    color: #{actualTheme.primary.s500.text};
+    background: var(--primary-s500-color);
+    color: var(--primary-s500-text);
 
     &:hover {
-      background: #{actualTheme.primary.s700.color};
-      color: #{actualTheme.primary.s700.text};
+      background: var(--primary-s700-color);
+      color: var(--primary-s700-text);
     }
   }
 
   style normal {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
     &:nth-child(odd) {
-      background: #{actualTheme.contentFaded.color};
-      color: #{actualTheme.contentFaded.text};
+      background: var(--content-faded-color);
+      color: var(--content-faded-text);
     }
 
     &:hover {
-      background: #{actualTheme.primary.s500.color};
-      color: #{actualTheme.primary.s500.text};
+      background: var(--primary-s500-color);
+      color: var(--primary-s500-text);
     }
   }
 
   style base {
     cursor: pointer;
 
-    border-radius: #{15 * actualTheme.borderRadiusCoefficient}px;
+    border-radius: calc(15px * var(--border-radius-coefficient));
     user-select: none;
     padding: 0.625em;
 

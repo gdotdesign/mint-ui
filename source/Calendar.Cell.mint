@@ -1,12 +1,7 @@
 /* This is a cell of the calender component. */
 component Ui.Calendar.Cell {
-  connect Ui exposing { resolveTheme }
-
   /* The click event. */
   property onClick : Function(Time, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* Wether or not the cell is selected. */
   property selected : Bool = false
@@ -25,7 +20,7 @@ component Ui.Calendar.Cell {
 
   /* Styles for the cell. */
   style base {
-    border-radius: #{0.78125 * actualTheme.borderRadiusCoefficient}em;
+    border-radius: calc(0.78125em * var(--border-radius-coefficient));
     font-size: #{size}px;
 
     justify-content: center;
@@ -49,23 +44,18 @@ component Ui.Calendar.Cell {
 
     &:hover {
       if (active) {
-        background: #{actualTheme.primary.s500.color};
-        color: #{actualTheme.primary.s500.text};
+        background: var(--primary-s500-color);
+        color: var(--primary-s500-text);
       } else {
-        background: #{actualTheme.surface.color};
-        color: #{actualTheme.surface.text};
+        background: var(--surface-color);
+        color: var(--surface-text);
       }
     }
 
     if (selected) {
-      background: #{actualTheme.primary.s500.color};
-      color: #{actualTheme.primary.s500.text};
+      background: var(--primary-s500-color);
+      color: var(--primary-s500-text);
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The click event handler. */

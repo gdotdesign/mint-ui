@@ -1,10 +1,5 @@
 /* A vertical layout which usually good for normal websites. */
 component Ui.Layout.Stacked {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* Content for the notification area. */
   property notification : Html = <></>
 
@@ -32,7 +27,7 @@ component Ui.Layout.Stacked {
       min-width: 0;
 
       &:not(:last-child) {
-        border-bottom: 1px solid #{actualTheme.border};
+        border-bottom: 1px solid var(--border);
       }
 
       &:empty {
@@ -44,11 +39,6 @@ component Ui.Layout.Stacked {
   /* Style for the content. */
   style content {
     display: grid;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Returns the data for the `grid-template-rows` CSS property. */

@@ -6,8 +6,6 @@ It works in two modes:
 - as a link if the `href` property is not empty
 */
 component Ui.Button {
-  connect Ui exposing { resolveTheme }
-
   /* The mouse down event handler. */
   property onMouseDown : Function(Html.Event, Promise(Never, Void)) = Promise.never1
 
@@ -47,9 +45,6 @@ component Ui.Button {
   /* The icon after the label. */
   property iconAfter : Html = <></>
 
-  /* The theme for the button. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* Styles for the button. */
   style styles {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -57,10 +52,10 @@ component Ui.Button {
     -webkit-appearance: none;
     appearance: none;
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
     display: inline-block;
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     text-decoration: none;
     font-size: #{size}px;
     line-height: 130%;
@@ -78,24 +73,24 @@ component Ui.Button {
 
     case (type) {
       "surface" =>
-        background-color: #{actualTheme.surface.color};
-        color: #{actualTheme.surface.text};
+        background-color: var(--surface-color);
+        color: var(--surface-text);
 
       "warning" =>
-        background-color: #{actualTheme.warning.s500.color};
-        color: #{actualTheme.warning.s500.text};
+        background-color: var(--warning-s500-color);
+        color: var(--warning-s500-text);
 
       "success" =>
-        background-color: #{actualTheme.success.s500.color};
-        color: #{actualTheme.success.s500.text};
+        background-color: var(--success-s500-color);
+        color: var(--success-s500-text);
 
       "primary" =>
-        background-color: #{actualTheme.primary.s500.color};
-        color: #{actualTheme.primary.s500.text};
+        background-color: var(--primary-s500-color);
+        color: var(--primary-s500-text);
 
       "danger" =>
-        background-color: #{actualTheme.danger.s500.color};
-        color: #{actualTheme.danger.s500.text};
+        background-color: var(--danger-s500-color);
+        color: var(--danger-s500-text);
 
       =>
     }
@@ -106,10 +101,10 @@ component Ui.Button {
 
     &:focus {
       case (type) {
-        "success" => box-shadow: 0 0 0 0.1875em #{actualTheme.success.shadow};
-        "warning" => box-shadow: 0 0 0 0.1875em #{actualTheme.warning.shadow};
-        "primary" => box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-        "danger" => box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
+        "success" => box-shadow: 0 0 0 0.1875em var(--success-shadow);
+        "warning" => box-shadow: 0 0 0 0.1875em var(--warning-shadow);
+        "primary" => box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+        "danger" => box-shadow: 0 0 0 0.1875em var(--danger-shadow);
         =>
       }
     }
@@ -145,11 +140,6 @@ component Ui.Button {
       white-space: nowrap;
       overflow: hidden;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Focuses the button. */

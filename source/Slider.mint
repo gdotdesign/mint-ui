@@ -1,11 +1,6 @@
 component Ui.Slider {
-  connect Ui exposing { resolveTheme }
-
   /* The change event handler. */
   property onChange : Function(Number, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* Wether or not the slider is disabled. */
   property disabled : Bool = false
@@ -46,7 +41,7 @@ component Ui.Slider {
     &::-webkit-slider-thumb,
     &::-moz-range-thumb,
     &::-ms-thumb {
-      background-color: #{actualTheme.primary.s500.color};
+      background-color: var(--primary-s500-color);
       box-sizing: border-box;
       border-radius: 50%;
       height: 1.125em;
@@ -57,20 +52,20 @@ component Ui.Slider {
     &:focus::-webkit-slider-thumb,
     &:focus::-moz-range-thumb,
     &:focus::-ms-thumb {
-      background-color: #{actualTheme.primary.s300.color};
+      background-color: var(--primary-s300-color);
     }
 
     &::-webkit-slider-runnable-track,
     &::-moz-range-track,
     &::-ms-track {
-      border: 0.125em solid #{actualTheme.border};
-      background-color: #{actualTheme.surface.color};
+      border: 0.125em solid var(--border);
+      background-color: var(--surface-color);
       box-sizing: border-box;
       border-radius: 0.3em;
       height: 0.6em;
 
       /* This is the progress indicator. */
-      background-image: linear-gradient(#{actualTheme.primary.s700.color}, #{actualTheme.primary.s700.color});
+      background-image: linear-gradient(var(--primary-s700-color), var(--primary-s700-color));
       background-size: #{(value - min) / (max - min) * 100}% auto;
       background-repeat: repeat-y;
     }
@@ -78,8 +73,8 @@ component Ui.Slider {
     &:focus::-webkit-slider-runnable-track,
     &:focus::-moz-range-track,
     &:focus::-ms-track {
-      box-shadow: 0 0 0 0.15em #{actualTheme.primary.shadow};
-      border-color: #{actualTheme.primary.s500.color};
+      box-shadow: 0 0 0 0.15em var(--primary-shadow);
+      border-color: var(--primary-s500-color);
     }
 
     &:focus {
@@ -95,11 +90,6 @@ component Ui.Slider {
       cursor: not-allowed;
       user-select: none;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The input event handler. */

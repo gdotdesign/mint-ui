@@ -1,10 +1,5 @@
 /* A form field component. */
 component Ui.Form.Field {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The error message. */
   property error : Maybe(String) = Maybe::Nothing
 
@@ -43,29 +38,26 @@ component Ui.Form.Field {
 
   /* The style for the error message. */
   style error {
-    color: #{actualTheme.danger.s500.color};
-    font-family: #{actualTheme.fontFamily};
+    color: var(--danger-s500-color);
+
+    font-family: var(--font-family);
     font-size: 0.875em;
     font-weight: bold;
   }
 
   /* The style for the label. */
   style label {
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: 0.875em;
+    font-weight: bold;
 
-    color: #{actualTheme.content.text};
+    color: var(--content-text);
 
     white-space: nowrap;
-    font-weight: bold;
     line-height: 1;
+
     flex: 0 0 auto;
     opacity: 0.8;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   fun render : Html {

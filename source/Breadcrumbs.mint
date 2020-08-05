@@ -3,10 +3,7 @@ Indicate the current page’s location within a navigational hierarchy
 that automatically adds separators.
 */
 component Ui.Breadcrumbs {
-  connect Ui exposing { resolveTheme, mobile }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The displayed items. */
   property items : Array(Tuple(String, Html)) = []
@@ -19,12 +16,12 @@ component Ui.Breadcrumbs {
 
   /* The style of the base element. */
   style base {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
     padding: 0.875em 2em;
     display: flex;
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
     line-height: 1.2;
   }
@@ -47,7 +44,7 @@ component Ui.Breadcrumbs {
 
     &:hover,
     &:focus {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
       text-decoration: underline;
     }
   }
@@ -61,11 +58,6 @@ component Ui.Breadcrumbs {
     &:not(:last-child) {
       opacity: 0.75;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the component. */
@@ -101,7 +93,7 @@ component Ui.Breadcrumbs {
             <{ separator }>
           </span>
 
-        <nav::base>
+        <nav::base as base>
           <{ Array.intersperse(span, content) }>
         </nav>
       }

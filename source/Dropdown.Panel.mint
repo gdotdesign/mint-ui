@@ -1,9 +1,6 @@
 /* This component is usually used inside of a dropdown. */
 component Ui.Dropdown.Panel {
-  connect Ui exposing { resolveTheme, mobile }
-
-  /* The theme for the hint. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The children to display. */
   property children : Array(Html) = []
@@ -18,25 +15,20 @@ component Ui.Dropdown.Panel {
   style base {
     box-shadow: 0 0.125em 0.625em -0.125em rgba(0,0,0,0.1);
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    border: 0.0625em solid #{actualTheme.border};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    border: 0.0625em solid var(--border);
 
-    background: #{actualTheme.content.color};
+    background: var(--content-color);
     width: #{width};
     padding: 0.5em;
 
-    font-family: #{actualTheme.fontFamily};
-    color: #{actualTheme.content.text};
+    font-family: var(--font-family);
+    color: var(--content-text);
     font-size: #{size}px;
 
     if (mobile) {
       padding: 0.75em;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the panel. */

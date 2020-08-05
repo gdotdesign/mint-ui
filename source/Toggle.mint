@@ -1,12 +1,7 @@
 /* A toggle component. */
 component Ui.Toggle {
-  connect Ui exposing { resolveTheme }
-
   /* The change event handler. */
   property onChange : Function(Bool, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The label for the false position. */
   property offLabel : String = "OFF"
@@ -23,6 +18,9 @@ component Ui.Toggle {
   /* The size of the component. */
   property size : Number = 16
 
+  /* The font family to measure the width of the toggle. */
+  property fontFamily : String = "Arial"
+
   /* Styles for the base element. */
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -31,22 +29,22 @@ component Ui.Toggle {
     appearance: none;
 
     if (checked) {
-      background-color: #{actualTheme.primary.s500.color};
-      border-color: #{actualTheme.primary.s500.color};
-      color: #{actualTheme.primary.s500.text};
+      background-color: var(--primary-s500-color);
+      border-color: var(--primary-s500-color);
+      color: var(--primary-s500-text);
     } else {
-      background-color: #{actualTheme.content.color};
-      border-color: #{actualTheme.border};
-      color: #{actualTheme.content.text};
+      background-color: var(--content-color);
+      border-color: var(--border);
+      color: var(--content-text);
     }
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
     border: 0.125em solid;
 
     display: inline-flex;
     align-items: center;
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
     font-weight: bold;
 
@@ -65,8 +63,8 @@ component Ui.Toggle {
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-      border-color: #{actualTheme.primary.s500.color};
+      box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+      border-color: var(--primary-s500-color);
     }
 
     &:disabled {
@@ -91,8 +89,8 @@ component Ui.Toggle {
 
   /* Styles for the overlay. */
   style overlay {
-    border-radius: #{size * actualTheme.borderRadiusCoefficient}px;
-    background: #{actualTheme.surface.color};
+    border-radius: calc(#{size}px * var(--border-radius-coefficient));
+    background: var(--surface-color);
     width: calc(50% - 0.375em);
     position: absolute;
     bottom: 0.1875em;
@@ -107,16 +105,11 @@ component Ui.Toggle {
     }
   }
 
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
-  }
-
   /* Returns the width of the toggle by measuring the labels. */
   get width : Number {
     try {
       font =
-        "#{size * 0.875}px #{actualTheme.fontFamily}"
+        "#{size * 0.875}px #{fontFamily}"
 
       onWidth =
         onLabel

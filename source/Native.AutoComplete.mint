@@ -1,7 +1,5 @@
 /* An auto complete component using the native `datalist` element. */
 component Ui.Native.AutoComplete {
-  connect Ui exposing { resolveTheme }
-
   /* The change event handler. */
   property onChange : Function(String, Promise(Never, Void)) = Promise.never1
 

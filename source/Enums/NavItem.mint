@@ -1,10 +1,12 @@
 /*
 Represents a navigation item, it is used in certain components:
-- Ui.ActionSheet
-- Ui.Header
+
+- `Ui.ActionSheet`
+- `Ui.Header`
+- `Ui.Layout.Documentation`
 */
 enum Ui.NavItem {
-  /* A divider. */
+  /* A divider between items. */
   Divider
 
   /* A group of other navigation items. */

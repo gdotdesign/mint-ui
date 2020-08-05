@@ -3,8 +3,6 @@ A scrollable container with custom scrollbars and indicators for more items
 at the start and end of the container.
 */
 component Ui.ScrollPanel {
-  connect Ui exposing { resolveTheme }
-
   /* The theme for the button. */
   property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
@@ -53,7 +51,7 @@ component Ui.ScrollPanel {
 
   /* Base style for the component. */
   style base {
-    scrollbar-color: #{actualTheme.surface.color} #{actualTheme.contentFaded.color};
+    scrollbar-color: var(--surface-color) var(--content-faded-color);
     scrollbar-width: thin;
     outline: none;
 
@@ -74,20 +72,21 @@ component Ui.ScrollPanel {
     }
 
     &::-webkit-scrollbar {
+      cursor: pointer;
       height: 6px;
       width: 6px;
     }
 
     &::-webkit-scrollbar-track {
-      background: #{actualTheme.contentFaded.color};
+      background: var(--content-faded-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #{actualTheme.surface.color};
+      background: var(--surface-color);
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: #{actualTheme.surface.color};
+      background: var(--primary-s500-color);
     }
   }
 
@@ -182,11 +181,6 @@ component Ui.ScrollPanel {
     } else {
       padding-right: #{extraPadding}px;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Sets the state variables from the current state of the element. */

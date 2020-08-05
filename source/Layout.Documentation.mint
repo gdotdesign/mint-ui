@@ -1,12 +1,9 @@
 /* A layout component for displaying documentation. */
 component Ui.Layout.Documentation {
-  connect Ui exposing { mobile, resolveTheme }
+  connect Ui exposing { mobile }
 
   /* The items groupped by a string. */
   property items : Array(Ui.NavItem) = []
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The content to render. */
   property children : Array(Html) = []
@@ -25,14 +22,14 @@ component Ui.Layout.Documentation {
 
   /* The styles for the base. */
   style base {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
     grid-template-columns: 18.75em 1fr 18.75em;
     grid-gap: 1.25em;
     display: grid;
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
 
     if (mobile) {
@@ -53,13 +50,13 @@ component Ui.Layout.Documentation {
     color: inherit;
 
     &:hover {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
     }
   }
 
   /* Styles for the table of contents. */
   style toc {
-    border-left: 0.0625em solid #{actualTheme.border};
+    border-left: 0.0625em solid var(--border);
     align-self: start;
 
     padding: 0.3125em 1.25em;
@@ -98,22 +95,22 @@ component Ui.Layout.Documentation {
     color: inherit;
 
     if (active) {
-      color: #{actualTheme.primary.s600.color};
+      color: var(--primary-s600-color);
     }
 
     &:hover {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
     }
   }
 
   /* Style for the divider. */
   style divider {
-    border-top: 0.125em solid #{actualTheme.border};
+    border-top: 0.125em solid var(--border);
   }
 
   /* Style for the mobile page selector. */
   style button {
-    border-bottom: 0.0625em solid #{actualTheme.border};
+    border-bottom: 0.0625em solid var(--border);
     display: grid;
     padding: 1em;
   }
@@ -124,7 +121,7 @@ component Ui.Layout.Documentation {
 
     > div {
       padding-left: 0.75em;
-      border-left: 1px solid #{actualTheme.border};
+      border-left: 1px solid var(--border);
     }
 
     strong {
@@ -145,13 +142,8 @@ component Ui.Layout.Documentation {
 
   /* Style for the items. */
   style sidebar {
-    border-right: 0.0625em solid #{actualTheme.border};
+    border-right: 0.0625em solid var(--border);
     padding: 2em;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* When the component is mounted. */

@@ -1,10 +1,5 @@
 /* A highlighted hint for some content. */
 component Ui.ContentHint {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the hint. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The children to display. */
   property children : Array(Html) = []
 
@@ -21,9 +16,16 @@ component Ui.ContentHint {
     grid-gap: 1.4em;
     display: grid;
 
-    background: #{actualTheme.contentFaded.color};
-    color: #{actualTheme.contentFaded.text};
-    border-left: 0.25em solid #{color};
+    background: var(--content-faded-color);
+    color: var(--content-faded-text);
+
+    case (type) {
+      "primary" => border-left: 0.25em solid var(--primary-s500-color);
+      "warning" => border-left: 0.25em solid var(--warning-s500-color);
+      "success" => border-left: 0.25em solid var(--success-s500-color);
+      "danger" => border-left: 0.25em solid var(--danger-s500-color);
+      =>
+    }
 
     line-height: 150%;
     padding: 1.25em;
@@ -33,22 +35,13 @@ component Ui.ContentHint {
   /* The style for the icon. */
   style icon {
     font-size: 1.6em;
-    color: #{color};
-  }
 
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
-  }
-
-  /* Returns the color. */
-  get color {
     case (type) {
-      "primary" => actualTheme.primary.s500.color
-      "warning" => actualTheme.warning.s500.color
-      "success" => actualTheme.success.s500.color
-      "danger" => actualTheme.danger.s500.color
-      => ""
+      "primary" => color: var(--primary-s500-color);
+      "warning" => color: var(--warning-s500-color);
+      "success" => color: var(--success-s500-color);
+      "danger" => color: var(--danger-s500-color);
+      =>
     }
   }
 

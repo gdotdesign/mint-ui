@@ -1,12 +1,7 @@
 /* A component to render SVG icons. */
 component Ui.Icon {
-  connect Ui exposing { resolveTheme }
-
   /* The click event handler. */
   property onClick : Function(Html.Event, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* Wether or not the icon can be interacted with. */
   property interactive : Bool = false
@@ -38,8 +33,12 @@ component Ui.Icon {
     &:focus,
     &:hover {
       if (interactive && !disabled) {
-        color: #{actualTheme.primary.s500.color};
+        color: var(--primary-s500-color);
       }
+    }
+
+    if (disabled) {
+      cursor: not-allowed;
     }
 
     svg {
@@ -76,11 +75,6 @@ component Ui.Icon {
 
   style button {
     all: unset;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   fun render : Html {

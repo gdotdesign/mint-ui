@@ -115,13 +115,11 @@ component Ui.Dropdown {
       <>
         <{ element }>
 
-        <Html.Portals.Body>
-          <Ui.Modal.Base
-            closeOnOutsideClick={closeOnOutsideClick}
-            onClose={onClose}
-            content={content}
-            open={open}/>
-        </Html.Portals.Body>
+        <Ui.Modal.Base
+          closeOnOutsideClick={closeOnOutsideClick}
+          onClose={onClose}
+          content={content}
+          open={open}/>
       </>
     } else {
       <Ui.StickyPanel as stickyPanel

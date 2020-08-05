@@ -4,10 +4,7 @@ into a icon which when interacted with opens up an action sheet with the
 navigation items.
 */
 component Ui.Header {
-  connect Ui exposing { resolveTheme, mobile }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The navigation items. */
   property items : Array(Ui.NavItem) = []
@@ -30,10 +27,10 @@ component Ui.Header {
 
   /* The style for the base. */
   style base {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
 
     justify-content: space-between;
@@ -65,27 +62,22 @@ component Ui.Header {
     cursor: pointer;
 
     if (active) {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
     } else {
       color: inherit;
     }
 
     &:hover,
     &:focus {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
       text-decoration: underline;
     }
   }
 
   /* The style for the divider. */
   style divider {
-    border-left: 0.2em solid #{actualTheme.border};
+    border-left: 0.2em solid var(--border);
     height: 2.4em;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The menu icon click handler. */

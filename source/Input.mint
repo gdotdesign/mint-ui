@@ -1,10 +1,5 @@
 /* A component for getting user input. */
 component Ui.Input {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The placeholder to show. */
   property placeholder : String = ""
 
@@ -83,11 +78,11 @@ component Ui.Input {
     -webkit-touch-callout: none;
     box-sizing: border-box;
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    background-color: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    background-color: var(--content-color);
+    color: var(--content-text);
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: inherit;
 
     padding: 0.4375em 0.625em;
@@ -101,9 +96,9 @@ component Ui.Input {
     width: 100%;
 
     if (invalid) {
-      border: 0.125em solid #{actualTheme.danger.s500.color};
+      border: 0.125em solid var(--danger-s500-color);
     } else {
-      border: 0.125em solid #{actualTheme.border};
+      border: 0.125em solid var(--border);
     }
 
     if (showIcon) {
@@ -118,11 +113,11 @@ component Ui.Input {
 
     &:focus {
       if (invalid) {
-        box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
-        border-color: #{actualTheme.danger.s300.color};
+        box-shadow: 0 0 0 0.1875em var(--danger-shadow);
+        border-color: var(--danger-s300-color);
       } else {
-        box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-        border-color: #{actualTheme.primary.s500.color};
+        box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+        border-color: var(--primary-s500-color);
       }
     }
   }
@@ -147,7 +142,7 @@ component Ui.Input {
     height: 1em;
     width: 1em;
 
-    color: #{actualTheme.content.text};
+    color: var(--content-text);
     position: absolute;
     cursor: pointer;
     display: grid;
@@ -161,13 +156,8 @@ component Ui.Input {
     }
 
     &:hover {
-      color: #{actualTheme.primary.s500.color};
+      color: var(--primary-s500-color);
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Wether to show the icon or not. */

@@ -7,13 +7,10 @@ a user can take.
   component is closed
 */
 global component Ui.ActionSheet {
-  connect Ui exposing { resolveTheme, mobile }
+  connect Ui exposing { mobile }
 
   /* The resolve function. */
   state resolve : Function(Void, Void) = (value : Void) { void }
-
-  /* The theme for the component. */
-  state theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The displayed items. */
   state items : Array(Ui.NavItem) = []
@@ -23,6 +20,24 @@ global component Ui.ActionSheet {
 
   /* The base size of the component. */
   state size : Number = 16
+
+  /* The theme for the action sheet. */
+  state theme : Ui.Theme = Ui:DEFAULT_THEME
+
+  /* The previously focused element. */
+  state focusedElement : Maybe(Dom.Element) = Maybe::Nothing
+
+  use Provider.Shortcuts {
+    shortcuts =
+      [
+        {
+          condition = () : Bool { true },
+          bypassFocused = true,
+          shortcut = [27],
+          action = hide
+        }
+      ]
+  }
 
   /* The style of the backdrop element. */
   style base {
@@ -76,19 +91,19 @@ global component Ui.ActionSheet {
     height: 3em;
 
     &:first-child {
-      border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em
-                     #{1.5625 * actualTheme.borderRadiusCoefficient}em
+      border-radius: calc(1.5625em * var(--border-radius-coefficient))
+                     calc(1.5625em * var(--border-radius-coefficient))
                      0 0;
     }
 
     &:last-child {
       border-radius: 0 0
-                     #{1.5625 * actualTheme.borderRadiusCoefficient}em
-                     #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+                     calc(1.5625em * var(--border-radius-coefficient))
+                     calc(1.5625em * var(--border-radius-coefficient));
     }
 
     if (group) {
-      background: #{actualTheme.contentFaded.color};
+      background: var(--content-faded-color);
       font-weight: bold;
     } else {
       cursor: pointer;
@@ -97,29 +112,29 @@ global component Ui.ActionSheet {
     &:hover,
     &:focus {
       if (!group) {
-        color: #{actualTheme.primary.s500.color};
+        color: var(--primary-s500-color);
       }
     }
   }
 
   /* Style for the divider. */
   style divider {
-    border-top: 0.1875em solid #{actualTheme.border};
+    border-top: 0.1875em solid var(--border);
   }
 
   /* Style for the items container. */
   style items {
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
     transition: transform 320ms, opacity 320ms;
     margin: 0.625em;
 
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
 
     > * + * {
-      border-top: 0.0625em solid #{actualTheme.border};
+      border-top: 0.0625em solid var(--border);
     }
 
     if (!mobile) {
@@ -141,19 +156,14 @@ global component Ui.ActionSheet {
   }
 
   style gutter {
-    border-right: 0.0625em solid #{actualTheme.border};
-    background: #{actualTheme.contentFaded.color};
+    border-right: 0.0625em solid var(--border);
+    background: var(--content-faded-color);
   }
 
   style group-items {
     > * + * {
-      border-top: 0.0625em solid #{actualTheme.border};
+      border-top: 0.0625em solid var(--border);
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Hides the component. */
@@ -163,15 +173,23 @@ global component Ui.ActionSheet {
 
       Timer.timeout(320, "")
       resolve(void)
+      Dom.focus(focusedElement)
 
-      next { resolve = (value : Void) { void } }
+      next
+        {
+          resolve = (value : Void) { void },
+          focusedElement = Maybe::Nothing,
+          items = [],
+          theme = Ui:DEFAULT_THEME,
+          size = 16
+        }
     }
   }
 
   /* Shows the component with the given items and options. */
   fun showWithOptions (
-    theme : Maybe(Ui.Theme),
     size : Number,
+    theme : Ui.Theme,
     items : Array(Ui.NavItem)
   ) : Promise(Never, Void) {
     if (Array.isEmpty(items)) {
@@ -183,9 +201,10 @@ global component Ui.ActionSheet {
 
         next
           {
+            focusedElement = Dom.getActiveElement(),
             resolve = resolve,
-            theme = theme,
             items = items,
+            theme = theme,
             size = size,
             open = true
           }
@@ -206,7 +225,7 @@ global component Ui.ActionSheet {
 
   /* Shows the component with the given items. */
   fun show (items : Array(Ui.NavItem)) : Promise(Never, Void) {
-    showWithOptions(Maybe::Nothing, 16, items)
+    showWithOptions(16, Ui:DEFAULT_THEME, items)
   }
 
   /* The close event handler. */
@@ -305,14 +324,16 @@ global component Ui.ActionSheet {
 
   /* Renders the component. */
   fun render : Html {
-    <div::base onClick={handleClose}>
-      <Ui.FocusTrap>
-        <div::items as container>
-          for (item of items) {
-            renderItem(item)
-          }
-        </div>
-      </Ui.FocusTrap>
-    </div>
+    <Theme theme={theme}>
+      <div::base onClick={handleClose}>
+        <Ui.FocusTrap>
+          <div::items as container>
+            for (item of items) {
+              renderItem(item)
+            }
+          </div>
+        </Ui.FocusTrap>
+      </div>
+    </Theme>
   }
 }

@@ -1,9 +1,6 @@
 /* The content part of a modal, with a title, error, content and actions. */
 component Ui.Modal.Content {
-  connect Ui exposing { mobile, darkMode, resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The content to display in the body of the modal. */
   property content : Html = <></>
@@ -32,7 +29,7 @@ component Ui.Modal.Content {
   /* Styles for the base element. */
   style base {
     box-shadow: 0 0 1.25em rgba(0, 0, 0, 0.5);
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     border-radius: 0.375em;
     font-size: #{size}px;
 
@@ -45,8 +42,8 @@ component Ui.Modal.Content {
 
   /* Style for the header. */
   style header {
-    background: #{actualTheme.contentFaded.color};
-    color: #{actualTheme.contentFaded.text};
+    background: var(--content-faded-color);
+    color: var(--content-faded-text);
 
     border-radius: 0.375em 0.375em 0 0;
     padding: 1em;
@@ -55,7 +52,7 @@ component Ui.Modal.Content {
     display: flex;
 
     if (!Html.isNotEmpty(error)) {
-      border-bottom: 0.0625em solid #{actualTheme.border};
+      border-bottom: 0.0625em solid var(--border);
     }
   }
 
@@ -72,8 +69,8 @@ component Ui.Modal.Content {
 
   /* Style for the content. */
   style content {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
 
     max-width: #{maxWidth}px;
     min-width: #{minWidth}px;
@@ -89,10 +86,10 @@ component Ui.Modal.Content {
 
   /* Style for the actions. */
   style actions {
-    background: #{actualTheme.contentFaded.color};
-    color: #{actualTheme.contentFaded.text};
+    background: var(--content-faded-color);
+    color: var(--content-faded-text);
 
-    border-top: 0.0625em solid #{actualTheme.border};
+    border-top: 0.0625em solid var(--border);
     border-radius: 0 0 0.375em 0.375em;
     padding: 1em;
 
@@ -104,7 +101,7 @@ component Ui.Modal.Content {
 
   /* Style for the icon. */
   style icon {
-    border-right: 0.125em solid #{actualTheme.border};
+    border-right: 0.125em solid var(--border);
     padding-right: 1em;
     margin-right: 1em;
 
@@ -123,24 +120,11 @@ component Ui.Modal.Content {
 
   /* Style for the error. */
   style error {
+    border-bottom: 0.0625em solid var(--danger-s100-color);
+    border-top: 0.0625em solid var(--danger-s100-color);
+    background: var(--danger-s50-color);
+    color: var(--danger-s600-color);
     padding: 1em;
-
-    if (darkMode) {
-      border-bottom: 0.0625em solid #{actualTheme.danger.s900.color};
-      border-top: 0.0625em solid #{actualTheme.danger.s900.color};
-      background: #{actualTheme.danger.s800.color};
-      color: #{actualTheme.danger.s50.color};
-    } else {
-      border-bottom: 0.0625em solid #{actualTheme.danger.s100.color};
-      border-top: 0.0625em solid #{actualTheme.danger.s100.color};
-      background: #{actualTheme.danger.s50.color};
-      color: #{actualTheme.danger.s600.color};
-    }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the component. */

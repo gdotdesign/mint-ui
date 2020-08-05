@@ -1,12 +1,9 @@
 /* A select component. */
 component Ui.Select {
-  connect Ui exposing { resolveTheme, mobile }
+  connect Ui exposing { mobile }
 
   /* The change event handler. */
   property onChange : Function(String, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The items to show. */
   property items : Array(Ui.ListItem) = []
@@ -65,10 +62,10 @@ component Ui.Select {
 
   /* The styles for the element. */
   style element {
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    border: #{size * 0.125}px solid #{actualTheme.border};
-    background-color: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    border: #{size * 0.125}px solid var(--border);
+    background-color: var(--content-color);
+    color: var(--content-text);
 
     font-family: sans-serif;
     box-sizing: border-box;
@@ -93,28 +90,28 @@ component Ui.Select {
     }
 
     if (open && invalid) {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.danger.shadow};
+      box-shadow: 0 0 0 #{size * 0.1875}px var(--danger-shadow);
     } else if (open) {
-      box-shadow: 0 0 0 #{size * 0.1875}px #{actualTheme.primary.shadow};
+      box-shadow: 0 0 0 #{size * 0.1875}px var(--primary-shadow);
     }
 
     if (open && invalid) {
-      border-color: #{actualTheme.danger.s300.color};
+      border-color: var(--danger-s300-color);
     } else if (invalid) {
-      border-color: #{actualTheme.danger.s500.color};
+      border-color: var(--danger-s500-color);
     } else if (open || focused) {
-      border-color: #{actualTheme.primary.s500.color};
+      border-color: var(--primary-s500-color);
     } else {
-      border-color: #{actualTheme.border};
+      border-color: var(--border);
     }
 
     &:focus {
       if (invalid) {
-        box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
-        border-color: #{actualTheme.danger.s300.color};
+        box-shadow: 0 0 0 0.1875em var(--danger-shadow);
+        border-color: var(--danger-s300-color);
       } else {
-        box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-        border-color: #{actualTheme.primary.s500.color};
+        box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+        border-color: var(--primary-s500-color);
       }
     }
   }
@@ -131,11 +128,6 @@ component Ui.Select {
     align-items: center;
     grid-gap: 0.625em;
     display: grid;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Handler for the tab in event. */

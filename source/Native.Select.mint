@@ -1,12 +1,7 @@
 /* A select component using the native `select` element. */
 component Ui.Native.Select {
-  connect Ui exposing { resolveTheme }
-
   /* The change event handler. */
   property onChange : Function(String, Promise(Never, Void)) = Promise.never1
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The items to show. */
   property items : Array(Ui.ListItem) = []
@@ -30,12 +25,12 @@ component Ui.Native.Select {
   state focused : Bool = false
 
   style element {
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    border: #{size * 0.125}px solid #{actualTheme.border};
-    background-color: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    border: #{size * 0.125}px solid var(--border);
+    background-color: var(--content-color);
+    color: var(--content-text);
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
     line-height: 1.25em;
 
@@ -56,15 +51,15 @@ component Ui.Native.Select {
     }
 
     if (invalid && focused) {
-      box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
-      border-color: #{actualTheme.danger.s300.color};
+      box-shadow: 0 0 0 0.1875em var(--danger-shadow);
+      border-color: var(--danger-s300-color);
     } else if (invalid) {
-      border-color: #{actualTheme.danger.s500.color};
+      border-color: var(--danger-s500-color);
     } else if (focused) {
-      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-      border-color: #{actualTheme.primary.s500.color};
+      box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+      border-color: var(--primary-s500-color);
     } else {
-      border-color: #{actualTheme.border};
+      border-color: var(--border);
     }
   }
 
@@ -94,11 +89,6 @@ component Ui.Native.Select {
     align-items: center;
     grid-gap: 0.625em;
     display: grid;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* The change event handler. */

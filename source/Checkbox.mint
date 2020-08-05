@@ -1,10 +1,5 @@
 /* A simple checkbox component. */
 component Ui.Checkbox {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the card. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The handler for the change event. */
   property onChange : Function(Bool, Promise(Never, Void)) = Promise.never1
 
@@ -33,19 +28,19 @@ component Ui.Checkbox {
 
     font-size: #{size}px;
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    border: 0.125em solid #{actualTheme.border};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    border: 0.125em solid var(--border);
     height: 2.125em;
     width: 2.125em;
 
     if (checked) {
-      background-color: #{actualTheme.primary.s500.color};
-      border-color: #{actualTheme.primary.s500.color};
-      color: #{actualTheme.primary.s500.text};
+      background-color: var(--primary-s500-color);
+      border-color: var(--primary-s500-color);
+      color: var(--primary-s500-text);
     } else {
-      background-color: #{actualTheme.content.color};
-      border-color: #{actualTheme.border};
-      color: #{actualTheme.content.text};
+      background-color: var(--content-color);
+      border-color: var(--border);
+      color: var(--content-text);
     }
 
     &::-moz-focus-inner {
@@ -53,19 +48,14 @@ component Ui.Checkbox {
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-      border-color: #{actualTheme.primary.s500.color};
+      box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+      border-color: var(--primary-s500-color);
     }
 
     &:disabled {
       filter: saturate(0) brightness(0.8) contrast(0.5);
       cursor: not-allowed;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Toggles the checkbox. */

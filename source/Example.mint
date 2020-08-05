@@ -1,7 +1,5 @@
 /* A component to display and example, controls and source code of a component. */
 component Ui.Example {
-  connect Ui exposing { resolveTheme }
-
   /* Controls the horizontal spacing between the elements. */
   property horizontalSpacing : Number = 0
 
@@ -16,9 +14,6 @@ component Ui.Example {
 
   /* Controls when to use a one column layout. */
   property breakpoint : Number = 1000
-
-  /* The theme for the hint. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The example and it's source code to display. */
   property data : Tuple(Html, String)
@@ -35,10 +30,10 @@ component Ui.Example {
 
   /* the style for the base. */
   style base {
-    box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
-                0 0 0 0.25em #{actualTheme.contentFaded.color};
+    box-shadow: 0 0 0.0625em 0.0625em var(--border),
+                0 0 0 0.25em var(--content-faded-color);
 
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
     font-size: #{size}px;
     position: relative;
     display: grid;
@@ -52,10 +47,10 @@ component Ui.Example {
 
   /* The style for the demo-area. */
   style demo-area {
-    background: linear-gradient(45deg, #{actualTheme.contentFaded.color} 25%, transparent 25%, transparent 75%, #{actualTheme.contentFaded.color} 75%, #{actualTheme.contentFaded.color}),
-                linear-gradient(45deg, #{actualTheme.contentFaded.color} 25%, transparent 25%, transparent 75%, #{actualTheme.contentFaded.color} 75%, #{actualTheme.contentFaded.color});
+    background: linear-gradient(45deg, var(--content-faded-color) 25%, transparent 25%, transparent 75%, var(--content-faded-color) 75%, var(--content-faded-color)),
+                linear-gradient(45deg, var(--content-faded-color) 25%, transparent 25%, transparent 75%, var(--content-faded-color) 75%, var(--content-faded-color));
 
-    background-color: #{actualTheme.content.color};
+    background-color: var(--content-color);
     background-position: 0 0, 0.625em 0.625em;
     background-size: 1.25em 1.25em;
 
@@ -93,9 +88,9 @@ component Ui.Example {
 
   /* The style for the code. */
   style pre {
-    background: #{actualTheme.contentFaded.color};
-    border-top: 1px solid #{actualTheme.border};
-    color: #{actualTheme.contentFaded.text};
+    background: var(--content-faded-color);
+    border-top: 1px solid var(--border);
+    color: var(--content-faded-text);
     padding: 1em 1.25em;
     overflow: auto;
     margin: 0;
@@ -117,8 +112,8 @@ component Ui.Example {
 
   /* The style for the controls. */
   style controls {
-    background: #{actualTheme.contentFaded.color};
-    color: #{actualTheme.contentFaded.text};
+    background: var(--content-faded-color);
+    color: var(--content-faded-text);
     padding: 1em;
 
     align-content: start;
@@ -127,17 +122,12 @@ component Ui.Example {
     display: grid;
 
     if (mobile) {
-      border-top: 0.0625em solid #{actualTheme.border};
+      border-top: 0.0625em solid var(--border);
       min-width: 0;
     } else {
-      border-left: 0.0625em solid #{actualTheme.border};
+      border-left: 0.0625em solid var(--border);
       min-width: 18.75em;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the component. */

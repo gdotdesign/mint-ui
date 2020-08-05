@@ -1,9 +1,6 @@
 /* A component which represents a page, with default styles. */
 component Ui.Page {
-  connect Ui exposing { mobile, resolveTheme }
-
-  /* The theme for the button. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
+  connect Ui exposing { mobile }
 
   /* The maximum with of the content. */
   property maxContentWidth : String = "auto"
@@ -16,8 +13,8 @@ component Ui.Page {
 
   /* The styles for the page. */
   style base {
-    background: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    background: var(--content-color);
+    color: var(--content-text);
     position: relative;
 
     if (center) {
@@ -53,7 +50,7 @@ component Ui.Page {
     position: absolute;
 
     svg {
-      fill: #{actualTheme.border};
+      fill: var(--border);
       display: block;
     }
   }
@@ -66,11 +63,6 @@ component Ui.Page {
     if (center) {
       margin: auto 0;
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the page. */

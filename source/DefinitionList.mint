@@ -1,10 +1,5 @@
 /* A definition list component. */
 component Ui.DefinitionList {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The data for the headers. */
   property headers : Array(Ui.Table.Header) = []
 
@@ -16,8 +11,8 @@ component Ui.DefinitionList {
 
   /* The styles for the base. */
   style base {
-    border: 0.0625em solid #{actualTheme.border};
-    font-family: #{actualTheme.fontFamily};
+    border: 0.0625em solid var(--border);
+    font-family: var(--font-family);
     font-size: #{size}px;
     line-height: 170%;
     border-bottom: 0;
@@ -29,7 +24,7 @@ component Ui.DefinitionList {
     appearance: none;
 
     &[open] {
-      border-bottom: 0.1875em solid #{actualTheme.border};
+      border-bottom: 0.1875em solid var(--border);
 
       summary {
         svg {
@@ -44,7 +39,7 @@ component Ui.DefinitionList {
     font-size: 0.875em;
     font-weight: bold;
 
-    border-bottom: 0.0625em solid #{actualTheme.border};
+    border-bottom: 0.0625em solid var(--border);
     padding: 0.5em 0.75em;
     box-sizing: border-box;
     min-height: 2.5em;
@@ -57,8 +52,8 @@ component Ui.DefinitionList {
 
     &:focus,
     &:hover {
-      background: #{actualTheme.primary.s50.color};
-      color: #{actualTheme.primary.s50.text};
+      background: var(--primary-s50-color);
+      color: var(--primary-s50-text);
     }
 
     &::-webkit-details-marker {
@@ -84,13 +79,8 @@ component Ui.DefinitionList {
     padding: 0.75em;
 
     + * {
-      border-top: 0.0625em solid #{actualTheme.border};
+      border-top: 0.0625em solid var(--border);
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the list. */

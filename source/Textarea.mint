@@ -1,10 +1,5 @@
 /* A textarea component. */
 component Ui.Textarea {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the component. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /*
   The behavior of the textarea, can be:
     - `resize-horizontal`
@@ -74,16 +69,16 @@ component Ui.Textarea {
 
   /* The common styles for the textarea and it's mirror. */
   style common {
-    border: 0.125em solid #{actualTheme.border};
+    border: 0.125em solid var(--border);
     padding: 0.4375em 0.625em;
     box-sizing: border-box;
   }
 
   /* Styles for the textarea. */
   style textarea {
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
-    background-color: #{actualTheme.content.color};
-    color: #{actualTheme.content.text};
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    background-color: var(--content-color);
+    color: var(--content-text);
 
     font-family: inherit;
     line-height: inherit;
@@ -94,9 +89,9 @@ component Ui.Textarea {
     margin: 0;
 
     if (invalid) {
-      border-color: #{actualTheme.danger.s500.color};
+      border-color: var(--danger-s500-color);
     } else {
-      border-color: #{actualTheme.border};
+      border-color: var(--border);
     }
 
     case (behavior) {
@@ -126,11 +121,11 @@ component Ui.Textarea {
 
     &:focus {
       if (invalid) {
-        box-shadow: 0 0 0 0.1875em #{actualTheme.danger.shadow};
-        border-color: #{actualTheme.danger.s300.color};
+        box-shadow: 0 0 0 0.1875em var(--danger-shadow);
+        border-color: var(--danger-s300-color);
       } else {
-        box-shadow: 0 0 0 0.1875em #{actualTheme.primary.shadow};
-        border-color: #{actualTheme.primary.s500.color};
+        box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+        border-color: var(--primary-s500-color);
       }
     }
   }
@@ -150,7 +145,7 @@ component Ui.Textarea {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 
-    font-family: #{actualTheme.fontFamily};
+    font-family: var(--font-family);
     font-size: #{size}px;
 
     min-height: 2.375em;
@@ -164,11 +159,6 @@ component Ui.Textarea {
     display: inline-grid;
     position: relative;
     width: 100%;
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Focuses the textarea. */

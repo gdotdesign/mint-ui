@@ -1,10 +1,5 @@
 /* A card component which has items with pre defined structure. */
 component Ui.Card {
-  connect Ui exposing { resolveTheme }
-
-  /* The theme for the card. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The child elements. */
   property children : Array(Html) = []
 
@@ -19,24 +14,24 @@ component Ui.Card {
 
   /* Styles for the card. */
   style base {
-    border-radius: #{1.5625 * actualTheme.borderRadiusCoefficient}em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
 
-    box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
-                0 0 0 0.25em #{actualTheme.contentFaded.color};
+    box-shadow: 0 0 0.0625em 0.0625em var(--border),
+                0 0 0 0.25em var(--content-faded-color);
 
     min-width: #{minWidth}px;
 
     flex-direction: column;
     display: flex;
 
-    background: #{actualTheme.contentFaded.color};
+    background: var(--content-faded-color);
     outline: none;
 
     text-decoration: none;
     font-size: #{size}px;
 
     > * + * {
-      border-top: 0.0625em solid #{actualTheme.border};
+      border-top: 0.0625em solid var(--border);
     }
 
     > *:first-child {
@@ -56,20 +51,15 @@ component Ui.Card {
     &:hover,
     &:focus {
       if (!String.isEmpty(href)) {
-        box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.primary.s400.color},
-                    0 0 0 0.25em #{actualTheme.primary.shadow};
+        box-shadow: 0 0 0.0625em 0.0625em var(--primary-s400-color),
+                    0 0 0 0.25em var(--primary-shadow);
 
         cursor: pointer;
       } else {
-        box-shadow: 0 0 0.0625em 0.0625em #{actualTheme.border},
-                    0 0 0 0.25em #{actualTheme.contentFaded.color};
+        box-shadow: 0 0 0.0625em 0.0625em var(--border),
+                    0 0 0 0.25em var(--content-faded-color);
       }
     }
-  }
-
-  /* Returns the actual theme. */
-  get actualTheme : Ui.Theme.Resolved {
-    resolveTheme(theme)
   }
 
   /* Renders the card. */
