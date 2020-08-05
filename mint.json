@@ -4,10 +4,15 @@
     "javascripts": ["assets/scroll_into_view.js"]
   },
   "source-directories": [
-    "../mint-color/source",
     "source"
   ],
   "test-directories": [
     "test"
-  ]
+  ],
+  "dependencies": {
+    "mint-color": {
+      "repository": "https://github.com/mint-lang/mint-color",
+      "constraint": "0.0.0 <= v < 1.0.0"
+    }
+  }
 }
