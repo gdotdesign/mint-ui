@@ -90,7 +90,7 @@ component Ui.Toggle {
   /* Styles for the overlay. */
   style overlay {
     border-radius: calc(#{size}px * var(--border-radius-coefficient));
-    background: var(--surface-color);
+    background: var(--surface-s500-color);
     width: calc(50% - 0.375em);
     position: absolute;
     bottom: 0.1875em;

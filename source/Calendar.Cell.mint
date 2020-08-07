@@ -43,13 +43,8 @@ component Ui.Calendar.Cell {
     }
 
     &:hover {
-      if (active) {
-        background: var(--primary-s500-color);
-        color: var(--primary-s500-text);
-      } else {
-        background: var(--surface-color);
-        color: var(--surface-text);
-      }
+      background: var(--primary-s500-color);
+      color: var(--primary-s500-text);
     }
 
     if (selected) {

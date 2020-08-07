@@ -59,7 +59,7 @@ component Ui.Slider {
     &::-moz-range-track,
     &::-ms-track {
       border: 0.125em solid var(--border);
-      background-color: var(--surface-color);
+      background-color: var(--content-color);
       box-sizing: border-box;
       border-radius: 0.3em;
       height: 0.6em;

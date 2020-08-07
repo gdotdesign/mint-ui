@@ -90,8 +90,8 @@ component Ui.Button {
         color: var(--danger-s500-text);
 
       "surface" =>
-        background-color: var(--surface-color);
-        color: var(--surface-text);
+        background-color: var(--surface-s500-color);
+        color: var(--surface-s500-text);
 
       =>
     }
@@ -105,6 +105,7 @@ component Ui.Button {
         "success" => box-shadow: 0 0 0 0.1875em var(--success-shadow);
         "warning" => box-shadow: 0 0 0 0.1875em var(--warning-shadow);
         "primary" => box-shadow: 0 0 0 0.1875em var(--primary-shadow);
+        "surface" => box-shadow: 0 0 0 0.1875em var(--surface-shadow);
         "danger" => box-shadow: 0 0 0 0.1875em var(--danger-shadow);
         =>
       }
@@ -112,7 +113,10 @@ component Ui.Button {
 
     &:hover,
     &:focus {
-      filter: brightness(0.8) contrast(1.5);
+      case (type) {
+        "surface" => filter: brightness(0.8) contrast(1);
+        => filter: brightness(0.8) contrast(1.5);
+      }
     }
 
     &:disabled {

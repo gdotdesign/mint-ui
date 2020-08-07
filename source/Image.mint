@@ -62,7 +62,7 @@ component Ui.Image {
 
   /* The style for the base. */
   style base {
-    background: var(--surface-color);
+    background: var(--content-faded-color);
     height: #{height}px;
 
     if (fullWidth) {

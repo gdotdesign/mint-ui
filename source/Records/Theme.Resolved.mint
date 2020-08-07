@@ -2,7 +2,7 @@
 record Ui.Theme.Resolved {
   contentFaded : ColorPalette.Shade,
   content : ColorPalette.Shade,
-  surface : ColorPalette.Shade,
+  surface : ColorPalette,
   primary : ColorPalette,
   warning : ColorPalette,
   success : ColorPalette,

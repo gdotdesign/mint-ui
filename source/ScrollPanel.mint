@@ -51,7 +51,7 @@ component Ui.ScrollPanel {
 
   /* Base style for the component. */
   style base {
-    scrollbar-color: var(--surface-color) var(--content-faded-color);
+    scrollbar-color: var(--surface-s500-color) var(--surface-s50-color);
     scrollbar-width: thin;
     outline: none;
 
@@ -78,11 +78,11 @@ component Ui.ScrollPanel {
     }
 
     &::-webkit-scrollbar-track {
-      background: var(--content-faded-color);
+      background: var(--surface-s50-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: var(--surface-color);
+      background: var(--surface-s500-color);
     }
 
     &::-webkit-scrollbar-thumb:hover {

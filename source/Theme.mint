@@ -154,15 +154,48 @@ component Ui.Theme {
 
     --success-shadow: #{resolved.success.shadow};
 
+    /* Success color variables. */
+    --surface-s900-color: #{resolved.surface.s900.color};
+    --surface-s900-text: #{resolved.surface.s900.text};
+
+    --surface-s800-color: #{resolved.surface.s800.color};
+    --surface-s800-text: #{resolved.surface.s800.text};
+
+    --surface-s700-color: #{resolved.surface.s700.color};
+    --surface-s700-text: #{resolved.surface.s700.text};
+
+    --surface-s600-color: #{resolved.surface.s600.color};
+    --surface-s600-text: #{resolved.surface.s600.text};
+
+    --surface-s500-color: #{resolved.surface.s500.color};
+    --surface-s500-text: #{resolved.surface.s500.text};
+
+    --surface-s400-color: #{resolved.surface.s400.color};
+    --surface-s400-text: #{resolved.surface.s400.text};
+
+    --surface-s400-color: #{resolved.surface.s400.color};
+    --surface-s400-text: #{resolved.surface.s400.text};
+
+    --surface-s300-color: #{resolved.surface.s300.color};
+    --surface-s300-text: #{resolved.surface.s300.text};
+
+    --surface-s200-color: #{resolved.surface.s200.color};
+    --surface-s200-text: #{resolved.surface.s200.text};
+
+    --surface-s100-color: #{resolved.surface.s100.color};
+    --surface-s100-text: #{resolved.surface.s100.text};
+
+    --surface-s50-color: #{resolved.surface.s50.color};
+    --surface-s50-text: #{resolved.surface.s50.text};
+
+    --surface-shadow: #{resolved.surface.shadow};
+
     /* Simple colors. */
     --content-faded-color: #{resolved.contentFaded.color};
     --content-faded-text: #{resolved.contentFaded.text};
 
     --content-color: #{resolved.content.color};
     --content-text: #{resolved.content.text};
-
-    --surface-color: #{resolved.surface.color};
-    --surface-text: #{resolved.surface.text};
 
     /* Other variables. */
     --border-radius-coefficient: #{resolved.borderRadiusCoefficient};
