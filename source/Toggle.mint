@@ -113,12 +113,12 @@ component Ui.Toggle {
 
       onWidth =
         onLabel
-        |> Dom.measureText(font)
+        |> Dom.getTextWidth(font)
         |> Math.ceil()
 
       offWidth =
         offLabel
-        |> Dom.measureText(font)
+        |> Dom.getTextWidth(font)
         |> Math.ceil()
 
       Math.max(offWidth, onWidth) * 2 + size * 3
