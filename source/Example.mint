@@ -18,6 +18,9 @@ component Ui.Example {
   /* The example and it's source code to display. */
   property data : Tuple(Html, String)
 
+  /* Highlights the given code (converts it to `Html`). */
+  property highlight : Function(String, Html) = (code : String) { <{ code }> }
+
   /* The size of the component. */
   property size : Number = 16
 
@@ -150,8 +153,8 @@ component Ui.Example {
         }
 
         <pre::pre>
-          <code class="language-mint">
-            <{ code }>
+          <code>
+            <{ highlight(code) }>
           </code>
         </pre>
       </div>
