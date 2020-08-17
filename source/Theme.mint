@@ -1,6 +1,6 @@
 /* Represents a theme. */
 component Ui.Theme {
-  connect Ui exposing { resolveTheme }
+  connect Ui exposing { resolveTheme, darkMode }
 
   /* The theme. */
   property theme : Ui.Theme = Ui:DEFAULT_THEME
@@ -201,6 +201,12 @@ component Ui.Theme {
     --border-radius-coefficient: #{resolved.borderRadiusCoefficient};
     --font-family: #{resolved.fontFamily};
     --border: #{resolved.border};
+
+    if (darkMode) {
+      --background-lightness: 100%;
+    } else {
+      --background-lightness: 0%;
+    }
   }
 
   fun render : Html {

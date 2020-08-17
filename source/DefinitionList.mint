@@ -2,12 +2,13 @@
 component Ui.DefinitionList {
   const DEFAULT_CELL = Ui.Cell::String("")
 
-  const DEAFULT_HEADER = {
-    sortable = false,
-    shrink = false,
-    sortKey = "",
-    label = ""
-  }
+  const DEAFULT_HEADER =
+    {
+      sortable = false,
+      shrink = false,
+      sortKey = "",
+      label = ""
+    }
 
   /* The data for the headers. */
   property headers : Array(Ui.Table.Header) = []
@@ -21,10 +22,14 @@ component Ui.DefinitionList {
   /* The styles for the base. */
   style base {
     border: 0.0625em solid var(--border);
+    border-bottom: 0;
+
+    background: var(--content-color);
+    color: var(--content-text);
+
     font-family: var(--font-family);
     font-size: #{size}px;
     line-height: 170%;
-    border-bottom: 0;
   }
 
   /* The styles for the details element. */

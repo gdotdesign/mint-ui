@@ -2,6 +2,9 @@
 component Ui.Hero {
   connect Ui exposing { mobile }
 
+  /* The value for the `background` CSS property. */
+  property background : String = ""
+
   /* The content for the subtitle. */
   property subtitle : Html = <></>
 
@@ -21,10 +24,15 @@ component Ui.Hero {
     align-items: center;
     display: flex;
 
-    background: var(--content-color);
     font-family: var(--font-family);
     color: var(--content-text);
     font-size: #{size}px;
+
+    if (String.isNotEmpty(background)) {
+      background: #{background};
+    } else {
+      background: var(--content-color);
+    }
 
     if (mobile) {
       padding: 1em;

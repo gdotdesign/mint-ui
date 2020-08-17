@@ -40,8 +40,8 @@ component Ui.Card.Container {
     grid-row: span 2;
 
     > * {
-      height: 3em;
-      width: 3em;
+      height: 3em !important;
+      width: 3em !important;
     }
   }
 

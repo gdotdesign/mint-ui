@@ -1,5 +1,7 @@
 /* A highlighted hint for some content. */
 component Ui.ContentHint {
+  connect Ui exposing { mobile }
+
   /* The children to display. */
   property children : Array(Html) = []
 
@@ -11,13 +13,19 @@ component Ui.ContentHint {
 
   /* The styles for the base. */
   style base {
-    grid-template-columns: min-content 1fr;
     align-items: center;
     grid-gap: 1.4em;
     display: grid;
 
     background: var(--content-faded-color);
     color: var(--content-faded-text);
+
+    if (mobile) {
+      grid-template-rows: min-content 1fr;
+      grid-template-columns: 1fr;
+    } else {
+      grid-template-columns: min-content 1fr;
+    }
 
     case (type) {
       "primary" => border-left: 0.25em solid var(--primary-s500-color);

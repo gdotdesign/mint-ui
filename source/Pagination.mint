@@ -28,6 +28,7 @@ component Ui.Pagination {
 
   /* Style for the ellipsis between the buttons. */
   style ellipsis {
+    white-space: nowrap;
     font-size: #{size}px;
 
     &:before {

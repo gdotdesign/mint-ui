@@ -26,6 +26,7 @@ component Ui.Content {
   style base {
     font-family: var(--font-family);
     text-align: #{textAlign};
+    word-break: break-word;
     font-size: #{size}px;
     line-height: 1.7em;
 
@@ -65,7 +66,7 @@ component Ui.Content {
       color: var(--primary-s500-color);
     }
 
-    code {
+    code:not([class]) {
       background: var(--content-faded-color);
       color: var(--content-faded-text);
 

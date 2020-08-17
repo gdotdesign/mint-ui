@@ -110,9 +110,10 @@ component Ui.Layout.Documentation {
 
   /* Style for the mobile page selector. */
   style button {
-    border-bottom: 0.0625em solid var(--border);
-    display: grid;
-    padding: 1em;
+    position: sticky;
+    margin-left: 1em;
+    bottom: 1em;
+    z-index: 1;
   }
 
   /* Styles for the group. */
@@ -191,23 +192,8 @@ component Ui.Layout.Documentation {
   }
 
   /* Handles the change event from the select. */
-  fun handleChange (key : String) {
-    try {
-      path =
-        Array.findByAndMap(
-          (item : Ui.NavItem) {
-            case (item) {
-              Ui.NavItem::Link label href => {key == label, href}
-              => {false, ""}
-            }
-          },
-          items)
-
-      case (path) {
-        Maybe::Just value => Window.navigate(value)
-        => next {  }
-      }
-    }
+  fun openActionSheet : Promise(Never, Void) {
+    Ui.ActionSheet.show(items)
   }
 
   /* Renders the contents of an item. */
@@ -262,46 +248,7 @@ component Ui.Layout.Documentation {
   /* Renders the layout. */
   fun render : Html {
     <div::base>
-      if (mobile) {
-        try {
-          active =
-            Array.findByAndMap(
-              (item : Ui.NavItem) {
-                case (item) {
-                  Ui.NavItem::Link label href => {Window.url().path == href, label}
-                  => {false, ""}
-                }
-              },
-              items)
-            |> Maybe.withDefault("")
-
-          options =
-            items
-            |> Array.map(
-              (item : Ui.NavItem) {
-                case (item) {
-                  Ui.NavItem::Link label =>
-                    Ui.ListItem::Item(
-                      content = <{ label }>,
-                      matchString = label,
-                      key = label)
-
-                  =>
-                    Ui.ListItem::Item(
-                      content = <{ "" }>,
-                      matchString = "",
-                      key = "")
-                }
-              })
-
-          <div::button>
-            <Ui.Select
-              onChange={handleChange}
-              value={active}
-              items={options}/>
-          </div>
-        }
-      } else {
+      if (!mobile) {
         <nav::sidebar::items>
           for (item of items) {
             renderItem(item)
@@ -327,6 +274,13 @@ component Ui.Layout.Documentation {
               </div>
             }
           }
+        </div>
+      } else {
+        <div::button>
+          <Ui.FloatingButton
+            icon={Ui.Icons:THREE_BARS}
+            onClick={openActionSheet}
+            type="surface"/>
         </div>
       }
     </div>

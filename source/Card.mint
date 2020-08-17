@@ -1,5 +1,7 @@
 /* A card component which has items with pre defined structure. */
 component Ui.Card {
+  connect Ui exposing { darkMode }
+
   /* The child elements. */
   property children : Array(Html) = []
 
@@ -14,8 +16,13 @@ component Ui.Card {
 
   /* Styles for the card. */
   style base {
-    box-shadow: 0 0 0.0625em 0.0625em var(--border),
-                0 0 0 0.25em var(--content-faded-color);
+    if (darkMode) {
+      box-shadow: 0 0 0.0625em 0.0625em var(--border),
+                  0 0 0 0.25em rgba(0,0,0,0.05);
+    } else {
+      box-shadow: 0 0 0.0625em 0.0625em var(--border),
+                  0 0 0 0.25em rgba(0,0,0,0.015);
+    }
 
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
     background: var(--content-faded-color);

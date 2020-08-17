@@ -144,6 +144,8 @@ component Ui.Button {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+    } else {
+      white-space: nowrap;
     }
   }
 

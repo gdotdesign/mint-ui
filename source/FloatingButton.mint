@@ -9,6 +9,9 @@ component Ui.FloatingButton {
   /* The icon of the button. */
   property icon : Html
 
+  /* The type of the button. */
+  property type : String = "primary"
+
   /* The styles for the button. */
   style base {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -16,9 +19,9 @@ component Ui.FloatingButton {
     -webkit-appearance: none;
     appearance: none;
 
-    box-shadow: 0 0 #{size * 0.08}px rgba(0,0,0,0.25);
-    background: var(--primary-s500-color);
+    box-shadow: 0 0 #{size * 0.08}px rgba(0,0,0,0.4);
     border-radius: 50%;
+    cursor: pointer;
     padding: 0;
     border: 0;
     margin: 0;
@@ -26,12 +29,33 @@ component Ui.FloatingButton {
     height: #{size}px;
     width: #{size}px;
 
-    cursor: pointer;
-    color: white;
-
     justify-content: center;
     align-items: center;
     display: flex;
+
+    case (type) {
+      "surface" =>
+        background: var(--surface-s500-color);
+        color: var(--surface-s500-text);
+
+      "warning" =>
+        background: var(--warning-s500-color);
+        color: var(--warning-s500-text);
+
+      "success" =>
+        background: var(--success-s500-color);
+        color: var(--success-s500-text);
+
+      "primary" =>
+        background: var(--primary-s500-color);
+        color: var(--primary-s500-text);
+
+      "danger" =>
+        background: var(--danger-s500-color);
+        color: var(--danger-s500-text);
+
+      =>
+    }
   }
 
   /* Renders the button. */

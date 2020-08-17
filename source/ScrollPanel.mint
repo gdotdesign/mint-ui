@@ -94,6 +94,7 @@ component Ui.ScrollPanel {
   style horizontal {
     max-width: #{maxSize}px;
 
+    overscroll-behavior: contain;
     overflow-y: hidden;
     overflow-x: auto;
     display: flex;
@@ -141,6 +142,7 @@ component Ui.ScrollPanel {
   style vertical {
     max-height: #{maxSize}px;
 
+    overscroll-behavior: contain;
     overflow-x: hidden;
     overflow-y: auto;
 

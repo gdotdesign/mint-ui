@@ -103,14 +103,12 @@ component Ui.Example {
     } else {
       grid-column: span 2;
     }
+  }
 
-    code {
-      all: unset;
-
-      font-family: monospace;
-      line-height: 150%;
-      font-size: 1em;
-    }
+  style code {
+    font-family: monospace;
+    line-height: 150%;
+    font-size: 1em;
   }
 
   /* The style for the controls. */
@@ -153,7 +151,7 @@ component Ui.Example {
         }
 
         <pre::pre>
-          <code>
+          <code::code>
             <{ highlight(code) }>
           </code>
         </pre>

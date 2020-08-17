@@ -1,22 +1,23 @@
 /* Represents the store which all components connect to. */
 store Ui {
   /* The default theme. */
-  const DEFAULT_THEME = {
-    contentLightFaded = Color::HEX("F9F9F9FF"),
-    contentLight = Color::HEX("FFFFFFFF"),
-    contentDarkFaded = Color::HEX("2F2F2FFF"),
-    contentDark = Color::HEX("333333FF"),
-    surfaceLight = Color::HEX("DDDDDDFF"),
-    surfaceDark = Color::HEX("666666FF"),
-    primary = Color::HEX("0591FCFF"),
-    warning = Color::HEX("FFC107FF"),
-    success = Color::HEX("26AE3DFF"),
-    danger = Color::HEX("F44336FF"),
-    borderRadiusCoefficient = 0.16,
-    borderLight = Color::HEX("E9E9E9FF"),
-    borderDark = Color::HEX("262626FF"),
-    fontFamily = "Arial"
-  }
+  const DEFAULT_THEME =
+    {
+      contentLightFaded = Color::HEX("F6F6F6FF"),
+      contentLight = Color::HEX("FCFCFC"),
+      contentDarkFaded = Color::HEX("2F2F2FFF"),
+      contentDark = Color::HEX("333333FF"),
+      surfaceLight = Color::HEX("DDDDDDFF"),
+      surfaceDark = Color::HEX("666666FF"),
+      primary = Color::HEX("0591FCFF"),
+      warning = Color::HEX("FFC107FF"),
+      success = Color::HEX("26AE3DFF"),
+      danger = Color::HEX("F44336FF"),
+      borderRadiusCoefficient = 0.16,
+      borderLight = Color::HEX("E9E9E9FF"),
+      borderDark = Color::HEX("262626FF"),
+      fontFamily = "Arial"
+    }
 
   /* Wether or not we are in a mobile view. */
   state mobile : Bool = Window.matchesMediaQuery("(max-width: 1000px)")
