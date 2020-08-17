@@ -42,7 +42,7 @@ global component Ui.ActionSheet {
 
   /* The style of the backdrop element. */
   style base {
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
     position: fixed;
     z-index: 1000;
     bottom: 0;
@@ -55,10 +55,6 @@ global component Ui.ActionSheet {
     display: flex;
 
     font-size: #{size}px;
-
-    if (!mobile) {
-      align-items: center;
-    }
 
     if (open) {
       transition: visibility 1ms, opacity 320ms;
@@ -123,23 +119,14 @@ global component Ui.ActionSheet {
     border-top: 0.1875em solid var(--border);
   }
 
-  /* Style for the items container. */
-  style items {
-    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+  /* Style for the scroll container. */
+  style container {
     transition: transform 320ms, opacity 320ms;
-    margin: 0.625em;
-
-    background: var(--content-color);
-    font-family: var(--font-family);
-    color: var(--content-text);
-
-    > * + * {
-      border-top: 0.0625em solid var(--border);
-    }
-
-    if (!mobile) {
-      min-width: 300px;
-    }
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    text-align: center;
+    overflow: auto;
+    min-height: 0;
 
     if (open) {
       transform: translateY(0);
@@ -147,6 +134,29 @@ global component Ui.ActionSheet {
     } else {
       transform: translateY(100%);
       opacity: 0;
+    }
+  }
+
+  /* Style for the items container. */
+  style items {
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    overflow: hidden;
+    margin: 0.625em;
+
+    background: var(--content-color);
+    font-family: var(--font-family);
+    color: var(--content-text);
+    text-align: left;
+
+    > * + * {
+      border-top: 0.0625em solid var(--border);
+    }
+
+    if (mobile) {
+      display: block;
+    } else {
+      display: inline-block;
+      min-width: 300px;
     }
   }
 
@@ -182,8 +192,8 @@ global component Ui.ActionSheet {
         {
           resolve = (value : Void) { void },
           focusedElement = Maybe::Nothing,
-          items = [],
           theme = Ui:DEFAULT_THEME,
+          items = [],
           size = 16
         }
     }
@@ -217,6 +227,11 @@ global component Ui.ActionSheet {
 
           case (container) {
             Maybe::Just element => Dom.focusFirst(element)
+            Maybe::Nothing => next {  }
+          }
+
+          case (scrollContainer) {
+            Maybe::Just element => Dom.scrollTo(element, 0, 0)
             Maybe::Nothing => next {  }
           }
         }
@@ -349,15 +364,17 @@ global component Ui.ActionSheet {
   /* Renders the component. */
   fun render : Html {
     <Ui.Theme theme={theme}>
-      <div::base onClick={handleClose}>
-        <Ui.FocusTrap>
-          <div::items as container>
-            for (item of items) {
-              renderItem(item)
-            }
+      <Ui.FocusTrap>
+        <div::base onClick={handleClose}>
+          <div::container as scrollContainer>
+            <div::items as container>
+              for (item of items) {
+                renderItem(item)
+              }
+            </div>
           </div>
-        </Ui.FocusTrap>
-      </div>
+        </div>
+      </Ui.FocusTrap>
     </Ui.Theme>
   }
 }
