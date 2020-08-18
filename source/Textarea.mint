@@ -210,7 +210,7 @@ component Ui.Textarea {
                 Array.last(lines)
                 |> Maybe.map(
                   (item : String) {
-                    if (String.isEmpty(item)) {
+                    if (String.isBlank(item)) {
                       <>
                         " "
                       </>

@@ -168,7 +168,7 @@ component Ui.Button {
                 size={size}/>
             }
 
-            if (String.isNotEmpty(label)) {
+            if (String.isNotBlank(label)) {
               <div::label>
                 <{ label }>
               </div>
@@ -191,7 +191,7 @@ component Ui.Button {
       clickHandler =
         Ui.disabledHandler(disabled, onClick)
 
-      if (String.isNotEmpty(href) && !disabled) {
+      if (String.isNotBlank(href) && !disabled) {
         <a::styles as anchor
           onMouseDown={mouseDownHandler}
           onMouseUp={mouseUpHandler}

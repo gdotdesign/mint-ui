@@ -23,7 +23,7 @@ component Ui.Page {
     color: var(--content-text);
     position: relative;
 
-    if (String.isNotEmpty(background)) {
+    if (String.isNotBlank(background)) {
       background: #{background};
     } else {
       background: var(--content-color);

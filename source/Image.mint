@@ -71,7 +71,7 @@ component Ui.Image {
       width: #{width}px;
     }
 
-    if (String.isEmpty(borderRadius)) {
+    if (String.isBlank(borderRadius)) {
       border-radius: calc(24px * var(--border-radius-coefficient));
     } else {
       border-radius: #{borderRadius};

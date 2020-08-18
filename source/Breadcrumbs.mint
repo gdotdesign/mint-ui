@@ -72,7 +72,7 @@ component Ui.Breadcrumbs {
               {href, content} =
                 item
 
-              if (String.isEmpty(href)) {
+              if (String.isBlank(href)) {
                 <span::breadcrumb aria-label="breadcrumb">
                   <{ content }>
                 </span>

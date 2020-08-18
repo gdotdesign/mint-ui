@@ -89,7 +89,7 @@ component Ui.Icon {
 
   fun render : Html {
     try {
-      if (String.isNotEmpty(href)) {
+      if (String.isNotBlank(href)) {
         <a::base::link href={href}>
           <{ icon }>
         </a>

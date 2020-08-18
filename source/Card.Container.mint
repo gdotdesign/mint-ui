@@ -21,7 +21,7 @@ component Ui.Card.Container {
     color: var(--content-text);
     text-align: #{textAlign};
 
-    if (!String.isEmpty(thumbnail)) {
+    if (String.isNotBlank(thumbnail)) {
       grid-template-columns: 3em 1fr;
     } else {
       grid-template-columns: 1fr;
@@ -62,7 +62,7 @@ component Ui.Card.Container {
 
   /* Styles for the content. */
   style content {
-    if (!String.isEmpty(thumbnail)) {
+    if (String.isNotBlank(thumbnail)) {
       grid-column: span 2;
     }
 
@@ -94,7 +94,7 @@ component Ui.Card.Container {
   /* Renders the component. */
   fun render : Html {
     <div::base>
-      if (!String.isEmpty(thumbnail)) {
+      if (String.isNotBlank(thumbnail)) {
         <div::thumbnail>
           <Ui.Image src={thumbnail}/>
         </div>

@@ -268,7 +268,7 @@ global component Ui.ActionSheet {
 
   /* The link click event handler. */
   fun handleLinkClick (href : String, event : Html.Event) {
-    if (String.isNotEmpty(href)) {
+    if (String.isNotBlank(href)) {
       sequence {
         Window.navigate(href)
         hide()

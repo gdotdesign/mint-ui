@@ -16,16 +16,9 @@ component Ui.Card {
 
   /* Styles for the card. */
   style base {
-    if (darkMode) {
-      box-shadow: 0 0 0.0625em 0.0625em var(--border),
-                  0 0 0 0.25em rgba(0,0,0,0.05);
-    } else {
-      box-shadow: 0 0 0.0625em 0.0625em var(--border),
-                  0 0 0 0.25em rgba(0,0,0,0.015);
-    }
-
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
     background: var(--content-faded-color);
+    box-shadow: #{boxShadow};
 
     flex-direction: column;
     display: flex;
@@ -56,21 +49,30 @@ component Ui.Card {
 
     &:hover,
     &:focus {
-      if (!String.isEmpty(href)) {
+      if (String.isNotBlank(href)) {
         box-shadow: 0 0 0.0625em 0.0625em var(--primary-s400-color),
                     0 0 0 0.25em var(--primary-shadow);
 
         cursor: pointer;
       } else {
-        box-shadow: 0 0 0.0625em 0.0625em var(--border),
-                    0 0 0 0.25em var(--content-faded-color);
+        box-shadow: #{boxShadow};
       }
+    }
+  }
+
+  get boxShadow : String {
+    if (darkMode) {
+      "0 0 0.0625em 0.0625em var(--border),
+       0 0 0 0.25em rgba(0,0,0,0.05)"
+    } else {
+      "0 0 0.0625em 0.0625em var(--border),
+       0 0 0 0.25em rgba(0,0,0,0.015)"
     }
   }
 
   /* Renders the card. */
   fun render : Html {
-    if (String.isEmpty(href)) {
+    if (String.isBlank(href)) {
       <div::base>
         <{ children }>
       </div>

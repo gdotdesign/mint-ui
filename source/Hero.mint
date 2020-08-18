@@ -28,7 +28,7 @@ component Ui.Hero {
     color: var(--content-text);
     font-size: #{size}px;
 
-    if (String.isNotEmpty(background)) {
+    if (String.isNotBlank(background)) {
       background: #{background};
     } else {
       background: var(--content-color);
