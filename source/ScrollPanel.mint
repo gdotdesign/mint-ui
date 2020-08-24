@@ -3,9 +3,6 @@ A scrollable container with custom scrollbars and indicators for more items
 at the start and end of the container.
 */
 component Ui.ScrollPanel {
-  /* The theme for the button. */
-  property theme : Maybe(Ui.Theme) = Maybe::Nothing
-
   /* The children to render. */
   property children : Array(Html) = []
 

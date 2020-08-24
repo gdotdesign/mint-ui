@@ -23,7 +23,7 @@ global component Ui.ActionSheet {
   state size : Number = 16
 
   /* The theme for the action sheet. */
-  state theme : Ui.Theme = Ui:DEFAULT_THEME
+  state theme : Maybe(Ui.Theme) = Maybe::Nothing
 
   /* The previously focused element. */
   state focusedElement : Maybe(Dom.Element) = Maybe::Nothing
@@ -192,7 +192,7 @@ global component Ui.ActionSheet {
         {
           resolve = (value : Void) { void },
           focusedElement = Maybe::Nothing,
-          theme = Ui:DEFAULT_THEME,
+          theme = Maybe::Nothing,
           items = [],
           size = 16
         }
@@ -202,7 +202,7 @@ global component Ui.ActionSheet {
   /* Shows the component with the given items and options. */
   fun showWithOptions (
     size : Number,
-    theme : Ui.Theme,
+    theme : Maybe(Ui.Theme),
     items : Array(Ui.NavItem)
   ) : Promise(Never, Void) {
     if (Array.isEmpty(items)) {
@@ -243,7 +243,7 @@ global component Ui.ActionSheet {
 
   /* Shows the component with the given items. */
   fun show (items : Array(Ui.NavItem)) : Promise(Never, Void) {
-    showWithOptions(16, Ui:DEFAULT_THEME, items)
+    showWithOptions(16, Maybe::Nothing, items)
   }
 
   /* The close event handler. */
@@ -363,18 +363,29 @@ global component Ui.ActionSheet {
 
   /* Renders the component. */
   fun render : Html {
-    <Ui.Theme theme={theme}>
-      <Ui.FocusTrap>
-        <div::base onClick={handleClose}>
-          <div::container as scrollContainer>
-            <div::items as container>
-              for (item of items) {
-                renderItem(item)
-              }
+    try {
+      content =
+        <Ui.FocusTrap>
+          <div::base onClick={handleClose}>
+            <div::container as scrollContainer>
+              <div::items as container>
+                for (item of items) {
+                  renderItem(item)
+                }
+              </div>
             </div>
           </div>
-        </div>
-      </Ui.FocusTrap>
-    </Ui.Theme>
+        </Ui.FocusTrap>
+
+      case (theme) {
+        Maybe::Just actualTheme =>
+          <Ui.Theme theme={Debug.log(actualTheme)}>
+            <{ content }>
+          </Ui.Theme>
+
+        Maybe::Nothing =>
+          content
+      }
+    }
   }
 }
