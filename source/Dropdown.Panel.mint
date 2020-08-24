@@ -11,6 +11,9 @@ component Ui.Dropdown.Panel {
   /* The size of the panel. */
   property size : Number = 16
 
+  /* The title of the panel. */
+  property title : Html = <></>
+
   /* Styles for the panel. */
   style base {
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
@@ -19,21 +22,47 @@ component Ui.Dropdown.Panel {
 
     background: var(--content-color);
     width: #{width};
-    padding: 0.5em;
 
     font-family: var(--font-family);
     color: var(--content-text);
     font-size: #{size}px;
+  }
 
+  /* Styles for the title. */
+  style title {
+    border-radius: calc(1.5625em * var(--border-radius-coefficient))
+                   calc(1.5625em * var(--border-radius-coefficient))
+                   0 0;
+
+    padding: #{0.5 * size}px #{0.75 * size}px;
+    border-bottom: 1px solid var(--border);
+    background: var(--content-faded-color);
+    color: var(--content-faded-text);
+    font-size: #{0.875 * size}px;
+    font-weight: bold;
+  }
+
+  /* Styles for the content. */
+  style content {
     if (mobile) {
       padding: 0.75em;
+    } else {
+      padding: 0.5em;
     }
   }
 
   /* Renders the panel. */
   fun render : Html {
     <div::base>
-      <{ children }>
+      if (Html.isNotEmpty(title)) {
+        <div::title>
+          <{ title }>
+        </div>
+      }
+
+      <div::content>
+        <{ children }>
+      </div>
     </div>
   }
 }

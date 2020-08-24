@@ -44,7 +44,7 @@ component Ui.Theme {
     --primary-s50-color: #{resolved.primary.s50.color};
     --primary-s50-text: #{resolved.primary.s50.text};
 
-    --primary-shadow: #{resolved.primary.shadow};
+    --primary-shadow: hsla(#{resolved.primary.hue}, #{resolved.primary.saturation}%, #{resolved.primary.lightness}%, 0.25);
 
     /* Warning color variables. */
     --warning-s900-color: #{resolved.warning.s900.color};
@@ -80,7 +80,7 @@ component Ui.Theme {
     --warning-s50-color: #{resolved.warning.s50.color};
     --warning-s50-text: #{resolved.warning.s50.text};
 
-    --warning-shadow: #{resolved.warning.shadow};
+    --warning-shadow: hsla(#{resolved.warning.hue}, #{resolved.warning.saturation}%, #{resolved.warning.lightness}%, 0.25);
 
     /* Danger color variables. */
     --danger-s900-color: #{resolved.danger.s900.color};
@@ -116,7 +116,7 @@ component Ui.Theme {
     --danger-s50-color: #{resolved.danger.s50.color};
     --danger-s50-text: #{resolved.danger.s50.text};
 
-    --danger-shadow: #{resolved.danger.shadow};
+    --danger-shadow: hsla(#{resolved.danger.hue}, #{resolved.danger.saturation}%, #{resolved.danger.lightness}%, 0.25);
 
     /* Success color variables. */
     --success-s900-color: #{resolved.success.s900.color};
@@ -152,7 +152,7 @@ component Ui.Theme {
     --success-s50-color: #{resolved.success.s50.color};
     --success-s50-text: #{resolved.success.s50.text};
 
-    --success-shadow: #{resolved.success.shadow};
+    --success-shadow: hsla(#{resolved.success.hue}, #{resolved.success.saturation}%, #{resolved.success.lightness}%, 0.25);
 
     /* Success color variables. */
     --surface-s900-color: #{resolved.surface.s900.color};
@@ -188,7 +188,7 @@ component Ui.Theme {
     --surface-s50-color: #{resolved.surface.s50.color};
     --surface-s50-text: #{resolved.surface.s50.text};
 
-    --surface-shadow: #{resolved.surface.shadow};
+    --surface-shadow: hsla(#{resolved.surface.hue}, #{resolved.surface.saturation}%, #{resolved.surface.lightness}%, 0.25);
 
     /* Simple colors. */
     --content-faded-color: #{resolved.contentFaded.color};

@@ -14,7 +14,7 @@ store Ui {
       success = Color::HEX("26AE3DFF"),
       danger = Color::HEX("F44336FF"),
       borderRadiusCoefficient = 0.16,
-      borderLight = Color::HEX("E9E9E9FF"),
+      borderLight = Color::HEX("E6E6E6FF"),
       borderDark = Color::HEX("262626FF"),
       fontFamily = "Arial"
     }

@@ -111,7 +111,7 @@ component Ui.Header {
     <div::base>
       <{ brand }>
 
-      <Ui.LineGrid gap={size * 2.5}>
+      <Ui.LineGrid gap={size * 1.25}>
         if (mobile) {
           <div onClick={handleClick}>
             <Ui.Icon

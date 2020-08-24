@@ -42,7 +42,7 @@ global component Ui.ActionSheet {
 
   /* The style of the backdrop element. */
   style base {
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
     position: fixed;
     z-index: 1000;
     bottom: 0;

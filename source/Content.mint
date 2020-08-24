@@ -52,6 +52,7 @@ component Ui.Content {
     h4,
     h5 {
       line-height: 1.2em;
+      margin-bottom: 0.5em;
     }
 
     h2 {

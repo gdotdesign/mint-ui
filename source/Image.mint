@@ -1,6 +1,12 @@
 /* An image component. */
 component Ui.Image {
-  /* The value for the border-radius CSS property. */
+  /* The value for the `object-position` CSS property. */
+  property objectPosition : String = "center"
+
+  /* The value for the `object-fit` CSS property. */
+  property objectFit : String = "cover"
+
+  /* The value for the `border-radius` CSS property. */
   property borderRadius : String = ""
 
   /* Wether or not the image fills the width of it's parent element. */
@@ -45,8 +51,8 @@ component Ui.Image {
 
   /* The style for the image. */
   style image {
-    object-position: center;
-    object-fit: cover;
+    object-position: #{objectPosition};
+    object-fit: #{objectFit};
 
     transition: opacity 120ms;
     border-radius: inherit;

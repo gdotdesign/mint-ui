@@ -21,10 +21,12 @@ component Ui.FloatingButton {
 
     box-shadow: 0 0 #{size * 0.08}px rgba(0,0,0,0.4);
     border-radius: 50%;
-    cursor: pointer;
     padding: 0;
     border: 0;
     margin: 0;
+
+    cursor: pointer;
+    outline: none;
 
     height: #{size}px;
     width: #{size}px;

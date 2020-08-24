@@ -50,8 +50,8 @@ component Ui.Card {
     &:hover,
     &:focus {
       if (String.isNotBlank(href)) {
-        box-shadow: 0 0 0.0625em 0.0625em var(--primary-s400-color),
-                    0 0 0 0.25em var(--primary-shadow);
+        box-shadow: 0 0 0 0.1875em var(--primary-s500-color),
+                    0 0 0 0.375em var(--primary-shadow);
 
         cursor: pointer;
       } else {
