@@ -57,7 +57,7 @@ component Ui.Header {
 
     grid-auto-flow: column;
     align-items: center;
-    grid-gap: 0.5em;
+    grid-gap: 0.75em;
     display: grid;
     outline: none;
 
