@@ -77,8 +77,12 @@ component Ui.Card {
         <{ children }>
       </div>
     } else {
-      <a::base href={href}>
+      <a::base
+        onDragStart={Html.Event.preventDefault}
+        href={href}>
+
         <{ children }>
+
       </a>
     }
   }

@@ -84,6 +84,7 @@ component Ui.Calendar {
     border-top: 0.0625em solid var(--border);
 
     justify-content: space-between;
+    white-space: nowrap;
     display: flex;
 
     padding: 0.625em 0;
