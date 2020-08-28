@@ -21,6 +21,9 @@ component Ui.Calendar {
   /* The size of the component. */
   property size : Number = 16
 
+  /* Wether or not the calender is embedded (in a picker for example). */
+  property embedded : Bool = false
+
   /* Styles for the base. */
   style base {
     -moz-user-select: none;
@@ -28,16 +31,20 @@ component Ui.Calendar {
 
     background: var(--content-color);
     color: var(--content-text);
-    padding: 1.25em;
-
-    border-radius: calc(1.5625em * var(--border-radius-coefficient));
-    border: 0.125em solid var(--border);
 
     font-family: var(--font-family);
     font-size: #{size}px;
 
     grid-gap: 1em;
     display: grid;
+
+    if (embedded) {
+      padding: 0.5em;
+    } else {
+      border-radius: calc(1.5625em * var(--border-radius-coefficient));
+      border: 0.125em solid var(--border);
+      padding: 1.25em;
+    }
 
     if (disabled) {
       filter: saturate(0) brightness(0.8) contrast(0.5);

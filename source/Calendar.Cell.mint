@@ -64,7 +64,7 @@ component Ui.Calendar.Cell {
       title={Time.format("yyyy-MM-dd", day)}
       onClick={handleClick}>
 
-      <{ Number.toString(Time.day(day)) }>
+      <{ Time.format("dd", day) }>
 
     </div>
   }

@@ -38,18 +38,17 @@ component Ui.Dropdown {
   /* The width of the panel if `matchWidth` is true. */
   state width : Number = 0
 
-  use Provider.Mouse {
-    clicks = Promise.never1,
-    moves = Promise.never1,
-    ups = close
-  } when {
-    open
-  }
-
   use Provider.AnimationFrame {
     frames = updateDimensions
   } when {
     open && matchWidth
+  }
+
+  use Provider.OutsideClick {
+    elements = [panel],
+    clicks = onClose
+  } when {
+    closeOnOutsideClick
   }
 
   /* Style for the panel. */
@@ -88,24 +87,6 @@ component Ui.Dropdown {
         }
 
       Maybe::Nothing => next {  }
-    }
-  }
-
-  /* The close event handler. */
-  fun close (event : Html.Event) : Promise(Never, Void) {
-    if (closeOnOutsideClick) {
-      case (panel) {
-        Maybe::Just element =>
-          if (Dom.contains(event.target, element)) {
-            next {  }
-          } else {
-            onClose()
-          }
-
-        Maybe::Nothing => next {  }
-      }
-    } else {
-      next {  }
     }
   }
 

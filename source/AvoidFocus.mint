@@ -10,6 +10,9 @@ component Ui.AvoidFocus {
   /* The child elements. */
   property children : Array(Html) = []
 
+  /* Wether or not to disable cursor events as well. */
+  property disableCursor : Bool = true
+
   /* We are using the mutation provider to update elements on the fly. */
   use Provider.Mutation {
     changes = update,
@@ -18,7 +21,13 @@ component Ui.AvoidFocus {
 
   /* Style for the base element. */
   style base {
-    pointer-events: none;
+    if (disableCursor) {
+      pointer-events: none;
+    }
+
+    * {
+      outline: none !important;
+    }
   }
 
   /* Sets `tabindex="-1"` on all child elements. */

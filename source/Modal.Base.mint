@@ -24,7 +24,7 @@ component Ui.Modal.Base {
   property open : Bool = false
 
   use Provider.OutsideClick {
-    element = wrapper,
+    elements = [wrapper],
     clicks = onClose
   } when {
     open
