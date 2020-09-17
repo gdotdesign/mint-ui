@@ -4,6 +4,7 @@ like static content:
 
 - tab focus is disabled by adding `tabindex="-1"` to all child elements
 - pointer focus is disabled with the `pointer-events: none` CSS.
+- Firefox focus ring because of `tabindex` is removed with `outline: none !important` CSS.
 - all elements are hidden from screen readers
 */
 component Ui.AvoidFocus {

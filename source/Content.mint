@@ -19,7 +19,7 @@ component Ui.Content {
   /* Wether or not to add a padding to the content. */
   property padding : Bool = false
 
-  /* The size of the checkbox. */
+  /* The size of the content. */
   property size : Number = 16
 
   /* The styles for the contents. */
@@ -51,12 +51,15 @@ component Ui.Content {
     h3,
     h4,
     h5 {
-      line-height: 1.2em;
       margin-bottom: 0.5em;
+      margin-top: 2em;
+
+      line-height: 1.2em;
     }
 
-    h2 {
-      margin-top: 2em;
+    ul,
+    ol {
+      padding-left: 2em;
     }
 
     li + li {

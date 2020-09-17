@@ -33,10 +33,6 @@ component Ui.Example {
 
   /* the style for the base. */
   style base {
-    box-shadow: 0 0 0.0625em 0.0625em var(--border),
-                0 0 0 0.25em var(--content-faded-color);
-
-    border-radius: calc(1.5625em * var(--border-radius-coefficient));
     font-size: #{size}px;
     position: relative;
     display: grid;
@@ -137,25 +133,27 @@ component Ui.Example {
       {content, code} =
         data
 
-      <div::base as base>
-        <div::demo-area>
-          <div::demo-area-wrapper>
-            <{ content }>
+      <Ui.Card>
+        <div::base as base>
+          <div::demo-area>
+            <div::demo-area-wrapper>
+              <{ content }>
+            </div>
           </div>
+
+          if (Html.isNotEmpty(controls)) {
+            <div::controls>
+              <{ controls }>
+            </div>
+          }
+
+          <pre::pre>
+            <code::code>
+              <{ highlight(code) }>
+            </code>
+          </pre>
         </div>
-
-        if (Html.isNotEmpty(controls)) {
-          <div::controls>
-            <{ controls }>
-          </div>
-        }
-
-        <pre::pre>
-          <code::code>
-            <{ highlight(code) }>
-          </code>
-        </pre>
-      </div>
+      </Ui.Card>
     }
   }
 }

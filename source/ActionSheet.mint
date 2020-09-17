@@ -218,11 +218,17 @@ global component Ui.ActionSheet {
             resolve = resolve,
             items = items,
             theme = theme,
-            size = size,
-            open = true
+            size = size
           }
 
         sequence {
+          /*
+          We need to have a time out so the component can be rendered
+          before showing it.
+          */
+          Timer.timeout(10, "")
+          next { open = true }
+
           Timer.timeout(100, "")
 
           case (container) {
@@ -379,7 +385,7 @@ global component Ui.ActionSheet {
 
       case (theme) {
         Maybe::Just actualTheme =>
-          <Ui.Theme theme={Debug.log(actualTheme)}>
+          <Ui.Theme theme={actualTheme}>
             <{ content }>
           </Ui.Theme>
 

@@ -1,10 +1,3 @@
-/* An enum to represent the state of a picker. */
-enum Ui.Picker.Status {
-  Focused
-  Open
-  Idle
-}
-
 /* A base component for implementing custom pickers (date, select). */
 component Ui.Picker {
   connect Ui exposing { mobile }

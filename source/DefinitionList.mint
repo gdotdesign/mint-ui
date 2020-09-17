@@ -2,16 +2,8 @@
 component Ui.DefinitionList {
   const DEFAULT_CELL = Ui.Cell::String("")
 
-  const DEAFULT_HEADER =
-    {
-      sortable = false,
-      shrink = false,
-      sortKey = "",
-      label = ""
-    }
-
   /* The data for the headers. */
-  property headers : Array(Ui.Table.Header) = []
+  property headers : Array(String) = []
 
   /* The data for the rows. */
   property rows : Array(Array(Ui.Cell)) = []
@@ -125,11 +117,11 @@ component Ui.DefinitionList {
                 header =
                   headers
                   |> Array.at(Array.indexOf(cell, cells))
-                  |> Maybe.withDefault(DEAFULT_HEADER)
+                  |> Maybe.withDefault("")
 
                 <div::item>
                   <div::label>
-                    <{ header.label }>
+                    <{ header }>
                   </div>
 
                   <div>

@@ -5,8 +5,8 @@ store Ui {
     {
       contentLightFaded = Color::HEX("F6F6F6FF"),
       contentLight = Color::HEX("FCFCFC"),
-      contentDarkFaded = Color::HEX("2F2F2FFF"),
-      contentDark = Color::HEX("333333FF"),
+      contentDarkFaded = Color::HEX("363636FF"),
+      contentDark = Color::HEX("2F2F2FFF"),
       surfaceLight = Color::HEX("DDDDDDFF"),
       surfaceDark = Color::HEX("666666FF"),
       primary = Color::HEX("0591FCFF"),

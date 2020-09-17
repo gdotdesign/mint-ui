@@ -1,14 +1,5 @@
 /* A 3D book component. */
 component Ui.Book {
-  /* The link for the anchor. */
-  property href = ""
-
-  /* The source of the image. */
-  property src = ""
-
-  /* The alt content for the image. */
-  property alt = ""
-
   /* The perspective amount. */
   property perspective : Number = 700
 
@@ -29,6 +20,15 @@ component Ui.Book {
 
   /* The outward offset of the covers from the pages. */
   property offset : Number = 5
+
+  /* The link for the anchor. */
+  property href = ""
+
+  /* The source of the image. */
+  property src = ""
+
+  /* The alt content for the image. */
+  property alt = ""
 
   /* Styles for the base. */
   style base {
@@ -106,6 +106,7 @@ component Ui.Book {
   /* Styles for the cover image. */
   style image {
     border-radius: 0 #{borderRadius}px #{borderRadius}px 0;
+    background: var(--content-color);
     height: #{height}px;
     width: #{width}px;
     display: block;

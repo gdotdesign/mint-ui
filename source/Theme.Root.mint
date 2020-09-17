@@ -14,9 +14,7 @@ component Ui.Theme.Root {
         themeCSS(resolveTheme(theme))
 
       styles =
-        <style>
-          ":root { #{css} }"
-        </style>
+        <style>":root { #{css} }"</style>
 
       <{
         `_createPortal(#{styles}, document.head)`

@@ -9,11 +9,11 @@ component Ui.Calendar.Cell {
   /* Wether or not the cell is active (selectable). */
   property active : Bool = false
 
-  /* The size of the component. */
-  property size : Number = 16
-
   /* Wether or not the component is disabled. */
   property disabled : Bool = false
+
+  /* The size of the component. */
+  property size : Number = 16
 
   /* The day. */
   property day : Time
@@ -27,14 +27,13 @@ component Ui.Calendar.Cell {
     align-items: center;
     display: flex;
 
+    cursor: pointer;
     height: 2em;
     width: 2em;
 
     if (active) {
-      cursor: pointer;
       opacity: 1;
     } else {
-      pointer-events: none;
       opacity: 0.2;
     }
 

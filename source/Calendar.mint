@@ -15,14 +15,14 @@ component Ui.Calendar {
   /* The selected day. */
   property day : Time = Time.today()
 
+  /* Wether or not the calender is embedded (in a picker for example). */
+  property embedded : Bool = false
+
   /* Wether or not the component is disabled. */
   property disabled : Bool = false
 
   /* The size of the component. */
   property size : Number = 16
-
-  /* Wether or not the calender is embedded (in a picker for example). */
-  property embedded : Bool = false
 
   /* Styles for the base. */
   style base {
@@ -127,8 +127,9 @@ component Ui.Calendar {
         <Ui.Icon
           onClick={handleChevronLeftClick}
           icon={Ui.Icons:CHEVRON_LEFT}
-          interactive={!disabled}
-          autoSize={true}/>
+          disabled={disabled}
+          interactive={true}
+          size={size}/>
 
         <div::text>
           <{ Time.format("MMMM - yyyy", month) }>
@@ -137,8 +138,9 @@ component Ui.Calendar {
         <Ui.Icon
           onClick={handleChevronRightClick}
           icon={Ui.Icons:CHEVRON_RIGHT}
-          interactive={!disabled}
-          autoSize={true}/>
+          disabled={disabled}
+          interactive={true}
+          size={size}/>
       </div>
 
       <div::dayNames>
@@ -178,7 +180,6 @@ component Ui.Calendar {
               active={Array.any((item : Time) : Bool { cell == item }, range)}
               onClick={handleCellClick}
               selected={day == cell}
-              disabled={disabled}
               size={size}
               day={cell}/>
           }

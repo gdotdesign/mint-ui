@@ -52,6 +52,7 @@ component Ui.Breadcrumbs {
   /* The style of the a breadcrumb. */
   style breadcrumb {
     text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
     color: inherit;
 

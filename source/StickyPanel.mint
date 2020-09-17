@@ -176,9 +176,11 @@ component Ui.StickyPanel {
   fun render : Array(Html) {
     [
       element,
-      <div::panel as panel>
-        <{ content }>
-      </div>
+      <Html.Portals.Body>
+        <div::panel as panel>
+          <{ content }>
+        </div>
+      </Html.Portals.Body>
     ]
   }
 }

@@ -27,6 +27,7 @@ component Ui.Card {
     font-size: #{size}px;
 
     min-width: #{minWidth}px;
+    overflow: hidden;
     outline: none;
 
     > * + * {
@@ -73,9 +74,9 @@ component Ui.Card {
   /* Renders the card. */
   fun render : Html {
     if (String.isBlank(href)) {
-      <div::base>
+      <a::base>
         <{ children }>
-      </div>
+      </a>
     } else {
       <a::base
         onDragStart={Html.Event.preventDefault}

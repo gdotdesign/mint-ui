@@ -64,7 +64,7 @@ component Ui.Table {
     <div as base>
       if (mobile) {
         <Ui.DefinitionList
-          headers={headers}
+          headers={Array.map(.label, headers)}
           rows={rows}/>
       } else {
         <table::base as table>

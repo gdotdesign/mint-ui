@@ -94,11 +94,11 @@ component Ui.Icon {
           <{ icon }>
         </a>
       } else if (interactive && !disabled) {
-        <button::base::button onClick={onClick}>
+        <button::base::button onClick={Ui.disabledHandler(disabled, onClick)}>
           <{ icon }>
         </button>
       } else {
-        <div::base onClick={onClick}>
+        <div::base onClick={Ui.disabledHandler(disabled, onClick)}>
           <{ icon }>
         </div>
       }

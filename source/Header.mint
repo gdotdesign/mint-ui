@@ -111,7 +111,7 @@ component Ui.Header {
     <div::base>
       <{ brand }>
 
-      <Ui.LineGrid gap={size * 1.25}>
+      <Ui.LineGrid gap={size * 2}>
         if (mobile) {
           <div onClick={handleClick}>
             <Ui.Icon
@@ -146,11 +146,7 @@ component Ui.Header {
 
                         </div>
                       }
-                      content={
-                        <Ui.Dropdown.Panel>
-                          "Content"
-                        </Ui.Dropdown.Panel>
-                      }/>
+                      content={<Ui.Dropdown.Panel>"Content"</Ui.Dropdown.Panel>}/>
                   }
 
                 Ui.NavItem::Item iconBefore iconAfter label action =>

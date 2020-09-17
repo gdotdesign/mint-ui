@@ -111,13 +111,13 @@ component Ui.InteractiveList {
     case (event.keyCode) {
       Html.Event:ENTER => onSelect(intended)
 
-      Html.Event:DOWN =>
+      Html.Event:DOWN_ARROW =>
         try {
           Html.Event.preventDefault(event)
           selectNext(true)
         }
 
-      Html.Event:UP =>
+      Html.Event:UP_ARROW =>
         try {
           Html.Event.preventDefault(event)
           selectNext(false)
