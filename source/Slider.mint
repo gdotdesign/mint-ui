@@ -1,3 +1,4 @@
+/* A simple slider component. */
 component Ui.Slider {
   /* The change event handler. */
   property onChange : Function(Number, Promise(Never, Void)) = Promise.never1

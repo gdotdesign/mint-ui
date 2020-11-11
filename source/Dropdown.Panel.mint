@@ -34,21 +34,18 @@ component Ui.Dropdown.Panel {
                    calc(1.5625em * var(--border-radius-coefficient))
                    0 0;
 
+    /* The padding here is using the size because the font-size is smaller. */
     padding: #{0.5 * size}px #{0.75 * size}px;
     border-bottom: 1px solid var(--border);
     background: var(--content-faded-color);
     color: var(--content-faded-text);
-    font-size: #{0.875 * size}px;
+    font-size: 0.875em;
     font-weight: bold;
   }
 
   /* Styles for the content. */
   style content {
-    if (mobile) {
-      padding: 0.75em;
-    } else {
-      padding: 0.5em;
-    }
+    padding: 0.75em;
   }
 
   /* Renders the panel. */

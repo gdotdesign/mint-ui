@@ -13,8 +13,30 @@ component Ui.Theme.Root {
       css =
         themeCSS(resolveTheme(theme))
 
+      scrollbars =
+        "
+        html {
+          scrollbar-color: var(--surface-s600-color) var(--surface-s200-color);
+          scrollbar-width: thin;
+        }
+
+        html::-webkit-scrollbar {
+          cursor: pointer;
+          height: 6px;
+          width: 6px;
+        }
+
+        html::-webkit-scrollbar-track {
+          background: var(--surface-s200-color);
+        }
+
+        html::-webkit-scrollbar-thumb {
+          background: var(--surface-s600-color);
+        }
+        "
+
       styles =
-        <style>":root { #{css} }"</style>
+        <style>":root { #{css} } #{scrollbars}"</style>
 
       <{
         `_createPortal(#{styles}, document.head)`

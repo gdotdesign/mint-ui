@@ -53,6 +53,7 @@ component Ui.Tabs {
     grid-gap: 1em;
     display: grid;
 
+    white-space: nowrap;
     cursor: pointer;
     outline: none;
 
