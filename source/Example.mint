@@ -12,6 +12,9 @@ component Ui.Example {
   /* The controls. */
   property controls : Html = <></>
 
+  /* The content for the warning area. */
+  property warning : Html = <></>
+
   /* Controls when to use a one column layout. */
   property breakpoint : Number = 1000
 
@@ -40,7 +43,7 @@ component Ui.Example {
     if (mobile) {
       grid-template-columns: 1fr;
     } else {
-      grid-template-columns: 1fr min-content;
+      grid-template-columns: 1fr auto;
     }
   }
 
@@ -101,6 +104,14 @@ component Ui.Example {
     }
   }
 
+  style warning {
+    background: var(--warning-s500-color);
+    color: var(--warning-s500-text);
+    border-radius: 0 0 0.25em 0;
+    position: absolute;
+    padding: 0.75em;
+  }
+
   style code {
     font-family: monospace;
     line-height: 150%;
@@ -123,7 +134,7 @@ component Ui.Example {
       min-width: 0;
     } else {
       border-left: 0.0625em solid var(--border);
-      min-width: 18.75em;
+      min-width: 14em;
     }
   }
 
@@ -144,6 +155,12 @@ component Ui.Example {
           if (Html.isNotEmpty(controls)) {
             <div::controls>
               <{ controls }>
+            </div>
+          }
+
+          if (Html.isNotEmpty(warning)) {
+            <div::warning>
+              <{ warning }>
             </div>
           }
 

@@ -1,5 +1,5 @@
 /* A form field component. */
-component Ui.Form.Field {
+component Ui.Field {
   /* The error message. */
   property error : Maybe(String) = Maybe::Nothing
 

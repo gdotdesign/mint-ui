@@ -17,13 +17,12 @@ component Ui.Theme.Root {
         "
         html {
           scrollbar-color: var(--surface-s600-color) var(--surface-s200-color);
-          scrollbar-width: thin;
         }
 
         html::-webkit-scrollbar {
           cursor: pointer;
-          height: 6px;
-          width: 6px;
+          height: 12px;
+          width: 12px;
         }
 
         html::-webkit-scrollbar-track {

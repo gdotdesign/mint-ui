@@ -27,7 +27,7 @@ component Ui.Dropdown {
   property content : Html = <{  }>
 
   /* The offset from the side of the element. */
-  property offset : Number = 0
+  property offset : Number = 5
 
   /* The zIndex to use for the dropdown. */
   property zIndex : Number = 1
@@ -48,7 +48,7 @@ component Ui.Dropdown {
     elements = [panel],
     clicks = onClose
   } when {
-    closeOnOutsideClick
+    closeOnOutsideClick && open && !mobile
   }
 
   /* Style for the panel. */

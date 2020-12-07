@@ -27,6 +27,7 @@ component Ui.Slider {
     box-sizing: border-box;
 
     background: transparent;
+    vertical-align: middle;
     font-size: #{size}px;
     cursor: pointer;
     height: 2.375em;

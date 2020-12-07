@@ -28,7 +28,7 @@ component Ui.Content {
     text-align: #{textAlign};
     word-break: break-word;
     font-size: #{size}px;
-    line-height: 1.7em;
+    line-height: 1.7;
 
     if (padding && mobile) {
       padding: 1em;

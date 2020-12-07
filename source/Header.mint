@@ -23,6 +23,7 @@ component Ui.Header {
   /* A state to store the current url. */
   state url : Url = Window.url()
 
+  /* A state to store the state of the dropdowns. */
   state openDropdowns : Map(String, Bool) = Map.empty()
 
   use Provider.Url { changes = (url : Url) { next { url = url } } }

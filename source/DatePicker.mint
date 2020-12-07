@@ -24,6 +24,12 @@ component Ui.DatePicker {
   /* A variable for tracking the current month. */
   state month : Maybe(Time) = Maybe::Nothing
 
+  style label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   /* Handles the keydown event. */
   fun handleKeyDown (event : Html.Event) {
     case (event.keyCode) {
@@ -67,7 +73,10 @@ component Ui.DatePicker {
         </Ui.AvoidFocus>
 
       label =
-        Maybe::Just(<{ Time.format("yyyy-MM-dd", value) }>)
+        Maybe::Just(
+          <div::label>
+            <{ Time.format("yyyy-MM-dd", value) }>
+          </div>)
 
       <Ui.Picker as picker
         icon={Ui.Icons:CHEVRON_DOWN}

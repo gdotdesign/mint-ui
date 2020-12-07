@@ -145,7 +145,7 @@ component Ui.Picker {
     border: #{size * 0.125}px solid var(--border);
     background-color: var(--content-color);
     color: var(--content-text);
-    padding: 0.5em 0.625em;
+    padding: 0.4375em 0.625em;
     height: 2.375em;
 
     font-family: sans-serif;

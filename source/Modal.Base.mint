@@ -27,7 +27,7 @@ component Ui.Modal.Base {
     elements = [wrapper],
     clicks = onClose
   } when {
-    open
+    open && closeOnOutsideClick
   }
 
   /* Styles for the base element. */

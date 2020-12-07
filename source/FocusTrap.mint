@@ -26,7 +26,7 @@ component Ui.FocusTrap {
                 Html.Event.preventDefault(event)
                 Dom.focus(last)
               }
-            } else if (last == target) {
+            } else if (!event.shiftKey && last == target) {
               try {
                 Html.Event.preventDefault(event)
                 Dom.focus(first)

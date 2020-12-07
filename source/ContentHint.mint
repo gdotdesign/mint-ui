@@ -13,43 +13,71 @@ component Ui.ContentHint {
 
   /* The styles for the base. */
   style base {
-    align-items: center;
-    grid-gap: 1.4em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient));
+    margin: 1em 0;
+
+    grid-template-columns: auto 1fr;
     display: grid;
 
-    background: var(--content-faded-color);
-    color: var(--content-faded-text);
-
-    if (mobile) {
-      grid-template-rows: min-content 1fr;
-      grid-template-columns: 1fr;
-    } else {
-      grid-template-columns: min-content 1fr;
-    }
-
     case (type) {
-      "primary" => border-left: 0.25em solid var(--primary-s500-color);
-      "warning" => border-left: 0.25em solid var(--warning-s500-color);
-      "success" => border-left: 0.25em solid var(--success-s500-color);
-      "danger" => border-left: 0.25em solid var(--danger-s500-color);
+      "primary" =>
+        background: var(--primary-s50-color);
+        color: var(--primary-s50-text);
+
+      "warning" =>
+        background: var(--warning-s50-color);
+        color: var(--warning-s50-text);
+
+      "success" =>
+        background: var(--success-s50-color);
+        color: var(--success-s50-text);
+
+      "danger" =>
+        background: var(--danger-s50-color);
+        color: var(--danger-s50-text);
+
       =>
     }
-
-    line-height: 150%;
-    padding: 1.25em;
-    margin: 1em 0;
   }
 
   /* The style for the icon. */
   style icon {
-    font-size: 1.6em;
+    border-radius: calc(1.5625em * var(--border-radius-coefficient)) 0 0
+                   calc(1.5625em * var(--border-radius-coefficient));
+
+    align-items: center;
+    display: grid;
+
+    font-size: 2em;
+    padding: 0.5em;
 
     case (type) {
-      "primary" => color: var(--primary-s500-color);
-      "warning" => color: var(--warning-s500-color);
-      "success" => color: var(--success-s500-color);
-      "danger" => color: var(--danger-s500-color);
+      "primary" =>
+        background: var(--primary-s500-color);
+        color: var(--primary-s500-text);
+
+      "warning" =>
+        background: var(--warning-s500-color);
+        color: var(--warning-s500-text);
+
+      "success" =>
+        background: var(--success-s500-color);
+        color: var(--success-s500-text);
+
+      "danger" =>
+        background: var(--danger-s500-color);
+        color: var(--danger-s500-text);
+
       =>
+    }
+  }
+
+  style content {
+    line-height: 150%;
+    padding: 1.25em;
+
+    if (mobile) {
+      padding: 0.75em;
     }
   }
 
@@ -62,7 +90,7 @@ component Ui.ContentHint {
           icon={icon}/>
       </div>
 
-      <div>
+      <div::content>
         <{ children }>
       </div>
     </div>

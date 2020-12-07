@@ -4,7 +4,7 @@ global component Ui.Modal {
   state resolve : Function(Void, Void) = (value : Void) { void }
 
   /* The reject function. */
-  state reject : Function(String, Void) = (error : String) { void }
+  state reject : Function(Ui.Modal.Cancelled, Void) = (error : Ui.Modal.Cancelled) { void }
 
   /* The theme. */
   state theme : Maybe(Ui.Theme) = Maybe::Nothing
@@ -34,7 +34,7 @@ global component Ui.Modal {
   }
 
   /* Shows the component with the given content. */
-  fun show (content : Html) : Promise(String, Void) {
+  fun show (content : Html) : Promise(Ui.Modal.Cancelled, Void) {
     showWithOptions(
       content,
       100,
@@ -55,7 +55,7 @@ global component Ui.Modal {
     transitionDuration : Number,
     theme : Maybe(Ui.Theme),
     openCallback : Function(Promise(Never, Void))
-  ) : Promise(String, Void) {
+  ) : Promise(Ui.Modal.Cancelled, Void) {
     try {
       {resolve, reject, promise} =
         Promise.create()
@@ -86,11 +86,11 @@ global component Ui.Modal {
       next { open = false }
 
       Timer.timeout(transitionDuration, "")
-      reject("")
+      reject(`null` as Ui.Modal.Cancelled)
 
       next
         {
-          reject = (error : String) { void },
+          reject = (error : Ui.Modal.Cancelled) { void },
           resolve = (value : Void) { void },
           content = <{  }>
         }
@@ -107,7 +107,7 @@ global component Ui.Modal {
 
       next
         {
-          reject = (error : String) { void },
+          reject = (error : Ui.Modal.Cancelled) { void },
           resolve = (value : Void) { void }
         }
     }

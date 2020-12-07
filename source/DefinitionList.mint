@@ -30,7 +30,13 @@ component Ui.DefinitionList {
     appearance: none;
 
     &[open] {
-      border-bottom: 0.1875em solid var(--border);
+      &:not(:last-of-type) {
+        border-bottom: 0.1875em solid var(--border);
+      }
+
+      &:last-of-type {
+        border-bottom: 0.0625em solid var(--border);
+      }
 
       summary {
         svg {
