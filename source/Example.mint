@@ -6,9 +6,6 @@ component Ui.Example {
   /* Controls the vertical spacing between the elements. */
   property verticalSpacing : Number = 0
 
-  /* Wether or not the example fills the demo area. */
-  property fill : Bool = false
-
   /* The controls. */
   property controls : Html = <></>
 
@@ -26,6 +23,9 @@ component Ui.Example {
 
   /* The size of the component. */
   property size : Number = 16
+
+  /* Wether or not the example expands to full width. */
+  property fullWidth : Bool = false
 
   state mobile : Bool = false
 
@@ -60,13 +60,9 @@ component Ui.Example {
     overflow: hidden;
     padding: 2em;
 
-    if (fill) {
-      display: grid;
-    } else {
-      justify-content: center;
-      align-items: center;
-      display: flex;
-    }
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
 
   /* The style for the demo-area wrapper. */
@@ -75,6 +71,10 @@ component Ui.Example {
       grid-gap: #{horizontalSpacing}px;
       grid-auto-flow: column;
       align-items: center;
+    }
+
+    if (fullWidth) {
+      width: 100%;
     }
 
     if (mobile) {

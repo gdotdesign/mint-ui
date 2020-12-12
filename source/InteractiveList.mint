@@ -28,6 +28,17 @@ component Ui.InteractiveList {
   style base {
     font-size: #{size}px;
     outline: none;
+
+    if (interactive) {
+      padding: 0.125em;
+    }
+
+    &:focus {
+      if (interactive) {
+        box-shadow: 0 0 0 0.125em var(--primary-s500-color),
+                    0 0 0 0.1875em var(--primary-shadow);
+      }
+    }
   }
 
   /* The styles for the items. */
@@ -110,6 +121,12 @@ component Ui.InteractiveList {
   fun handleKeyDown (event : Html.Event) {
     case (event.keyCode) {
       Html.Event:ENTER => onSelect(intended)
+
+      Html.Event:SPACE =>
+        try {
+          Html.Event.preventDefault(event)
+          onSelect(intended)
+        }
 
       Html.Event:DOWN_ARROW =>
         try {

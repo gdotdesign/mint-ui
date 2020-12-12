@@ -18,6 +18,7 @@ component Ui.Card {
   style base {
     border-radius: calc(1.5625em * var(--border-radius-coefficient));
     background: var(--content-faded-color);
+    color: var(--content-faded-text);
     box-shadow: #{boxShadow};
 
     flex-direction: column;

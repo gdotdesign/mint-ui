@@ -32,20 +32,21 @@ component Ui.Icon {
 
     &:focus,
     &:hover {
-      if (interactive && !disabled) {
+      if (actuallyInteractive) {
         color: var(--primary-s500-color);
       }
     }
 
     if (disabled) {
       cursor: not-allowed;
+      opacity: 0.5;
     }
 
     svg {
       opacity: #{opacity};
       fill: currentColor;
 
-      if (interactive && !disabled) {
+      if (actuallyInteractive) {
         pointer-events: auto;
         cursor: pointer;
       } else {
@@ -55,7 +56,6 @@ component Ui.Icon {
 
       if (disabled) {
         pointer-events: none;
-        opacity: 0.5;
       }
 
       if (autoSize) {
@@ -66,6 +66,10 @@ component Ui.Icon {
         width: #{size}px;
       }
     }
+  }
+
+  get actuallyInteractive {
+    (interactive || String.isNotBlank(href)) && !disabled
   }
 
   /* The style for the link. */
@@ -93,7 +97,7 @@ component Ui.Icon {
         <a::base::link href={href}>
           <{ icon }>
         </a>
-      } else if (interactive && !disabled) {
+      } else if (actuallyInteractive) {
         <button::base::button onClick={Ui.disabledHandler(disabled, onClick)}>
           <{ icon }>
         </button>

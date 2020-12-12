@@ -2,8 +2,6 @@
 The header component with a brand and navigation items which on mobile collapses
 into a icon which when interacted with opens up an action sheet with the
 navigation items.
-
-TODO: Dropdown items and nested groups.
 */
 component Ui.Header {
   connect Ui exposing { mobile }
@@ -60,9 +58,9 @@ component Ui.Header {
     align-items: center;
     grid-gap: 0.75em;
     display: grid;
-    outline: none;
 
     cursor: pointer;
+    outline: none;
 
     if (active) {
       color: var(--primary-s500-color);
@@ -75,6 +73,13 @@ component Ui.Header {
       color: var(--primary-s500-color);
       text-decoration: underline;
     }
+  }
+
+  /* Styles for the label. */
+  style label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   /* The style for the divider. */
@@ -97,7 +102,9 @@ component Ui.Header {
           autoSize={true}/>
       }
 
-      <{ label }>
+      <span::label>
+        <{ label }>
+      </span>
 
       if (Html.isNotEmpty(iconAfter)) {
         <Ui.Icon
@@ -116,6 +123,7 @@ component Ui.Header {
         if (mobile) {
           <div onClick={handleClick}>
             <Ui.Icon
+              interactive={true}
               size={size * 2}
               icon={icon}/>
           </div>
@@ -125,7 +133,7 @@ component Ui.Header {
               case (item) {
                 Ui.NavItem::Divider => <div::divider/>
 
-                Ui.NavItem::Group iconBefore iconAfter label key =>
+                Ui.NavItem::Group iconBefore iconAfter label key items =>
                   try {
                     open =
                       Map.getWithDefault(key, false, openDropdowns)
@@ -140,14 +148,17 @@ component Ui.Header {
                         <div::item(false)
                           onFocus={() { next { openDropdowns = Map.set(key, true, openDropdowns) } }}
                           onClick={() { next { openDropdowns = Map.set(key, true, openDropdowns) } }}
-                          onBlur={() { next { openDropdowns = Map.set(key, false, openDropdowns) } }}
                           tabIndex="0">
 
                           <{ renderItem(iconBefore, iconAfter, label) }>
 
                         </div>
                       }
-                      content={<Ui.Dropdown.Panel>"Content"</Ui.Dropdown.Panel>}/>
+                      content={
+                        <Ui.Dropdown.Panel>
+                          <Ui.NavItems items={items}/>
+                        </Ui.Dropdown.Panel>
+                      }/>
                   }
 
                 Ui.NavItem::Item iconBefore iconAfter label action =>

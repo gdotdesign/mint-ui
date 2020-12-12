@@ -69,76 +69,12 @@ component Ui.Layout.Documentation {
     display: grid;
   }
 
-  /* Style for a category. */
-  style category {
-    margin-bottom: 0.3125em;
-    display: block;
-
-    &:not(:first-child) {
-      margin-top: 1.25em;
-    }
-  }
-
-  /* Styles for a row. */
-  style row {
-    grid-auto-flow: column;
-    justify-content: start;
-    align-items: center;
-    grid-gap: 0.75em;
-    display: grid;
-  }
-
-  /* Style for an item in the sidebar. */
-  style item (active : Bool) {
-    text-decoration: none;
-    cursor: pointer;
-    color: inherit;
-
-    if (active) {
-      color: var(--primary-s600-color);
-    }
-
-    &:hover {
-      color: var(--primary-s500-color);
-    }
-  }
-
-  /* Style for the divider. */
-  style divider {
-    border-top: 0.125em solid var(--border);
-  }
-
   /* Style for the mobile page selector. */
   style button {
     position: sticky;
     margin-left: 1em;
     bottom: 1em;
     z-index: 1;
-  }
-
-  /* Styles for the group. */
-  style group {
-    margin-bottom: 0.5em;
-
-    > div {
-      padding-left: 0.75em;
-      border-left: 1px solid var(--border);
-    }
-
-    strong {
-      margin-bottom: 0.5em;
-    }
-
-    &:not(:first-child) {
-      margin-top: 0.5em;
-    }
-  }
-
-  /* Styles for the containers of items. */
-  style items {
-    align-content: start;
-    grid-gap: 0.5em;
-    display: grid;
   }
 
   /* Style for the items. */
@@ -196,63 +132,12 @@ component Ui.Layout.Documentation {
     Ui.ActionSheet.show(items)
   }
 
-  /* Renders the contents of an item. */
-  fun renderContents (iconBefore : Html, iconAfter : Html, label : String) {
-    <>
-      if (Html.isNotEmpty(iconBefore)) {
-        <Ui.Icon
-          icon={iconBefore}
-          autoSize={true}/>
-      }
-
-      <{ label }>
-
-      if (Html.isNotEmpty(iconAfter)) {
-        <Ui.Icon
-          icon={iconAfter}
-          autoSize={true}/>
-      }
-    </>
-  }
-
-  /* Renders an item. */
-  fun renderItem (item : Ui.NavItem) : Html {
-    case (item) {
-      Ui.NavItem::Group iconBefore iconAfter label items =>
-        <div::group>
-          <strong::category::row>
-            <{ renderContents(iconBefore, iconAfter, label) }>
-          </strong>
-
-          <div::items>
-            for (item of items) {
-              renderItem(item)
-            }
-          </div>
-        </div>
-
-      Ui.NavItem::Link iconBefore iconAfter label href =>
-        <a::row::item(Window.url().path == href) href={href}>
-          <{ renderContents(iconBefore, iconAfter, label) }>
-        </a>
-
-      Ui.NavItem::Item iconBefore iconAfter label action =>
-        <div::row::item(false) onClick={action}>
-          <{ renderContents(iconBefore, iconAfter, label) }>
-        </div>
-
-      Ui.NavItem::Divider => <div::divider/>
-    }
-  }
-
   /* Renders the layout. */
   fun render : Html {
     <div::base>
       if (!mobile) {
-        <nav::sidebar::items>
-          for (item of items) {
-            renderItem(item)
-          }
+        <nav::sidebar>
+          <Ui.NavItems items={items}/>
         </nav>
       }
 

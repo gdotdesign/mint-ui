@@ -186,9 +186,12 @@ component Ui.Input {
         /* Await the promise here. */
         promise
 
-        onChange(Maybe.withDefault(value, currentValue))
+        actualValue =
+          Maybe.withDefault(value, currentValue)
 
         next { currentValue = Maybe::Nothing }
+
+        onChange(actualValue)
       }
     }
   }
